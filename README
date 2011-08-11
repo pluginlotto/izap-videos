@@ -1,0 +1,16 @@
+<h2>Installation instructions</h2>
+
+<ol>
+
+  <li>
+    API key will be entered in the izap-elgg-bridge settings. i.e. <a href="/admin/plugin_settings/izap-elgg-bridge">/admin/plugin_settings/izap-elgg-bridge</a>.
+  </li>
+
+  <li>
+    Open the settings page once and save them. (Which should be automatically re-directed once you activate the plugin).
+  </li>
+
+  <li>
+    
+  </li>
+</ol>
