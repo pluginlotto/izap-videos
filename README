@@ -1,16 +1,8 @@
-<h2>Installation instructions</h2>
+## Installation instructions
 
-<ol>
+1. Download compressed ball and uncompress.
+2. Move uncompressed folder under "mod" directory and rename to "izap-videos".
+3. Go to plugin installation panel from admin panel. And browse "izap videos". Make sure it is placed below izap-elgg-bridge.
+4. Click on activate. And you are done.
 
-  <li>
-    API key will be entered in the izap-elgg-bridge settings. i.e. <a href="/admin/plugin_settings/izap-elgg-bridge">/admin/plugin_settings/izap-elgg-bridge</a>.
-  </li>
-
-  <li>
-    Open the settings page once and save them. (Which should be automatically re-directed once you activate the plugin).
-  </li>
-
-  <li>
-    
-  </li>
-</ol>
+> Note: It is important to register your API key at http://www.pluginlotto.com and in settings of izap-elgg-bridge. This will allow you to have access of offserver videos. If you already registered, Than you can use the existing API for that particular domain where you are installing izap-videos.
