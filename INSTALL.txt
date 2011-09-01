@@ -6,6 +6,12 @@
 4. Go to izap-videos plugin settings from admin panel and Click on Save once to save all settings.
 5. To Activate "Off Server" feature, Go to "http://www.pluginlotto.com/izap-videos-api". You will be asked to put your hostname and click register to register your key.
 
+### Discussion thread
+[Discussion thread for izap-videos 4.1b](http://www.pluginlotto.com/forum/discussion/tarun/7558/izapversion-41b-thread)
+
+### Download compatible izap-elgg-bridge 2.1
+[izap-elgg-bridge 2.1](http://www.pluginlotto.com/store/product/tarun/7551/izapelggbridge-21)
+
 ## Minimum System requirements(we tested on):
 
    1. *nix/windows based system.
