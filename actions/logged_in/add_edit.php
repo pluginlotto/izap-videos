@@ -36,37 +36,30 @@ IzapBase::updatePostedAttribute('tags', string_to_tag_array($posted_array['tags'
 IzapBase::updatePostedAttribute('video_views', 1);
 $izap_videos->setAttributes();
 
-
-switch (strtolower($posted_array['videoType'])) {
-  case 'offserver':
-  // if url is not valid then send it back
-    if(!filter_var($posted_array['videoUrl'], FILTER_VALIDATE_URL)) {
-      register_error(elgg_echo('izap_videos:error:notValidUrl'));
-      forward(REFERRER);
-      exit;
-    }
-    include_once (dirname(__FILE__) . '/OFFSERVER.php');
-    break;
-
-  case 'onserver':
-    $izap_videos->access_id = ACCESS_PUBLIC;
-    if(empty($izap_videos->title)) {
-      register_error(elgg_echo('izap_videos:error:emptyTitle'));
-      forward(REFERRER);
-      exit;
-    }
-    include_once (dirname(__FILE__) . '/ONSERVER.php');
-    break;
-
-    default:
+if($izap_videos->isNewRecord()){  // only include for adding video
+  switch ($izap_videos->videoprocess) {
+    case 'offserver':
+    // if url is not valid then send it back
+      if(!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
+        register_error(elgg_echo('izap_videos:error:notValidUrl'));
+        forward(REFERRER);
+        exit;
+      }
+      include_once (dirname(__FILE__) . '/offserver.php');
       break;
+    case 'onserver':
+      $izap_videos->access_id = ACCESS_PUBLIC;
+      include_once (dirname(__FILE__) . '/onserver.php');
+      break;
+  }
 }
+
 // if we have the optional image then replace all the previous values
-if($_FILES['attributes']['error']['videoImage'] == 0 && in_array(strtolower(end(explode('.', $_FILES['attributes']['name']['videoImage']))), array('jpg', 'gif', 'jpeg', 'png'))) {
+if($_FILES['attributes']['error']['videoimage'] == 0 && in_array(strtolower(end(explode('.', $_FILES['attributes']['name']['videoimage']))), array('jpg', 'gif', 'jpeg', 'png'))) {
   
   $izap_videos->setFilename($izap_videos->orignal_thumb);
   $izap_videos->open("write");
-  $izap_videos->write(file_get_contents($_FILES['attributes']['tmp_name']['videoImage']));
+  $izap_videos->write(file_get_contents($_FILES['attributes']['tmp_name']['videoimage']));
 
   $thumb = get_resized_image_from_existing_file($izap_videos->getFilenameOnFilestore(),120,90, true);
 
@@ -75,7 +68,6 @@ if($_FILES['attributes']['error']['videoImage'] == 0 && in_array(strtolower(end(
   $izap_videos->write($thumb);
 }
 
-
 if(!$izap_videos->save()) {
   register_error(elgg_echo('izap_videos:error:save'));
   forward(REFERRER);
@@ -83,15 +75,15 @@ if(!$izap_videos->save()) {
 }
 
 // save the file info for converting it later  in queue
-if($posted_array['videoType'] == 'ONSERVER' && $posted_array['guid'] == 0) {
-  $izap_videos->videosrc = $CONFIG->wwwroot . 'pg/izap_videos_files/file/' . $izap_videos->guid . '/' . friendly_title($izap_videos->title) . '.flv';
-  if(izap_get_file_extension($tmpUploadedFile) != 'flv') { // will only send to queue if it is not flv
-    izapSaveFileInfoForConverting_izap_videos($tmpUploadedFile, $izap_videos, $posted_array['access_id']);
+if($izap_videos->videoprocess == 'onserver' && !$izap_videos->isNewRecord()) {
+  $izap_videos->videosrc = $CONFIG->wwwroot . 'izap_videos_files/file/' . $izap_videos->guid . '/' . friendly_title($izap_videos->title) . '.flv';
+  if(IzapBase::getFileExtension($tmpUploadedFile) != 'flv') { // will only send to queue if it is not flv
+    izapSaveFileInfoForConverting_izap_videos($tmpUploadedFile, $izap_videos, $izap_videos->access_id);
   }
 }
 
 // delete the sticky form
-elgg_clear_sticky_form($posted_array['plugin']);
+elgg_clear_sticky_form(GLOBAL_IZAP_VIDEOS_PLUGIN);
 
 system_message(elgg_echo('izap_videos:success:save'));
 forward($izap_videos->getUrl());

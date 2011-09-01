@@ -15,7 +15,7 @@
 $owner = $vars['video']->getOwnerEntity();
 $video_pic = elgg_view('output/url', array(
                 'href' =>   $vars['video']->getUrl(),
-	'text' => $vars['video']->getThumb(FALSE, array('width' => 80, 'height' => 80, 'alt' => $vars['video']->title), TRUE),
+	'text' => $vars['video']->getThumb(false, array('width' => 80, 'height' => 80, 'alt' => $vars['video']->title), TRUE),
 ));
 $owner_link = elgg_view('output/url', array(
                 'href' =>  IzapBase::setHref(array(
@@ -26,9 +26,8 @@ $owner_link = elgg_view('output/url', array(
 ));
 
 $author_text = elgg_echo('byline', array($owner_link));
-$tags = elgg_view('output/tags', array('tags' =>  $vars['video']->tags));
+$tags = elgg_view('output/tags', array('value' =>  IzapBase::izap_truncate_array($vars['video']->tags, 5)));
 $date = elgg_view_friendly_time($vars['video']->time_created);
-
 
 if ($vars['video']->comments_on) {
 	$comments_count = $vars['video']->countComments();
@@ -59,7 +58,7 @@ $subtitle = "<p>$author_text $date $comments_link</p>";
 
 $params = array(
 		'entity' => $vars['video'],
-		'metadata' => IzapBase::controlEntityMenu(array('entity' => $vars['video'], 'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER)),
+		'metadata' => IzapBase::controlEntityMenu(array('entity' => $vars['video'],'page_owner'=>$vars['video']->container_username, 'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER)),
 		'title' => $title_link,
     'subtitle' => $subtitle,
 		'tags' => $tags,

@@ -22,7 +22,7 @@ $container_entity = get_entity($vars['video']->container_guid);
   <div class="video_description">
     <div class="owner_icon">
       <?php
-      echo elgg_view("profile/icon",array('entity' => $vars['video']->getownerentity(), 'size' => 'small'));
+      echo elgg_view_entity_icon($vars['video']->getownerentity(), 'small');
       ?>
     </div>
     <?Php echo elgg_Echo('by')?>

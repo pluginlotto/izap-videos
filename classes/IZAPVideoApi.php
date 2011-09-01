@@ -1,4 +1,18 @@
 <?php
+/***************************************************
+ * PluginLotto.com                                 *
+ * Copyrights (c) 2005-2011. iZAP                  *
+ * All rights reserved                             *
+ ***************************************************
+ * @author iZAP Team "<support@izap.in>"
+ * @link http://www.izap.in/
+ * Under this agreement, No one has rights to sell this script further.
+ * For more information. Contact "Tarun Jangra<tarun@izap.in>"
+ * For discussion about corresponding plugins, visit http://www.pluginlotto.com/forum/
+ * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
+ */
+
+
 /**
  * iZAP izap_videos
  *
@@ -65,17 +79,32 @@ class IZAPVideoApi {
    * @param int $autoPlay autocomplete option
    * @return HTML player code
    */
-  public function getVideoFeed($width = 640, $height = 385) {
-    $izap_videos = new IzapVideos();
-    $feed = $izap_videos->input($this->input, 'url');
-    return $feed;
+  public function getVideoEntity($guid) {
+    $izap_videos = new IzapVideos($guid);
+    return $izap_videos;
   }
 
+  public function getVideoEntity($guid = null){
+    if(is_null($guid)){
+      return $this->getVideoFromPluginlotto();
+    }else{
+      return $this->getVideoEntityFromDb($guid);
+    }
+  }
+
+  private function getVideoEntityFromDb($guid){
+    return new IzapVideos($guid);
+  }
+
+  private function getVideoFromPluginlotto(){
+    $izap_videos = new IzapVideos();
+    return $izap_videos->input($this->input, 'url');
+  }
   /**
    *
    * @return ElggEntity VIDEOS
    */
-  public function getVideoEntity() {
+  public function createVideoEntity() {
     if(!filter_var( $this->input, FILTER_VALIDATE_URL)) {
       $this->errors[] = 'Not valid url, currently supported for OFFSERVER videos only';
       return FALSE;
@@ -87,12 +116,12 @@ class IZAPVideoApi {
 
     $return = $izap_videos->input($this->input, 'url');
 
-    if(isset($return->success) && $return->success === FALSE) {
+    if(isset($return->status) && $return->status === FALSE) {
       $this->errors[] = $return->message;
       return FALSE;
     }
 
-    if($return->videoSrc == '' || $return->fileContent == '') {
+    if($return->videosrc == '' || $return->filecontent == '') {
       $this->errors[] = elgg_echo('izap_videos:error');
       return FALSE;
     }
@@ -100,17 +129,17 @@ class IZAPVideoApi {
 
     $izap_videos->title = $return->title;
     $izap_videos->description = $return->description;
-    $izap_videos->tags = string_to_tag_array($return->videoTags);
+    $izap_videos->tags = string_to_tag_array($return->videotags);
 
-    $izap_videos->videosrc = $return->videoSrc;
+    $izap_videos->videosrc = $return->videosrc;
     $izap_videos->videotype = $return->type;
-    $izap_videos->orignal_thumb = "izap_videos/" . $return->type . "/orignal_" . $return->fileName;
-    $izap_videos->imagesrc = "izap_videos/" . $return->type . "/" . $return->fileName;
+    $izap_videos->orignal_thumb = "izap_videos/" . $return->type . "/orignal_" . $return->filename;
+    $izap_videos->imagesrc = "izap_videos/" . $return->type . "/" . $return->filename;
     $izap_videos->videotype_site = $return->domain;
     $izap_videos->converted = 'yes';
     $izap_videos->setFilename($izap_videos->orignal_thumb);
     $izap_videos->open("write");
-    if($izap_videos->write($return->fileContent)) {
+    if($izap_videos->write($return->filecontent)) {
       $thumb = get_resized_image_from_existing_file($izap_videos->getFilenameOnFilestore(),120,90, true);
       $izap_videos->setFilename($izap_videos->imagesrc);
       $izap_videos->open("write");
@@ -128,7 +157,6 @@ class IZAPVideoApi {
       $this->errors[] = register_error(elgg_echo('izap_videos:error:save'));
       return FALSE;
     }
-
     return $izap_videos;
   }
 

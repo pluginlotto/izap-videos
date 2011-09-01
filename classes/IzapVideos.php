@@ -12,41 +12,40 @@
  */
 class IzapVideos extends IzapObject {
 
-  private $IZAPSETTINGS;
-  public $form_attributes;
+  private $form_attributes;
 
   public function __construct($guid = null) {
+    global $IZAPSETTINGS;
     parent::__construct($guid);
-
     // set some initial values so that old videos can work
     if (empty($this->videosrc)) {
-      $this->videosrc = $this->IZAPSETTINGS->filesPath . 'file/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.flv';
+      $this->videosrc = $IZAPSETTINGS->filesPath . 'file/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.flv';
     }
 
     // sets the defalut value for the old videos, if not set yet
     if (empty($this->converted)) {
       $this->converted = 'yes';
     }
-
     // set default form attributes
     $this->form_attributes = array(
         'title' => array(),
         'description' => array(),
         'container_guid' => array(),
         'access_id' => array(),
-        'videoUrl' => array(),
-        'videoType' => array(),
+        'videourl' => array(),
+        'videotype' => array(),
+        'videoprocess' => array(),
         'tags' => array(),
         'categories' => array(),
         'comments_on' =>array()
     );
+    if(!is_null($guid))
+      return get_entity($guid);
   }
 
   protected function initialise_attributes() {
-    global $IZAPSETTINGS;
     parent::initializeAttributes();
     $this->attributes['subtype'] = GLOBAL_IZAP_VIDEOS_SUBTYPE;
-    $this->IZAPSETTINGS = $IZAPSETTINGS;
   }
 
   public function getAttributesArray() {
@@ -78,7 +77,7 @@ class IzapVideos extends IzapObject {
     }
   }
 
-  /**
+   /**
    * used to read the url and process feed
    *
    * @param url $url url of the video site
@@ -92,11 +91,10 @@ class IzapVideos extends IzapObject {
 
   /**
    * used to process the video file
-   * @param string $file upload file name
+   * @param <array> $file upload file name
    * @return object
    */
   protected function processFile($file) {
-
     $returnValue = new stdClass();
     $returnValue->type = 'uploaded';
     $fileName = $_FILES[$file['mainArray']]['name'][$file['fileName']];
@@ -104,7 +102,6 @@ class IzapVideos extends IzapObject {
     $tmpName = $_FILES[$file['mainArray']]['tmp_name'][$file['fileName']];
     $type = $_FILES[$file['mainArray']]['type'][$file['fileName']];
     $size = $_FILES[$file['mainArray']]['size'][$file['fileName']];
-
     // if error
     if ($error > 0) {
       return 104;
@@ -131,10 +128,10 @@ class IzapVideos extends IzapObject {
     $this->setFilename('tmp/' . $newFileName);
     $this->open("write");
     $this->write(file_get_contents($tmpName));
-    $returnValue->tmpFile = $this->getFilenameOnFilestore();
+    $returnValue->tmpfile = $this->getFilenameOnFilestore();
 
     // take snapshot of the video
-    $image = new izapConvert($returnValue->tmpFile);
+    $image = new izapConvert($returnValue->tmpfile);
     if ($image->photo()) {
       $retValues = $image->getValues(TRUE);
       if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
@@ -156,19 +153,19 @@ class IzapVideos extends IzapObject {
     }
 
     // check if it is flv, then dont send it to queue
-    if (izap_get_file_extension($returnValue->tmpFile) == 'flv') {
+    if (IzapBase::getFileExtension($returnValue->tmpFile) == 'flv') {
       $file_name = 'izap_videos/uploaded/' . $newFileName;
 
       $this->setFilename($file_name);
       $this->open("write");
-      $this->write(file_get_contents($returnValue->tmpFile));
+      $this->write(file_get_contents($returnValue->tmpfile));
 
       $this->converted = 'yes';
       $this->videofile = $file_name;
       $this->orignalfile = $file_name;
       $returnValue->is_flv = 'yes';
       // remove the tmp file
-      @unlink($returnValue->tmpFile);
+      @unlink($returnValue->tmpfile);
     }
     return $returnValue;
   }
@@ -183,20 +180,11 @@ class IzapVideos extends IzapObject {
    * @return HTML complete player code
    */
   public function getPlayer($width = 670, $height = 400, $autoPlay = 0, $extraOptions = '') {
-    global $CONFIG;
+    global $CONFIG, $IZAPSETTINGS;
     $html = '';
 
     if (filter_var($this->videosrc, FILTER_VALIDATE_URL)) {
       switch ($this->videotype) {
-        case 'youtube':
-          $html = "<object width=\"$width\" height=\"$height\"><param name=\"movie\" value=\"{$this->videosrc}&hl=en&fs=1&autoplay={$autoPlay}\"></param><param name=\"wmode\" value=\"transparent\"></param><param name=\"allowFullScreen\" value=\"true\"></param><embed src=\"{$this->videosrc}&hl=en&fs=1&autoplay={$autoPlay} \" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" width=\"$width\" height=\"$height\" wmode=\"transparent\"></embed></object>";
-          break;
-        case 'vimeo':
-          $html = "<object width=\"$width\" height=\"$height\"><param name=\"wmode\" value=\"transparent\"></param><param name=\"allowfullscreen\" value=\"true\" /><param name=\"allowscriptaccess\" value=\"always\" /><param name=\"movie\" value=\"{$this->videosrc}&amp;autoplay={$autoPlay}\" /><embed src=\"{$this->videosrc}&amp;autoplay={$autoPlay}\" type=\"application/x-shockwave-flash\" allowfullscreen=\"true\" allowscriptaccess=\"always\" width=\"$width\" height=\"$height\" wmode=\"transparent\"></embed></object>";
-          break;
-        case 'veoh':
-          $html = "<embed src=\"{$this->videosrc}&videoAutoPlay={$autoPlay}\" allowFullScreen=\"true\" width=\"$width\" height=\"$height\" bgcolor=\"#FFFFFF\" type=\"application/x-shockwave-flash\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\" wmode=\"transparent\"></embed>";
-          break;
         case 'uploaded':
           if ($this->converted == 'yes') {
             $border_color1 = izapAdminSettings_izap_videos('izapBorderColor1');
@@ -212,9 +200,10 @@ class IzapVideos extends IzapObject {
             $html = "
            <object width='" . $width . "' height='" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='true'>
              <param name='allowScriptAccess' value='always'>
-            <param name='movie' value='" . $this->IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' >
-            <embed src='" . $this->IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' width='" . $width . "' height='" . $height . "' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+            <param name='movie' value='" . $IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' >
+            <embed src='" . $IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' width='" . $width . "' height='" . $height . "' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
           }
           else {
@@ -240,9 +229,9 @@ class IzapVideos extends IzapObject {
    * @return HTML <img /> tag or image src
    */
   public function getThumb($pathOnly = false, $attArray = array(), $play_icon = false) {
-    GLOBAL $IZAPSETTINGS;
+    global $IZAPSETTINGS;
     $html = '';
-    $imagePath = $this->IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.jpg';
+    $imagePath = $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.jpg';
     if ($pathOnly) {
       $html = $imagePath;
     } else {
@@ -262,11 +251,12 @@ class IzapVideos extends IzapObject {
   }
 
   public function getOrignalThumb() {
-    return $this->IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/orignal/' . elgg_get_friendly_title($this->title) . '.jpg';
+    global $IZAPSETTINGS;
+    return $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/orignal/' . elgg_get_friendly_title($this->title) . '.jpg';
   }
 
   public function getAjaxedThumb($width = 250, $height = 200) {
-    GLOBAL $IZAPSETTINGS;
+    global $IZAPSETTINGS;
     $unique = md5($this->guid . '-' . $width . '-' . $height);
     $raw_video = IzapBase::setHref(
                     array(
@@ -299,7 +289,7 @@ class IzapVideos extends IzapObject {
 
   public function getURL() {
     global $CONFIG;
-    return $CONFIG->wwwroot . 'pg/videos/play/' . IzapBase::getContainerUsername($this) . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
+    return $CONFIG->wwwroot . 'videos/play/' . IzapBase::getContainerUsername($this) . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
   }
 
   /**
@@ -442,27 +432,5 @@ class IzapVideos extends IzapObject {
 
     return delete_entity($this->guid, TRUE);
   }
-
-
-
-	/**
-	 * Can a user comment on this videos?
-	 *
-	 * @see ElggObject::canComment()
-	 *
-	 * @param int $user_guid User guid (default is logged in user)
-	 * @return bool
-	 * @since 1.8.0
-	 */
-	public function canComment($user_guid = 0) {
-		$result = parent::canComment($user_guid);
-		if ($result == false) {
-			return $result;
-		}
-		if (!$this->comments_on) {
-			return false;
-		}
-		return true;
-	}
 
 }

@@ -48,7 +48,7 @@ $buggy_videos = $buggy_videos_object->get_from_trash();
           </td><td class = "coloum2">
             <?php
             echo elgg_view('input/radio', array(
-                'internalname' => 'attributes[' . $video['guid'] . '][action]',
+                'name' => 'attributes[' . $video['guid'] . '][action]',
                 'options' => array(
                     elgg_echo('restore') => 'restore',
                     elgg_echo('delete') => 'delete'
@@ -58,7 +58,7 @@ $buggy_videos = $buggy_videos_object->get_from_trash();
               <?php
               echo elgg_echo('send_message');
               echo elgg_view('input/text', array(
-                  'internalname' => 'attributes[' . $video['guid'] . '][message]',
+                  'name' => 'attributes[' . $video['guid'] . '][message]',
                   'value' => ''
               ))
               ?>

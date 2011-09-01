@@ -17,22 +17,21 @@ class IzapVideosController extends IzapController {
 
   public function __construct($page) {
     parent::__construct($page);
-
-
     // register default add button
     if (elgg_is_logged_in ()) {
-      $this->addButton(array(
-          'menu_name' => 'title',
-          'title' => elgg_echo('izap-videos:add_new'),
-          'url' => IzapBase::setHref(array(
-              'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-              'action' => 'add',
-              'page_owner' => elgg_get_page_owner_entity()->username
-          )),
-      ));
+      if($this->action!='actionAdd'){
+        $this->addButton(array(
+            'menu_name' => 'title',
+            'title' => elgg_echo('izap-videos:add_new'),
+            'url' => IzapBase::setHref(array(
+                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                'action' => 'add',
+                'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(),'group')?elgg_get_page_owner_entity()->username:elgg_get_logged_in_user_entity()->username,
+                'vars' => array('tab' =>  (izap_is_onserver_enabled_izap_videos())?'onserver':'offserver'),
+            )),
+        ));
+      }
 
-      // only visible if the current page owner is user
-      if (get_input('izap_current_page_owner') == 'user') {
         $this->addButton(array(
             'menu_name' => 'title',
             'title' => elgg_echo('izap_videos:my_favorites'),
@@ -42,17 +41,13 @@ class IzapVideosController extends IzapController {
                 'page_owner' => elgg_get_logged_in_user_entity()->username
             )),
         ));
-      }
     }
 
     // load lib
     IzapBase::loadLib(array(
                 'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
                 'lib' => 'izap_videos_lib'
-            ));
-
-
-   
+            ));   
     if (IzapBase::pluginSetting(array(
                 'name' => 'izapTagCloud_categories',
                 'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN
@@ -70,13 +65,14 @@ class IzapVideosController extends IzapController {
     $this->page_elements['filter_context'] = 'all';
 
     //$this->render(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/all', $vars);
-    $this->page_elements['content'] = elgg_list_entities(izap_defalut_get_videos_options(array(
-                        'full_view' => FALSE
-                    )));
-
+    $this->page_elements['content'] = elgg_list_entities(array(
+                        'full_view' => false,
+                        'type' => 'object',
+                        'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+                    ));
     $this->drawPage();
   }
-
+  
   public function actionOwner() {
     $page_owner = elgg_get_page_owner_entity();
     if ($page_owner->guid == elgg_get_logged_in_user_guid()) {
@@ -90,12 +86,12 @@ class IzapVideosController extends IzapController {
     if (elgg_instanceof($page_owner, 'group')) {
       $this->page_elements['filter'] = '';
     }
-
-    //$this->render(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/all', $vars);
-    $this->page_elements['content'] = elgg_list_entities(izap_defalut_get_videos_options(array(
-                        'full_view' => FALSE,
-                        'container_guid' => $page_owner->guid
-                    )));
+    $this->page_elements['content'] = elgg_list_entities(array(
+                        'full_view' => false,
+                        'container_guid' => $page_owner->guid,
+                        'type' => 'object',
+                        'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+                    ));
 
     $this->drawPage();
   }
@@ -113,10 +109,12 @@ class IzapVideosController extends IzapController {
         $friends_array[] = $friend->guid;
       }
 
-      $this->page_elements['content'] = elgg_list_entities(izap_defalut_get_videos_options(array(
-                          'full_view' => FALSE,
-                          'container_guid' => $friends_array
-                      )));
+      $this->page_elements['content'] = elgg_list_entities(array(
+                        'full_view' => false,
+                        'container_guid' => $page_owner->guid,
+                        'type' => 'object',
+                        'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+                    ));
     }
     $this->drawPage();
   }
@@ -136,30 +134,53 @@ class IzapVideosController extends IzapController {
   }
 
   protected function addEdit($vars = array()) {
-    $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_partial', $vars);
+    $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/'.$vars['selected_option'], $vars);
   }
 
+  //experimental youtube functions
+  public function actionTest(){
+    $video = new IzapGYoutube(array('title' => 'this is title', 'keywords' => 'izap', 'description' => 'new description', 'category' => 'media'));
+    echo $video->getRequestDeveloperKey();
+    $this->page_element = array('title' => 'i do not know', 'content' => 'sdfkjlsaf');
+    
+    $this->drawpage();
+  }
+  
   public function actionAdd() {
     IzapBase::gatekeeper(GLOBAL_IZAP_VIDEOS_DATAENTRY_ACCESS);
+    if(!(izap_is_offserver_enabled_izap_videos() || $is_youtube = izap_is_onserver_enabled_izap_videos())){
+       register_error(elgg_echo('izap-videos:message:noAddFeature'));
+       forward(IzapBase::setHref(array(
+                  'action' => 'all',
+                  'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER
+              )));
+      exit;
+    }
     $this->page_elements['filter'] = '';
     $this->page_elements['title'] = elgg_echo('izap-videos:add_new');
-
-    $options = array('offserver', 'onserver');
-    $selected_option = (($this->url_vars[2]) ? $this->url_vars[2] : 'offserver');
-    if (!in_array($selected_option, $options)) {
-      $selected_option = 'offserver';
-    }
-
-    $this->addEdit(array(
-        'selected_option' => $selected_option,
-        'container_guid' => elgg_get_page_owner_guid(),
+    $video = new IzapVideos();
+    $video->container_guid = elgg_get_page_owner_guid();
+    //videoType will be updated to "type" in future.
+    $video->videoprocess = $this->url_vars[2];
+    $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/'.$this->url_vars[2], array(
+        'entity' => $video
     ));
   }
 
   public function actionEdit() {
     IzapBase::gatekeeper(GLOBAL_IZAP_VIDEOS_DATAENTRY_ACCESS);
-
-    $video = get_entity((int) $this->url_vars[2]);
+    
+    $video = new IzapVideos((int) $this->url_vars[2]);
+    if($video->converted!='yes'){
+      $queue_object = new izapQueue();
+      $trash_guid_array = $queue_object->get_from_trash($vars['video']->guid);
+      register_error($trash_guid_array?elgg_echo("izap_videos:form:izapTrashedVideoMsg"):elgg_echo("izap_videos:form:izapEditMsg"));
+      forward(IzapBase::setHref(array(
+                  'action' => 'all',
+                  'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER
+              )));
+      exit;
+    }
     if (!izap_is_video($video) || !$video->canEdit()) {
       forward(IzapBase::setHref(array(
                   'action' => 'all',
@@ -167,14 +188,13 @@ class IzapVideosController extends IzapController {
               )));
       exit;
     }
-
     $this->page_elements['filter'] = '';
     $this->page_elements['title'] = vsprintf(elgg_echo('izap-videos:editing'), array($video->title));
-
-    $this->addEdit(array(
-        'no_filters' => TRUE,
-        'entity' => $video
-    ));
+    
+    $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_partial', array(
+                      'no_filters' => TRUE,
+                      'entity' => $video
+                  ));
   }
 
   public function actionList() {
@@ -219,7 +239,7 @@ class IzapVideosController extends IzapController {
   }
 
   public function fullPlay($video) {
-    $this->page_layout = 'full';
+    $this->page_layout = 'content';
     $this->widgets = '';
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/share', array('video' => $video));
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/related', array('video' => $video));
@@ -236,11 +256,11 @@ class IzapVideosController extends IzapController {
     global $IZAPSETTINGS;
 
     $video = get_entity($this->url_vars[1]);
-    $hegiht = ($this->url_vars[2]) ? $this->url_vars[2] : $IZAPSETTINGS->ajaxed_video_height;
+    $height = ($this->url_vars[2]) ? $this->url_vars[2] : $IZAPSETTINGS->ajaxed_video_height;
     $width = ($this->url_vars[3]) ? $this->url_vars[3] : $IZAPSETTINGS->ajaxed_video_width;
 
     if (elgg_instanceof($video, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
-      $player = $video->getPlayer($width, $hegiht, 1);
+      $player = $video->getPlayer($width, $height, 1);
       echo $player;
     } else {
       echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');

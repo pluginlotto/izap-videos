@@ -16,4 +16,3 @@ if(elgg_unset_all_plugin_settings(GLOBAL_IZAP_VIDEOS_PLUGIN)) {
   register_error(elgg_echo('izap_videos:error:adminSettingsReset'));
 }
 forward(REFERER);
-exit;

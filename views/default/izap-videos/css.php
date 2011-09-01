@@ -28,6 +28,7 @@ margin:0 10px 5px 10px;
 	padding:5px;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
+    border-radius: 8px;
 }
 .izap-input-radio {
 font-size: 1em;
@@ -35,6 +36,7 @@ font-size: 1em;
 #izap_widget_layout {
 webkit-border-radius: 8px;
 -moz-border-radius: 8px;
+border-radius: 8px;
 background:#FFFFFF none repeat scroll 0 0;
 margin:0 0 20px;
 border:1px solid #ccc;
@@ -62,6 +64,7 @@ float:left;
 	padding:5px;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
+    border-radius: 8px;
 }
 
 .izap_shares_widget_icon {
@@ -90,10 +93,10 @@ float:left;
 
 .notConvertedWrapper{
 background-color: #FFC4C4;
-	margin:0 10px 5px 10px;
-	padding:5px;
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
+padding:5px;
+-webkit-border-radius: 0 0 8px 8px;
+-moz-border-radius: 0 0 8px 8px;
+border-radius: 0 0 8px 8px;
 }
 
 .copied_text{
@@ -110,6 +113,7 @@ height:400px;
 background-color:#DEDEDE;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
+    border-radius: 8px;
 padding:10px;
 margin-bottom:20px;
 }
@@ -173,6 +177,7 @@ margin:2px 5px 2px 2px;
 	padding:0px;
 	-webkit-border-radius: 8px;
 	-moz-border-radius: 8px;
+    border-radius: 8px;
 	border-bottom:1px solid #cccccc;
 	border-right:1px solid #cccccc;
 }
@@ -183,6 +188,7 @@ color:#FFFFFF;
 background-color: #4690D6;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
+border-radius: 4px;
 }
 .link_to_button:hover{
 padding:6px;
@@ -192,6 +198,7 @@ text-decoration: none;
 background-color: #4D89C1;
 -webkit-border-radius: 4px;
 -moz-border-radius: 4px;
+border-radius: 4px;
 }
 .group_video_wrap {
 padding: 2px;
@@ -284,6 +291,7 @@ margin-right: 5px;
 padding: 2px;
 -webkit-border-radius: 8px;
 -moz-border-radius: 8px;
+border-radius: 8px;
 }
 .video_info {
 float: left;
@@ -364,4 +372,13 @@ background-color:black;
 
   .video_background {
   background-color:black;
+  -webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+    border-radius: 8px;
+  }
+  .video_background-top-round {
+  background-color:black;
+  -webkit-border-radius: 8px 8px 0 0 ;
+	-moz-border-radius: 8px 8px 0 0 ;
+    border-radius: 8px 8px 0 0 ;
   }

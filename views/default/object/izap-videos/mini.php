@@ -30,11 +30,12 @@ if(izap_is_video($video)):
           'title' => $title,
           'subtitle' =>  elgg_get_friendly_time($video->time_created) . ' ' .elgg_echo('by') . ' ' . elgg_view('output/url', array(
                   'text' => $video->container_name,
-                  'href' => IzapBase::setHref(array(
-                  'action' => 'owner',
-                  'page_owner' => $video->container_username,
-                  'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-                  )),
+                  'href' => IzapBase::setHref(
+                          array(
+                              'action' => 'owner',
+                              'page_owner' => $video->container_username,
+                              'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                              )),
           )) .  ' ' . elgg_echo('izap_videos:views') . ':<b>' .$video->getViews() . '</b>',
   ));
   echo elgg_view_image_block($icon, $info);

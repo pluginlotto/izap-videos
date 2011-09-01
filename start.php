@@ -1,10 +1,10 @@
 <?php
 
-/* * ************************************************
+/***************************************************
  * PluginLotto.com                                 *
- * Copyrights (c) 2005-2010. iZAP                  *
+ * Copyrights (c) 2005-2011. iZAP                  *
  * All rights reserved                             *
- * **************************************************
+ ***************************************************
  * @author iZAP Team "<support@izap.in>"
  * @link http://www.izap.in/
  * Under this agreement, No one has rights to sell this script further.
@@ -12,7 +12,7 @@
  * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
-
+ 
 /**
  * Define some globals
  */
@@ -48,6 +48,7 @@ function izap_videos_init() {
   $IZAPSETTINGS->graphics = $CONFIG->wwwroot . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
   $IZAPSETTINGS->ajaxed_video_height = 200;
   $IZAPSETTINGS->ajaxed_video_width = 250;
+  $IZAPSETTINGS->on_server = $is_onserver;
 
 
   // register pagehandler
@@ -103,7 +104,7 @@ function izap_videos_init() {
         'href' => IzapBase::setHref(array(
             'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
             'action' => 'add',
-            'page_owner' => elgg_get_logged_in_user_entity()->username,
+            'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(),'group')?elgg_get_page_owner_entity()->username:elgg_get_logged_in_user_entity()->username,
             'vars' => array('onserver')
         )),
         'title' => elgg_echo('izap_videos:uploadVideo'),
@@ -113,7 +114,7 @@ function izap_videos_init() {
 
   // extend the group tools
   add_group_tool_option(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:enable_videos'));
-  elgg_extend_view('groups/tool_latest', GLOBAL_IZAP_VIDEOS_PLUGIN . '/group_widget');
+  elgg_extend_view('groups/tool_latest', GLOBAL_IZAP_VIDEOS_PLUGIN . '/group_module');
 
 
   // extend the owner block
@@ -156,8 +157,8 @@ function izap_is_onserver_enabled_izap_videos() {
   if ((string) $settings === 'no') {
     return FALSE;
   }
-
-  return TRUE;
+  
+  return $settings;
 }
 
 /**

@@ -27,10 +27,6 @@ $all_link = elgg_view('output/url', array(
 	'text' => elgg_echo('link:view:all'),
 ));
 
-$header = "<span class=\"groups-widget-viewall\">$all_link</span>";
-$header .= '<h3>' . elgg_echo('izap-videos:videos_group') . '</h3>';
-
-
 elgg_push_context('izap_mini_list');
 $options = array(
 	'container_guid' => elgg_get_page_owner_guid(),
@@ -42,25 +38,24 @@ $content = elgg_list_entities(izap_defalut_get_videos_options($options));
 elgg_pop_context();
 
 if (!$content) {
-	$content = '<p>' . elgg_echo('blog:none') . '</p>';
+	$content = '<p>' . elgg_echo('izap-videos:none') . '</p>';
 }
+
+
 
 $new_link = elgg_view('output/url', array(
 	'href' => IzapBase::setHref(array(
-      'action' => 'add',
-      'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-    )),
+                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                'action' => 'add',
+                'vars' => array('tab' =>  (izap_is_onserver_enabled_izap_videos())?'onserver':'offserver'),
+            )),
 	'text' => elgg_echo('izap-videos:add_new'),
 ));
-$content .= "<span class='elgg-widget-more'>$new_link</span>";
 
 
-$params = array(
-	'header' => $header,
-	'body' => $content,
-	'class' => 'elgg-module-info',
-);
-
-echo elgg_view_module('info', '', $content, array('header' => $header));
-
-
+echo elgg_view('groups/profile/module', array(
+	'title' => elgg_echo('izap-videos:videos_group'),
+	'content' => $content,
+	'all_link' => $all_link,
+	'add_link' => $new_link,
+));

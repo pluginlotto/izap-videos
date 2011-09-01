@@ -13,7 +13,7 @@
  */
 
 ?>
-<div class="elgg-layout elgg-layout-one-sidebar clearfix">
+<div class="elgg-layout elgg-layout-one-sidebar clearfix" style ="border:1px solid #000">
 	<div class="izap-video-body">
 	<?php echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/video', array('video' => $vars['izap_video'], 'full_view' => TRUE, 'height' => 500, 'width' => 900));
   ?>

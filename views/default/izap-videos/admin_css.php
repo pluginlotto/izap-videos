@@ -59,3 +59,5 @@ background-color:#FD7979;
 .izap_sever_report .column{
 width:150px;
 }
+
+#yes-server, #youtube-server{border: 2px solid #525252; display:none; margin: 0 20px 0 20px;}

@@ -28,7 +28,7 @@ $raw_video = IzapBase::setHref(
         )
 );
 ?>
-<div align="center" <?php echo $playerClass;?> class="contentWrapper video_background" style="height: <?php echo $height?>px;">
+<div align="center" <?php echo $playerClass;?> class="contentWrapper <?php echo ($vars['video']->converted != 'yes')?'video_background-top-round':'video_background' ?>" style="height: <?php echo $height?>px;">
   <div id="load_video_<?php echo $unique; ?>">
     <div style="height: <?php echo $height;?>px; width: <?php echo $width?>px;">
       <img src="<?php echo $vars['video']->getOrignalThumb()?>" alt="<?php echo $vars['video']->getTitle();?>" height="<?php echo $height?>" width="<?php echo $width?>"/>
@@ -40,4 +40,10 @@ $raw_video = IzapBase::setHref(
     </div>
   </div>
 </div>
+
+<?php
+if($vars['video']->converted != 'yes'){
+    echo '<p class="notConvertedWrapper">'.elgg_echo("izap_videos:alert:not-converted").'</p>';
+  }
+?>
 <div class="clearfloat"></div>

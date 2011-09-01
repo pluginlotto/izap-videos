@@ -12,7 +12,7 @@
 * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
 
-set_context('izap_mini_list');
+elgg_set_context('izap_mini_list');
 $videos = elgg_list_entities(array(
     'type' => 'object',
     'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,

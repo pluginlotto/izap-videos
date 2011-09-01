@@ -529,17 +529,21 @@ function izap_remove_favorited($video, $user_guid = 0) {
   return TRUE;
 }
 
-function izap_get_supported_videos_list() {
+function izap_get_supported_videos_list($link = true) {
   global $IZAPSETTINGS;
   $ch = new IzapCurl($IZAPSETTINGS->api_server . 'supported_sites.php');
   $data = $ch->exec();
 
   $array = unserialize($data);
-  foreach ($array as $title => $href) {
-    $string[] = '<a href="' . $href . '" title="' . $title . '" target="_blank">' . $title . '</a>';
-  }
 
-  return '(' . elgg_echo('izap_videos:total') . ': ' . count($array) . ') ' . implode(', ', $string);
+  foreach ($array as $title => $href) {
+    $string[] = ($link)?'<a href="' . $href . '" title="' . $title . '" target="_blank">' . $title . '</a>':$title;
+  }
+  if($link)
+    $return = '(' . elgg_echo('izap_videos:total') . ': ' . count($array) . ') ' . implode(', ', $string);
+  else
+    $return = implode(', ', $string);
+  return $return;
 }
 
 /**
@@ -744,7 +748,7 @@ function izapGetFriendlyFileName_izap_videos($fileName) {
 function izapSupportedVideos_izap_videos($videoFileName) {
   global $IZAPSETTINGS;
   $supportedFormats = $IZAPSETTINGS->allowedExtensions;
-  $extension = izap_get_file_extension($videoFileName);
+  $extension = IzapBase::getFileExtension($videoFileName);
   if (in_array($extension, $supportedFormats))
     return TRUE;
 
@@ -780,10 +784,5 @@ function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) 
   $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
   $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
   $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
-
   return $videodiv;
-}
-
-function izap_get_file_extension($filename) {
-  return IzapBase::getFileExtension($filename);
 }

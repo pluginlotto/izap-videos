@@ -22,7 +22,7 @@ class izapConvert {
 
   public function izapConvert($in = '') {
     $this->invideo = $in;
-    $extension_length = strlen(izap_get_file_extension($this->invideo));
+    $extension_length = strlen(IzapBase::getFileExtension($this->invideo));
     $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
     $this->outvideo =  $outputPath . '_c.' . $this->format;
     $this->outimage = $outputPath . '_i.png';
@@ -32,7 +32,7 @@ class izapConvert {
   public function izap_video_convert() {
 
     // check if the file is already flv
-    $current_file_type = izap_get_file_extension($this->invideo);
+    $current_file_type = IzapBase::getFileExtension($this->invideo);
     if($current_file_type == 'flv') {
       $this->make_array_for_flv();
     } else {

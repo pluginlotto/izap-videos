@@ -21,14 +21,15 @@ add_translation('en', array(
     'izap-videos:videos_user' => 'Videos',
     'izap-videos:videos_group' => 'Group videos',
     'item:object:izap_videos' => 'Videos',
+    'izap-videos:none' => 'No videos have been added yet.',
     //river
     'river:created:object:izap_videos' => '%s created a video %s',
     'river:updated:object:izap_videos' => '%s updated a video %s',
     'river:comment:object:izap_videos' => '%s commented on the video %s',
     // General
     'izap-videos:all_videos' => 'All site videos',
-    'izap-videos:offserver' => 'Offserver',
-    'izap-videos:onserver' => 'Onserver',
+    'izap-videos:offserver' => 'Embed videos %s',
+    'izap-videos:onserver' => 'Upload videos',
     'izap-videos:owner_videos' => '%s\'s videos',
     'izap-videos:my_videos' => 'My videos',
     'izap-videos:friends_videos' => '%s\'s friends videos',
@@ -77,7 +78,7 @@ add_translation('en', array(
     'izap_videos:addEditForm:tags' => 'Tags',
     'izap_videos:supported_videos' => 'View supported sites',
     'izap_videos:view_full_form' => 'Add more details',
-    'izap_videos:form:izapEditMsg' => '<em class="izap_normal_text izap_notice">You can not edit until the completion of conversion process.</em>',
+    'izap_videos:form:izapEditMsg' => 'You can not edit until the completion of conversion process.',
     'izap_videos:edit' => "Edit",
     'izap_videos:time' => "Added on %s",
     'izap_videos:save_favorite' => 'Add favorite',
@@ -119,7 +120,8 @@ add_translation('en', array(
     'izap_videos:error:emptyEmbedCode' => 'Please provide the embed code.',
     'izap_videos:error:sqliteDrivers' => 'Please install PDO sqlite drivers to enable onserver support.',
     'izap_videos:error:saving_thumb' => 'Error saving thumb, unable to write the file on server.',
-    'izap-videos:form_error:empty:videoUrl' => 'Enter url of the video',
+    'izap-videos:form_error:empty:videourl' => 'Enter url of the video to embed.',
+    'izap-videos:form_error:empty:title' => 'Title is mandatory field.',
     'izap_videos:error:notValidUrl' => 'Invalid url',
     'izap_videos:error:code:104' => 'Error in uploding file',
     'izap_videos:error:code:105' => 'Provided file is empty or no input file.',
@@ -155,7 +157,7 @@ add_translation('en', array(
     'izap_videos:adminSettings:izapIndexPageWidget' => 'Include videos widget on index page',
     'izap_videos:adminSettings:tagcloud_cateogries' => 'Display videos tag cloud and categories',
     'izap_videos:adminSettings:izapTopBarWidget' => 'Add Upload Button on topbar',
-    'izap_videos:adminSettings:izapKeepOriginal' => 'Keep original file on server',
+    'izap_videos:adminSettings:izapKeepOriginal' => 'After conversion to flv, keep original file on server',
     'izap_videos:adminSettings:izapMaxFileSize' => 'Enter max file size (in Mb.)',
     'izap_videos:adminSettings:izap_default_page' => 'Default',
     'izap_videos:adminSettings:izap_left_column_page' => 'Left column',
@@ -175,13 +177,14 @@ add_translation('en', array(
     'izap_videos:adminSettings:deleted_not_from_trash' =>'All Videos not moved from the trash',
     'video_name :' => 'Video Name: ',
     'size' => 'Size: ',
+    'izap-videos:do-not-refresh' => 'Do not refresh the page.',
     //info messages
     'izap_videos:adminSettings:info:convert-command' => 'Optimized command: /path/of/ffmpeg -y -i [inputVideoPath] -vcodec libx264 -vpre hq  -b 300k  -bt 300k  -acodec libfaac  -ar 22050  -ab 48k [outputVideoPath]',
     'izap_videos:adminSettings:info:bg-color' => 'Give hex value of color without # eg. #FFFFFF is white. You will put "FFFFFF" ',
     'admin:plugins:category:iZAP' => 'iZAP',
     'izap_videos:adminSettings:restore_video' => 'Restored successfully.',
     'izap_videos:adminSettings:reset_queue' => 'Now queue is empty.',
-    'izap_videos:form:izapTrashedVideoMsg' => '<em class="izap_normal_text izap_notice">Unsupported video format.</em>',
+    'izap_videos:form:izapTrashedVideoMsg' => 'Unsupported video format.',
     //notify messages
     'izap_videos:newVideoAdded' => 'New video added',
     'izap_videos:notifySub:videoConverted' => 'Video has been converted.',
@@ -194,200 +197,19 @@ add_translation('en', array(
     'izap_videos:notifySub:video_deleted' => 'Your video has been deleted',
     'izap_videos:restore' => 'Restore',
     'izap_videos:send_user_message' => 'Send message to user',
+    'izap_videos:alert:not-converted' => 'You can not edit/play this video until completion of conversion process.',
 
+    //admin keys
+
+    'izap-videos:adminSettings:my-server' => 'I\'ve enough resources to compile my videos.',
+    'izap-videos:adminSettings:youtube-server' => 'Activate youtube channel to handle uploaded videos.',
+    'izap-videos:adminSettings:youtubeUsername' => 'Youtube username',
+    'izap-videos:adminSettings:youtubePassword' => 'Yourtube password',
+    'izap-videos:adminSettings:enable' => 'Yes',
+    'izap-videos:adminSettings:disable' => 'No',
+    'izap-videos:message:noAddFeature' => 'Add feature is disabled. Contact administrator.',
+    'izap-videos:adminSettings:general_settings' => 'General settings',
     //izap-videos-help
     'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos'
-        /**
-         * Old Language
-         */
-        /*         * 'izap_videos' => "iZAP Videos",
-          'izap_videos:view_all' => 'View all',
-          'item:object:izap_recycle_bin' => 'Videos in trash',
-          'videos' => "Videos",
-          'item:object:izapVideoQueue' => 'Total videos in queue',
-          'izap_videos:videos' => "My videos",
-          'izap_videos:add' => "Add new video",
-          'izap_videos:addgroupVideo' => "Add new group video",
-          'izap_videos:user' => "%s's video",
-          'izap_videos:title' => "Enter the title",
-          'izap_videos:getvideo' => "Get video",
-          'izap_videos:access' => "Access",
-          'izap_videos:tags' => "Video tags",
-          'izap_videos:blank' => "Please enter the valid url",
-          'izap_videos:blanktitle' => "Please enter the title",
-
-          'izap_videos:saved' => "Your video has been saved successflly.",
-          'izap_videos:everyone' => "All videos",
-          'izap_videos:notdeleted' => "Video was not deleted",
-          'izap_videos:wrongid' => "Sorry, video is either removed or wrong video id",
-          'izap_videos:frnd' => "My friends' videos",
-          'izap_videos:userfrnd' => "%s's friends' Videos",
-          'izap_videos:all' => "All site videos",
-          'izap_videos:river:added' => "%s added a new ",
-          'izap_videos:river:video' => "Video",
-          'izap_videos:river:annotate' => " a comment on ",
-          'izap_videos:widget' => "List of the latest vidoes add by users",
-          'izap_videos:numbertodisplay' => "Number of videos to be displayed.",
-          'izap_videos:play' => "Play you chosen Video",
-          'izap_videos:play:widget' => "This widget will play your chosen video. One at a time",
-          'izap_videos:chosevideo' => "Choose a video to play",
-          'izap_videos:notfound' => "No video has been added yet.",
-
-          'izap_videos:no_response_from_server' => 'No response from server',
-          'izap_videos:addtoyour' => "Copy this video to my videos.",
-          'izap_videos:condition' => "* Above title, tags and description will overwrite the original information.<br>* Video source is required(Url or Upload)",
-
-          'izap_videos:description' => "Description",
-          'izap_videos:editVideo' => "Edit video",
-          'izap_videos:copyVideo' => "Copy video",
-          'izap_videos:blank:title' => "Title can't be left blank",
-          'izap_videos:save' => "Save",
-          'izap_videos:missingfields' => "Required fields are missing.",
-          'izap_videos:autoplay' => "Make autoplay",
-          'izap_videos:tagcloud' => "Top video tags",
-          'izap_videos:top' => "Top videos",
-          'izap_videos:groups' => "%s's videos",
-          'izap_videos:group:enablevideo' => "Enable group videos",
-          'izap_videos:groupvideos' => "Group videos",
-          'izap_videos:izapUploadOption' => "%s",
-          'izap_videos:upload' => "Upload video file (Supporting 3gp, avi, mp4, flv, wmv)",
-
-          'izap_videos:izapBorderColor1' => "Enter background color for the player: (color code format: 0x13ABEC)",
-          'izap_videos:izapBorderColor2' => "Enter foregrond color for the player: (color code format: 0x13ABEC)",
-          'izap_videos:izapBarColor' => "Enter bar color for the player: (color code without '#')",
-          'izap_videos:river:titled' => '%s added a new video titled %s',
-          'izap_videos:latestvideos' => "Latest",
-          'izap_videos:topViewed' => "Top viewed",
-          'izap_videos:topCommented' => "Top commented",
-          'izap_videos:embedCode' => "Sharing and embed code",
-          'izap_videos:videoGal' => "iZAP video gallery",
-          'izap_videos:noTagVideo' => "No videos for this tag.",
-          'izap_videos:choosemethod' => 'Choose method',
-          'izap_videos:noVideo' => 'Sorry no video is found',
-          'izap_videos:izapFfmpegConvert' => 'FFMPEG Convert command. (Don\'t change "[inputs]")',
-          'izap_videos:izapFfmpegWatermark' => 'Video watermarking library path.',
-          'izap_videos:izapFfmpegImage' => 'FFMPEG snapshot command. (Don\'t change "[inputs]")',
-
-          'izap_videos:izapIndexPageWidget' => 'Include videos widget on index page',
-          'izap_videos:izapTopBarWidget' => 'Add upload button on elgg top bar',
-          'izap_videos:copiedFrom' => 'Copied from',
-          'izap_videos:noDescription' => 'No description available',
-          'izap_videos:queueManagement' => 'Queue management',
-
-          'izap_videos:queuedFilesTotal' => 'Total files',
-          'izap_videos:resetNow' => 'Reset now',
-          'izap_videos:deleteNow' => 'Delete now',
-          'izap_video:deleteQueue' => 'Are you sure want to delete the queue. It will delete all the queued videos and not converted videos and there is no come back.',
-          'izap_videos:maxFileSize' => 'Maximum file size (%s Mb)',
-          'izap_videos:enterMaxFileSize' => '',
-          'izap_videos:fileNotFound' => 'File not found.',
-          'izap_videos:noOptionSelected' => 'Video adding is disabled by the admin.',
-          'izap_videos:izapFfmpegObject' => 'Image path or text to be watermarked.',
-          'izap_videos:izapFfmpegObjectMarque' => 'Do you text to marquee ?',
-          'izap_videos:izapFfmpegObjectPosition' => 'Where do you want the watermark ?',
-          'izap_videos:comments' => 'Comments',
-
-
-
-
-
-          'izap_videos:click_to_play' => 'Click to play',
-          'izap_videos:rate' => 'Rate it!',
-          'izap_videos:form:upload' => 'Upload',
-          'izap_videos:form:enterUrl' => 'Enter url',
-          'izap_videos:form:embedCode' => 'Embed code',
-          'izap_videos:form:izapVideoUrl' => 'Enter your video url.* <a href="#supportedSites">Supported sites</a>',
-          'izap_videos:form:izapSupportedSites' => 'Supported sites.',
-          'izap_videos:form:izapVideoFile' => 'Upload video file * <a href="#supportedFormats">Supported formats</a>',
-          'izap_videos:form:izapSupportedFormats' => 'Supported video formats.',
-          'izap_videos:form:izapVideoEmbed' => 'Enter the compelete embed code *',
-          'izap_videos:form:izapVideoTitle' => 'Enter the title for the video *',
-          'izap_videos:form:izapVideoDescription' => 'Enter video description',
-          'izap_videos:form:izapVideoTags' => 'Enter tags for the video',
-          'izap_videos:form:izapVideoAccess' => 'Choose access for the video',
-          'izap_videos:form:izapVideoOptionalImage' => 'Override thumbnail',
-          'izap_videos:form:izapAccessMsg' => '<em class="izap_normal_text izap_notice">You can not update access level until the completion of conversion process.</em>',
-          
-
-          // success message
-          'izap_videos:success:videoCopied' => 'Video copied successfully',
-          'izap_videos:success:videoNotCopied' => 'Video not copied successfully',
-          'izap_videos:success:adminSettingsSaved' => 'Settings have been saved successfully.',
-          'izap_videos:success:adminSettingsReset' => 'Settings have been reset successfully.',
-
-
-          // admin settings
-          'izap_videos:adminSettings:tabs_settings' => 'Settings',
-          'izap_videos:adminSettings:tabs_queue_status' => 'Queue status',
-          'izap_videos:adminSettings:tabs_server_analysis' => 'Server analysis',
-          'izap_videos:adminSettings:tabs_recycle_bin' => 'Trash',
-          'izap_videos:adminSettings:izapHTMLawedTags' => 'HTML tags that you want to allow while input filtering.',
-          'izap_videos:adminSettings:info:izapHTMLawedTags' => 'ie. object, embed, param, p, img, b, i, ul, li, ol (seperated by comma)',
-          'izap_videos:adminSettings' => 'Videos settings',
-          'izap_videos:adminSettings:settings' => 'Settings for iZAP Videos',
-          'izap_videos:adminSettings:gotoSettings' => 'Go to admin settings',
-
-          'izap_videos:adminSettings:embedCode' => 'Embed code',
-          'izap_videos:adminSettings:izapVideoOptions' => 'Video options',
-
-
-
-          'izap_videos:adminSettings:loadingcolor' => 'Progress bar color',
-
-          'izap_videos:adminSettings:izapExtendVideoSupport' => 'Extend video url support from the iZAP',
-          'izap_videos:adminSettings:extendVideoSupport' => 'Yes',
-
-          'izap_videos:adminSettings:addOnHomePage' => 'Yes',
-
-          'izap_videos:adminSettings:addOnTopBar' => 'Yes',
-
-          'izap_videos:adminSettings:keep-original' => 'Yes',
-          ',
-          'izap_videos:adminSettings:giveUsCredit' => 'Yes',
-          'izap_videos:adminSettings:notForWindows' => 'Disabled fields are not for windows',
-
-          'izap_videos:adminSettings:minute' => 'One minute',
-          'izap_videos:adminSettings:fiveminute' => 'Five minutes',
-          'izap_videos:adminSettings:fifteenmin' => 'Fifteen minutes',
-          'izap_videos:adminSettings:halfhour' => 'Half an hour',
-          'izap_videos:adminSettings:hourly' => 'An hour',
-          'izap_videos:adminSettings:save' => 'Save settings',
-          'izap_videos:adminSettings:cron_off' => 'Disable',
-          'izap_videos:adminSettings:messages_plugin_missing' => '<em class="izap_notice">Enable messages plugin to send reason to user for the permanent deletion of video.</em>',
-
-
-
-
-
-
-          'izap_videos:adminSettings:yes' => 'Yes',
-          'izap_videos:adminSettings:APIKEY' => 'API key for OFFSERVER videos feed (Hostname: %s).',
-          'izap_videos:adminSettings:info:register_api' => 'Where is my API key? Just login and register your key at <a href="http://www.pluginlotto.com/" target="_blank">http://www.pluginlotto.com/</a>.',
-          // info messages
-          'izap_videos:adminSettings:info:give-credit' => 'Add a link pointing to iZAP, in the footer of izap_videos plugin. Or you can shoot a thank you message at <a href="mailto:reviews@izap.in">reviews@izap.in</a>',
-
-          'izap_videos:adminSettings:info:izapKeepOriginal' => 'Uncheck me if you do not want to keep original files',
-          // add/edit form
-          'izap_videos:addEditForm:ONSERVER' => 'Upload video',
-          'izap_videos:addEditForm:OFFSERVER' => 'Add url',
-          'izap_videos:addEditForm:EMBED' => 'Add embed code',
-          'izap_videos:addEditForm:guid' => '',
-          'izap_videos:addEditForm:container_guid' => '',
-          'izap_videos:addEditForm:videoType' => '',
-          'izap_videos:addEditForm:videoEmbed' => 'Video embed code',
-          'izap_videos:addEditForm:' => '',
-          'izap_videos:addEditForm:' => '',
-          'izap_videos:addEditForm:' => '',
-          'izap_videos:addEditForm:' => '',
-          'izap_videos:addEditForm:' => '',
-
-          'izap_videos:please_wait' => 'Please wait, till we save your data...',
-          'izap_videos:user_favorites' => '%s\'s favorites',
-          'izap_videos:no_favorites' => 'You have no favorite videos.',
-          // widgets
-          'izap_videos:widget:video_activities' => 'Latest video feed',
-          'izap_videos:widget:video_activities:info' => 'It will all the latest videos.',
-         * /
-         */
 ));
 

@@ -39,7 +39,7 @@ $content = elgg_extract('content', $vars, '');
 
 $tags = elgg_extract('tags', $vars, '');
 if ($tags !== false) {
-	$tags = elgg_view('output/tags', array('tags' => $entity->tags));
+	$tags = elgg_view('output/tags', array('tags' => IzapBase::izap_truncate_array($entity->tags, 8)));
 }
 
 if ($metadata) {

@@ -35,12 +35,12 @@ class UrlFeed {
     $obj= new stdClass;
     $obj->title = $returnObject->title;
     $obj->description = $returnObject->description;
-    $obj->videoThumbnail = $returnObject->thumb_url;
-    $obj->videoSrc = $returnObject->embed_code;
-    $obj->videoTags = $returnObject->tags;
+    $obj->videothumbnail = $returnObject->thumb_url;
+    $obj->videosrc = $returnObject->embed_code;
+    $obj->videotags = $returnObject->tags;
     $obj->domain = $returnObject->url;
-    $obj->fileName = time().'_'.basename($obj->videoThumbnail);
-    $obj->fileContent = file_get_contents($obj->videoThumbnail);
+    $obj->filename = time().'_'.basename($obj->videothumbnail);
+    $obj->filecontent = file_get_contents($obj->videothumbnail);
     $obj->type = $returnObject->type;
     return $obj;
   }

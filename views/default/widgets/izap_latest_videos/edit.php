@@ -17,7 +17,7 @@ if (!isset($vars['entity']->videos_to_show)) {
 }
 
 $params = array(
-	'internalname' => 'params[videos_to_show]',
+	'name' => 'params[videos_to_show]',
 	'value' => $vars['entity']->videos_to_show,
 	'options' => range(1, 10),
 );
