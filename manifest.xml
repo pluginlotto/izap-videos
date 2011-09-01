@@ -10,8 +10,8 @@
 	<license>GNU Public License version 2</license>
 
 	<requires>
-		<type>elgg_version</type>
-		<version>2011010401</version>
+  	  <type>elgg_version</type>
+	  <version>2011010401</version>
 	</requires>
 
     <requires>
@@ -24,7 +24,11 @@
       <type>php_extension</type>
       <name>curl</name>
     </requires>
-
+    
+    <suggests>
+      <type>php_extension</type>
+      <name>pdo_sqlite</name>
+    </suggests>
     <priority>
       <plugin>izap-elgg-bridge</plugin>
       <priority>after</priority>
