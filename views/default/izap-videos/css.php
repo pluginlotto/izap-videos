@@ -351,14 +351,14 @@ margin:0px;
 background-color:black;
   }
 
-  
+
   #related_videos > img{
   margin-left:60px;
     }
   .izap-video-description {
   float:left;
   width:750px;
-  
+
   }
 
   .izap-river {

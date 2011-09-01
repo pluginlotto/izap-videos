@@ -1,0 +1,7 @@
+### Version 4.1b
+1. Group related critical bug fixes.
+2. Page owner related critical bug fixes.
+3. Code optimizations.
+4. Better in elgg guide lines.
+5. Removed lots of views and function deprecations coming from elgg 1.7.
+6. Upload icon in top bar menu will respect page owners (Groups or Users).

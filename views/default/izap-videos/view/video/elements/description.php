@@ -26,7 +26,7 @@ $container_entity = get_entity($vars['video']->container_guid);
       ?>
     </div>
     <?Php echo elgg_Echo('by')?>
-<a href="<?php echo $vars['url']; ?>pg/videos/owner/<?php echo $container_entity->username; ?>">
+<a href="<?php echo $vars['url']; ?>videos/owner/<?php echo $container_entity->username; ?>">
           <?php echo $container_entity->name; ?>
         </a> &nbsp;
         <?php echo elgg_get_friendly_time($vars['video']->time_created);?>
@@ -68,7 +68,7 @@ $container_entity = get_entity($vars['video']->container_guid);
       </div>
       <?php
       // tags view
-      echo elgg_view('output/tags', array('tags' => $vars['video']->tags));
+      echo elgg_view('output/tags', array('tags' => $vars['video']->tags,0,15));
       echo elgg_view('output/categories', array('entity' => $vars['video']));
       ?>
     </div>

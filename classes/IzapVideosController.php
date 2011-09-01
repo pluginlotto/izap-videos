@@ -239,7 +239,7 @@ class IzapVideosController extends IzapController {
   }
 
   public function fullPlay($video) {
-    $this->page_layout = 'content';
+    $this->page_layout = 'full';
     $this->widgets = '';
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/share', array('video' => $video));
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/related', array('video' => $video));

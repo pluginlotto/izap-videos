@@ -99,12 +99,20 @@ function izap_videos_init() {
   }
 
   if (izap_topbar_video_add_icon()) {
+   $group_page_owner = false;
+   if(preg_match('/(group:[0-9]+)/', $_GET['page'], $matches)){
+     $group_page_owner = $matches[0];
+   }elseif(elgg_get_context()=='groups'){
+     if(preg_match('/profile\/([0-9]+)\//',$_GET['page'], $matches)){
+       $group_page_owner = 'group:'.$matches[1];
+     }
+   }
     elgg_register_menu_item('topbar', array(
         'name' => 'video_top_bar',
         'href' => IzapBase::setHref(array(
             'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
             'action' => 'add',
-            'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(),'group')?elgg_get_page_owner_entity()->username:elgg_get_logged_in_user_entity()->username,
+            'page_owner' => ($group_page_owner)?$group_page_owner:elgg_get_logged_in_user_entity()->username,
             'vars' => array('onserver')
         )),
         'title' => elgg_echo('izap_videos:uploadVideo'),
