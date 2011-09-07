@@ -208,6 +208,7 @@ add_translation('en', array(
     'izap-videos:adminSettings:enable' => 'Yes',
     'izap-videos:adminSettings:disable' => 'No',
     'izap-videos:message:noAddFeature' => 'Add feature is disabled. Contact administrator.',
+    'izap-videos:message:noAddFeatureInGroup' => 'You are not allowed to add video in "%s" group.',
     'izap-videos:adminSettings:general_settings' => 'General settings',
     //izap-videos-help
     'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos'

@@ -19,7 +19,7 @@ class IzapVideosController extends IzapController {
     parent::__construct($page);
     // register default add button
     if (elgg_is_logged_in ()) {
-      if($this->action!='actionAdd'){
+      if($this->action!='actionAdd' && elgg_get_page_owner_entity()->canWriteToContainer()){
         $this->addButton(array(
             'menu_name' => 'title',
             'title' => elgg_echo('izap-videos:add_new'),
@@ -156,6 +156,15 @@ class IzapVideosController extends IzapController {
               )));
       exit;
     }
+    if(!elgg_get_page_owner_entity()->canWriteToContainer()){
+      register_error(elgg_echo('izap-videos:message:noAddFeatureInGroup', array(elgg_get_page_owner_entity()->name)));
+       forward(IzapBase::setHref(array(
+                  'action' => 'all',
+                  'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER
+              )));
+      exit;
+    }
+
     $this->page_elements['filter'] = '';
     $this->page_elements['title'] = elgg_echo('izap-videos:add_new');
     $video = new IzapVideos();
@@ -208,7 +217,7 @@ class IzapVideosController extends IzapController {
       forward(IzapBase::setHref(array(
                   'action' => 'all',
               )));
-      exit;
+  
     }
 
     $this->page_elements['title'] = $video->title;
@@ -226,6 +235,7 @@ class IzapVideosController extends IzapController {
   }
 
   public function defaultPlay($video) {
+ 
     $this->widgets = '';
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/share', array('video' => $video));
     $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/related', array('video' => $video));
@@ -248,7 +258,8 @@ class IzapVideosController extends IzapController {
                 'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN
             )) == 'yes') {
       $this->addWidget(GLOBAL_IZAP_VIDEOS_PLUGIN . '/sidebar', array('entity' => GLOBAL_IZAP_VIDEOS_PLUGIN));
-    }$this->page_elements['izap_video'] = $video;
+    }
+    $this->page_elements['izap_video'] = $video;
     $this->page_elements['content'] = elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/description', array('video' => $video));
   }
 

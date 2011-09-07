@@ -1,3 +1,6 @@
+### Version 4.1.1b
+1. Critical bug fixed in case of adding video in group, Even though user is not a member of the group.
+
 ### Version 4.1b
 1. Group related critical bug fixes.
 2. Page owner related critical bug fixes.

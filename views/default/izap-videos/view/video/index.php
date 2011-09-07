@@ -18,7 +18,7 @@
   // view for other plugins to extend
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/extendedPlay');
   if($vars['video']->converted == 'yes' && $vars['video']->comments_on) {
-    echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/comments', array('video' => $vars['video']));
+     echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/comments', array('video' => $vars['video']));
   }
   ?>
 </div>
