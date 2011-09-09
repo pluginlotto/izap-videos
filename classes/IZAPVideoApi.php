@@ -79,12 +79,7 @@ class IZAPVideoApi {
    * @param int $autoPlay autocomplete option
    * @return HTML player code
    */
-  public function getVideoEntity($guid) {
-    $izap_videos = new IzapVideos($guid);
-    return $izap_videos;
-  }
-
-  public function getVideoEntity($guid = null){
+ public function getVideoEntity($guid = null){
     if(is_null($guid)){
       return $this->getVideoFromPluginlotto();
     }else{
