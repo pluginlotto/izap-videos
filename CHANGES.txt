@@ -1,3 +1,6 @@
+### Version 4.1.2b
+1. Quite small changes in language file. And some function name fixes.
+
 ### Version 4.1.1b
 1. Critical bug fixed in case of adding video in group, Even though user is not a member of the group.
 
