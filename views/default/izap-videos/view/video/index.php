@@ -35,7 +35,7 @@
     return false;
   }
   $(document).ready(function() {
-    $('#related_videos').load('<?php echo IzapBase::sethref(array(
+    $('#related_videos').load('<?php echo IzapBase::setHref(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
             'action' => 'load_related_videos',
             'page_owner' => FALSE,

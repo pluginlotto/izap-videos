@@ -54,6 +54,7 @@ add_translation('en', array(
     'admin:statistics:izap-videos-trash' => 'Video trash',
     // server analysis
     'admin:utilities:izap-videos-server' => 'Server analysis for videos (iZAP Videos)',
+    'admin:utilities' => 'iZAP Utilities',
     'izap-videos:video_server' => 'Server analysis for iZAP Videos',
     // widgets
     'izap_latest_videos:widget_name' => 'Latest videos',

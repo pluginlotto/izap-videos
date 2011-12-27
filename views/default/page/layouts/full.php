@@ -28,7 +28,7 @@ echo elgg_view_layout('one_sidebar', array(
 <script type="text/javascript">
   $(document).ready(function(){
     $('#related_videos').load('<?php
-echo IzapBase::sethref(array(
+echo IzapBase::setHref(array(
     'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
     'action' => 'load_related_videos',
     'page_owner' => FALSE,
