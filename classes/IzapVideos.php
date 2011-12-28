@@ -298,7 +298,7 @@ class IzapVideos extends IzapObject {
   public function updateViews() {
     if ($this->converted == 'yes') {
       IzapBase::getAllAccess();
-      $this->views++;
+      ++$this->views;
       IzapBase::removeAccess();
     }
   }

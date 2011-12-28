@@ -219,7 +219,8 @@ class IzapVideosController extends IzapController {
               )));
   
     }
-
+    //updating view counter
+    $video->updateViews();
     $this->page_elements['title'] = $video->title;
     $this->page_elements['filter'] = '';
     $play = IzapBase::pluginSetting(array(
@@ -230,8 +231,6 @@ class IzapVideosController extends IzapController {
     $this->$play($video);
     $this->drawPage();
 
-    // UPDATE VIEW
-    $video->updateViews();
   }
 
   public function defaultPlay($video) {
