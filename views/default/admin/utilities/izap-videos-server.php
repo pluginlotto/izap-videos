@@ -37,7 +37,7 @@ if($exec) {
     if(!izapIsWin_izap_videos()) { // set the testing videos commands if it is not windows
       $in_video =  $CONFIG->pluginspath . GLOBAL_IZAP_VIDEOS_PLUGIN . '/server_test/test_video.avi';
       $file_handler = new ElggFile();
-      $file_handler->owner_guid = get_loggedin_userid();
+      $file_handler->owner_guid = elgg_get_logged_in_user_guid();
       $file_handler->setFilename(GLOBAL_IZAP_VIDEOS_PLUGIN . '/server_test/test_video.avi');
       $file_handler->open('read');
       $file_handler->write(file_get_contents($in_video));
@@ -127,7 +127,9 @@ $plugin = elgg_get_plugin_from_id('izap-videos');
           <td>Fail</td>
           <td>
                   <?php if($key == 'Simple command') {?>
-            <em><b>Tested with avi format only.</b></em>
+            <em><b>We installed every basic ffmpeg from default package manager. And it is working
+                perfectly fine. This test is confirming avi format. If you are tying some other
+                formats, they are subject of their support by your ffmpeg compilation.</b></em>
                     <?php  }?>
           </td>
         </tr>

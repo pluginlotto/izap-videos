@@ -14,8 +14,6 @@ global $IZAPSETTINGS;
 
 $description = $vars['video']->getDescription(array('max_length'=> 200));
 $container_entity = get_entity($vars['video']->container_guid);
-
-//c($vars['video']->getownerentity());
 ?>
 
 <div class="contentWraper">

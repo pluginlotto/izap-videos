@@ -15,14 +15,14 @@ $header = elgg_view('page/layouts/content/header', $vars);
 $video = elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/view/video/elements/video', array(
         'video' => $vars['izap_video'], 'full_view' => TRUE, 'height' => 500, 'width' => 900));
 $content = $vars['content'];
-if($vars['izap_video']->comments_on)
-$content .= elgg_view_comments($vars['izap_video'], true);
-$sidebar = elgg_view('page/layouts/content/sidebar', $params);
-$sidebar .= $vars['sidebar'];
+if($vars['izap_video']->comments_on){
+  $content .= elgg_view_comments($vars['izap_video'], true);
+}
+$sidebar = $vars['sidebar'];
 
-echo elgg_view_layout('one_column',array('content' => $header.$video));
+echo elgg_view_layout('one_column',array('content' => $video));
 echo elgg_view_layout('one_sidebar', array(
-    'content' => $content,'sidebar' =>$sidebar));
+    'title' => $vars['izap_video']->title, 'content' => $content,'sidebar' =>$sidebar));
 ?>
 
 <script type="text/javascript">

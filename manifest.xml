@@ -33,7 +33,18 @@
       <plugin>izap-elgg-bridge</plugin>
       <priority>after</priority>
     </priority>
-    
+    <screenshot>
+      <description>Full play page</description>
+      <path>screenshots/full-play-page.png</path>
+    </screenshot>
+    <screenshot>
+      <description>Listing page</description>
+      <path>screenshots/listing-page.png</path>
+    </screenshot>
+    <screenshot>
+      <description>Widget</description>
+      <path>screenshots/widget.png</path>
+    </screenshot>
 	<category>Multimedia</category>
 	<admin_interface>advanced</admin_interface>
 </plugin_manifest>

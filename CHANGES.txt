@@ -1,7 +1,13 @@
 ### Version 4.1.2b
+
+#### Enhancements:
+1. Improved full page display.
+2. Screen shots has been added according to the manifest recommendations.
+#### Bug fixes:
 1. Critical fix of view counter. It was doubling the view counters.
 2. Quite small changes in language file.
 3. Some function name changes as per the recommended conventions.
+
 
 ### Version 4.1.1b
 1. Critical bug fixed in case of adding video in group, Even though user is not a member of the group.
