@@ -30,7 +30,7 @@ echo elgg_view_layout('one_sidebar', array(
     $('#related_videos').load('<?php
 echo IzapBase::setHref(array(
     'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-    'action' => 'load_related_videos',
+    'action' => 'loadrelatedvideos',
     'page_owner' => FALSE,
     'vars' => array($vars['izap_video']->guid)
 ));

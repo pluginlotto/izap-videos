@@ -37,7 +37,7 @@
   $(document).ready(function() {
     $('#related_videos').load('<?php echo IzapBase::setHref(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-            'action' => 'load_related_videos',
+            'action' => 'loadrelatedvideos',
             'page_owner' => FALSE,
             'vars' => array($vars['video']->guid)
     ));?>');

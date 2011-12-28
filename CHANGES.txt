@@ -1,5 +1,7 @@
 ### Version 4.1.2b
-1. Quite small changes in language file. And some function name fixes.
+1. Critical fix of view counter. It was doubling the view counters.
+2. Quite small changes in language file.
+3. Some function name changes as per the recommended conventions.
 
 ### Version 4.1.1b
 1. Critical bug fixed in case of adding video in group, Even though user is not a member of the group.
