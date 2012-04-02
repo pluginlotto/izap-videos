@@ -1,10 +1,10 @@
 <?php
 
-/***************************************************
+/* * *************************************************
  * PluginLotto.com                                 *
  * Copyrights (c) 2005-2011. iZAP                  *
  * All rights reserved                             *
- ***************************************************
+ * **************************************************
  * @author iZAP Team "<support@izap.in>"
  * @link http://www.izap.in/
  * Under this agreement, No one has rights to sell this script further.
@@ -12,7 +12,7 @@
  * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
- 
+
 /**
  * Define some globals
  */
@@ -57,15 +57,15 @@ function izap_videos_init() {
 
   // register menu
   $menu = new ElggMenuItem(
-                  'izap-videos:videos',
-                  ucfirst(elgg_echo('izap-videos:videos')),
-                  IzapBase::setHref(
-                          array(
-                              'context' => 'videos',
-                              'action' => 'all',
-                              'page_owner' => FALSE,
-                          )
-                  )
+          'izap-videos:videos',
+          ucfirst(elgg_echo('izap-videos:videos')),
+          IzapBase::setHref(
+              array(
+                'context' => 'videos',
+                'action' => 'all',
+                'page_owner' => FALSE,
+              )
+          )
   );
   elgg_register_menu_item('site', $menu);
 
@@ -78,49 +78,38 @@ function izap_videos_init() {
 
   // register widgets @todo this will be done via bridge
   elgg_register_widget_type(
-          'izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
+      'izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
 
   elgg_register_widget_type(
-          'izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
+      'izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
 
   elgg_register_widget_type(
-          'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
-
-  // set our link on footer
-  if (izap_give_credit() && elgg_get_context() == GLOBAL_IZAP_VIDEOS_PAGEHANDLER) {
-    elgg_register_menu_item('footer', array(
-        'name' => 'izap_link',
-        'href' => 'http://www.izap.in',
-        'title' => 'Videos - Powered by iZAP',
-        'text' => 'Videos - Powered by iZAP',
-        'priority' => 500,
-        'section' => 'alt',
-    ));
-  }
+      'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
 
   if (izap_topbar_video_add_icon()) {
-   $group_page_owner = false;
-   if(preg_match('/(group:[0-9]+)/', $_GET['page'], $matches)){
-     $group_page_owner = $matches[0];
-   }elseif(elgg_get_context()=='groups'){
-     if(preg_match('/profile\/([0-9]+)\//',$_GET['page'], $matches)){
-       $group_page_owner = 'group:'.$matches[1];
-     }
-   }
+    $group_page_owner = false;
+    if (preg_match('/(group:[0-9]+)/', $_GET['page'], $matches)) {
+      $group_page_owner = $matches[0];
+    } elseif (elgg_get_context() == 'groups') {
+      if (preg_match('/profile\/([0-9]+)\//', $_GET['page'], $matches)) {
+        $group_page_owner = 'group:' . $matches[1];
+      }
+    }
     elgg_register_menu_item('topbar', array(
-        'name' => 'video_top_bar',
-        'href' => IzapBase::setHref(array(
-            'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-            'action' => 'add',
-            'page_owner' => ($group_page_owner)?$group_page_owner:elgg_get_logged_in_user_entity()->username,
-            'vars' => array('onserver')
-        )),
-        'title' => elgg_echo('izap_videos:uploadVideo'),
-        'text' => '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/upload_video.png" />',
+      'name' => 'video_top_bar',
+      'href' => IzapBase::setHref(array(
+        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+        'action' => 'add',
+        'page_owner' => ($group_page_owner) ? $group_page_owner : elgg_get_logged_in_user_entity()->username,
+        'vars' => array('onserver')
+      )),
+      'title' => elgg_echo('izap_videos:uploadVideo'),
+      'text' => '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/upload_video.png" />',
     ));
   }
 
   // extend the group tools
+  elgg_register_event_handler('izap', 'link', 'izap_video_link_hook');
   add_group_tool_option(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:enable_videos'));
   elgg_extend_view('groups/tool_latest', GLOBAL_IZAP_VIDEOS_PLUGIN . '/group_module');
 
@@ -146,8 +135,8 @@ function pageHandler_izap_videos_files($page) {
   set_input('videoID', $page[1]);
   set_input('size', $page[2]);
   IzapBase::loadLib(array(
-      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-      'lib' => 'izap_videos_lib'
+    'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+    'lib' => 'izap_videos_lib'
   ));
   read_video_file();
 }
@@ -158,14 +147,14 @@ function pageHandler_izap_videos_files($page) {
  */
 function izap_is_onserver_enabled_izap_videos() {
   $settings = IzapBase::pluginSetting(array(
-              'name' => 'onserver_enabled_izap_videos',
-              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-          ));
+        'name' => 'onserver_enabled_izap_videos',
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+      ));
 
   if ((string) $settings === 'no') {
     return FALSE;
   }
-  
+
   return $settings;
 }
 
@@ -175,9 +164,9 @@ function izap_is_onserver_enabled_izap_videos() {
  */
 function izap_is_offserver_enabled_izap_videos() {
   $settings = IzapBase::pluginSetting(array(
-              'name' => 'offserver_enabled_izap_videos',
-              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-          ));
+        'name' => 'offserver_enabled_izap_videos',
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+      ));
 
   if ((string) $settings === 'no') {
     return FALSE;
@@ -186,17 +175,25 @@ function izap_is_offserver_enabled_izap_videos() {
   return TRUE;
 }
 
+function izap_video_link_hook() {
+  if (elgg_get_context() == GLOBAL_IZAP_VIDEOS_PAGEHANDLER) {
+    elgg_extend_view('page/elements/footer', 'output/ilink');
+    return False;
+  }
+  return True;
+}
+
 function izap_owner_block_izap_videos($hook, $type, $return, $params) {
   if (elgg_instanceof($params['entity'], 'user')
-          ||
-          (elgg_instanceof($params['entity'], 'group') && $params['entity']->{GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '_enable'} == 'yes')) {
+      ||
+      (elgg_instanceof($params['entity'], 'group') && $params['entity']->{GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '_enable'} == 'yes')) {
 
     $url = IzapBase::setHref(array(
-                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-                'action' => 'owner',
-                'page_owner' => $parms['entity']->username,
-                'full_url' => FALSE
-            ));
+          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+          'action' => 'owner',
+          'page_owner' => $parms['entity']->username,
+          'full_url' => FALSE
+        ));
     $item = new ElggMenuItem(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:videos_' . $params['entity']->getType()), $url);
     $return[] = $item;
   }
@@ -205,8 +202,8 @@ function izap_owner_block_izap_videos($hook, $type, $return, $params) {
 
 function izap_defalut_get_videos_options($provided = array()) {
   $default = array(
-      'type' => 'object',
-      'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+    'type' => 'object',
+    'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
   );
 
   return array_merge($default, $provided);
@@ -218,9 +215,9 @@ function izap_is_video(ElggEntity $entity) {
 
 function izap_give_credit() {
   $setting = IzapBase::pluginSetting(array(
-              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-              'name' => 'izapGiveUsCredit',
-          ));
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+        'name' => 'izapGiveUsCredit',
+      ));
 
   if ($setting !== 'no') {
     return TRUE;
@@ -231,9 +228,9 @@ function izap_give_credit() {
 
 function izap_topbar_video_add_icon() {
   $admin_setting = (string) IzapBase::pluginSetting(array(
-              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-              'name' => 'topbar_extend_izap_videos'
-          ));
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+        'name' => 'topbar_extend_izap_videos'
+      ));
 
   if (elgg_is_logged_in() && izap_is_onserver_enabled_izap_videos() && $admin_setting !== 'no') {
     return TRUE;
