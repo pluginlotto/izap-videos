@@ -289,25 +289,25 @@ echo elgg_view('output/confirmlink', array(
     ));
     ?>
     </p>
-    <p>
+<!--    <p>
     <?php
-    echo '<label>'.elgg_echo('izap_videos:adminSettings:izapGiveUsCredit').'</label>';
-    echo elgg_view('input/radio', array(
-    'name' => 'params[izapGiveUsCredit]',
-    'align' => 'horizontal',
-    'value' => IzapBase::pluginSetting(
-              array(
-              'name' => 'izapGiveUsCredit',
-              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-              'value' => 'yes'
-              )),
-    'options' => array(
-            elgg_echo('izap-bridge:yes') => 'yes',
-            elgg_echo('izap-bridge:no') => 'no',
-    ),
-    ));
+//    echo '<label>'.elgg_echo('izap_videos:adminSettings:izapGiveUsCredit').'</label>';
+//    echo elgg_view('input/radio', array(
+//    'name' => 'params[izapGiveUsCredit]',
+//    'align' => 'horizontal',
+//    'value' => IzapBase::pluginSetting(
+//              array(
+//              'name' => 'izapGiveUsCredit',
+//              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+//              'value' => 'yes'
+//              )),
+//    'options' => array(
+//            elgg_echo('izap-bridge:yes') => 'yes',
+//            elgg_echo('izap-bridge:no') => 'no',
+//    ),
+//    ));
     ?>
-    </p>
+    </p>-->
   </fieldset>
 <script type="text/javascript">
   $(document).ready(function(){
