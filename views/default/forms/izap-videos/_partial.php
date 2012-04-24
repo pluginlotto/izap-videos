@@ -116,6 +116,7 @@ $form .= IzapBase::input('dropdown', array(
 
 
 $form .= elgg_view('input/izap_categories', array('name' => 'attributes[categories]','plugin_id' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'value' => $video->categories));
+$form .= elgg_view('input/categories', $vars);
 
 $form .= elgg_view('input/submit', array(
         'value' => elgg_echo('izap_videos:addEditForm:save'),

@@ -11,6 +11,8 @@
 * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
 * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
+
+// this page displays the plugin settings content in the admin control panel
 IzapBase::loadLib(array(
         'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
         'lib' => 'izap_videos_lib'

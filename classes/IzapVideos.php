@@ -255,6 +255,14 @@ class IzapVideos extends IzapObject {
     return $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/orignal/' . elgg_get_friendly_title($this->title) . '.jpg';
   }
 
+  /**
+   * displays the recently added or edited thumbnail of videos in the site's activity page
+   * 
+   * @global  type $IZAPSETTINGS
+   * @param   type $width
+   * @param   type $height
+   * @return       string 
+   */
   public function getAjaxedThumb($width = 250, $height = 200) {
     global $IZAPSETTINGS;
     $unique = md5($this->guid . '-' . $width . '-' . $height);

@@ -741,9 +741,9 @@ function izapGetFriendlyFileName_izap_videos($fileName) {
 
 /**
  * this function checks the supported videos
- * @global <type> $CONFIG
- * @param string $videoFileName video name with extension
- * @return boolean TRUE if supported else FALSE
+ * @global  <type>   $CONFIG
+ * @param   string   $videoFileName video name with extension
+ * @return  boolean  TRUE if supported else FALSE
  */
 function izapSupportedVideos_izap_videos($videoFileName) {
   global $IZAPSETTINGS;

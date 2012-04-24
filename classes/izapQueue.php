@@ -135,6 +135,12 @@ class izapQueue extends IzapSqlite {
     return $this->execute((($guid) ? "DELETE FROM video_queue WHERE guid = {$guid}" : 'DELETE FROM video_queue'));
   }
 
+  /**
+   *
+   * @param  type $guid
+   * @param  type $also_media
+   * @return type 
+   */
   public function delete_from_trash($guid = false, $also_media = false) {
     $queue_db = $this->db_connection;
     if ($also_media) {
