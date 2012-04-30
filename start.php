@@ -52,8 +52,8 @@ function izap_videos_init() {
 
 
   // register pagehandler
-  register_page_handler(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, GLOBAL_IZAP_PAGEHANDLER);
-  register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
+  elgg_register_page_handler(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, GLOBAL_IZAP_PAGEHANDLER);
+  elgg_register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
 
   // register menu
   $menu = new ElggMenuItem(
