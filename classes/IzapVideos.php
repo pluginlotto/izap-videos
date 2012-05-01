@@ -199,8 +199,8 @@ class IzapVideos extends IzapObject {
               $extraOptions .= '&txtcolor=0x' . $border_color2;
             $html = "
            <object width='" . $width . "' height='" . $height . "' id='flvPlayer'>
-            <param name='allowFullScreen' value='transparent'>
-            <param name='wmode' value='true'>
+            <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
             <param name='movie' value='" . $IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' >
             <embed src='" . $IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' width='" . $width . "' height='" . $height . "' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
