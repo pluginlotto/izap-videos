@@ -153,7 +153,7 @@ class IzapVideos extends IzapObject {
     }
 
     // check if it is flv, then dont send it to queue
-    if (IzapBase::getFileExtension($returnValue->tmpFile) == 'flv') {
+    if (IzapBase::getFileExtension($returnValue->tmpfile) == 'flv') {
       $file_name = 'izap_videos/uploaded/' . $newFileName;
 
       $this->setFilename($file_name);
@@ -199,7 +199,7 @@ class IzapVideos extends IzapObject {
               $extraOptions .= '&txtcolor=0x' . $border_color2;
             $html = "
            <object width='" . $width . "' height='" . $height . "' id='flvPlayer'>
-            <param name='allowFullScreen' value='true'>
+            <param name='allowFullScreen' value='transparent'>
             <param name='wmode' value='true'>
              <param name='allowScriptAccess' value='always'>
             <param name='movie' value='" . $IZAPSETTINGS->playerPath . "?movie=" . $this->videosrc . $extraOptions . "&volume=30&autoload=on&autoplay=on&vTitle=" . $this->title . "&showTitle=yes' >

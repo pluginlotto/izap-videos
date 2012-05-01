@@ -76,7 +76,7 @@ if (!$izap_videos->save()) {
 }
 
 // save the file info for converting it later  in queue
-if ($izap_videos->videoprocess == 'onserver' && !$izap_videos->isNewRecord()) {
+if ($izap_videos->videoprocess == 'onserver') {
   $izap_videos->videosrc = $CONFIG->wwwroot . 'izap_videos_files/file/' . $izap_videos->guid . '/' . friendly_title($izap_videos->title) . '.flv';
   if (IzapBase::getFileExtension($tmpUploadedFile) != 'flv') { // will only send to queue if it is not flv
     izapSaveFileInfoForConverting_izap_videos($tmpUploadedFile, $izap_videos, $izap_videos->access_id);
