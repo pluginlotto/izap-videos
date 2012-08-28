@@ -28,15 +28,15 @@ function izapIsNull_izap_videos($input, $exclude = array()) {
       if (!in_array($key, $exclude)) {
         //if(is_null($value) || empty($value)){
         if (empty($value)) {
-          return TRUE;
+          return true;
         }
       }
     }
   } else {
-    return TRUE;
+    return true;
   }
 
-  return FALSE;
+  return false;
 }
 
 /**
@@ -47,7 +47,7 @@ function izapIsNull_izap_videos($input, $exclude = array()) {
  */
 function izapArrayToObject_izap_videos($array) {
   if (!is_array($array))
-    return FALSE;
+    return false;
 
   $obj = new stdClass();
   foreach ($array as $key => $value) {
@@ -81,13 +81,13 @@ function izapAdminSettings_izap_videos($settingName, $values = '', $override = f
 /**
  * checks if it is windows
  *
- * @return boolean TRUE if windows else FALSE
+ * @return boolean true if windows else false
  */
 function izapIsWin_izap_videos() {
   if (strtolower(PHP_OS) == 'winnt') {
-    return TRUE;
+    return true;
   } else {
-    return FALSE;
+    return false;
   }
 }
 
@@ -97,7 +97,7 @@ function izapIsWin_izap_videos() {
  * @return array
  */
 function izapGetVideoOptions_izap_videos() {
-  $videoOptions = izapAdminSettings_izap_videos('izapVideoOptions', '', FALSE, TRUE);
+  $videoOptions = izapAdminSettings_izap_videos('izapVideoOptions', '', false, true);
   return $videoOptions;
 }
 
@@ -105,9 +105,9 @@ function izapGetVideoOptions_izap_videos() {
  * this function will check that is the given id is of izap_videos
  *
  * @param int $videoId video id
- * @return video entity or FALSE
+ * @return video entity or false
  */
-function izapVideoCheck_izap_videos($videoId, $canEditCheck = FALSE) {
+function izapVideoCheck_izap_videos($videoId, $canEditCheck = false) {
   $videoId = (int) $videoId;
   if ($videoId) {
     $video = get_entity($videoId);
@@ -135,7 +135,7 @@ function izapVideoCheck_izap_videos($videoId, $canEditCheck = FALSE) {
 function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
   if (!file_exists($file) || !$video) {
-    return FALSE;
+    return false;
   }
   $queue = new izapQueue();
   $queue->put($video, $file, $defined_access_id);
@@ -177,7 +177,7 @@ function izapGetPhpPath_izap_videos() {
 /**
  * this function checks if the queue is running or not
  *
- * @return boolean TRUE if yes or FALSE if no
+ * @return boolean true if yes or false if no
  */
 function izapIsQueueRunning_izap_videos() {
   // check for *nix machine. For windows, it is under development
@@ -185,9 +185,9 @@ function izapIsQueueRunning_izap_videos() {
 
   $numberof_process = $queue_object->check_process();
   if ($numberof_process > 0) {
-    return TRUE;
+    return true;
   } else {
-    return FALSE;
+    return false;
   }
 }
 
@@ -197,7 +197,7 @@ function izapIsQueueRunning_izap_videos() {
  * @return boolean
  */
 function izapResetQueue_izap_videos() {
-  return izapAdminSettings_izap_videos('isQueueRunning', 'no', TRUE);
+  return izapAdminSettings_izap_videos('isQueueRunning', 'no', true);
 }
 
 /**
@@ -222,7 +222,7 @@ function izapEmptyQueue_izap_videos() {
  * @param <type> $functionName
  */
 function izapGetAccess_izap_videos() {
-  izap_access_override(array('status' => TRUE));
+  izap_access_override(array('status' => true));
 }
 
 /**
@@ -232,7 +232,7 @@ function izapGetAccess_izap_videos() {
  * @param string $functionName
  */
 function izapRemoveAccess_izap_videos() {
-  izap_access_override(array('status' => FALSE));
+  izap_access_override(array('status' => false));
 }
 
 function izap_access_override($params=array()) {
@@ -261,7 +261,7 @@ function izap_access_override($params=array()) {
  * @return <type>
  */
 function izapGetAccessForAll_izap_videos($hook, $entity_type, $returnvalue, $params) {
-  return TRUE;
+  return true;
 }
 
 function izapRunQueue_izap_videos() {
@@ -292,7 +292,7 @@ function izapRunQueue_izap_videos() {
  * @param boolean $guid if only guid is required
  * @return mix depends on the input and result
  */
-function izapGetSiteAdmin_izap_videos($guid = FALSE) {
+function izapGetSiteAdmin_izap_videos($guid = false) {
   $admin = get_entities_from_metadata('admin', 1, 'user', '', 0, 1, 0);
   if ($admin[0]->admin || $admin[0]->siteadmin) {
     if ($guid)
@@ -300,7 +300,7 @@ function izapGetSiteAdmin_izap_videos($guid = FALSE) {
     else
       return $admin[0];
   }
-  return FALSE;
+  return false;
 }
 
 /**
@@ -340,7 +340,7 @@ function izapCopyFiles_izap_videos($sourceOwnerGuid, $sourceFile, $destinationOw
  * @param boolean $count Do u want the total or videos ? :)
  * @return videos or false
  */
-function izapGetAllVideos_izap_videos($ownerGuid = 0, $count = FALSE, $izapVideoType = 'object', $izapSubtype = 'izap_videos') {
+function izapGetAllVideos_izap_videos($ownerGuid = 0, $count = false, $izapVideoType = 'object', $izapSubtype = 'izap_videos') {
   $videos = get_entities($izapVideoType, $izapSubtype, $ownerGuid, '', 0);
   return $videos;
 }
@@ -377,9 +377,9 @@ function izapIncludeIndexWidget_izap_videos() {
   $var = izapAdminSettings_izap_videos('izapIndexPageWidget', 'YES');
 
   if ($var == 'NO')
-    return FALSE;
+    return false;
 
-  return TRUE;
+  return true;
 }
 
 /**
@@ -410,7 +410,7 @@ function izapGetNotConvertedVideos_izap_videos() {
     return $not_converted_videos;
   }
 
-  return FALSE;
+  return false;
 }
 
 function izapReadableSize_izap_videos($inputSize) {
@@ -492,7 +492,7 @@ function izap_update_all_defined_access_id($entity_guid, $accessId = ACCESS_PUBL
   $query = 'UPDATE ' . $CONFIG->dbprefix . 'metadata SET access_id = ' . $accessId . ' WHERE entity_guid = ' . $entity_guid;
   $query = update_data($query);
   if (!$query) {
-    return FALSE;
+    return false;
   }
   $query = 'UPDATE ' . $CONFIG->dbprefix . 'entities SET access_id = ' . $accessId . ' WHERE guid = ' . $entity_guid;
   update_data($query);
@@ -502,11 +502,11 @@ function izap_update_all_defined_access_id($entity_guid, $accessId = ACCESS_PUBL
 function izap_is_my_favorited($video) {
   $users = (array) $video->favorited_by;
   $key = array_search(elgg_get_logged_in_user_guid(), $users);
-  if ($key !== FALSE) {
-    return TRUE;
+  if ($key !== false) {
+    return true;
   }
 
-  return FALSE;
+  return false;
 }
 
 function izap_remove_favorited($video, $user_guid = 0) {
@@ -518,7 +518,7 @@ function izap_remove_favorited($video, $user_guid = 0) {
 
   $key = array_search($user_guid, $users);
 
-  if ($key !== FALSE) {
+  if ($key !== false) {
     unset($users[$key]);
   }
 
@@ -526,7 +526,7 @@ function izap_remove_favorited($video, $user_guid = 0) {
   $video->favorited_by = array_unique($users);
   izapRemoveAccess_izap_videos();
 
-  return TRUE;
+  return true;
 }
 
 function izap_get_supported_videos_list($link = true) {
@@ -644,7 +644,7 @@ function izapGetFfmpegVideoImageCommand_izap_videos() {
  */
 function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
   global $CONFIG;
-  $return = FALSE;
+  $return = false;
 
   // works only if we have the input file
   if (file_exists($file)) {
@@ -691,7 +691,7 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
   } else {
     $errorReason = elgg_echo('izap_videos:fileNotFound');
   }
-  $adminGuid = izapGetSiteAdmin_izap_videos(TRUE);
+  $adminGuid = izapGetSiteAdmin_izap_videos(true);
 
   // notify admin
   notify_user($adminGuid,
@@ -701,7 +701,7 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
   );
 
   if (isset($errorReason)) {
-    $return = array('error' => TRUE, 'reason' => $errorReason);
+    $return = array('error' => true, 'reason' => $errorReason);
   }
   
   return $return;
@@ -743,16 +743,16 @@ function izapGetFriendlyFileName_izap_videos($fileName) {
  * this function checks the supported videos
  * @global  <type>   $CONFIG
  * @param   string   $videoFileName video name with extension
- * @return  boolean  TRUE if supported else FALSE
+ * @return  boolean  true if supported else false
  */
 function izapSupportedVideos_izap_videos($videoFileName) {
   global $IZAPSETTINGS;
   $supportedFormats = $IZAPSETTINGS->allowedExtensions;
   $extension = IzapBase::getFileExtension($videoFileName);
   if (in_array($extension, $supportedFormats))
-    return TRUE;
+    return true;
 
-  return FALSE;
+  return false;
 }
 
 /**
@@ -766,9 +766,9 @@ function izapCheckFileSize_izap_videos($fileSize) {
   $maxSizeInBytes = $maxFileSize * 1024 * 1024;
 
   if ($fileSize > $maxSizeInBytes)
-    return FALSE;
+    return false;
 
-  return TRUE;
+  return true;
 }
 
 /**

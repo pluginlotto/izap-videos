@@ -13,7 +13,7 @@
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
 
-add_translation('en', array(
+$english = array(
     'izap-videos:video' => 'video',
     'izap-videos:videos' => 'videos',
     'item:object:izap_videos:singular' => 'video',
@@ -213,5 +213,6 @@ add_translation('en', array(
     'izap-videos:adminSettings:general_settings' => 'General settings',
     //izap-videos-help
     'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos'
-));
+);
 
+add_translation('en', $english);

@@ -20,5 +20,5 @@ if (get_subtype_id('object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
   add_subtype('object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS);
 }
 //forward to settings, so that defaults can be saved
-forward($CONFIG->wwwroot . 'admin/plugin_settings/' . GLOBAL_IZAP_VIDEOS_PLUGIN);
+//forward($CONFIG->wwwroot . 'admin/plugin_settings/' . GLOBAL_IZAP_VIDEOS_PLUGIN);
 
