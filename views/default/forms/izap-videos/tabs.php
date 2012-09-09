@@ -12,7 +12,7 @@
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
 
-if(izap_is_onserver_enabled_izap_videos()){
+if(izap_is_onserver_enabled_izap_videos() === 'yes'){
 $tabs['onserver'] = array(
             'title' => elgg_echo('izap-videos:onserver'),
             'url' => IzapBase::setHref(array(
@@ -22,7 +22,21 @@ $tabs['onserver'] = array(
                       )),
             'selected' => ($vars['entity']->videoprocess == 'onserver'),
     );
+}elseif(izap_is_onserver_enabled_izap_videos() === 'youtube'){
+$tabs['onserver'] = array(
+            'title' => elgg_echo('izap-videos:onserver'),
+            'url' => IzapBase::setHref(array(
+                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                'action' => 'add',
+                'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+                'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
+                            ($onserver == 'yes')?'onserver':'youtube' :
+                            'offserver'),
+            )),
+            'selected' => ($vars['entity']->videoprocess == 'youtube'),
+    );
 }
+
 if(izap_is_offserver_enabled_izap_videos()){
     $tabs['offserver'] = array(
             'title' => sprintf(elgg_echo('izap-videos:offserver'),''),

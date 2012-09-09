@@ -531,8 +531,8 @@ function izap_remove_favorited($video, $user_guid = 0) {
 
 function izap_get_supported_videos_list($link = true) {
   global $IZAPSETTINGS;
-  $ch = new IzapCurl($IZAPSETTINGS->api_server . 'supported_sites.php');
-  $data = $ch->exec();
+  $ch = new IzapCurl();
+  $data = $ch->get($IZAPSETTINGS->api_server . 'supported_sites.php')->body;
 
   $array = unserialize($data);
 

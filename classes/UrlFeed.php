@@ -18,8 +18,8 @@ class UrlFeed {
   function capture($url) {
     global $IZAPSETTINGS;
     $url = $IZAPSETTINGS->apiUrl . '&url=' .  urlencode($url);
-    $curl = new IzapCurl($url);
-    $raw_contents = $curl->exec();
+    $curl = new IzapCurl();
+    $raw_contents = $curl->get($url)->body;
     
     $returnObject = json_decode($raw_contents);
     if($returnObject == NULL || $returnObject == FALSE) {

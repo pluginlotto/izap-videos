@@ -204,8 +204,7 @@ $english = array(
 
     'izap-videos:adminSettings:my-server' => 'I\'ve enough resources to compile my videos.',
     'izap-videos:adminSettings:youtube-server' => 'Activate youtube channel to handle uploaded videos.',
-    'izap-videos:adminSettings:youtubeUsername' => 'Youtube username',
-    'izap-videos:adminSettings:youtubePassword' => 'Yourtube password',
+    'izap-videos:adminSettings:youtubeDeveloperKey' => 'Youtube Developer Key (Create one here: <a href="http://code.google.com/apis/youtube/dashboard/">Create Yourtube Developer Key</a>)',
     'izap-videos:adminSettings:enable' => 'Yes',
     'izap-videos:adminSettings:disable' => 'No',
     'izap-videos:message:noAddFeature' => 'Add feature is disabled. Contact administrator.',

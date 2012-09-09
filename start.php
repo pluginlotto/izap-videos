@@ -34,7 +34,6 @@ function izap_videos_init() {
   // start plugin
   izap_plugin_init(GLOBAL_IZAP_VIDEOS_PLUGIN);
 
-
   global $CONFIG, $IZAPSETTINGS;
   $IZAPSETTINGS = new stdClass();
 
@@ -98,16 +97,15 @@ function izap_videos_init() {
     elgg_register_menu_item('topbar', array(
       'name' => 'video_top_bar',
       'href' => IzapBase::setHref(array(
-        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-        'action' => 'add',
-        'page_owner' => ($group_page_owner) ? $group_page_owner : elgg_get_logged_in_user_entity()->username,
-        'vars' => array('onserver')
-      )),
+                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                'action' => 'add',
+                'page_owner' => ($group_page_owner) ? $group_page_owner : elgg_get_logged_in_user_entity()->username,
+                'vars' => array('tab' => (izap_is_onserver_enabled_izap_videos() == 'yes')?'onserver':'youtube'),
+            )),
       'title' => elgg_echo('izap_videos:uploadVideo'),
       'text' => '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/upload_video.png" />',
     ));
   }
-
   // extend the group tools
   elgg_register_event_handler('izap', 'link', 'izap_video_link_hook');
   add_group_tool_option(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:enable_videos'));

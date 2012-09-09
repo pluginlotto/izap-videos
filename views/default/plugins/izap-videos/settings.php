@@ -104,29 +104,17 @@ echo elgg_view('output/confirmlink', array(
     <div id="youtube-server">
       <p>
         <label>
-          <?php echo elgg_echo('izap-videos:adminSettings:youtubeUsername');?>
+          <?php echo elgg_echo('izap-videos:adminSettings:youtubeDeveloperKey');?>
           <br />
           <?php
           echo elgg_view('input/text', array(
-            'name' => 'params[youtubeUsername]',
-            'value' => izapAdminSettings_izap_videos('youtubeUsername'),
+            'name' => 'params[youtubeDeveloperKey]',
+            'value' => izapAdminSettings_izap_videos('youtubeDeveloperKey'),
           ));
           ?>
         </label>
       </p>
 
-       <p>
-        <label>
-          <?php echo elgg_echo('izap-videos:adminSettings:youtubePassword');?>
-          <br />
-          <?php
-          echo elgg_view('input/password', array(
-            'name' => 'params[youtubePassword]',
-            'value' => izapAdminSettings_izap_videos('youtubePassword'),
-          ));
-          ?>
-        </label>
-      </p>
     </div>
       <p>
         <label>
@@ -291,25 +279,6 @@ echo elgg_view('output/confirmlink', array(
     ));
     ?>
     </p>
-<!--    <p>
-    <?php
-//    echo '<label>'.elgg_echo('izap_videos:adminSettings:izapGiveUsCredit').'</label>';
-//    echo elgg_view('input/radio', array(
-//    'name' => 'params[izapGiveUsCredit]',
-//    'align' => 'horizontal',
-//    'value' => IzapBase::pluginSetting(
-//              array(
-//              'name' => 'izapGiveUsCredit',
-//              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-//              'value' => 'yes'
-//              )),
-//    'options' => array(
-//            elgg_echo('izap-bridge:yes') => 'yes',
-//            elgg_echo('izap-bridge:no') => 'no',
-//    ),
-//    ));
-    ?>
-    </p>-->
   </fieldset>
 <script type="text/javascript">
   $(document).ready(function(){
