@@ -92,6 +92,7 @@ $english = array(
     'izap_videos:deleted' => "Video has been deleted successfully",
     'izap_videos:total' => 'Total',
     'izap_videos:uploadVideo' => "Upload video",
+    'izap-videos:youtube:categories' => 'Categories',
     //error message
     'izap_videos:error:uploadNotSupported' => 'Uploading of files is not supported yet.',
     'izap_videos:error:notUploaded' => 'Error in uploading file',
@@ -141,6 +142,7 @@ $english = array(
     'izap_videos:converterror' => "Error converting video.",
     'izap_videos:error_videos' => 'Videos having error',
     'izap_videos:error_reason' => 'Error reason : %s',
+    'izap_videos:error_nourl' => 'Error: Make sure, Curl is enabled. We are not able to fetch video feed.',
     //admin settings
     'izap_videos:queueStatus' => 'Queue status',
     'izap_videos:notRunning' => 'Not running',

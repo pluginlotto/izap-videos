@@ -40,7 +40,7 @@ class UrlFeed {
     $obj->videotags = $returnObject->tags;
     $obj->domain = $returnObject->url;
     $obj->filename = time().'_'.basename($obj->videothumbnail);
-    $obj->filecontent = file_get_contents($obj->videothumbnail);
+    $obj->filecontent = $curl->get($obj->videothumbnail)->body;
     $obj->type = $returnObject->type;
     return $obj;
   }

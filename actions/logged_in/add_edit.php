@@ -52,6 +52,14 @@ if ($izap_videos->isNewRecord()) {  // only include for adding video
       $izap_videos->access_id = ACCESS_PUBLIC;
       include_once (dirname(__FILE__) . '/onserver.php');
       break;
+    case 'youtube':
+      // if url is not valid then send it back
+      include_once (dirname(__FILE__) . '/youtube.php');
+      forward(REFERRER);
+      break;
+    case 'default':
+        print_r($_REQUEST);
+        break;
   }
 }
 
