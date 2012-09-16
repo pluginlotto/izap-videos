@@ -3,8 +3,8 @@
 	<name>iZAP Videos</name>
 	<author>iZAP Team</author>
 	<version>4.1.4b</version>
-	<blurb>Offserver and Onserver video adding functionality for elgg.</blurb>
-	<description>This plugin provides full video fucntionality to elgg.</description>
+	<blurb>Full featured videos plugin for elgg.</blurb>
+	<description>You can host your own videos, You can host videos on YouTube (API has been integrated). You can embed videos from multiple vendors at once.</description>
 	<website>http://www.pluginlotto.com/store</website>
 	<copyright>(C) iZAP Web Solutions</copyright>
 	<license>GNU Public License version 2</license>
