@@ -142,20 +142,20 @@ class IzapVideosController extends IzapController {
         IzapBase::gatekeeper(GLOBAL_IZAP_VIDEOS_DATAENTRY_ACCESS);
         /*
          * Array
-(
-    [videoprocess] => youtube
-    [container_guid] => 35
-    [plugin] => izap-videos
-    [guid] => 
-    [youtube_cats] => Classics
-    [_title] => Let me add new classic video
-    [description] => 
-hey, how are you doing.
+          (
+          [videoprocess] => youtube
+          [container_guid] => 35
+          [plugin] => izap-videos
+          [guid] =>
+          [youtube_cats] => Classics
+          [_title] => Let me add new classic video
+          [description] =>
+          hey, how are you doing.
 
-    [tags] => tag2
-    [access_id] => 2
-    [comments_on] => 1
-)
+          [tags] => tag2
+          [access_id] => 2
+          [comments_on] => 1
+          )
          */
         $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
         $yt = $video->YoutubeObject();
@@ -167,28 +167,30 @@ hey, how are you doing.
         $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']['youtube_cats']);
         $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']['tags']);
         $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
-        try{
-        $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
-        }catch(Exception $e){
-            
-            if(preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)){
-                register_error('YouTube Error: '. $matches[1]);
+        try {
+            $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
+        } catch (Exception $e) {
+
+            if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
+                register_error('YouTube Error: ' . $matches[1]);
+            } else {
+                register_error('YouTube Error: ' . $e->getMessage());
             }
             forward(IzapBase::setHref(array(
-                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-                 'action' => 'add',
-                 'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
-                 'vars' => array('tab' => 'youtube'),
-                )));
+                        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                        'action' => 'add',
+                        'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+                        'vars' => array('tab' => 'youtube'),
+                    )));
         }
         $this->page_elements['filter'] = '';
-        $this->page_elements['title'] = 'Upload video with title: "'.$_SESSION['youtube_attributes']['_title'].'"';
+        $this->page_elements['title'] = 'Upload video with title: "' . $_SESSION['youtube_attributes']['_title'] . '"';
         $params['token'] = $tokenArray['token'];
         $params['action'] = $tokenArray['url'] . '?nexturl=' . IzapBase::setHref(array(
-                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-                 'action' => 'add',
-                 'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
-                 'vars' => array('tab' => 'youtube'),
+                    'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+                    'action' => 'add',
+                    'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+                    'vars' => array('tab' => 'youtube'),
                 ));
         $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/youtube_upload', $params);
     }
