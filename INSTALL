@@ -5,7 +5,7 @@
 2. Uncompress downloaded file and move it to "mod" directory with the name "izap-videos".
 3. Resolve all dependencies and click on "Activate" button.
 4. Go to izap-videos plugin settings from admin panel and Click on Save once to save all settings.
-5. To Activate "Off Server" feature, Go to "http://www.pluginlotto.com/izap-videos-api". You will be asked to put your hostname and click register to register your key.
+5. To Activate "Off Server" feature, Go to "http://www.pluginlotto.com/api/index/". You will be asked to put your hostname and click register to register your key.
 
 ### Discussion thread
 [Discussion thread for izap-videos 4.1b](http://www.pluginlotto.com/forum/discussion/tarun/7558/izapversion-41b-thread)
