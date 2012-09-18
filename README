@@ -4,7 +4,8 @@ iZAP-videos
    iZAP-videos is one of the popular videos plugin available for elgg. It is full featured social 
    videos plugin for elgg.
 
-### Features
+### Features 
+
 * It supports Youtube, Vimeo, Veoh, Metacafe, Blip, CollegeHumor, 5min.
 * It also supports Off server videos. Where you can convert video files to flv at your own server. It needs ffmpeg compiled on your server. Supported formats are subject of what your ffmpeg compilation supports.
 * More sharing options (Twitter, Facebook, LinkedIn, MySpace).
