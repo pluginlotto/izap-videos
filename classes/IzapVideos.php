@@ -42,7 +42,24 @@ class IzapVideos extends IzapObject {
     if(!is_null($guid))
       return get_entity($guid);
   }
+  
+  /**
+   * This function will help to get facebook open graph objects for videos
+   * 
+   * @return type array of og tags
+   */
 
+  public function getOgTags() {
+      $ogtags = array(
+          'og:url' => $this->getURL(),
+          'og:image' => $this->getIconURL('large'),
+          'og:title' => $this->getTitle(),
+          'og:description' => htmlentities($this->getDescription()),
+          'og:type' => "video",
+          );
+      return $ogtags;
+  }
+  
   protected function initialise_attributes() {
     parent::initializeAttributes();
     $this->attributes['subtype'] = GLOBAL_IZAP_VIDEOS_SUBTYPE;
