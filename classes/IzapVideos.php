@@ -57,7 +57,8 @@ class IzapVideos extends IzapObject {
           'og:description' => htmlentities($this->getDescription()),
           'og:type' => "video",
           'og:video:width' => "400",
-          );
+          'og:video:height' => "300",
+           );
       return $ogtags;
   }
   
