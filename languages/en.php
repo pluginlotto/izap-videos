@@ -181,6 +181,7 @@ $english = array(
     'video_name :' => 'Video Name: ',
     'size' => 'Size: ',
     'izap-videos:do-not-refresh' => 'Do not refresh the page.',
+    'izap_videos:noDescription' => 'No Description Available',
     //info messages
     'izap_videos:adminSettings:info:convert-command' => 'Optimized command: /path/of/ffmpeg -y -i [inputVideoPath] -vcodec libx264 -vpre hq  -b 300k  -bt 300k  -acodec libfaac  -ar 22050  -ab 48k [outputVideoPath]',
     'izap_videos:adminSettings:info:bg-color' => 'Give hex value of color without # eg. #FFFFFF is white. You will put "FFFFFF" ',
