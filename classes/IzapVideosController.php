@@ -186,22 +186,13 @@ class IzapVideosController extends IzapController {
     $this->page_elements['filter'] = '';
     $this->page_elements['title'] = 'Upload video with title: "' . $_SESSION['youtube_attributes']['_title'] . '"';
     $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . IzapBase::setHref(array(
-                'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-                'action' => 'next',
-                'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
-                'vars' => array('tab' => 'youtube'),
-            ));
-
-    //
+        $params['action'] = $tokenArray['url'] . '?nexturl=' .elgg_add_action_tokens_to_url(elgg_get_site_url().'action/izap-videos/add_edit');
     $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/youtube_upload', $params);
   }
 
   public function actionNext() {
     IzapBase::gatekeeper();
     $is_status = (get_input('status') == 200) ? true : false;
-//    print_r($_REQUEST);
-//    exit;
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to re-upload or verify from your youtube account.");
@@ -218,7 +209,7 @@ class IzapVideosController extends IzapController {
     $id = get_intput('id');
     $pass = '%kdkdhSw*jdksl';
 
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id.'&p='.$pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id.'&p'.$pass));
     exit;
   }
 

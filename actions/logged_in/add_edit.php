@@ -58,15 +58,9 @@ if ($izap_videos->isNewRecord()) {  // only include for adding video
       forward(REFERRER);
       break;
     default:
+      $is_status = (get_input('status') == 200)?true:false;
       $id = get_intput('id');
-      $p = get_input('p');
-      if($p != '%kdkdhSw*jdksl'){
-        register_error(elgg_echo('Security issue. We are redirecting.'));
-        forward(REFERRER);
-        exit;
-      }
-      $izap_videos->videoprocess = 'offserver';
-      $izap_videos->videourl = 'http://www.youtube.com/watch?v=' . $id;
+      $izap_videos->videourl = 'http://www.youtube.com/watch?v='.$id;
       //handle youtube video upload when it get back to the same action.
       if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
         register_error(elgg_echo('izap_videos:error:notValidUrl'));
