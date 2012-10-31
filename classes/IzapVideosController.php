@@ -290,7 +290,7 @@ class IzapVideosController extends IzapController {
       forward(IzapBase::setHref(array(
                   'action' => 'all',
               )));
-    }
+    } 
     //updating view counter
     $video->updateViews();
     $this->page_elements['title'] = $video->title;

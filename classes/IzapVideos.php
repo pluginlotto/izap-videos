@@ -37,31 +37,30 @@ class IzapVideos extends IzapObject {
         'videoprocess' => array(),
         'tags' => array(),
         'categories' => array(),
-        'comments_on' =>array()
+        'comments_on' => array()
     );
-    if(!is_null($guid))
+    if (!is_null($guid))
       return get_entity($guid);
   }
-  
+
   /**
    * This function will help to get facebook open graph objects for videos
    * 
    * @return type array of og tags
    */
-
   public function getOgTags() {
-      $ogtags = array(
-          'og:url' => $this->getURL(),
-          'og:image' => $this->getIconURL('large'),
-          'og:title' => $this->getTitle(),
-          'og:description' => htmlentities($this->getDescription()),
-          'og:type' => "video",
-          'og:video:width' => "400",
-          'og:video:height' => "300",
-           );
-      return $ogtags;
+    $ogtags = array(
+        'og:url' => $this->getURL(),
+        'og:image' => $this->getIconURL('large'),
+        'og:title' => $this->getTitle(),
+        'og:description' => htmlentities($this->getDescription()),
+        'og:type' => "video",
+        'og:video:width' => "400",
+        'og:video:height' => "300",
+    );
+    return $ogtags;
   }
-  
+
   protected function initialise_attributes() {
     parent::initializeAttributes();
     $this->attributes['subtype'] = GLOBAL_IZAP_VIDEOS_SUBTYPE;
@@ -96,7 +95,7 @@ class IzapVideos extends IzapObject {
     }
   }
 
-   /**
+  /**
    * used to read the url and process feed
    *
    * @param url $url url of the video site
@@ -250,21 +249,25 @@ class IzapVideos extends IzapObject {
   public function getThumb($pathOnly = false, $attArray = array(), $play_icon = false) {
     global $IZAPSETTINGS;
     $html = '';
-    $imagePath = $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.jpg';
-    if ($pathOnly) {
-      $html = $imagePath;
+    if ($this->videotype == 'youtube') {
+      preg_match("/v=(.+)/", $this->videourl, $matches);
+      $imagePath = "http://i.ytimg.com/vi/{$matches[1]}/0.jpg";
     } else {
-      $attString = '';
-      if (count($attArray) > 0) {
-        foreach ($attArray as $att => $value) {
-          $attString .= ' ' . $att . '="' . $value . '" ';
-        }
-      }
-      $html = '<div style="position: relative; height:' . $att['height'] . 'px;width:' . $att['width'] . 'px;" title="' . $this->title . '">';
-      $html .= '<img src="' . $imagePath . '"  ' . $attString . ' />';
-      $html .= '<span class="izap_play_icon"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" /></span>';
-      $html .= '</div>';
+      $imagePath = $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.jpg';
     }
+    if ($pathOnly) {
+      return $imagePath;
+    }
+    $attString = '';
+    if (count($attArray) > 0) {
+      foreach ($attArray as $att => $value) {
+        $attString .= ' ' . $att . '="' . $value . '" ';
+      }
+    }
+    $html = '<div style="position: relative; height:' . $att['height'] . 'px;width:' . $att['width'] . 'px;" title="' . $this->title . '">';
+    $html .= '<img src="' . $imagePath . '"  ' . $attString . ' />';
+    $html .= '<span class="izap_play_icon"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" /></span>';
+    $html .= '</div>';
 
     return $html;
   }
