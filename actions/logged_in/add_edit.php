@@ -87,7 +87,7 @@ if ($_FILES['attributes']['error']['videoimage'] == 0 && in_array(strtolower(end
   $izap_videos->write($thumb);
 }
 
-c($izap_videos);exit;
+//c($izap_videos);exit;
 if (!$izap_videos->save()) {
   register_error(elgg_echo('izap_videos:error:save'));
   forward(REFERRER);
