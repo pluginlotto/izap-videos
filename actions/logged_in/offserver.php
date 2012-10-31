@@ -10,13 +10,14 @@
  * @link http://www.izap.in/
  * 
  */
-$videoValues = $izap_videos->input($posted_array['videourl'], 'url');
+$videoValues = $izap_videos->input($izap_videos->videourl, 'url');
+
 //echo "dfh;hdsf";c($videoValues);exit;
-if (empty($videoValues->videosrc)) {
-  register_error(elgg_echo('izap_videos:error'));
-  forward(REFERER);
-  exit;
-}
+//if (empty($videoValues->videosrc)) {
+//  register_error(elgg_echo('izap_videos:error'));
+//  forward(REFERER);
+//  exit;
+//}
 if ($posted_array['title'] == '') {
   $izap_videos->title = $videoValues->title;
 }

@@ -62,6 +62,8 @@ if ($izap_videos->isNewRecord()) {  // only include for adding video
       
       $id = get_input('id');
       $izap_videos->videourl = 'http://www.youtube.com/watch?v='.$id;
+//      echo $izap_videos->videourl;
+//      exit;
       //handle youtube video upload when it get back to the same action.
       if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
 	    register_error(elgg_echo('izap_videos:error:notValidUrl'));
