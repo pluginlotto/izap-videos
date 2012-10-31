@@ -58,20 +58,21 @@ if ($izap_videos->isNewRecord()) {  // only include for adding video
       forward(REFERRER);
       break;
     default:
-      $is_status = (get_input('status') == 200)?true:false;
-      $id = get_intput('id');
+      
+      
+      $id = get_input('id');
       $izap_videos->videourl = 'http://www.youtube.com/watch?v='.$id;
       //handle youtube video upload when it get back to the same action.
       if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
-        register_error(elgg_echo('izap_videos:error:notValidUrl'));
-        forward(REFERRER);
-        exit;
+	    register_error(elgg_echo('izap_videos:error:notValidUrl'));
+	    forward(REFERRER);
+	    exit;
       }
+      
       include_once (dirname(__FILE__) . '/offserver.php');
       break;
   }
 }
-
 // if we have the optional image then replace all the previous values
 if ($_FILES['attributes']['error']['videoimage'] == 0 && in_array(strtolower(end(explode('.', $_FILES['attributes']['name']['videoimage']))), array('jpg', 'gif', 'jpeg', 'png'))) {
 
@@ -86,6 +87,7 @@ if ($_FILES['attributes']['error']['videoimage'] == 0 && in_array(strtolower(end
   $izap_videos->write($thumb);
 }
 
+c($izap_videos);exit;
 if (!$izap_videos->save()) {
   register_error(elgg_echo('izap_videos:error:save'));
   forward(REFERRER);

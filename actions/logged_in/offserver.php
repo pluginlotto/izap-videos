@@ -11,6 +11,7 @@
  * 
  */
 $videoValues = $izap_videos->input($posted_array['videourl'], 'url');
+//echo "dfh;hdsf";c($videoValues);exit;
 if (empty($videoValues->videosrc)) {
   register_error(elgg_echo('izap_videos:error'));
   forward(REFERER);

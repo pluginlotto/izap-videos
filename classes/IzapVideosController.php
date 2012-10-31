@@ -186,11 +186,12 @@ class IzapVideosController extends IzapController {
     $this->page_elements['filter'] = '';
     $this->page_elements['title'] = 'Upload video with title: "' . $_SESSION['youtube_attributes']['_title'] . '"';
     $params['token'] = $tokenArray['token'];
-        $params['action'] = $tokenArray['url'] . '?nexturl=' .elgg_add_action_tokens_to_url(elgg_get_site_url().'action/izap-videos/add_edit');
+    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . 'videos/next';
     $this->render('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/youtube_upload', $params);
   }
 
   public function actionNext() {
+
     IzapBase::gatekeeper();
     $is_status = (get_input('status') == 200) ? true : false;
     if (!$is_status) {
@@ -206,10 +207,9 @@ class IzapVideosController extends IzapController {
               )));
       exit;
     }
-    $id = get_intput('id');
+    $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
-
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id.'&p'.$pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id . '&p=' . $pass));
     exit;
   }
 
