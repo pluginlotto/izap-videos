@@ -250,7 +250,10 @@ class IzapVideos extends IzapObject {
     global $IZAPSETTINGS;
     $html = '';
     if ($this->videotype == 'youtube') {
-      preg_match("/v=(.+)/", $this->videourl, $matches);
+      preg_match("/v=(.+)&./", $this->videourl, $matches);
+      if(empty($matches[1])){
+        preg_match("/v=(.+)/", $this->videourl, $matches);
+      }
       $imagePath = "http://i.ytimg.com/vi/{$matches[1]}/0.jpg";
     } else {
       $imagePath = $IZAPSETTINGS->filesPath . 'image/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.jpg';
