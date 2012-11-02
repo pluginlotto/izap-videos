@@ -10,7 +10,6 @@
  *
  */
 
-
 global $IZAPSETTINGS;
 $height = ($vars['height']) ? $vars['height'] : 400;
 $width = ($vars['width']) ? $vars['width'] : 670;
@@ -31,7 +30,7 @@ $raw_video = IzapBase::setHref(
 <div align="center" <?php echo $playerClass;?> class="contentWrapper <?php echo ($vars['video']->converted != 'yes')?'video_background-top-round':'video_background' ?>" style="height: <?php echo $height?>px;">
   <div id="load_video_<?php echo $unique; ?>">
     <div style="height: <?php echo $height;?>px; width: <?php echo $width?>px;">
-      <img src="<?php echo $vars['video']->getOrignalThumb()?>" alt="<?php echo $vars['video']->getTitle();?>" height="<?php echo $height?>" width="<?php echo $width?>"/>
+      <img src="<?php echo $vars['video']->getThumb(true)?>" alt="<?php echo $vars['video']->getTitle();?>" height="<?php echo $height?>" width="<?php echo $width?>"/>
     </div>
     <div style="position: relative; top: -<?php echo $height?>px;z-index: 0;">
       <a href="<?php echo $raw_video ?>" rel="<?php echo $unique?>" class="izap_ajaxed_thumb">
