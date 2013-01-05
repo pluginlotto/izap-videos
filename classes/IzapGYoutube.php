@@ -91,43 +91,45 @@ class IzapGYoutube extends IzapGoogle {
     }
 
     static public function getYoutubeCategories() {
-        $cats = array('Film & Animation',
-            'Autos & Vehicles',
-            'Music',
-            'Pets & Animals',
-            'Sports',
-            'Short Movies',
-            'Travel & Events',
-            'Gaming',
-            'Videoblogging',
-            'People & Blogs',
-            'Comedy',
-            'Entertainment',
-            'News & Politics',
-            'Howto & Style',
-            'Education',
-            'Science & Technology',
-            'Nonprofits & Activism',
-            'Movies',
-            'Anime/Animation',
-            'Action/Adventure',
-            'Classics',
-            'Comedy',
-            'Documentary',
-            'Drama',
-            'Family',
-            'Foreign',
-            'Horror',
-            'Sci-Fi/Fantasy',
-            'Thriller',
-            'Shorts',
-            'Shows',
-            'Trailers');
-        foreach ($cats as $value) {
-            $asso_cats[$value] = $value;
-        }
-        asort($asso_cats);
-        return $asso_cats;
+      
+      
+       $cats = array(
+           'Film' => 'Film & Animation',
+           'Autos' => 'Autos',
+           'Music' =>  'Music',
+            'Animals'=>'Pets & Animals',
+            'Sports' => 'Sports',
+            'Shortmov'=>'Short Movies',
+            'Travel'=>'Travel & Events',
+            'Games'=>'Gaming',
+            'Videoblog'=>'Videoblogging',
+            'Comedy'=>'Comedy',
+            'Entertainment'=>'Entertainment',
+            'News'=>'News & Politics',
+            'Howto'=>'Howto & Style',
+            'Education'=>'Education',
+            'Tech'=>'Science & Technology',
+            'Nonprofit'=>'Nonprofits & Activism',
+            'Movies'=>'Movies',
+            'Movies_anime_animation'=>'Anime/Animation',
+            'Movies_action_adventurte'=>'Action/Adventure',
+            'Movies_classics'=>'Classics',
+            'Movies_comedy'=>'Comedy',
+            'Movies_documentary'=>'Documentary',
+            'Movies_drama'=>'Drama',
+            'Movies_family'=>'Family',
+            'Movies_foreign'=>'Foreign',
+            'Movies_horror'=>'Horror',
+            'Movies_sci_fi_fantasy'=>'Sci-Fi/Fantasy',
+            'Movies_thriller'=>'Thriller',
+            'Movies_shorts'=>'Shorts',
+            'Shows'=>'Shows',
+            'Trailers'=>'Trailers');
+       
+     
+        asort($cats);
+        return $cats;
     }
 
 }
+
