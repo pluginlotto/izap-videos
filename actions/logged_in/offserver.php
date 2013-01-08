@@ -10,6 +10,14 @@
  * @link http://www.izap.in/
  * 
  */
+
+if (IzapBase::pluginSetting(array(
+                'name' => 'izap_api_key',
+                'plugin' => GLOBAL_IZAP_ELGG_BRIDGE,
+            )) == '') {
+      register_error('Register API Key for izap-elgg-bridge');
+      forward(REFERER);
+    }
 $videoValues = $izap_videos->input($izap_videos->videourl, 'url');
 
 //echo "dfh;hdsf";c($videoValues);exit;

@@ -119,7 +119,7 @@ function izap_videos_init() {
   elgg_register_plugin_hook_handler('get_views', 'ecml', 'izap_ecml_views_hook_izap_videos');
 
   // finally add plugin in search list
-  register_entity_type('object', GLOBAL_IZAP_VIDEOS_SUBTYPE);
+  elgg_register_entity_type('object', GLOBAL_IZAP_VIDEOS_SUBTYPE);
   elgg_extend_view('index/righthandside', GLOBAL_IZAP_VIDEOS_PLUGIN . '/index_widget');
 }
 
