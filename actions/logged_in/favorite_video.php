@@ -14,7 +14,7 @@ IzapBase::loadLib(array(
   'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
   'lib' => 'izap_videos_lib'
 ));
-$user_guid = get_loggedin_userid();
+$user_guid = elgg_get_logged_in_user_guid();
 $video = get_entity(get_input('guid', 0));
 
 if(get_input('izap_action', FALSE) == 'remove'){
