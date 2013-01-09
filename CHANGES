@@ -1,9 +1,14 @@
 ### Version 4.2.0b
 
 #### Enhancements:
-1. Integration of YouTube API.
-2. Enhancements of YouTube categories.
-3. Screen Shots has been added for step to step explanation.
+1. Youtube Developer API Key for uplaod video.
+2. Upload videos on your youtube channel.
+3. Facebook open graph objects.
+
+
+#### Bug fixes:
+1. Removal of Deprecated function.
+
 
 ### Version 4.1.3b
 
