@@ -401,13 +401,15 @@ class IzapVideos extends IzapObject {
       $total_tags = count($tags);
       $per_tag_limit = (int) ((int) $max_limit / (int) $total_tags);
       $per_tag_limit = ($per_tag_limit) ? $per_tag_limit + 1 : 1;
-      foreach ($tags as $tag) {
-        if ((real) get_version(true) <= 1.6) {
-          $entities[] = get_entities_from_metadata('tags', $tag, $options['type'], $options['subtype'], 0, $per_tag_limit);
-        } else {
-          $options['metadata_name'] = 'tags';
-          $options['metadata_value'] = $tag;
-          $entities[] = elgg_get_entities_from_metadata($options);
+      if(count($tags)){
+        foreach ($tags as $tag) {
+          if ((real) get_version(true) <= 1.6) {
+            $entities[] = get_entities_from_metadata('tags', $tag, $options['type'], $options['subtype'], 0, $per_tag_limit);
+          } else {
+            $options['metadata_name'] = 'tags';
+            $options['metadata_value'] = $tag;
+            $entities[] = elgg_get_entities_from_metadata($options);
+          }
         }
       }
     }
@@ -422,7 +424,7 @@ class IzapVideos extends IzapObject {
       }
     }
 
-    $return = array_chunk($return, $max_limit);
+    $return = array_chunk((array)$return, $max_limit);
     return $return[0];
   }
 
