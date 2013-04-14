@@ -94,13 +94,20 @@ function izap_videos_init() {
         $group_page_owner = 'group:' . $matches[1];
       }
     }
+    
+    if(preg_match('/yes|youtube/',izap_is_onserver_enabled_izap_videos(),$matches)){
+      $video_context = $matches[0]=='yes'?'onserver':'youtube';
+    }elseif(izap_is_offserver_enabled_izap_videos() == 'yes'){
+      $video_context = 'offserver';
+    }
+    
     elgg_register_menu_item('topbar', array(
       'name' => 'video_top_bar',
       'href' => IzapBase::setHref(array(
                 'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
                 'action' => 'add',
                 'page_owner' => ($group_page_owner) ? $group_page_owner : elgg_get_logged_in_user_entity()->username,
-                'vars' => array('tab' => (izap_is_onserver_enabled_izap_videos() == 'yes')?'onserver':'youtube'),
+                'vars' => array('tab' => $video_context),
             )),
       'title' => elgg_echo('izap_videos:uploadVideo'),
       'text' => '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/upload_video.png" />',
@@ -230,7 +237,7 @@ function izap_topbar_video_add_icon() {
         'name' => 'topbar_extend_izap_videos'
       ));
 
-  if (elgg_is_logged_in() && izap_is_onserver_enabled_izap_videos() && $admin_setting !== 'no') {
+  if (elgg_is_logged_in() && (izap_is_onserver_enabled_izap_videos() || izap_is_offserver_enabled_izap_videos()) && $admin_setting === 'yes') {
     return TRUE;
   }
 

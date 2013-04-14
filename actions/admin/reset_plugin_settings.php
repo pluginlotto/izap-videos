@@ -9,8 +9,9 @@
  * @link http://www.izap.in/
  *
  */
-
-if(elgg_unset_all_plugin_settings(GLOBAL_IZAP_VIDEOS_PLUGIN)) {
+$plugin = elgg_get_plugin_from_id(GLOBAL_IZAP_VIDEOS_PLUGIN);
+$izap_plugin = new IzapPluginSettings();
+if($izap_plugin->unsetAllSettings(&$plugin)) {
   system_message(elgg_echo('izap_videos:success:adminSettingsReset'));
 }else {
   register_error(elgg_echo('izap_videos:error:adminSettingsReset'));

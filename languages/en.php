@@ -214,7 +214,8 @@ $english = array(
     'izap-videos:message:noAddFeatureInGroup' => 'You are not allowed to add video in "%s" group.',
     'izap-videos:adminSettings:general_settings' => 'General settings',
     //izap-videos-help
-    'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos'
+    'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos',
+    'izap_videos:success:adminSettingsReset' => 'All settings have been reset to default.'
 );
 
 add_translation('en', $english);
