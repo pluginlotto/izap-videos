@@ -209,7 +209,7 @@ $english = array(
     'izap-videos:adminSettings:youtube-server' => 'Activate youtube channel to handle uploaded videos.',
     'izap-videos:adminSettings:youtubeDeveloperKey' => 'Youtube Developer Key (Create one here: <a href="http://code.google.com/apis/youtube/dashboard/">Create Yourtube Developer Key</a>)',
     'izap-videos:adminSettings:enable' => 'Yes',
-    'izap-videos:adminSettings:disable' => 'No',
+    'izap-videos:adminSettings:disable' => 'Disable on server.',
     'izap-videos:message:noAddFeature' => 'Add feature is disabled. Contact administrator.',
     'izap-videos:message:noAddFeatureInGroup' => 'You are not allowed to add video in "%s" group.',
     'izap-videos:adminSettings:general_settings' => 'General settings',
