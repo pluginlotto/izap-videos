@@ -181,30 +181,95 @@ echo elgg_view('output/confirmlink', array(
           ?>
         </label>
       </p>
-     
+
+      <p>
+        <?php
+        echo '<label>'.elgg_echo('izap_videos:adminSettings:izapTopBarWidget').'</label>';
+        echo elgg_view('input/radio', array(
+        'name' => 'params[topbar_extend_izap_videos]',
+        'align' => 'horizontal',
+        'value' => IzapBase::pluginSetting(array(
+        'name' => 'topbar_extend_izap_videos',
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+        'value' => 'yes'
+        )),
+        'options' => array(
+                elgg_echo('izap-bridge:yes') => 'yes',
+                elgg_echo('izap-bridge:no') => 'no',
+        ),
+        ));
+        ?>
+      </p>
   </fieldset>
 
 <fieldset  class ="izap_admin_fieldset">
     <legend><?php echo elgg_echo('izap_videos:adminSettings:offServerVideos'); ?></legend>
-    
-      <p>
+    <p>
     <?php
-    echo elgg_view('input/dropdown', array(
-	'name' => 'params[offserver_enabled_izap_videos]',
-	'options_values' => array(
-		'no' => elgg_echo('option:no'),
-		'yes' => elgg_echo('option:yes')
-	),
-	'value' => IzapBase::pluginSetting(array(
-            'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-            'name' => 'offserver_enabled_izap_videos',
-            'yes'
-        )),
-));
+    echo elgg_view('input/radio', array(
+    'name' => 'params[offserver_enabled_izap_videos]',
+    'value' => IzapBase::pluginSetting(
+            array(
+              'name' => 'offserver_enabled_izap_videos',
+              'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+              'value' => 'yes'
+            )),
+    'options' => array(
+            elgg_echo('izap-videos:adminSettings:enable') => 'yes',
+            elgg_echo('izap-videos:adminSettings:disable') => 'no',
+    ),
+    ));
     ?>
-  </p>
+    </p>
   </fieldset>
 
+  <fieldset class ="izap_admin_fieldset">
+    <legend><?php echo elgg_echo('izap-videos:adminSettings:sharing_settings'); ?></legend>
+
+     <p>
+      <label><?php echo elgg_echo('izap_videos:adminSettings:izap_enable_socialnetworks');?></label>
+      <?php
+      echo elgg_view('input/radio', array(
+      'name' => 'params[izap_enable_socialnetworks]',
+      'align' => 'horizontal',
+      'options' => array(
+            elgg_echo('izap-bridge:yes') => 'yes',
+            elgg_echo('izap-bridge:no') => 'no',
+      ),
+      'value' => izapAdminSettings_izap_videos('izap_enable_socialnetworks', 'yes'),
+      ));
+      ?>
+  </p>
+	<p>
+      <label><?php echo elgg_echo('izap_videos:adminSettings:izap_enable_favorite');?></label>
+      <?php
+      echo elgg_view('input/radio', array(
+      'name' => 'params[izap_enable_favorite]',
+      'align' => 'horizontal',
+      'options' => array(
+            elgg_echo('izap-bridge:yes') => 'yes',
+            elgg_echo('izap-bridge:no') => 'no',
+      ),
+      'value' => izapAdminSettings_izap_videos('izap_enable_favorite', 'yes'),
+      ));
+      ?>
+  </p>
+	<p>
+      <label><?php echo elgg_echo('izap_videos:adminSettings:izap_enable_embedcode');?></label>
+      <?php
+      echo elgg_view('input/radio', array(
+      'name' => 'params[izap_enable_embedcode]',
+      'align' => 'horizontal',
+      'options' => array(
+            elgg_echo('izap-bridge:yes') => 'yes',
+            elgg_echo('izap-bridge:no') => 'no',
+      ),
+      'value' => izapAdminSettings_izap_videos('izap_enable_embedcode', 'yes'),
+      ));
+      ?>
+  </p>
+  </fieldset>
+  
   <fieldset class ="izap_admin_fieldset">
     <legend><?php echo elgg_echo('izap-videos:adminSettings:general_settings'); ?></legend>
 
@@ -223,59 +288,44 @@ echo elgg_view('output/confirmlink', array(
       ?>
   </p>
 
-  
-   <p>
-    <label><?php echo elgg_echo('izap_videos:adminSettings:izapKeepOriginal'); ?></label>
+    <p>
     <?php
-    echo elgg_view('input/dropdown', array(
-	'name' => 'params[izapKeepOriginal]',
-	'options_values' => array(
-		'no' => elgg_echo('option:no'),
-		'yes' => elgg_echo('option:yes')
-	),
-	'value' => IzapBase::pluginSetting(array(
-            'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-            'name' => 'izapKeepOriginal',
-            'yes'
-        )),
-));
+    echo  '<label>'.elgg_echo('izap_videos:adminSettings:izapKeepOriginal').'</label>';
+    echo elgg_view('input/radio', array(
+    'name' => 'params[izapKeepOriginal]',
+    'align' => 'horizontal',
+    'value' => IzapBase::pluginSetting(
+            array(
+                  'name' => 'izapKeepOriginal',
+                  'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+                  'value' => 'yes'
+                )),
+    'options' => array(
+            elgg_echo('izap-bridge:yes') => 'yes',
+            elgg_echo('izap-bridge:no') => 'no',
+    ),
+    ));
     ?>
   </p>
- 
-  <p>
-      <label><?php echo elgg_echo('izap_videos:adminSettings:tagcloud_cateogries'); ?></label>
+    <p>
     <?php
-    echo elgg_view('input/dropdown', array(
-	'name' => 'params[izapTagCloud_categories]',
-	'options_values' => array(
-		'no' => elgg_echo('option:no'),
-		'yes' => elgg_echo('option:yes')
-	),
-	'value' => IzapBase::pluginSetting(array(
-            'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-            'name' => 'izapTagCloud_categories',
-            'yes'
-        )),
-));
+    echo '<label>'.elgg_echo('izap_videos:adminSettings:tagcloud_cateogries').'</label>';
+    echo elgg_view('input/radio', array(
+    'name' => 'params[izapTagCloud_categories]',
+    'align' => 'horizontal',
+    'value' => IzapBase::pluginSetting(
+            array(
+                'name' => 'izapTagCloud_categories',
+                'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+                'value' => 'yes'
+                )),
+    'options' => array(
+            elgg_echo('izap-bridge:yes') => 'yes',
+            elgg_echo('izap-bridge:no') => 'no',
+    ),
+    ));
     ?>
-  </p>
-     <p>
-    <label><?php echo elgg_echo('izap_videos:adminSettings:izapTopBarWidget'); ?></label>
-    <?php
-    echo elgg_view('input/dropdown', array(
-	'name' => 'params[topbar_extend_izap_videos]',
-	'options_values' => array(
-		'no' => elgg_echo('option:no'),
-		'yes' => elgg_echo('option:yes')
-	),
-	'value' => IzapBase::pluginSetting(array(
-            'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-            'name' => 'topbar_extend_izap_videos',
-            'yes'
-        )),
-));
-    ?>
-  </p>
+    </p>
   </fieldset>
 <script type="text/javascript">
   $(document).ready(function(){
