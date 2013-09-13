@@ -21,6 +21,7 @@ $fav_action = IzapBase::getFormAction('favorite_video', GLOBAL_IZAP_VIDEOS_PLUGI
 <div id="videoSrc">
   <br />
   <div>
+  <?php if (izapAdminSettings_izap_videos('izap_enable_socialnetworks')=='yes') {?>
     <img src="<?php echo $iconPath ?>facebook.png" alt="Facebook">
     <a href="http://www.facebook.com/share.php?u=<?php echo $url; ?>" target="_blank">
       Facebook
@@ -41,7 +42,9 @@ $fav_action = IzapBase::getFormAction('favorite_video', GLOBAL_IZAP_VIDEOS_PLUGI
       Linkedin
     </a>
     <br />
+    <?php } ?>
 <?php
+if (izapAdminSettings_izap_videos('izap_enable_favorite') == 'yes') {
 if ($vars['video']->converted == 'yes') {
   if (izap_is_my_favorited($vars['video'])) {
 ?>
@@ -59,15 +62,16 @@ if ($vars['video']->converted == 'yes') {
       <?php
     }
   }
+}
       ?>
-
+<?php if (izapAdminSettings_izap_videos('izap_enable_embedcode') == 'yes') {?>
     <div>
       <div class="embed_text">
 <?php echo elgg_echo('izap_videos:embed_text'); ?>
       </div>
         <?php echo $embed ?>
     </div>
-
+<?php } ?>
     <div class="clearflaot"></div>
   </div>
 </div>
