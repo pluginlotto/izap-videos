@@ -22,6 +22,7 @@ $english = array(
     'izap-videos:videos_group' => 'Group videos',
     'item:object:izap_videos' => 'Videos',
     'izap-videos:none' => 'No videos have been added yet.',
+	'izap-videos:tags' => 'Tags',
     //river
     'river:created:object:izap_videos' => '%s created a video %s',
     'river:updated:object:izap_videos' => '%s updated a video %s',
@@ -182,6 +183,10 @@ $english = array(
     'size' => 'Size: ',
     'izap-videos:do-not-refresh' => 'Do not refresh the page.',
     'izap_videos:noDescription' => 'No Description Available',
+	'izap-videos:adminSettings:sharing_settings' => 'Sharing Settings',
+	'izap_videos:adminSettings:izap_enable_socialnetworks' => 'Enable sharing with social networks',
+	'izap_videos:adminSettings:izap_enable_favorite' => 'Enable adding to favorites',
+	'izap_videos:adminSettings:izap_enable_embedcode' => 'Enable embeding code',
     //info messages
     'izap_videos:adminSettings:info:convert-command' => 'Optimized command: /path/of/ffmpeg -y -i [inputVideoPath] -vcodec libx264 -vpre hq  -b 300k  -bt 300k  -acodec libfaac  -ar 22050  -ab 48k [outputVideoPath]',
     'izap_videos:adminSettings:info:bg-color' => 'Give hex value of color without # eg. #FFFFFF is white. You will put "FFFFFF" ',
@@ -209,13 +214,12 @@ $english = array(
     'izap-videos:adminSettings:youtube-server' => 'Activate youtube channel to handle uploaded videos.',
     'izap-videos:adminSettings:youtubeDeveloperKey' => 'Youtube Developer Key (Create one here: <a href="http://code.google.com/apis/youtube/dashboard/">Create Yourtube Developer Key</a>)',
     'izap-videos:adminSettings:enable' => 'Yes',
-    'izap-videos:adminSettings:disable' => 'Disable on server.',
+    'izap-videos:adminSettings:disable' => 'No',
     'izap-videos:message:noAddFeature' => 'Add feature is disabled. Contact administrator.',
     'izap-videos:message:noAddFeatureInGroup' => 'You are not allowed to add video in "%s" group.',
     'izap-videos:adminSettings:general_settings' => 'General settings',
     //izap-videos-help
-    'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos',
-    'izap_videos:success:adminSettingsReset' => 'All settings have been reset to default.'
+    'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos'
 );
 
 add_translation('en', $english);
