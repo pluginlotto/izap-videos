@@ -41,7 +41,6 @@ if($video->videotype == 'uploaded') {
   izapCopyFiles_izap_videos($video->owner_guid, $video->orignalfile);
 }
 
-c($newVideo);exit;
 if($newVideo->save()) {
   system_message(elgg_echo('izap_videos:success:videoCopied'));
   forward($newVideo->getURL());

@@ -285,6 +285,7 @@ class IzapVideosController extends IzapController {
   }
 
   public function actionPlay() {
+      
     $video = get_entity((int) $this->url_vars[2]);
     if (!elgg_instanceof($video, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
       forward(IzapBase::setHref(array(

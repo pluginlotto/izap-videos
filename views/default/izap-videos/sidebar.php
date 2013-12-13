@@ -11,24 +11,25 @@
  * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
-
 $link_addr = '';
-echo elgg_view('output/izap_categories',array('plugin_id' => $vars['entity'],'subtype' =>GLOBAL_IZAP_VIDEOS_SUBTYPE));
- 
-   $tags = elgg_view_tagcloud(array(
-        'type' => 'object',
-        'subtype' =>GLOBAL_IZAP_VIDEOS_SUBTYPE,
-        'limit' => 50
-    ));
-   if($tags){ ?>
+echo elgg_view('output/izap_categories', array('plugin_id' => $vars['entity'], 'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE));
+
+$tags = elgg_view_tagcloud(array(
+    'type' => 'object',
+    'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+    'limit' => 50
+        ));
+if ($tags) {
+  ?>
 
 
-<div class="elgg-module  elgg-module-aside">
+  <div class="elgg-module  elgg-module-aside">
     <div class="elgg-head">
-        <h3>Tags</h3></div>
+      <h3>Tags</h3></div>
     <div class="elgg-body">
-      <?php  echo $tags ?>
+      <?php echo $tags ?>
     </div>
-</div>
+  </div>
 
-<?php }?>
+  <?php
+}?>
