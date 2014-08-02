@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
+	<name>Izap Videos</name>
+	<id>izap-videos</id>
+	<author>iZAP Team</author>
+	<version>1.9</version>
+	<category>bundled</category>
+	<category>content</category>
+	<category>widget</category>
+	<description>You can host your own videos, You can host videos on YouTube (API has been integrated). You can embed videos from multiple vendors at once.</description>
+	<website>http://www.pluginlotto.com/store</website>
+	<copyright>(C) iZAP Web Solutions</copyright>
+	<license>GNU General Public License version 2</license>
+	<requires>
+		<type>elgg_release</type>
+		<version>1.9</version>
+	</requires>
+	<activate_on_install>true</activate_on_install>
+</plugin_manifest>

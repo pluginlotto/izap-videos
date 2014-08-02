@@ -1,0 +1,7 @@
+<phpunit>
+    <testsuites>
+        <testsuite name="izap_video unit tests">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

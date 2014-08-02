@@ -1,0 +1,42 @@
+# Installation
+
+
+1. Download compressed plugin from [Pluginlotto.com](http://www.pluginlotto.com)
+2. Uncompress downloaded file and move it to "mod" directory with the name "izap-video".
+3. Resolve all dependencies and click on "Activate" button.
+4. Go to izap-videos plugin settings from admin panel and Click on Save once to save all settings.
+5. To Activate "Off Server" feature, Go to "http://www.pluginlotto.com/api/index/". You will be asked to put your hostname and click register to register your key.
+
+### Discussion thread
+[Discussion thread for izap-videos 4.1b](http://www.pluginlotto.com/forum/discussion/tarun/7558/izapversion-41b-thread)
+
+### Download compatible izap-elgg-bridge 2.1
+[izap-elgg-bridge 2.1](http://www.pluginlotto.com/store/product/tarun/7551/izapelggbridge-21)
+
+## Minimum System requirements(we tested on):
+
+   1. *nix/windows based system.
+   2. Elgg platform 1.8.
+   3. izap-elgg-bridge version 2.1.
+   4. FFMPEG installed on your system.
+   5. CURL must be compiled with your PHP.
+   6. PDO_sqlite drivers.
+
+## Server settings for large videos of 200Mb
+
+Suppose we want to setup izap_videos for a 200Mb video. Follow me step by step. I think, this would increase the successful installation rate.
+
+1. Install elgg 1.8 and install izap-elgg-bridge 2.1 and izap-videos 4.1b or greater. You can find izap-elgg-bridge 2.1 at [izap-elgg-bridge 2.1](http://www.pluginlotto.com/store/product/tarun/7551/izapelggbridge-21]).
+2. Locate izap-videos plugin from admin panel and click on "more info" link to find out if all dependencies are fine.
+3. Now let's set it up for 200 Mb videos. Click on "Settings" tab and change "Enter max file size (in Mb.)" to 200.
+4. Now edit ".htaccess" file. You can find it in root path of your elgg installation. And find "php_value" you will be redirected to section we need to update. Set values as follows:
+  * php_value memory_limit 200M
+  * php_value register_globals 0
+  * php_value post_ max_size 200M
+  * php_value upload_max_filesize 200M
+  * php_value display_errors 0
+  * php_value max_execution_time 0
+  * php_value max_input_time 0
+5. Ok so we have done. Here on my machine, every thing is working fine. I just uploaded 146Mb video. and queue is working to encode it to .flv
+
+> Be sure you have been registered with our API to activate "Off Server" feature. See [API Registration Instructions](/admin_plugin_text_file/izap-elgg-bridge/INSTALL.txt)
