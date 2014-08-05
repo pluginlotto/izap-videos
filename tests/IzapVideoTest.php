@@ -1,18 +1,23 @@
 <?php
 
-/* * ************************************************
- * PluginLotto.com                                 *
- * Copyrights (c) 2005-2010. iZAP                  *
- * All rights reserved                             *
- * **************************************************
- * @author iZAP Team "<support@izap.in>"
- * @link http://www.izap.in/
- * Under this agreement, No one has rights to sell this script further.
- * For more information. Contact "Tarun Jangra<tarun@izap.in>"
- * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
- * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
+/*
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
- class IzapVideoTest extends PHPUnit_Framework_TestCase {
+ 
+class IzapVideoTest extends PHPUnit_Framework_TestCase {
 
   protected function setUp() {
     // required by ElggEntity when setting the owner/container
