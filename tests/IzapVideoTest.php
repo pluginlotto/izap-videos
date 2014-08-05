@@ -12,10 +12,6 @@
  * For discussion about corresponding plugins, visit http://www.pluginlotto.com/pg/forums/
  * Follow us on http://facebook.com/PluginLotto and http://twitter.com/PluginLotto
  */
-include __DIR__ . '/../classes/IzapFile.php';
-include __DIR__ . '/../classes/IzapObject.php';
-include __DIR__ . '/../classes/IzapVideo.php';
-
  class IzapVideoTest extends PHPUnit_Framework_TestCase {
 
   protected function setUp() {

@@ -19,14 +19,20 @@
 
 class IzapVideo extends IzapFile {
 
- 
   /**
    * 
    * @param type $file_path input path for ffmpeg processing
    */
   public function processOnserverVideo($file_path) {
     
-    $form_attributes = array('title' => '');
+    $form_attributes = array('title' => array(),
+        'description' => array(),
+        'video_url' => array(),
+        'video_type' => array(),
+        'video_process' => array(),
+        'container_guid' => array(),
+        'tags' => array(),
+        'comments_on' => array());
   }
 
 }
