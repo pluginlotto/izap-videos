@@ -32,6 +32,8 @@ function izap_video_init() {
 
   //register page handler for particular identifier
   elgg_register_page_handler('izap-videos', 'izap_video_page_handler');
+  
+  elgg_register_entity_type('object', 'izap_video');
 
   //register menu item and set default path to all videos
   $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), 'izap-videos/all');
@@ -126,6 +128,6 @@ function izap_video_page_handler($page) {
  * @return string
  */
 function izap_video_unit_tests($hook, $type, $value, $params) {
-  $path[] = dirname(__FILE__) . '/tests/izapVideoUnitTest.php';
+  $path[] = dirname(__FILE__) . '/tests/IzapVideoTest.php';
   return $path;
 }

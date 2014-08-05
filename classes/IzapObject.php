@@ -22,4 +22,10 @@
  */
 class IzapObject extends ElggObject {
     //put your code here
+  
+   public function initializeAttributes() {
+    parent::initializeAttributes();
+    $this->attributes['subtype'] = 'izap_video';
+  }
+
 }

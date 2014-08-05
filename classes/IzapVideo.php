@@ -16,6 +16,17 @@
  *    You should have received a copy of the GNU General Public License
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
-class IzapVideo extends IzapObject{
+
+class IzapVideo extends IzapFile {
+
+ 
+  /**
+   * 
+   * @param type $file_path input path for ffmpeg processing
+   */
+  public function processOnserverVideo($file_path) {
     
+    $form_attributes = array('title' => '');
+  }
+
 }

@@ -16,7 +16,7 @@
 ## Minimum System requirements(we tested on):
 
    1. *nix/windows based system.
-   2. Elgg platform 1.8.
+   2. Elgg platform 1.9.
    3. izap-elgg-bridge version 2.1.
    4. FFMPEG installed on your system.
    5. CURL must be compiled with your PHP.
@@ -26,7 +26,7 @@
 
 Suppose we want to setup izap_videos for a 200Mb video. Follow me step by step. I think, this would increase the successful installation rate.
 
-1. Install elgg 1.8 and install izap-elgg-bridge 2.1 and izap-videos 4.1b or greater. You can find izap-elgg-bridge 2.1 at [izap-elgg-bridge 2.1](http://www.pluginlotto.com/store/product/tarun/7551/izapelggbridge-21]).
+1. Install elgg 1.9 and install izap-elgg-bridge 2.1 and izap-videos 4.1b or greater. You can find izap-elgg-bridge 2.1 at [izap-elgg-bridge 2.1](http://www.pluginlotto.com/store/product/tarun/7551/izapelggbridge-21]).
 2. Locate izap-videos plugin from admin panel and click on "more info" link to find out if all dependencies are fine.
 3. Now let's set it up for 200 Mb videos. Click on "Settings" tab and change "Enter max file size (in Mb.)" to 200.
 4. Now edit ".htaccess" file. You can find it in root path of your elgg installation. And find "php_value" you will be redirected to section we need to update. Set values as follows:

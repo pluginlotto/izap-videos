@@ -1,4 +1,5 @@
 <?php
+
 /*
  *    This file is part of izap-videos plugin for Elgg.
  *
@@ -16,19 +17,9 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * iZAP izap-video php unit test
- * class izap video unit test
- */
-class IzapVideoUnitTest extends PHPUnit_Framework_TestCase {
-
-  public function testForm() {
-    $data_array = array('title' => '',
-        'description' => '');
-    $this->assertEquals($data_array, $posted_data = array('title' => '', 'description' => ''));
-  }
+class IzapFile extends ElggObject {
   
-  public function testConnetion(){
-   
+  public function __construct(){
+    parent::save();
   }
 }

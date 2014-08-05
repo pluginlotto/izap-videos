@@ -1,4 +1,4 @@
-<phpunit>
+<phpunit bootstrap = 'bootstrap.php'>
     <testsuites>
         <testsuite name="izap_video unit tests">
             <directory>./tests/</directory>
