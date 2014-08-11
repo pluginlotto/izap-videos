@@ -16,6 +16,7 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
 elgg_register_event_handler('init', 'system', 'izap_video_init');
 
 /**

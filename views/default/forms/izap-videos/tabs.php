@@ -17,17 +17,17 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class IzapFile extends ElggFile {
-  
-  protected function initializeAttributes() {
-    parent::initializeAttributes();
-    $this->attributes['subtype'] = 'izap_video';
-  }
-  
-  public function __construct($guid = null) {
-		parent::__construct($guid);
-   // $this->setFilename();
-    
-	}
+$get_type =  end(explode('/',$_SERVER["REQUEST_URI"])); 
+$tabs['onserver'] = array(
+    'title' => elgg_echo('izap-videos:onserver'),
+    'url' => "izap-videos/add/" . elgg_get_logged_in_user_guid(),
+    'selected' => ($get_type == elgg_get_logged_in_user_guid()),
+);
 
-}
+$tabs['offserver'] = array(
+    'title' => elgg_echo('izap-videos:offserver'),
+    'url' => 'izap-videos/add/' . elgg_get_logged_in_user_guid() . '/offserver',
+    'selected' => ($get_type == 'offserver')
+);
+
+echo elgg_view('navigation/tabs', array('tabs' => $tabs));

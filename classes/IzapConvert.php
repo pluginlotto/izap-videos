@@ -17,17 +17,6 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class IzapFile extends ElggFile {
+class IzapConvert {
   
-  protected function initializeAttributes() {
-    parent::initializeAttributes();
-    $this->attributes['subtype'] = 'izap_video';
-  }
-  
-  public function __construct($guid = null) {
-		parent::__construct($guid);
-   // $this->setFilename();
-    
-	}
-
 }
