@@ -22,7 +22,16 @@
  * @param type $container_guid
  */
 function izap_video_get_page_content_list($container_guid = NULL) {
-  elgg_register_title_button() ;
+ // elgg_register_title_button() ;
+  $title = 'Add New Video';
+  $url = GLOBAL_IZAP_VIDEOS_PLUGIN .'/add/';
+  $url .= elgg_get_logged_in_user_guid() . '/onserver';
+   elgg_register_menu_item('title', array(
+              'name' => elgg_get_friendly_title($title),
+              'href' => $url,
+              'text' => $title,
+              'link_class' => 'elgg-button elgg-button-action',
+      ));
 }
 
 /**

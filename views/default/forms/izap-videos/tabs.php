@@ -17,11 +17,11 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$get_type =  end(explode('/',$_SERVER["REQUEST_URI"])); 
+$get_type =  end(explode('/',current_page_url()));  
 $tabs['onserver'] = array(
     'title' => elgg_echo('izap-videos:onserver'),
-    'url' => "izap-videos/add/" . elgg_get_logged_in_user_guid(),
-    'selected' => ($get_type == elgg_get_logged_in_user_guid()),
+    'url' => "izap-videos/add/" . elgg_get_logged_in_user_guid() . '/onserver',
+    'selected' => ($get_type == 'onserver'),
 );
 
 $tabs['offserver'] = array(
