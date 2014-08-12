@@ -100,7 +100,7 @@ function izap_video_page_handler($page) {
       $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
       break;
     //view all iZAP izap-videos
-    case 'all':
+    case 'all': 
       $params = izap_video_get_page_content_list();
       break;
     default:

@@ -19,7 +19,6 @@
 /**
  * izap-video add new video form
  */
-
 echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
 
 $title = elgg_extract('title', $vars, '');
@@ -41,30 +40,35 @@ if ($guid) {
 }
 ?>
 
-
-<div>
-  <label><?php echo elgg_echo('video_url'); ?></label>
+<?php
+$current_url = current_page_url();
+$upload_type = end(explode('/', $current_url));
+if ($upload_type == 'offserver') { ?>
+  <div>
+    <label><?php echo elgg_echo('video_url'); ?></label>
   <?php echo elgg_view('input/text', array('name' => 'video_url', 'value' => $video_url)); ?>
-</div>
+  </div>
+<?php } else { ?>
 
 <div>
-  <label><?php echo elgg_echo('thumbnail'); ?></label><br />
-  <?php echo elgg_view('input/file', array('name' => 'upload')); ?>
+  <label><?php echo elgg_echo('izap-videos:upload video'); ?></label><br />
+  <?php echo elgg_view('input/file',array('name' => 'upload_video')); ?>
 </div>
+<?php } ?>
 
 <div>
   <label><?php echo elgg_echo('title'); ?></label><br />
-  <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+<?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
 </div>
 
 <div>
   <label><?php echo elgg_echo('description'); ?></label>
-  <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+<?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
 </div>
 
 <div>
   <label><?php echo elgg_echo('tags'); ?></label>
-  <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
+<?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
 </div>
 <?php
 $categories = elgg_view('input/categories', $vars);
@@ -84,9 +88,7 @@ if ($categories) {
     echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $guid));
   }
 
+  echo elgg_view('input/hidden',array('name' => 'page_url' , 'value' => $current_url));
   echo elgg_view('input/submit', array('value' => $submit_label));
   ?>
 </div>
-
-
-  

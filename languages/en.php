@@ -21,6 +21,16 @@
  */
 $english = array(
     'izap-videos' => 'All Site Videos',  
+    'izap-videos:upload video' => 'Upload Video',
+    'izap-videos_videourl:save:failed' => 'Enter Video Url',
+    'izap-videos_uploadVideo:save:failed' => 'Select Video to Upload',
+    'izap-videos_invalidvideourl:save:failed' => 'Invalid Video Url',
+    'izap-videos_title:save:failed' => 'Enter Title',
+    'izap-videos_description:save:failed' => 'Enter Description',
+    'izap-videos_invalidformat:save:failed' => 'Video Format not supported',
+    'izap-videos:Save:success' => 'Video Saved',
+    'izap-videos:title:all_videos' => 'All Site Videos',
+    'izap-videos:title:user_videos' => 'All Site Videos',
     'izap_video:Video' => 'Videos',
     'izap_videos:add' => 'Add New Video',
     'izap-videos:add' => 'Add New Video',
@@ -40,8 +50,8 @@ $english = array(
     'river:comment:object:izap_videos' => '%s commented on the video %s',
     // General
     'izap-videos:all_videos' => 'All site videos',
-    'izap-videos:offserver' => 'Embed videos ',
-    'izap-videos:onserver' => 'Upload videos',
+    'izap-videos:offserver' => 'Offserver Video',
+    'izap-videos:onserver' => 'Onserver Video',
     'izap-videos:owner_videos' => '%s\'s videos',
     'izap-videos:my_videos' => 'My videos',
     'izap-videos:friends_videos' => '%s\'s friends videos',

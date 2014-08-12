@@ -17,6 +17,9 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+//maintain input field values if saving fails
+elgg_make_sticky_form('izap_videos');
+
 $title = htmlspecialchars(get_input('title', '', false), ENT_QUOTES, 'UTF-8');
 $description = get_input("description");
 $access_id = (int) get_input("access_id");
@@ -24,12 +27,38 @@ $container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid
 $guid = (int) get_input('guid');
 $tags = get_input("tags");
 $video_url = get_input("video_url");
+$page_url = end(explode('/', get_input('page_url')));
 
-elgg_make_sticky_form('izap_videos');
+//check video url exist in case of offserver
+if ($page_url == 'offserver') {
+  if (!$video_url) {
+    register_error(elgg_echo('izap-videos_videourl:save:failed'));
+    forward(REFERER);
+  }
+  if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
+    register_error(elgg_echo('izap-videos_invalidvideourl:save:failed'));
+    forward(REFERER);
+  }
+} else {
+  if ($_FILES['upload_video']['size'] == 0) {
+    register_error(elgg_echo('izap-videos_uploadVideo:save:failed'));
+    forward(REFERER);
+  }
 
-//check video url validation
-if (!$video_url) {
-  register_error(elgg_echo('izap_video:save:failed'));
+  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
+    forward(REFERER);
+  }
+}
+
+//check validation for title and description
+if (!$title) {
+  register_error(elgg_echo('izap-videos_title:save:failed'));
+  forward(REFERER);
+}
+
+if (!$description) {
+  register_error(elgg_echo('izap-videos_description:save:failed'));
   forward(REFERER);
 }
 
@@ -41,7 +70,7 @@ if ($guid == 0) {
 } else {
   $izap_video = get_entity($guid);
   if (!$izap_video->canEdit()) {
-    system_message(elgg_echo('izap_video:save:failed'));
+    system_message(elgg_echo('izap-videos:save:failed'));
     forward(REFERRER);
   }
 }
@@ -55,17 +84,27 @@ $izap_videos->container_guid = $container_guid;
 $izap_videos->tags = string_to_tag_array($tags);
 $izap_videos->video_url = $video_url;
 
-if ($_FILES['upload']['error'] == 0 && in_array(strtolower(end(explode('.', $_FILES['upload']['name']))), array('jpg', 'gif', 'jpeg', 'png'))) {
+switch ($page_url) {
+  case 'offserver':
+    $izap_videos->save();
+    elgg_clear_sticky_form('izap_videos');
+    system_messages(elgg_echo('izap-videos:Save:success'));
+    forward($izap_videos->getURL());
+    break;
+  case 'onserver':
+    if ($_FILES['upload_video']['error'] == 0 && in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+      $dest_path = elgg_get_data_path();
+      $process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
+    }
 
-  $image_name = $_FILES['upload']['name'];
-  $izap_videos->setFilename('izap_videos/uploaded/image_' . $image_name);
-  $izap_videos->open("write");
-  $izap_videos->write(file_get_contents($_FILES['upload']['tmp_name']));
+    if ($process_video->is_flv == 'yes') {
+      if ($izap_videos->save()) {
+        @unlink($process_video->unlink_tmp_video);
+        @unlink($process_video->unlink_tmp_image);
+        elgg_clear_sticky_form('izap_videos');
+        system_messages(elgg_echo('izap-videos:Save:success'));
+        forward($izap_videos->getURL());
+      }
+    }
+    break;
 }
-
-//$processed_video = $obj->processOnserverVideo($obj->video_url, $dest_path);
-
-//if ($izap_videos->save()) {
-//  elgg_clear_sticky_form('izap_videos');
-//  forward($izap_videos->getURL());
-//}

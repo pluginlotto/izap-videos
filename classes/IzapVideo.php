@@ -21,12 +21,12 @@ class IzapVideo extends ElggFile {
 
   protected $format = '.flv';
 
-  protected function  initializeAttributes() {
-		parent::initializeAttributes();
+  protected function initializeAttributes() {
+    parent::initializeAttributes();
 
-		$this->attributes['subtype'] = "izap_video";
-	}
-  
+    $this->attributes['subtype'] = "izap_video";
+  }
+
   public function __construct($guid = NULL) {
     parent::__construct($guid);
   }
@@ -35,30 +35,30 @@ class IzapVideo extends ElggFile {
    * 
    * @param type $file_path input path for ffmpeg processing
    */
-  public function processOnserverVideo($source_path, $dest_path) { 
+  public function processOnserverVideo($source_path, $dest_path) {
     $returnvalue = new stdClass();
     $get_file_extension = end((explode(".", $source_path))); //get fileextension
 
     /**
      * convert videofile to flv if it is not.
      */
-    if ($get_file_extension == 'flv') {
-       $returnvalue->is_flv = 'yes';
-       $returnvalue->converted = 'yes';
-    } else {
+    if ($get_file_extension == 'flv') { 
+      $returnvalue->converted = 'yes';
+      $returnvalue->is_flv = 'yes';
+    } else { 
       $destination_path = $dest_path . time() . $this->format;
       $file_name = end(explode('/', $destination_path));
 
       //ffmpeg command
       exec("ffmpeg -i $source_path $destination_path 2>&1", $out, $err);
-      
+
       //if file convert suucessful then move tmp file.
       if ($err == 0 && file_exists($destination_path)) {
 
         //move tmp file
         $this->setFilename('izap_videos/uploaded/video_' . $file_name);
         $this->open('write');
-        $this->write(file_get_contents($destination_path));       
+        $this->write(file_get_contents($destination_path));
         $this->tmpvideofile = $this->getFilenameOnFilestore();
         $this->originalvideoname = $file_name;
         $this->converted = 'yes';
@@ -101,9 +101,9 @@ class IzapVideo extends ElggFile {
     $return_thumbnail = new stdClass();
     $dest = $dest . time() . '.jpg';
     $image_name = end(explode('/', $dest));
-    
+
     //get thumbnail from video command
-    exec("ffmpeg -i $source -vframes 1 -s 160x120 -ss 10 $dest 2>&1", $out, $err);
+   echo exec("ffmpeg -i $source -vframes 1 -s 160x120 -ss 10 $dest 2>&1", $out, $err);
 
     //if thumbnail get successful then move tmp file
     if ($err == 0 && file_exists($dest)) {
