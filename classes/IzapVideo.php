@@ -66,7 +66,7 @@ class IzapVideo extends ElggFile {
         //if file not moved then unlink from tmp folder
         if (!$this->tmpvideofile) {
           @unlink($destination_path);
-        } else {
+        } else { 
           //send destination_path back to test file
           $returnvalue->unlink_tmp_video = $destination_path;
           $returnvalue->is_flv = 'yes';
@@ -103,7 +103,7 @@ class IzapVideo extends ElggFile {
     $image_name = end(explode('/', $dest));
 
     //get thumbnail from video command
-   echo exec("ffmpeg -i $source -vframes 1 -s 160x120 -ss 10 $dest 2>&1", $out, $err);
+    exec("ffmpeg -i $source -vframes 1 -s 160x120 -ss 10 $dest 2>&1", $out, $err);
 
     //if thumbnail get successful then move tmp file
     if ($err == 0 && file_exists($dest)) {

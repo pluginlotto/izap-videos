@@ -54,6 +54,11 @@ if ($upload_type == 'offserver') { ?>
   <label><?php echo elgg_echo('izap-videos:upload video'); ?></label><br />
   <?php echo elgg_view('input/file',array('name' => 'upload_video')); ?>
 </div>
+
+<div>
+  <label><?php echo elgg_echo('izap-videos:thumbnail'); ?></label><br />
+  <?php echo elgg_view('input/file',array('name' => 'upload_thumbnail')); ?>
+</div>
 <?php } ?>
 
 <div>
@@ -67,7 +72,7 @@ if ($upload_type == 'offserver') { ?>
 </div>
 
 <div>
-  <label><?php echo elgg_echo('tags'); ?></label>
+  <label><?php echo elgg_echo('tags(Optional)'); ?></label>
 <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
 </div>
 <?php

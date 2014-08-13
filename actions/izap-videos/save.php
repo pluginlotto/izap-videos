@@ -92,9 +92,20 @@ switch ($page_url) {
     forward($izap_videos->getURL());
     break;
   case 'onserver':
+
     if ($_FILES['upload_video']['error'] == 0 && in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
       $dest_path = elgg_get_data_path();
       $process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
+    }
+
+    /**
+     * Upload thumbnail process
+     */
+    if ($_FILES['upload_thumbnail']['error'] == 0 ) {
+      $izap_videos->setFilename('izap_video_thumb' . $_FILES['upload_thumbnail']['name']);
+      $izap_videos->open("write");
+      $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
+      $izap_videos->thumbnail = $izap_videos->getFilenameOnFilestore();
     }
 
     if ($process_video->is_flv == 'yes') {

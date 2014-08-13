@@ -21,4 +21,4 @@
  * @package izap-video 
  */
 
-echo 'asas';exit;
+echo 'object included ++++++++++++++++++++++++++++';exit;
