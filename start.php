@@ -1,4 +1,5 @@
 <?php
+
 /*
  *    This file is part of izap-videos plugin for Elgg.
  *
@@ -33,12 +34,18 @@ function izap_video_init() {
 
   //register page handler for particular identifier
   elgg_register_page_handler('izap-videos', 'izap_video_page_handler');
-  
+
   elgg_register_entity_type('object', 'izap_video');
 
   //register menu item and set default path to all videos
   $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), 'izap-videos/all');
   elgg_register_menu_item('site', $item);
+
+  if (elgg_is_admin_logged_in()) {
+    // Add admin menu item @todo: can be done automatic loading via bridge
+    elgg_register_admin_menu_item('administer', 'queue_status', 'statistics');
+    elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
+  }
 
   //register action
   elgg_register_action('izap-videos/save', $action_root . 'save.php');
@@ -46,6 +53,12 @@ function izap_video_init() {
 
   //register hook handler
   elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
+  
+  //extend css
+ elgg_extend_view('css/admin', 'izap-videos/admin_css');
+ 
+ //extend old server stats with current stats
+ elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
 }
 
 /**
@@ -100,7 +113,7 @@ function izap_video_page_handler($page) {
       $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
       break;
     //view all iZAP izap-videos
-    case 'all': 
+    case 'all':
       $params = izap_video_get_page_content_list();
       break;
     default:

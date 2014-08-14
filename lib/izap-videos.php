@@ -34,15 +34,15 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 
   $current_user = elgg_get_logged_in_user_entity();
   if ($container_guid) {
-    // access check for closed groups
+// access check for closed groups
     elgg_group_gatekeeper();
 
-  //  $options['container_guid'] = $container_guid; 
+//  $options['container_guid'] = $container_guid; 
     $container = get_entity($container_guid);
     if (!$container) {
       
     }
-    
+
     $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
 
     $crumbs_title = $container->name;
@@ -53,7 +53,7 @@ function izap_video_get_page_content_list($container_guid = NULL) {
     } else if (elgg_instanceof($container, 'group')) {
       $return['filter'] = false;
     } else {
-      // do not show button or select a tab when viewing someone else's posts
+// do not show button or select a tab when viewing someone else's posts
       $return['filter_context'] = 'none';
     }
   } else {
@@ -124,7 +124,7 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
  */
 function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
 
-  // input names => defaults
+// input names => defaults
   $values = array(
       'title' => NULL,
       'description' => NULL,
@@ -154,4 +154,95 @@ function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
   elgg_clear_sticky_form('izap_videos');
 
   return $values;
+}
+
+/**
+ * check whether operating sysytem is window 
+ * @return boolean
+ */
+function izapIsWin_izap_videos() {
+  if (strtolower(PHP_OS) == 'winnt') {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function izapReadableSize_izap_videos($inputSize) {
+  if (strpos($inputSize, 'M'))
+    return $inputSize . 'B';
+
+  $outputSize = $inputSize / 1024;
+  if ($outputSize < 1024) {
+    $outputSize = number_format($outputSize, 2);
+    $outputSize .= ' KB';
+  } else {
+    $outputSize = $outputSize / 1024;
+    if ($outputSize < 1024) {
+      $outputSize = number_format($outputSize, 2);
+      $outputSize .= ' MB';
+    } else {
+      $outputSize = $outputSize / 1024;
+      $outputSize = number_format($outputSize, 2);
+      $outputSize .= ' GB';
+    }
+  }
+  return $outputSize;
+}
+
+function izapAdminSettings_izap_videos($settingName, $values = '', $override = false, $makeArray = false) {
+  $send_array = array(
+      'name' => $settingName,
+      'value' => $values,
+      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+  );
+
+  return pluginSetting($send_array);
+}
+
+function pluginSetting($supplied_array) {
+  $default = array(
+      'override' => FALSE,
+      'make_array' => FALSE,
+  );
+
+  $input = array_merge($default, (array) $supplied_array);
+// get old values
+  $old_value = elgg_get_plugin_setting($input['name'], $input['plugin']);
+
+//make new value
+  if (is_array($input['value'])) {
+    $new_value = implode('|', $input['value']);
+  } else {
+    $new_value = $input['value'];
+  }
+
+  if ((!(bool) $old_value && !empty($new_value)) || $input['override']) {
+    if (!elgg_set_plugin_setting($input['name'], $new_value, $input['plugin'])) {
+      return FALSE;
+    } else {
+      $return = $new_value;
+    }
+  }
+
+  if ((bool) $old_value !== FALSE) {
+    $old_array = explode('|', $old_value);
+    if (count($old_array) > 1) {
+      $return = $old_array;
+    } else {
+      $return = $old_value;
+    }
+  }
+
+  if (!is_array($return) && $input['make_array'] && (bool) $return) {
+    $new_return_val[] = $return;
+    $return = $new_return_val;
+  }
+
+  return $return;
+}
+
+function getFormAction($file, $plugin) {
+  global $CONFIG;
+  return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
 }

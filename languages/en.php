@@ -20,6 +20,7 @@
  * add language translation
  */
 $english = array(
+    'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
     'izap-videos' => 'All Site Videos',  
     'izap-videos:upload video' => 'Upload Video',
     'izap-videos_videourl:save:failed' => 'Enter Video Url',
@@ -36,6 +37,7 @@ $english = array(
     'izap-videos:add' => 'Add New Video',
     'izap-videos:video' => 'video',
     'video_url' => 'Video Url',
+    'admin:statistics:queue_status' => 'Current Queue Status',
     'izap-videos:thumbnail' => 'Thumbnail (Optional)',
     'tags(Optional)' => 'Tags(Optional)',
     'izap-videos:videos' => 'videos',
@@ -167,6 +169,7 @@ $english = array(
     'izap_videos:error_reason' => 'Error reason : %s',
     'izap_videos:error_nourl' => 'Error: Make sure, Curl is enabled. We are not able to fetch video feed.',
     //admin settings
+    'izap_videos:adminSettings:youtubeVideos' => 'Youtube Integration',
     'izap_videos:queueStatus' => 'Queue status',
     'izap_videos:notRunning' => 'Not running',
     'izap_videos:running' => 'Running',
@@ -174,7 +177,7 @@ $english = array(
     'izap_videos:adminSettings:offServerVideos' => 'Off server videos',
     'izap_videos:adminSettings:onServerVideos' => extension_loaded('pdo_sqlite') ? 'On server videos' : 'On server videos (<em class="izap_notice izap_small_text">Enable PDO sqlite drivers to use onsrever feature.</em>)',
     'izap_videos:izapPhpInterpreter' => 'PHP interpreter path e.g /usr/bin/php',
-    'izap_videos:adminSettings:izapVideoCommand' => 'Video converting command',
+    'izap_videos:adminSettings:izapVideoCommand' => 'Video Conversion Command FFMpeg',
     'izap_videos:adminSettings:izapVideoThumb' => 'Video thumbnail command',
     'izap_videos:adminSettings:izapBarColor' => 'Progress bar color',
     'izap_videos:adminSettings:izapTextColor' => 'Player text color',
