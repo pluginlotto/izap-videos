@@ -38,7 +38,7 @@ elgg_load_library('elgg:izap_video');
   echo elgg_view('input/text', array(
       'name' => 'params[izapVideoCommand]',
       'value' => (izapIsWin_izap_videos()) ?
-              $CONFIG->pluginspath . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vcodec libx264 -vpre ' . $CONFIG->pluginspath . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/presets/libx264-hq.ffpreset' . ' -b 300k -bt 300k -ar 22050 -ab 48k -s 400x400 [outputVideoPath]' :
+              elgg_get_plugins_path () . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vcodec libx264 -vpre ' . elgg_get_plugins_path () . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/presets/libx264-hq.ffpreset' . ' -b 300k -bt 300k -ar 22050 -ab 48k -s 400x400 [outputVideoPath]' :
               '/usr/bin/ffmpeg -y -i [inputVideoPath] [outputVideoPath]'
   ));
   ?>
@@ -57,7 +57,7 @@ elgg_load_library('elgg:izap_video');
         'name' => 'params[izapVideoThumb]',
         'value' =>
         (izapIsWin_izap_videos()) ?
-                $CONFIG->pluginspath . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]' :
+                elgg_get_plugins_path () . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]' :
                 '/usr/bin/ffmpeg -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]'
     ));
     ?>

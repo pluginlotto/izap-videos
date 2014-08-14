@@ -18,4 +18,6 @@
  */
 
 elgg_load_library('elgg:izap_video');
+elgg_echo('Queue Status');
 ?>
+

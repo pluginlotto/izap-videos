@@ -242,7 +242,3 @@ function pluginSetting($supplied_array) {
   return $return;
 }
 
-function getFormAction($file, $plugin) {
-  global $CONFIG;
-  return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
-}
