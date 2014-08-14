@@ -70,7 +70,7 @@ elgg_load_library('elgg:izap_video');
   <?php echo elgg_echo('Onserver Video'); ?>
   <?php
   echo elgg_view('input/radio', array(
-      'name' => 'Onserver_enabled_izap_videos',
+      'name' => 'params[Onserver_enabled_izap_videos]',
       'options' => array('Yes' => 'yes', 'No' => 'no')
   ));
   ?>
@@ -80,7 +80,7 @@ elgg_load_library('elgg:izap_video');
   <?php echo elgg_echo('Youtube Integration'); ?>
   <?php
   echo elgg_view('input/radio', array(
-      'name' => 'Youtube_enabled_izap_videos',
+      'name' => 'params[Youtube_enabled_izap_videos]',
       'options' => array('Yes' => 'yes', 'No' => 'no')
   ));
   ?>
@@ -90,7 +90,7 @@ elgg_load_library('elgg:izap_video');
   <?php echo elgg_echo('Offserver Video'); ?><br />
   <?php
   echo elgg_view('input/radio', array(
-      'name' => 'Offserver_enabled_izap_videos',
+      'name' => 'params[Offserver_enabled_izap_videos]',
       'options' => array('Yes' => 'yes', 'No' => 'no')
   ));
   ?>
@@ -98,8 +98,8 @@ elgg_load_library('elgg:izap_video');
 
 <script type='text/javascript'>
   $(document).ready(function() {
-    $("input:radio[name='Onserver_enabled_izap_videos']").on("click", function() {
-      var onserver_value = $("input:radio[name='Onserver_enabled_izap_videos']:checked").val();
+    $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
+      var onserver_value = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
       if (onserver_value == 'yes') {
         jQuery('#youtube_integration input:radio').prop("disabled", true);
       } else {
@@ -107,8 +107,8 @@ elgg_load_library('elgg:izap_video');
       }
     });
 
-    $("input:radio[name='Youtube_enabled_izap_videos']").on("click", function() {
-      var youtube_value = $("input:radio[name='Youtube_enabled_izap_videos']:checked").val();
+    $("input:radio[name='params[Youtube_enabled_izap_videos]']").on("click", function() {
+      var youtube_value = $("input:radio[name='params[Youtube_enabled_izap_videos]']:checked").val();
       if (youtube_value == 'yes') {
         jQuery('#onserver_video input:radio').prop("disabled", true);
       } else {
