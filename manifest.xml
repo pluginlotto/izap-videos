@@ -28,4 +28,7 @@
   </suggests>
   
   <activate_on_install>true</activate_on_install>
+  
+  <category>Multimedia</category>
+	<admin_interface>advanced</admin_interface>
 </plugin_manifest>

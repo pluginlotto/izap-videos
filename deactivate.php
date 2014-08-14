@@ -20,4 +20,4 @@
  * Deregister the Elgg izap-video class
  */
 
-update_subtype('object', 'IzapVideo');
+update_subtype('object', 'izap_video');
