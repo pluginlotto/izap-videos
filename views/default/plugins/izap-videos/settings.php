@@ -31,6 +31,7 @@ elgg_load_library('elgg:izap_video');
   </label>
 </p>
 
+<p>
 <label>
   <?php echo elgg_echo('izap_videos:adminSettings:izapVideoCommand'); ?>
   <br />
@@ -43,9 +44,10 @@ elgg_load_library('elgg:izap_video');
   ));
   ?>
 </label>
+</p>
 
-<span class="izap_info_text">
-  <?php echo elgg_echo('izap_videos:adminSettings:info:convert-command'); ?>
+<span>
+  <?php //echo elgg_echo('izap_videos:adminSettings:info:convert-command'); ?>
 </span>
 
 <p>

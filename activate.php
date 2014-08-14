@@ -19,7 +19,7 @@
 
 // add subtype with class
 if (get_subtype_id('object', 'izap_video')) {
-	update_subtype('object', 'izap_video', 'IzapVideo');
+  update_subtype('object', 'izap_video', 'IzapVideo');
 } else {
-	add_subtype('object', 'izap_video', 'IzapVideo');
+  add_subtype('object', 'izap_video', 'IzapVideo');
 }

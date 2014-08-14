@@ -24,9 +24,13 @@
   
   <suggests>
     <type>php_extension</type>
-    <name>pdo_sqlite</name>
+    <name>pdo</name>
   </suggests>
   
+  <provides>
+    <type>plugin</type>
+    <name>file_uploading</name>
+  </provides>
   <activate_on_install>true</activate_on_install>
   
   <category>Multimedia</category>
