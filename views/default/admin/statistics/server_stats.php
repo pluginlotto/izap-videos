@@ -15,7 +15,6 @@
  *    You should have received a copy of the GNU General Public License
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 elgg_load_library('elgg:izap_video');
 
 $Fail_functions = ini_get('disable_functions');
@@ -23,46 +22,17 @@ $php_version = phpversion();
 
 $exec = function_exists('exec') ? TRUE : FALSE;
 $curl = (extension_loaded('curl')) ? TRUE : FALSE;
-$ffmpeg_path = current(explode(' ', izapAdminSettings_izap_videos('izapVideoCommand')));
+$ffmpeg_path = exec('ffmpeg -version',$out,$err);
+if($err == 0){
+  $ffmpeg = $ffmpeg_path;
+}
+
 $pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
 
 $php_command = exec(izapAdminSettings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
 if ($return_value === 0) {
   $php = nl2br(implode('', $output_PHP));
 }
-
-$ffmpeg_command = exec($ffmpeg_path . ' -version', $output_FFmpeg, $return_var);
-if ($return_var === 0) {
-  $ffmpeg = nl2br(implode($output_FFmpeg));
-
-  if (!izapIsWin_izap_videos()) { // set the testing videos commands if it is not windows
-    $in_video = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/test/test_video.avi';
-    $file_handler = new ElggFile();
-    $file_handler->owner_guid = elgg_get_logged_in_user_guid();
-    $file_handler->setFilename(GLOBAL_IZAP_VIDEOS_PLUGIN . '/test/test_video.avi');
-    $file_handler->open('read');
-    $file_handler->write(file_get_contents($in_video));
-
-    $in_video = $file_handler->getFilenameOnFilestore();
-    if (!file_exists($in_video)) {
-      $in_video = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/test/test_video.avi';
-      $file_handler->open('write');
-      $file_handler->write(file_get_contents($in_video));
-      $in_video = $file_handler->getFilenameOnFilestore();
-    }
-    $file_handler->close();
-
-    if (file_exists($in_video)) {
-      $in_video;
-      $outputPath = substr($in_video, 0, -4);
-      $out_video = $outputPath . '_c.flv';
-      $commands = array(
-          'Simple command' => $ffmpeg_path . ' -y -i [inputVideoPath] [outputVideoPath]',
-      );
-    }
-  }
-}
-
 
 $plugin = elgg_get_plugin_from_id('izap-videos');
 $max_file_upload = izapReadableSize_izap_videos(ini_get('upload_max_filesize'));
