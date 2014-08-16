@@ -65,14 +65,24 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 
   $title = 'Add New Video';
   $url = GLOBAL_IZAP_VIDEOS_PLUGIN . '/add/';
-  $url .= elgg_get_logged_in_user_guid() . '/onserver';
-  elgg_register_menu_item('title', array(
-      'name' => elgg_get_friendly_title($title),
-      'href' => $url,
-      'text' => $title,
-      'link_class' => 'elgg-button elgg-button-action',
-  ));
 
+  if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+    $url .= elgg_get_logged_in_user_guid() . '/onserver';
+    elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+    ));
+  } else {
+    $url .= elgg_get_logged_in_user_guid() . '/offserver';
+    elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+    ));
+  }
   $return['content'] = elgg_list_entities($options);
   return $return;
 }
@@ -168,6 +178,11 @@ function izapIsWin_izap_videos() {
   }
 }
 
+/**
+ * check upload filesize
+ * @param type $inputSize
+ * @return string
+ */
 function izapReadableSize_izap_videos($inputSize) {
   if (strpos($inputSize, 'M'))
     return $inputSize . 'B';
@@ -190,6 +205,14 @@ function izapReadableSize_izap_videos($inputSize) {
   return $outputSize;
 }
 
+/**
+ * 
+ * @param type $settingName
+ * @param type $values
+ * @param type $override
+ * @param type $makeArray
+ * @return type
+ */
 function izapAdminSettings_izap_videos($settingName, $values = '', $override = false, $makeArray = false) {
   $send_array = array(
       'name' => $settingName,
@@ -200,6 +223,11 @@ function izapAdminSettings_izap_videos($settingName, $values = '', $override = f
   return pluginSetting($send_array);
 }
 
+/**
+ * 
+ * @param type $supplied_array
+ * @return boolean
+ */
 function pluginSetting($supplied_array) {
   $default = array(
       'override' => FALSE,
@@ -242,3 +270,201 @@ function pluginSetting($supplied_array) {
   return $return;
 }
 
+/**
+ * checks if onserver videos are enabled in admin settings
+ * @return <type>
+ */
+function izap_is_onserver_enabled_izap_videos() {
+  $settings = pluginSetting(array(
+      'name' => 'onserver_enabled_izap_videos',
+      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+  ));
+
+  if ((string) $settings === 'no') {
+    return FALSE;
+  }
+
+  return $settings;
+}
+
+/**
+ * resets queue
+ *
+ * @return boolean
+ */
+function izapResetQueue_izap_videos() {
+  return izapAdminSettings_izap_videos('isQueueRunning', 'no', true);
+}
+
+/**
+ * clears queue and resets it
+ *
+ * @return boolean
+ */
+function izapEmptyQueue_izap_videos() {
+  $pending_videos = izapGetNotConvertedVideos_izap_videos();
+  if ($pending_videos) {
+    foreach ($pending_videos as $video) {
+      $video->delete();
+    }
+  }
+
+  return izapResetQueue_izap_videos();
+}
+
+/**
+ * gets the not converted videos
+ *
+ * @return boolean or entites
+ */
+function izapGetNotConvertedVideos_izap_videos() {
+  $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_videos', 0, 999999);
+  if ($not_converted_videos) {
+    return $not_converted_videos;
+  }
+
+  return false;
+}
+
+/**
+ * 
+ * @global type $CONFIG
+ * @param type $file
+ * @param type $plugin
+ * @return type
+ */
+function getFormAction($file, $plugin) {
+  global $CONFIG;
+  return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
+}
+
+/**
+ * this function triggers the queue
+ *
+ * @global <type> $CONFIG
+ */
+function izapTrigger_izap_videos() {
+  $PHPpath = izapGetPhpPath_izap_videos();
+  $file_path = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
+
+  if (!izapIsQueueRunning_izap_videos()) {
+    if (izapIsWin_izap_videos()) {
+      pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
+    } else {
+      exec($PHPpath . ' ' . $file_path . ' izap web > /dev/null 2>&1 &', $output);
+    }
+  }
+}
+
+/**
+ * this function checks if the queue is running or not
+ *
+ * @return boolean true if yes or false if no
+ */
+function izapIsQueueRunning_izap_videos() {
+  // check for *nix machine. For windows, it is under development
+  $queue_object = new izapQueue();
+
+  $numberof_process = $queue_object->check_process();
+  if ($numberof_process > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * gives the file's extension if file found
+ * @param string $filename
+ * @return mixed file extension if found else false
+ */
+function getFileExtension($filename) {
+  if (empty($filename)) {
+    return false;
+  }
+
+  return strtolower(end(explode('.', $filename)));
+}
+
+/**
+ * this function gives the path of PHP
+ *
+ * @return string path
+ */
+function izapGetPhpPath_izap_videos() {
+  $path = izapAdminSettings_izap_videos('izapPhpInterpreter');
+  $path = html_entity_decode($path);
+  if (!$path)
+    $path = '';
+  return $path;
+}
+
+/**
+ * grants the access
+ *
+ * @param <type> $functionName
+ */
+function izapGetAccess_izap_videos() {
+  izap_access_override(array('status' => true));
+}
+
+/**
+ * remove access
+ *
+ * @global global $CONFIG
+ * @param string $functionName
+ */
+function izapRemoveAccess_izap_videos() {
+  izap_access_override(array('status' => false));
+}
+
+function izap_access_override($params = array()) {
+  global $CONFIG;
+
+  if ($params['status']) {
+    $func = "elgg_register_plugin_hook_handler";
+  } else {
+    $func = "elgg_unregister_plugin_hook_handler";
+  }
+
+  $func_name = "izapGetAccessForAll_izap_videos";
+
+  $func("premissions_check", "all", $func_name, 9999);
+  $func("container_permissions_check", "all", $func_name, 9999);
+  $func("permissions_check:metadata", "all", $func_name, 9999);
+}
+
+function getQueue() {
+  global $CONFIG;
+
+  $queue_status = (izapIsQueueRunning_izap_videos()) ?
+          elgg_echo('izap_videos:running') :
+          elgg_echo('izap_videos:notRunning');
+  $queue_object = new izapQueue();
+  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
+      'status' => $queue_status,
+      'total' => $queue_object->count(),
+      'queue_videos' => $queue_object->get(),
+          )
+  );
+}
+
+/**
+ * a quick way to convert bytes to a more readable format
+ * http://in3.php.net/manual/en/function.filesize.php#91477
+ *
+ * @param integer $bytes size in bytes
+ * @param integer $precision
+ * @return string
+ */
+function izapFormatBytes($bytes, $precision = 2) {
+  $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+  $bytes = max($bytes, 0);
+  $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+  $pow = min($pow, count($units) - 1);
+
+  $bytes /= pow(1024, $pow);
+
+  return round($bytes, $precision) . ' ' . $units[$pow];
+}

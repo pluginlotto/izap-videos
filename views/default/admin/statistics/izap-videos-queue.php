@@ -16,19 +16,6 @@
  *    You should have received a copy of the GNU General Public License
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
+elgg_load_library('elgg:izap_video');
 
-$get_type = end(explode('/', current_page_url()));
-if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-  $tabs['onserver'] = array(
-      'title' => elgg_echo('izap-videos:onserver'),
-      'url' => "izap-videos/add/" . elgg_get_logged_in_user_guid() . '/onserver',
-      'selected' => ($get_type == 'onserver'),
-  );
-}
-$tabs['offserver'] = array(
-    'title' => elgg_echo('izap-videos:offserver'),
-    'url' => 'izap-videos/add/' . elgg_get_logged_in_user_guid() . '/offserver',
-    'selected' => ($get_type == 'offserver')
-);
-
-echo elgg_view('navigation/tabs', array('tabs' => $tabs));
+ echo getQueue(); ?>

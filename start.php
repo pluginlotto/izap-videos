@@ -43,22 +43,25 @@ function izap_video_init() {
 
   if (elgg_is_admin_logged_in()) {
     // Add admin menu item @todo: can be done automatic loading via bridge
-    elgg_register_admin_menu_item('administer', 'queue_status', 'statistics');
-    elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
+    elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
+    // elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
   }
 
   //register action
   elgg_register_action('izap-videos/save', $action_root . 'save.php');
   elgg_register_action('izap-videos/delete', $action_root . 'delete.php');
-
+  elgg_register_action('izap-videos/trigger_queue',dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
   //register hook handler
   elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
-  
+
   //extend css
- elgg_extend_view('css/admin', 'izap-videos/admin_css');
- 
- //extend old server stats with current stats
- elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
+  elgg_extend_view('css/admin', 'izap-videos/admin_css');
+
+  //extend old server stats with current stats
+  elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
+
+  elgg_register_widget_type(
+          'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
 }
 
 /**

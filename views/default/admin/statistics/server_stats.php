@@ -27,7 +27,7 @@ if($err == 0){
   $ffmpeg = $ffmpeg_path;
 }
 
-$pdo_sqlite = (extension_loaded('pdo')) ? TRUE : FALSE;
+$pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
 
 $php_command = exec(izapAdminSettings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
 if ($return_value === 0) {
