@@ -29,6 +29,30 @@ class IzapVideo extends ElggFile {
 
   public function __construct($guid = NULL) {
     parent::__construct($guid);
+    // set some initial values so that old videos can work
+    if (empty($this->videosrc)) {
+      $this->videosrc = $CONFIG->wwwroot . 'pg/izap_videos_files/' . 'file/' . $this->guid . '/' . elgg_get_friendly_title($this->title) . '.flv';
+    }
+
+    // sets the defalut value for the old videos, if not set yet
+    if (empty($this->converted)) {
+      $this->converted = 'yes';
+    }
+    // set default form attributes
+    $this->form_attributes = array(
+        'title' => array(),
+        'description' => array(),
+        'container_guid' => array(),
+        'access_id' => array(),
+        'videourl' => array(),
+        'videotype' => array(),
+        'videoprocess' => array(),
+        'tags' => array(),
+        'categories' => array(),
+        'comments_on' => array()
+    );
+    if (!is_null($guid))
+      return get_entity($guid);
   }
 
   /**

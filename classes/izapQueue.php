@@ -96,4 +96,51 @@ class izapQueue extends IzapSqlite {
     return (int) $select[0]['count'];
   }
 
+  public function change_conversion_flag($guid) {
+    $update_sql = "UPDATE video_queue SET conversion = " . IN_PROCESS . "
+                            WHERE conversion = " . PENDING . "
+                                  AND guid = {$guid}";
+    return $this->execute($update_sql);
+  }
+
+  /*
+   * Put queued video in trash
+   */
+
+  public function move_to_trash($guid) {
+    $item_to_move = $this->get($guid);
+    $result = $this->execute("INSERT INTO video_trash (guid, main_file, title, url, access_id, owner_id, timestamp)
+                                        VALUES('" . $item_to_move[0]['guid'] . "',
+                                               '" . $item_to_move[0]['main_file'] . "',
+                                               '" . $item_to_move[0]['title'] . "',
+                                               '" . $item_to_move[0]['url'] . "',
+                                               '" . $item_to_move[0]['access_id'] . "',
+                                               '" . $item_to_move[0]['owner_id'] . "',
+                                               strftime('%s','now'))");
+    if ($result) {
+      return $this->delete($guid);
+    }
+
+    return $result;
+  }
+  /*
+   * fetch all records from queue and change their flags to conversion in process.
+   */
+
+  public function fetch_videos($limit = 1) {
+    $select = $this->execute("SELECT * FROM video_queue WHERE conversion = " . PENDING . " ORDER BY timestamp LIMIT 0, " . $limit . "");
+    if (count($select)) {
+      foreach ($select as $row) {
+        $guid_array[] = $row['guid'];
+      }
+    }
+    return $select;
+  }
+  
+   public function delete($guid = false, $also_media = false) {
+    if ($also_media) {
+      $this->delete_related_media($guid);
+    }
+    return $this->execute((($guid) ? "DELETE FROM video_queue WHERE guid = {$guid}" : 'DELETE FROM video_queue'));
+  }
 }

@@ -115,8 +115,8 @@ switch ($page_url) {
         @unlink($process_video->unlink_tmp_image);
         elgg_clear_sticky_form('izap_videos');
 
-        if ($page_url == 'onserver') { 
-          if (getFileExtension($_FILES['upload_video']['name']) != 'flv') { 
+        if ($page_url == 'onserver') {
+          if (getFileExtension($_FILES['upload_video']['name']) != 'flv') {
             izapSaveFileInfoForConverting_izap_videos($_FILES['upload_video']['tmp_name'], $izap_videos, $izap_videos->access_id);
           }
         }

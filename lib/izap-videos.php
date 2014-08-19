@@ -115,7 +115,7 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
     elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
     $body_vars = izap_videos_prepare_form_vars(null);
 
-    $form_vars = array('enctype' => 'multipart/form-data','name' => 'video_upload');
+    $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
     $title = elgg_echo('izap-videos:add');
     $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
   }
@@ -351,7 +351,7 @@ function izapTrigger_izap_videos() {
     if (izapIsWin_izap_videos()) {
       pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
     } else {
-      exec($PHPpath . ' ' . $file_path . ' izap web > /dev/null 2>&1 &', $output);
+      exec($PHPpath . ' ' . $file_path . ' izap web', $output);
     }
   }
 }
@@ -434,13 +434,26 @@ function izap_access_override($params = array()) {
   $func("permissions_check:metadata", "all", $func_name, 9999);
 }
 
+/**
+ * elgg hook to override permission check of entities (izap_videos, izapVideoQueue, izap_recycle_bin)
+ *
+ * @param <type> $hook
+ * @param <type> $entity_type
+ * @param <type> $returnvalue
+ * @param <type> $params
+ * @return <type>
+ */
+function izapGetAccessForAll_izap_videos($hook, $entity_type, $returnvalue, $params) {
+  return true;
+}
+
 function getQueue() {
   global $CONFIG;
 
   $queue_status = (izapIsQueueRunning_izap_videos()) ?
           elgg_echo('izap_videos:running') :
           elgg_echo('izap_videos:notRunning');
-  $queue_object = new izapQueue(); 
+  $queue_object = new izapQueue();
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
       'status' => $queue_status,
       'total' => $queue_object->count(),
@@ -469,15 +482,141 @@ function izapFormatBytes($bytes, $precision = 2) {
   return round($bytes, $precision) . ' ' . $units[$pow];
 }
 
-function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_access_id = 2) { 
+function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
-  if (!file_exists($file) || !$video) { 
+  if (!file_exists($file) || !$video) {
     return false;
   }
-  
-  
+
   $queue = new izapQueue();
   $queue->put($video, $file, $defined_access_id);
   //izapRunQueue_izap_videos();
   izapTrigger_izap_videos();
+}
+
+/**
+ * 
+ * @return boolean
+ */
+function izapRunQueue_izap_videos() {
+  $queue_object = new izapQueue();
+  $queue = $queue_object->fetch_videos();
+
+  if (is_array($queue)) {
+    foreach ($queue as $pending) {
+      $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+      if ($converted['error']) {
+        $result = $queue_object->move_to_trash($pending['guid']);
+      } else {
+        $queue_object->delete($pending['guid']);
+      }
+      izap_update_all_defined_access_id($pending['guid'], $pending['access_id']);
+    }
+
+    // recheck if there is new video in the queue
+    if ($queue_object->count() > 0) {
+      izapRunQueue_izap_videos();
+    }
+  }
+  return true;
+}
+
+/**
+ * this function gives the FFmpeg video converting command
+ *
+ * @return string path
+ */
+function izapGetFfmpegVideoConvertCommand_izap_videos() {
+  $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
+  $path = html_entity_decode($path);
+  if (!$path)
+    $path = '';
+  return $path;
+}
+
+function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
+  global $CONFIG;
+  $return = false;
+
+  // works only if we have the input file
+  if (file_exists($file)) {
+    // now convert video
+    //
+    // Need to set flag for the file going in the conversion.
+    $queue_object = new izapQueue();
+    $queue_object->change_conversion_flag($videoId);
+
+    $video = new izapConvert($file);
+    $videofile = $video->izap_video_convert();
+
+    if (!is_array($videofile)) {
+      // if every thing is ok then get back values to save
+      $file_values = $video->getValues();
+      $izap_videofile = 'izap_videos/uploaded/' . $file_values['filename'];
+      $izap_origfile = 'izap_videos/uploaded/' . $file_values['origname'];
+      $izap_videos = new IzapVideo($videoId);
+      $izap_videos->setFilename($izap_videofile);
+      $izap_videos->open("write");
+      $izap_videos->write($file_values['filecontent']);
+      
+    //check if you do not want to keep original file
+      if (pluginSetting(array('name' => 'izapKeepOriginal', 'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN)) == 'YES') {
+        $izap_videos->setFilename($izap_origfile);
+        $izap_videos->open("write");
+        $izap_videos->write($file_values['origcontent']);
+      }
+
+      $izap_videos->converted = 'yes';
+      $izap_videos->videofile = $izap_videofile;
+      $izap_videos->orignalfile = $izap_origfile;
+      notify_user($ownerGuid,
+              $CONFIG->site_guid,
+              elgg_echo('izap_videos:notifySub:videoConverted'),
+              sprintf(elgg_echo('izap_videos:notifyMsg:videoConverted'), $izap_videos->getUrl())
+      );
+      return true;
+    } else {
+      $errorReason = (string)$videofile['message'];
+    }
+  } else {
+    $errorReason = elgg_echo('izap_videos:fileNotFound');
+  }
+  $adminGuid = izapGetSiteAdmin_izap_videos(true);
+
+  // notify admin
+  notify_user($adminGuid,
+          $CONFIG->site_guid,
+          elgg_echo('izap_videos:notifySub:videoNotConverted'),
+          sprintf(elgg_echo('izap_videos:notifyAdminMsg:videoNotConverted'), $errorReason)
+  );
+
+  if (isset($errorReason)) {
+    $return = array('error' => true, 'reason' => $errorReason);
+  }
+  
+  return $return;
+}
+
+function izapGetSiteAdmin_izap_videos($guid = false) {
+  $admin = get_entities_from_metadata('admin', 1, 'user', '', 0, 1, 0);
+  if ($admin[0]->admin || $admin[0]->siteadmin) {
+    if ($guid)
+      return $admin[0]->guid;
+    else
+      return $admin[0];
+  }
+  return false;
+}
+
+function izap_update_all_defined_access_id($entity_guid, $accessId = ACCESS_PUBLIC) {
+  global $CONFIG;
+  // update metadata
+  $query = 'UPDATE ' . $CONFIG->dbprefix . 'metadata SET access_id = ' . $accessId . ' WHERE entity_guid = ' . $entity_guid;
+  $query = update_data($query);
+  if (!$query) {
+    return false;
+  }
+  $query = 'UPDATE ' . $CONFIG->dbprefix . 'entities SET access_id = ' . $accessId . ' WHERE guid = ' . $entity_guid;
+  update_data($query);
+  return $query;
 }

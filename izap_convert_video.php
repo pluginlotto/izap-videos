@@ -22,10 +22,8 @@ ini_set('max_execution_time', 0);
 ini_set('memory_limit', ((int)get_plugin_setting('izapMaxFileSize', GLOBAL_IZAP_VIDEOS_PLUGIN) + 100) . 'M');
 elgg_load_library('elgg:izap_video');
 // only works if started from command line
-if($argc > 1 && $argv[1] == 'izap' && $argv[2] == 'web') {
-  izapGetAccess_izap_videos(); // get the complete access to the system;
+if($argc > 1 && $argv[1] == 'izap' && $argv[2] == 'web') { 
+    izapGetAccess_izap_videos(); // get the complete access to the system;
     izapRunQueue_izap_videos();
-  izapRemoveAccess_izap_videos(); // remove the access from the system
-}else { 
-  echo 'Oh You missed the Soup :)';
+    izapRemoveAccess_izap_videos(); // remove the access from the system
 }
