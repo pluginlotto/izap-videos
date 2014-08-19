@@ -30,37 +30,37 @@ $video_url = get_input("video_url");
 $page_url = end(explode('/', get_input('page_url')));
 
 //check video url exist in case of offserver
-if ($page_url == 'offserver') {
-  if (!$video_url) {
-    register_error(elgg_echo('izap-videos_videourl:save:failed'));
-    forward(REFERER);
-  }
-  if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
-    register_error(elgg_echo('izap-videos_invalidvideourl:save:failed'));
-    forward(REFERER);
-  }
-} else {
-  if ($_FILES['upload_video']['size'] == 0) {
-    register_error(elgg_echo('izap-videos_uploadVideo:save:failed'));
-    forward(REFERER);
-  }
-
-  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
-    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
-    forward(REFERER);
-  }
-}
+//if ($page_url == 'offserver') {
+//  if (!$video_url) {
+//    register_error(elgg_echo('izap-videos_videourl:save:failed'));
+//    forward(REFERER);
+//  }
+//  if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
+//    register_error(elgg_echo('izap-videos_invalidvideourl:save:failed'));
+//    forward(REFERER);
+//  }
+//} else {
+//  if ($_FILES['upload_video']['size'] == 0) {
+//    register_error(elgg_echo('izap-videos_uploadVideo:save:failed'));
+//    forward(REFERER);
+//  }
+//
+//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+//    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
+//    forward(REFERER);
+//  }
+//}
 
 //check validation for title and description
-if (!$title) {
-  register_error(elgg_echo('izap-videos_title:save:failed'));
-  forward(REFERER);
-}
-
-if (!$description) {
-  register_error(elgg_echo('izap-videos_description:save:failed'));
-  forward(REFERER);
-}
+//if (!$title) {
+//  register_error(elgg_echo('izap-videos_title:save:failed'));
+//  forward(REFERER);
+//}
+//
+//if (!$description) {
+//  register_error(elgg_echo('izap-videos_description:save:failed'));
+//  forward(REFERER);
+//}
 
 if ($guid == 0) {
   $izap_video = new IzapVideo();
@@ -93,7 +93,7 @@ switch ($page_url) {
     break;
   case 'onserver':
 
-    if ($_FILES['upload_video']['error'] == 0 && in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+    if ($_FILES['upload_video']['error'] == 0) {
       $dest_path = elgg_get_data_path();
       $process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
     }

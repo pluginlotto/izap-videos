@@ -24,7 +24,7 @@
   
   <suggests>
     <type>php_extension</type>
-    <name>pdo</name>
+    <name>pdo_sqlite</name>
   </suggests>
   
   <provides>

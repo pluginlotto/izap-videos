@@ -115,7 +115,7 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
     elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
     $body_vars = izap_videos_prepare_form_vars(null);
 
-    $form_vars = array('enctype' => 'multipart/form-data');
+    $form_vars = array('enctype' => 'multipart/form-data','name' => 'video_upload');
     $title = elgg_echo('izap-videos:add');
     $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
   }
@@ -440,7 +440,7 @@ function getQueue() {
   $queue_status = (izapIsQueueRunning_izap_videos()) ?
           elgg_echo('izap_videos:running') :
           elgg_echo('izap_videos:notRunning');
-  $queue_object = new izapQueue();
+  $queue_object = new izapQueue(); echo '<pre>';print_r($queue_object);
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
       'status' => $queue_status,
       'total' => $queue_object->count(),
