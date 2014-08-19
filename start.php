@@ -51,6 +51,7 @@ function izap_video_init() {
   elgg_register_action('izap-videos/save', $action_root . 'save.php');
   elgg_register_action('izap-videos/delete', $action_root . 'delete.php');
   elgg_register_action('izap-videos/trigger_queue',dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
+  elgg_register_action('izap-videos/reset_queue',  dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
   //register hook handler
   elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
 

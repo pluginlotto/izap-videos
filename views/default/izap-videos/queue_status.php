@@ -51,7 +51,7 @@ elgg_load_library('elgg:izap_video');
                 <?php echo $ORIGNAL_size . '<br />' . $FLV_size;?>
           </td>
           <td>
-                <?php
+                <?php 
                 if($queuedVideo['conversion'] != IN_PROCESS) {
                   echo elgg_view('output/confirmlink',array('href'=> getFormAction('reset_queue', GLOBAL_IZAP_VIDEOS_PLUGIN) . '?guid='.$queuedVideo['guid'],'text' => 'X','confirm'=>'Are you sure? It will delete this videos from queue and correspoindingly from db.'));
                 }

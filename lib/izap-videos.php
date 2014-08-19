@@ -440,7 +440,7 @@ function getQueue() {
   $queue_status = (izapIsQueueRunning_izap_videos()) ?
           elgg_echo('izap_videos:running') :
           elgg_echo('izap_videos:notRunning');
-  $queue_object = new izapQueue(); echo '<pre>';print_r($queue_object);
+  $queue_object = new izapQueue(); 
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
       'status' => $queue_status,
       'total' => $queue_object->count(),
@@ -467,4 +467,17 @@ function izapFormatBytes($bytes, $precision = 2) {
   $bytes /= pow(1024, $pow);
 
   return round($bytes, $precision) . ' ' . $units[$pow];
+}
+
+function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_access_id = 2) { 
+// this will not let save any thing if there is no file to convert
+  if (!file_exists($file) || !$video) { 
+    return false;
+  }
+  
+  
+  $queue = new izapQueue();
+  $queue->put($video, $file, $defined_access_id);
+  //izapRunQueue_izap_videos();
+  izapTrigger_izap_videos();
 }
