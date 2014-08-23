@@ -67,7 +67,7 @@ class izapQueue extends IzapSqlite {
    * Put items in the queue
    */
 
-  public function put(izap_videos $video, $file, $defined_access_id) { 
+  public function put($video, $file, $defined_access_id) { 
     return $this->execute("INSERT INTO video_queue (guid, main_file, title, url, access_id, owner_id, timestamp)
       VALUES('" . $video->guid . "',
                                                '" . $file . "',

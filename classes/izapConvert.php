@@ -44,7 +44,7 @@ class izapConvert {
     if($current_file_type == 'flv') {
      
     } else {
-      $videoCommand = izapGetFfmpegVideoConvertCommand_izap_videos();
+      $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
       $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
       $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);
       exec($videoCommand, $arr, $ret);

@@ -347,7 +347,7 @@ function izapTrigger_izap_videos() {
   $PHPpath = izapGetPhpPath_izap_videos();
   $file_path = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
 
-  if (!izapIsQueueRunning_izap_videos()) {
+  if (!izap_is_queue_running_izap_videos()) {
     if (izapIsWin_izap_videos()) {
       pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
     } else {
@@ -362,7 +362,7 @@ function izapTrigger_izap_videos() {
  *
  * @return boolean true if yes or false if no
  */
-function izapIsQueueRunning_izap_videos() {
+function izap_is_queue_running_izap_videos() {
   $queue_object = new izapQueue();
 
   $numberof_process = $queue_object->check_process();
@@ -450,9 +450,9 @@ function izapGetAccessForAll_izap_videos($hook, $entity_type, $returnvalue, $par
 function getQueue() {
   global $CONFIG;
 
-  $queue_status = (izapIsQueueRunning_izap_videos()) ?
+  $queue_status = (izap_is_queue_running_izap_videos()) ?
           elgg_echo('izap_videos:running') :
-          elgg_echo('izap_videos:notRunning');
+          elgg_echo('izap_videos:notRunning'); 
   $queue_object = new izapQueue(); 
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
       'status' => $queue_status,
@@ -496,7 +496,7 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  * 
  * @return boolean
  */
-function izapRunQueue_izap_videos() {
+function izap_run_queue_izap_videos() {
   $queue_object = new izapQueue();
   $queue = $queue_object->fetch_videos();
   return $queue;
@@ -507,7 +507,7 @@ function izapRunQueue_izap_videos() {
  *
  * @return string path
  */
-function izapGetFfmpegVideoConvertCommand_izap_videos() {
+function izap_get_ffmpeg_videoConvertCommand_izap_videos() {
   $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
   $path = html_entity_decode($path);
   if (!$path)

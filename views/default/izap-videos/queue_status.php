@@ -35,15 +35,15 @@ elgg_load_library('elgg:izap_video');
           $i = 0;
           foreach($queuedVideos as $queuedVideo):
             $extension_length = strlen(getFileExtension($queuedVideo['main_file'])); 
-           // $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
+            $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
 
             $ORIGNAL_name = basename($queuedVideo['main_file']); 
             $ORIGNAL_size = izapFormatBytes(filesize($queuedVideo['main_file']));
 
-          //  $FLV_name = basename($outputPath . '_c.flv');
-           // $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv'));
+            $FLV_name = basename($outputPath . '_c.flv');
+            $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv'));
             ?>
-        <tr class="odd <?php echo (!$i && izapIsQueueRunning_izap_videos()) ? 'queue_selected' : ''?>">
+        <tr class="odd <?php echo (!$i && izap_is_queue_running_izap_videos()) ? 'queue_selected' : ''?>">
           <td>
                 <?php echo $ORIGNAL_name . '<br />' . $FLV_name;?>
           </td>

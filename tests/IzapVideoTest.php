@@ -42,63 +42,15 @@ class IzapVideoTest extends PHPUnit_Framework_TestCase {
     $izapvideo_obj->title = 'add new video';
     $izapvideo_obj->description = 'new video add here';
     $izapvideo_obj->owner_guid = 77;
+    $izapvideo_obj->access_id = 2;
     $process_video = $izapvideo_obj->processOnserverVideo($source_path, $dest_path);
 
-    if ($izapvideo_obj->save()) {
-      @unlink($process_video->unlink_tmp_video);
-      @unlink($process_video->unlink_tmp_image);
-      $this->assertEquals($process_video->thumbnail, 'yes');
-      $this->assertEquals($process_video->is_flv, 'yes');
+    if ($izapvideo_obj->save()) { 
+       $saved_guid = $izapvideo_obj->getGUID();
     }
-//    if ($this->obj->save()) {
-//      $saved_guid = $this->obj->getGUID();
-//    }
-//
-//    unset($this->obj);
-//    $saved_object = get_entity($saved_guid);
-//    $this->assertEquals($saved_object->guid, $saved_guid);
-  }
-
-  /**
-   * test for when video not processed
-   */
-  public function testErrorCasesInOServerVideo() {
-    $izapvideo_obj = new IzapVideo();
-    $source_path = dirname(__FILE__) . '/test.odt';
-    $dest_path = elgg_get_data_path();
-    $izapvideo_obj->owner_guid = 77;
-    $process_video = $izapvideo_obj->processOnServerVideo($source_path, $dest_path);
-
-    $this->assertEquals($process_video->converted, 'no');
-    $this->assertEquals($process_video->is_flv, 'no');
-    $this->assertNotEmpty($process_video->message);
-    $this->assertEquals($process_video->thumbnail, 'no');
-  }
-
-  /**
-   * test required parameters for save entity
-   */
-  
-  public function testRequiredParameters() {
-
-    $source_path = dirname($path) . 'test_video.avi';
-    $dest_path = elgg_get_data_path();
-    $izapvideo_obj = new IzapVideo();
-    $izapvideo_obj->title = '';
-    $izapvideo_obj->description = '';
-    $izapvideo_obj->video_url = '';
-
-    if ($izapvideo_obj->title == '' || $izapvideo_obj->description == '' || $izapvideo_obj->video_url == '') {
-       $this->assertEmpty($izapvideo_obj->title,'Title is empty');
-       $this->assertEmpty($izapvideo_obj->owner_guid, 'Owner_guid is empty');
-       $this->assertEmpty($izapvideo_obj->description, 'Description is empty');
+        unset($izapvideo_obj);
+        $saved_object = get_entity($saved_guid); //print_r($saved_object); exit;
+        $this->assertEquals($saved_object->guid, $saved_guid);
     }
-//    else{
-//      $izapvideo_obj->owner_guid = 77;
-//      $izapvideo_obj->processOnserverVideo($source_path, $dest_path);
-//      $this->assertEquals($process_video->thumbnail, 'yes');
-//      $this->assertEquals($process_video->is_flv, 'yes');
-//    }
-  }
 
 }
