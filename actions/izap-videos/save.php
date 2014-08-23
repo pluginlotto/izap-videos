@@ -99,6 +99,7 @@ switch ($page_url) {
       $process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
     }
 
+
     /**
      * Upload thumbnail process
      */
@@ -109,20 +110,23 @@ switch ($page_url) {
       $izap_videos->thumbnail = $izap_videos->getFilenameOnFilestore();
     }
 
-    if ($process_video->is_flv == 'yes') {
+   // if ($process_video->is_flv == 'yes') {
       if ($izap_videos->save()) {
-        @unlink($process_video->unlink_tmp_video);
-        @unlink($process_video->unlink_tmp_image);
-        elgg_clear_sticky_form('izap_videos');
-
-        if ($page_url == 'onserver') {
-          if (getFileExtension($_FILES['upload_video']['name']) != 'flv') {
-            izapSaveFileInfoForConverting_izap_videos($_FILES['upload_video']['tmp_name'], $izap_videos, $izap_videos->access_id);
-          }
-        }
-        system_messages(elgg_echo('izap-videos:Save:success'));
-        forward($izap_videos->getURL());
+        
+    //  }
+    }
+    if ($page_url == 'onserver') {
+      if (getFileExtension($_FILES['upload_video']['name']) != 'flv') {
+        $guid = $izap_videos->guid;
+        $get_extension = getFileExtension($_FILES['upload_video']['name']);      
+        izap_save_fileinfo_for_converting_izap_videos($process_video->tmpPath, $izap_videos, $izap_videos->access_id);
       }
     }
+
+    @unlink($process_video->unlink_tmp_video);
+    @unlink($process_video->unlink_tmp_image);
+    elgg_clear_sticky_form('izap_videos');
+    system_messages(elgg_echo('izap-videos:Save:success'));
+    forward($izap_videos->getURL());
     break;
 }

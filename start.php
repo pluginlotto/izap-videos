@@ -44,7 +44,7 @@ function izap_video_init() {
   if (elgg_is_admin_logged_in()) {
     // Add admin menu item @todo: can be done automatic loading via bridge
     elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
-    // elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
+    elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
   }
 
   //register action

@@ -66,6 +66,7 @@ class IzapVideoTest extends PHPUnit_Framework_TestCase {
     $izapvideo_obj = new IzapVideo();
     $source_path = dirname(__FILE__) . '/test.odt';
     $dest_path = elgg_get_data_path();
+    $izapvideo_obj->owner_guid = 77;
     $process_video = $izapvideo_obj->processOnServerVideo($source_path, $dest_path);
 
     $this->assertEquals($process_video->converted, 'no');

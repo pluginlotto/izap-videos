@@ -28,19 +28,25 @@ class izapConvert {
 
   public $format = 'flv';
   
+  public function izapConvert($in = '') {
+    $this->invideo = $in;
+    $extension_length = strlen(getFileExtension($this->invideo));
+    $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
+    $this->outvideo =  $outputPath . '_c.' . $this->format;
+    $this->outimage = $outputPath . '_i.png';
+    $this->imagepreview = $outputPath.'_p.png';
+  }
+  
   public function izap_video_convert() {
 
     // check if the file is already flv
-    $current_file_type = getFileExtension($this->invideo);
+    $current_file_type = getFileExtension($this->invideo); 
     if($current_file_type == 'flv') {
-      $this->make_array_for_flv();
+     
     } else {
       $videoCommand = izapGetFfmpegVideoConvertCommand_izap_videos();
       $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
       $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);
-      //$videoCommand .= ' 2>&1';
-
-      //echo $videoCommand;exit;
       exec($videoCommand, $arr, $ret);
 
       if(!$ret == 0) {

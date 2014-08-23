@@ -49,7 +49,7 @@ class IzapSqlite {
     }
     $this->query=$qry;
     try {
-      $this->statement = $statement = $this->db_connection->prepare($this->query);
+      $this->statement = $statement = $this->db_connection->prepare($this->query); 
       $stmt_result = $statement->execute($params);
       $this->rows_affected = $statement->rowCount();
       preg_match('/SELECT/i',$this->query,$matches);

@@ -352,6 +352,7 @@ function izapTrigger_izap_videos() {
       pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
     } else {
       exec($PHPpath . ' ' . $file_path . ' izap web', $output);
+      
     }
   }
 }
@@ -362,7 +363,6 @@ function izapTrigger_izap_videos() {
  * @return boolean true if yes or false if no
  */
 function izapIsQueueRunning_izap_videos() {
-  // check for *nix machine. For windows, it is under development
   $queue_object = new izapQueue();
 
   $numberof_process = $queue_object->check_process();
@@ -453,7 +453,7 @@ function getQueue() {
   $queue_status = (izapIsQueueRunning_izap_videos()) ?
           elgg_echo('izap_videos:running') :
           elgg_echo('izap_videos:notRunning');
-  $queue_object = new izapQueue();
+  $queue_object = new izapQueue(); 
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
       'status' => $queue_status,
       'total' => $queue_object->count(),
@@ -482,16 +482,14 @@ function izapFormatBytes($bytes, $precision = 2) {
   return round($bytes, $precision) . ' ' . $units[$pow];
 }
 
-function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_access_id = 2) {
+function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
   if (!file_exists($file) || !$video) {
     return false;
   }
 
   $queue = new izapQueue();
-  $queue->put($video, $file, $defined_access_id);
-  //izapRunQueue_izap_videos();
-  izapTrigger_izap_videos();
+  $r = $queue->put($video, $file, $defined_access_id);
 }
 
 /**
@@ -501,24 +499,7 @@ function izapSaveFileInfoForConverting_izap_videos($file, $video, $defined_acces
 function izapRunQueue_izap_videos() {
   $queue_object = new izapQueue();
   $queue = $queue_object->fetch_videos();
-
-  if (is_array($queue)) {
-    foreach ($queue as $pending) {
-      $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-      if ($converted['error']) {
-        $result = $queue_object->move_to_trash($pending['guid']);
-      } else {
-        $queue_object->delete($pending['guid']);
-      }
-      izap_update_all_defined_access_id($pending['guid'], $pending['access_id']);
-    }
-
-    // recheck if there is new video in the queue
-    if ($queue_object->count() > 0) {
-      izapRunQueue_izap_videos();
-    }
-  }
-  return true;
+  return $queue;
 }
 
 /**
@@ -535,77 +516,14 @@ function izapGetFfmpegVideoConvertCommand_izap_videos() {
 }
 
 function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-  global $CONFIG;
-  $return = false;
-
-  // works only if we have the input file
-  if (file_exists($file)) {
-    // now convert video
-    //
-    // Need to set flag for the file going in the conversion.
+ 
+  if (file_exists($file)) { 
     $queue_object = new izapQueue();
     $queue_object->change_conversion_flag($videoId);
 
     $video = new izapConvert($file);
     $videofile = $video->izap_video_convert();
-
-    if (!is_array($videofile)) {
-      // if every thing is ok then get back values to save
-      $file_values = $video->getValues();
-      $izap_videofile = 'izap_videos/uploaded/' . $file_values['filename'];
-      $izap_origfile = 'izap_videos/uploaded/' . $file_values['origname'];
-      $izap_videos = new IzapVideo($videoId);
-      $izap_videos->setFilename($izap_videofile);
-      $izap_videos->open("write");
-      $izap_videos->write($file_values['filecontent']);
-      
-    //check if you do not want to keep original file
-      if (pluginSetting(array('name' => 'izapKeepOriginal', 'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN)) == 'YES') {
-        $izap_videos->setFilename($izap_origfile);
-        $izap_videos->open("write");
-        $izap_videos->write($file_values['origcontent']);
-      }
-
-      $izap_videos->converted = 'yes';
-      $izap_videos->videofile = $izap_videofile;
-      $izap_videos->orignalfile = $izap_origfile;
-      notify_user($ownerGuid,
-              $CONFIG->site_guid,
-              elgg_echo('izap_videos:notifySub:videoConverted'),
-              sprintf(elgg_echo('izap_videos:notifyMsg:videoConverted'), $izap_videos->getUrl())
-      );
-      return true;
-    } else {
-      $errorReason = (string)$videofile['message'];
-    }
-  } else {
-    $errorReason = elgg_echo('izap_videos:fileNotFound');
   }
-  $adminGuid = izapGetSiteAdmin_izap_videos(true);
-
-  // notify admin
-  notify_user($adminGuid,
-          $CONFIG->site_guid,
-          elgg_echo('izap_videos:notifySub:videoNotConverted'),
-          sprintf(elgg_echo('izap_videos:notifyAdminMsg:videoNotConverted'), $errorReason)
-  );
-
-  if (isset($errorReason)) {
-    $return = array('error' => true, 'reason' => $errorReason);
-  }
-  
-  return $return;
-}
-
-function izapGetSiteAdmin_izap_videos($guid = false) {
-  $admin = get_entities_from_metadata('admin', 1, 'user', '', 0, 1, 0);
-  if ($admin[0]->admin || $admin[0]->siteadmin) {
-    if ($guid)
-      return $admin[0]->guid;
-    else
-      return $admin[0];
-  }
-  return false;
 }
 
 function izap_update_all_defined_access_id($entity_guid, $accessId = ACCESS_PUBLIC) {

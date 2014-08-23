@@ -24,10 +24,10 @@ class izapQueue extends IzapSqlite {
 
   function __construct() {
     global $CONFIG;
-    try {
+    try { 
       parent::__construct($CONFIG->dataroot . 'izap_queue.db');
       $this->setup();
-    } catch (PDOException $e) {
+    } catch (PDOException $e) { 
       register_error(elgg_echo("izap_videos:error:sqliteDrivers"));
       izapAdminSettings_izap_videos('izapVideoOptions', array('OFFSERVER', 'EMBED'), TRUE);
       izapAdminSettings_izap_videos('izap_cron_time', 'none', TRUE);

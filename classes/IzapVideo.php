@@ -66,51 +66,55 @@ class IzapVideo extends ElggFile {
     /**
      * convert videofile to flv if it is not.
      */
-    if ($get_file_extension == 'flv') { 
+    if ($get_file_extension == 'flv') {
       $returnvalue->converted = 'yes';
       $returnvalue->is_flv = 'yes';
-    } else { 
+    } else {
       $destination_path = $dest_path . time() . $this->format;
       $file_name = end(explode('/', $destination_path));
-
+      $source_file = end(explode('/', $source_path));
+      
+      //tmp file
+      $this->setFilename('izap_videos/uploaded/video_' . $source_file);
+      $this->open('write');
+      $this->write(file_get_contents($source_path));
+      $this->tmpvideofile = $this->getFilenameOnFilestore();
+      $returnvalue->tmpPath = $this->getFilenameOnFilestore();
+      
       //ffmpeg command
-      exec("ffmpeg -i $source_path $destination_path 2>&1", $out, $err);
-
-      //if file convert suucessful then move tmp file.
-      if ($err == 0 && file_exists($destination_path)) {
-
-        //move tmp file
-        $this->setFilename('izap_videos/uploaded/video_' . $file_name);
-        $this->open('write');
-        $this->write(file_get_contents($destination_path));
-        $this->tmpvideofile = $this->getFilenameOnFilestore();
-        $this->originalvideoname = $file_name;
-        $this->converted = 'yes';
-
-        //if file not moved then unlink from tmp folder
-        if (!$this->tmpvideofile) {
-          @unlink($destination_path);
-        } else { 
-          //send destination_path back to test file
-          $returnvalue->unlink_tmp_video = $destination_path;
-          $returnvalue->is_flv = 'yes';
-        }
-      } else {
-        //return if video not converted
-        $returnvalue->converted = 'no';
-        $returnvalue->is_flv = 'no';
-        $returnvalue->message = end($out);
-      }
-    }
-
-    //get thumbnail 
-    $get_thumbnail = $this->get_thumbnail($source_path, $dest_path);
-
-    if ($get_thumbnail->thumbnail == '') {
-      $returnvalue->thumbnail = 'no';
-    } else {
-      $returnvalue->unlink_tmp_image = $get_thumbnail->thumbnail;
-      $returnvalue->thumbnail = 'yes';
+//      exec("ffmpeg -i $source_path $destination_path 2>&1", $out, $err);
+//
+//      //if file convert suucessful then move tmp file.
+//      if ($err == 0 && file_exists($destination_path)) {
+//       
+//        $this->originalvideoname = $file_name;
+//        $this->converted = 'yes';
+//
+//       
+//        //if file not moved then unlink from tmp folder
+//        if (!$this->tmpvideofile) {
+//          @unlink($destination_path);
+//        } else {
+//          //send destination_path back to test file
+//          $returnvalue->unlink_tmp_video = $destination_path;
+//          $returnvalue->is_flv = 'yes';
+//        }
+//      } else {
+//        //return if video not converted
+//        $returnvalue->converted = 'no';
+//        $returnvalue->is_flv = 'no';
+//        $returnvalue->message = end($out);
+//      }
+//    }
+//
+//    //get thumbnail 
+//    $get_thumbnail = $this->get_thumbnail($source_path, $dest_path);
+//
+//    if ($get_thumbnail->thumbnail == '') {
+//      $returnvalue->thumbnail = 'no';
+//    } else {
+//      $returnvalue->unlink_tmp_image = $get_thumbnail->thumbnail;
+//      $returnvalue->thumbnail = 'yes';
     }
     return $returnvalue;
   }

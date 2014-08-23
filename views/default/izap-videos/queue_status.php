@@ -17,9 +17,9 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$total_queued = $vars['total'];
+$total_queued = $vars['total']; 
 $queueStatus = $vars['status'];
-$queuedVideos = $vars['queue_videos'];
+$queuedVideos = $vars['queue_videos']; 
 // load lib
 elgg_load_library('elgg:izap_video');
 ?>
@@ -35,13 +35,13 @@ elgg_load_library('elgg:izap_video');
           $i = 0;
           foreach($queuedVideos as $queuedVideo):
             $extension_length = strlen(getFileExtension($queuedVideo['main_file'])); 
-            $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
+           // $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
 
             $ORIGNAL_name = basename($queuedVideo['main_file']); 
             $ORIGNAL_size = izapFormatBytes(filesize($queuedVideo['main_file']));
 
-            $FLV_name = basename($outputPath . '_c.flv');
-            $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv'));
+          //  $FLV_name = basename($outputPath . '_c.flv');
+           // $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv'));
             ?>
         <tr class="odd <?php echo (!$i && izapIsQueueRunning_izap_videos()) ? 'queue_selected' : ''?>">
           <td>
@@ -49,6 +49,13 @@ elgg_load_library('elgg:izap_video');
           </td>
           <td>
                 <?php echo $ORIGNAL_size . '<br />' . $FLV_size;?>
+          </td>
+          <td>
+            <?php if($queuedVideo['conversion'] != IN_PROCESS) { 
+              echo 'Not Converted';
+            }else{
+              echo 'Converted';
+            } ?>
           </td>
           <td>
                 <?php 
