@@ -45,7 +45,7 @@ class IzapVideo extends ElggFile {
      * @param type $file_path input path for ffmpeg processing
      */
     public function processOnserverVideo($source_path, $dest_path) {
-        $returnvalue = new stdClass();
+       // $returnvalue = new stdClass();
 
         $destination_path = $dest_path . time() . $this->format;
         $file_name = end(explode('/', $destination_path));
@@ -55,8 +55,9 @@ class IzapVideo extends ElggFile {
         $this->setFilename($this->get_tmp_path($source_file));
         $this->open('write');
         $this->write(file_get_contents($source_path));
-        $this->tmpfile = $this->getFilenameOnFilestore();
-  
+        $this->tmpfile = $this->getFilenameOnFilestore(); 
+      //  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
+      //  return $returnvalue;
     }
 
 }
