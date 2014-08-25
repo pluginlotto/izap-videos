@@ -69,8 +69,9 @@ if ($guid == 0) {
     $izap_video->container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
     $new = true;
 } else {
-    $izap_video = get_entity($guid);    
-    if (!$izap_video->canEdit()) {
+    $entity = get_entity($guid);
+    elgg_instanceof($entity, 'object', 'izap_video');
+    if (!$izap_video->canEdit()) { 
         system_message(elgg_echo('izap-videos:save:failed'));
         forward(REFERRER);
     }

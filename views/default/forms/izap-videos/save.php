@@ -19,8 +19,10 @@
 /**
  * izap-video add new video form
  */
+$guid = elgg_extract('guid', $vars, null);
+if(!$guid){ 
 echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
-
+}
 $title = elgg_extract('title', $vars, '');
 $desc = elgg_extract('description', $vars, '');
 $tags = elgg_extract('tags', $vars, '');
@@ -29,11 +31,11 @@ $container_guid = elgg_extract('container_guid', $vars);
 if (!$container_guid) {
   $container_guid = elgg_get_logged_in_user_guid();
 }
-$guid = elgg_extract('guid', $vars, null);
+
 
 if ($guid) {
   $file_label = elgg_echo("izap-videos:replace");
-  $submit_label = elgg_echo('save');
+  $submit_label = elgg_echo('update');
 } else {
   $file_label = elgg_echo("izap-videos:file");
   $submit_label = elgg_echo('upload');
@@ -43,13 +45,14 @@ if ($guid) {
 <?php
 $current_url = current_page_url();
 $upload_type = end(explode('/', $current_url));
+if(!$guid){
 if ($upload_type == 'offserver') {
   ?>
   <div>
     <label><?php echo elgg_echo('video_url'); ?></label>
     <?php echo elgg_view('input/text', array('name' => 'video_url', 'value' => $video_url)); ?>
   </div>
-<?php } else { ?>
+<?php } elseif($upload_type == 'onserver') { ?>
 
   <div>
     <label><?php echo elgg_echo('izap-videos:upload video'); ?></label><br />
@@ -60,7 +63,7 @@ if ($upload_type == 'offserver') {
     <label><?php echo elgg_echo('izap-videos:thumbnail'); ?></label><br />
     <?php echo elgg_view('input/file', array('name' => 'upload_thumbnail')); ?>
   </div>
-<?php } ?>
+<?php } } ?>
 
 <div>
   <label><?php echo elgg_echo('title'); ?></label><br />

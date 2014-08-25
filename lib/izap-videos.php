@@ -174,10 +174,10 @@ function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
         'video_url' => NULL
     );
 
-    if ($post) {
+    if ($post) { 
         foreach (array_keys($values) as $field) {
-            if (isset($post->$field)) {
-                $values[$field] = $post->$field;
+            if (isset($post->$field)) { 
+                $values[$field] = $post->$field; 
             }
         }
     }
