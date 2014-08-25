@@ -100,7 +100,6 @@ switch ($page_url) {
       $izap_videos->open("write");
       $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
       $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
-      
       //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
     }
 
