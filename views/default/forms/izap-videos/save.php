@@ -76,6 +76,7 @@ if ($upload_type == 'offserver') {
   <label><?php echo elgg_echo('tags(Optional)'); ?></label>
   <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
 </div>
+
 <?php
 $categories = elgg_view('input/categories', $vars);
 if ($categories) {
@@ -86,6 +87,7 @@ if ($categories) {
   <label><?php echo elgg_echo('access'); ?></label><br />
   <?php echo elgg_view('input/access', array('name' => 'access_id', 'value' => $access_id)); ?>
 </div>
+
 <div class="elgg-foot">
   <?php
   echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));

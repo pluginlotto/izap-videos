@@ -23,68 +23,69 @@
  */
 function izap_video_get_page_content_list($container_guid = NULL) {
 
-  $return = array();
-  $return['filter_context'] = $container_guid ? 'mine' : 'all';
-  $options = array(
-      'type' => 'object',
-      'subtype' => 'izap_video',
-      'full_view' => false,
-      'no_results' => elgg_echo('izap-videos:none'),
-  );
+    $return = array();
+    $return['filter_context'] = $container_guid ? 'mine' : 'all';
+    $options = array(
+        'type' => 'object',
+        'subtype' => 'izap_video',
+        'full_view' => false,
+        'no_results' => elgg_echo('izap-videos:none'),
+    );
 
-  $current_user = elgg_get_logged_in_user_entity();
-  if ($container_guid) {
+    $current_user = elgg_get_logged_in_user_entity();
+    if ($container_guid) {
 // access check for closed groups
-    elgg_group_gatekeeper();
+        elgg_group_gatekeeper(); 
 
-//  $options['container_guid'] = $container_guid; 
-    $container = get_entity($container_guid);
-    if (!$container) {
-      
-    }
+       $options['container_guid'] = $container_guid; 
+        $container = get_entity($container_guid);
+        if (!$container) {
+            
+        }
 
-    $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
+        $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
 
-    $crumbs_title = $container->name;
-    elgg_push_breadcrumb($crumbs_title);
+        $crumbs_title = $container->name;
+        elgg_push_breadcrumb($crumbs_title);
 
-    if ($current_user && ($container_guid == $current_user->guid)) {
-      $return['filter_context'] = 'mine';
-    } else if (elgg_instanceof($container, 'group')) {
-      $return['filter'] = false;
-    } else {
+        if ($current_user && ($container_guid == $current_user->guid)) {
+            $return['filter_context'] = 'mine';
+        } else if (elgg_instanceof($container, 'group')) {
+            $return['filter'] = false;
+        } else {
 // do not show button or select a tab when viewing someone else's posts
-      $return['filter_context'] = 'none';
+            $return['filter_context'] = 'none';
+        }
+    } else {
+        $return['filter_context'] = 'all';
+        $return['title'] = elgg_echo('izap-videos:title:all_videos');
+        elgg_pop_breadcrumb();
+        elgg_push_breadcrumb(elgg_echo('izap-videos'));
     }
-  } else {
-    $return['filter_context'] = 'all';
-    $return['title'] = elgg_echo('izap-videos:title:all_videos');
-    elgg_pop_breadcrumb();
-    elgg_push_breadcrumb(elgg_echo('izap-videos'));
-  }
 
-  $title = 'Add New Video';
-  $url = GLOBAL_IZAP_VIDEOS_PLUGIN . '/add/';
+    $title = 'Add New Video';
+    $url = GLOBAL_IZAP_VIDEOS_PLUGIN . '/add/';
 
-  if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-    $url .= elgg_get_logged_in_user_guid() . '/onserver';
-    elgg_register_menu_item('title', array(
-        'name' => elgg_get_friendly_title($title),
-        'href' => $url,
-        'text' => $title,
-        'link_class' => 'elgg-button elgg-button-action',
-    ));
-  } else {
-    $url .= elgg_get_logged_in_user_guid() . '/offserver';
-    elgg_register_menu_item('title', array(
-        'name' => elgg_get_friendly_title($title),
-        'href' => $url,
-        'text' => $title,
-        'link_class' => 'elgg-button elgg-button-action',
-    ));
-  }
-  $return['content'] = elgg_list_entities($options);
-  return $return;
+    if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+        $url .= elgg_get_logged_in_user_guid() . '/onserver';
+        elgg_register_menu_item('title', array(
+            'name' => elgg_get_friendly_title($title),
+            'href' => $url,
+            'text' => $title,
+            'link_class' => 'elgg-button elgg-button-action',
+        ));
+    } else {
+        $url .= elgg_get_logged_in_user_guid() . '/offserver';
+        elgg_register_menu_item('title', array(
+            'name' => elgg_get_friendly_title($title),
+            'href' => $url,
+            'text' => $title,
+            'link_class' => 'elgg-button elgg-button-action',
+        ));
+    }
+    
+    $return['content'] = elgg_list_entities($options);
+      return $return;
 }
 
 /**
@@ -92,7 +93,7 @@ function izap_video_get_page_content_list($container_guid = NULL) {
  * @param type $container_guid
  */
 function izap_video_get_page_content_friends($container_guid = NULL) {
-  
+    
 }
 
 /**
@@ -103,28 +104,28 @@ function izap_video_get_page_content_friends($container_guid = NULL) {
  */
 function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
 
-  $return = array(
-      'filter' => '',
-  );
+    $return = array(
+        'filter' => '',
+    );
 
-  $form_vars = array();
-  $sidebar = '';
-  if ($page == 'edit') {
-    
-  } else {
-    elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
-    $body_vars = izap_videos_prepare_form_vars(null);
+    $form_vars = array();
+    $sidebar = '';
+    if ($page == 'edit') {
+        
+    } else {
+        elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
+        $body_vars = izap_videos_prepare_form_vars(null);
 
-    $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
-    $title = elgg_echo('izap-videos:add');
-    $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
-  }
+        $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
+        $title = elgg_echo('izap-videos:add');
+        $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
+    }
 
-  $return['title'] = $title;
-  $return['content'] = $content;
-  $return['sidebar'] = $sidebar;
+    $return['title'] = $title;
+    $return['content'] = $content;
+    $return['sidebar'] = $sidebar;
 
-  return $return;
+    return $return;
 }
 
 /**
@@ -135,35 +136,35 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
 function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
 
 // input names => defaults
-  $values = array(
-      'title' => NULL,
-      'description' => NULL,
-      'access_id' => ACCESS_DEFAULT,
-      'comments_on' => 'On',
-      'tags' => NULL,
-      'container_guid' => NULL,
-      'guid' => NULL,
-      'video_url' => NULL
-  );
+    $values = array(
+        'title' => NULL,
+        'description' => NULL,
+        'access_id' => ACCESS_DEFAULT,
+        'comments_on' => 'On',
+        'tags' => NULL,
+        'container_guid' => NULL,
+        'guid' => NULL,
+        'video_url' => NULL
+    );
 
-  if ($post) {
-    foreach (array_keys($values) as $field) {
-      if (isset($post->$field)) {
-        $values[$field] = $post->$field;
-      }
+    if ($post) {
+        foreach (array_keys($values) as $field) {
+            if (isset($post->$field)) {
+                $values[$field] = $post->$field;
+            }
+        }
     }
-  }
 
-  if (elgg_is_sticky_form('izap_videos')) {
-    $sticky_values = elgg_get_sticky_values('izap_videos');
-    foreach ($sticky_values as $key => $value) {
-      $values[$key] = $value;
+    if (elgg_is_sticky_form('izap_videos')) {
+        $sticky_values = elgg_get_sticky_values('izap_videos');
+        foreach ($sticky_values as $key => $value) {
+            $values[$key] = $value;
+        }
     }
-  }
 
-  elgg_clear_sticky_form('izap_videos');
+    elgg_clear_sticky_form('izap_videos');
 
-  return $values;
+    return $values;
 }
 
 /**
@@ -171,11 +172,11 @@ function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
  * @return boolean
  */
 function izapIsWin_izap_videos() {
-  if (strtolower(PHP_OS) == 'winnt') {
-    return true;
-  } else {
-    return false;
-  }
+    if (strtolower(PHP_OS) == 'winnt') {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -184,25 +185,25 @@ function izapIsWin_izap_videos() {
  * @return string
  */
 function izapReadableSize_izap_videos($inputSize) {
-  if (strpos($inputSize, 'M'))
-    return $inputSize . 'B';
+    if (strpos($inputSize, 'M'))
+        return $inputSize . 'B';
 
-  $outputSize = $inputSize / 1024;
-  if ($outputSize < 1024) {
-    $outputSize = number_format($outputSize, 2);
-    $outputSize .= ' KB';
-  } else {
-    $outputSize = $outputSize / 1024;
+    $outputSize = $inputSize / 1024;
     if ($outputSize < 1024) {
-      $outputSize = number_format($outputSize, 2);
-      $outputSize .= ' MB';
+        $outputSize = number_format($outputSize, 2);
+        $outputSize .= ' KB';
     } else {
-      $outputSize = $outputSize / 1024;
-      $outputSize = number_format($outputSize, 2);
-      $outputSize .= ' GB';
+        $outputSize = $outputSize / 1024;
+        if ($outputSize < 1024) {
+            $outputSize = number_format($outputSize, 2);
+            $outputSize .= ' MB';
+        } else {
+            $outputSize = $outputSize / 1024;
+            $outputSize = number_format($outputSize, 2);
+            $outputSize .= ' GB';
+        }
     }
-  }
-  return $outputSize;
+    return $outputSize;
 }
 
 /**
@@ -214,13 +215,13 @@ function izapReadableSize_izap_videos($inputSize) {
  * @return type
  */
 function izapAdminSettings_izap_videos($settingName, $values = '', $override = false, $makeArray = false) {
-  $send_array = array(
-      'name' => $settingName,
-      'value' => $values,
-      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-  );
+    $send_array = array(
+        'name' => $settingName,
+        'value' => $values,
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+    );
 
-  return pluginSetting($send_array);
+    return pluginSetting($send_array);
 }
 
 /**
@@ -229,45 +230,45 @@ function izapAdminSettings_izap_videos($settingName, $values = '', $override = f
  * @return boolean
  */
 function pluginSetting($supplied_array) {
-  $default = array(
-      'override' => FALSE,
-      'make_array' => FALSE,
-  );
+    $default = array(
+        'override' => FALSE,
+        'make_array' => FALSE,
+    );
 
-  $input = array_merge($default, (array) $supplied_array);
+    $input = array_merge($default, (array) $supplied_array);
 // get old values
-  $old_value = elgg_get_plugin_setting($input['name'], $input['plugin']);
+    $old_value = elgg_get_plugin_setting($input['name'], $input['plugin']);
 
 //make new value
-  if (is_array($input['value'])) {
-    $new_value = implode('|', $input['value']);
-  } else {
-    $new_value = $input['value'];
-  }
-
-  if ((!(bool) $old_value && !empty($new_value)) || $input['override']) {
-    if (!elgg_set_plugin_setting($input['name'], $new_value, $input['plugin'])) {
-      return FALSE;
+    if (is_array($input['value'])) {
+        $new_value = implode('|', $input['value']);
     } else {
-      $return = $new_value;
+        $new_value = $input['value'];
     }
-  }
 
-  if ((bool) $old_value !== FALSE) {
-    $old_array = explode('|', $old_value);
-    if (count($old_array) > 1) {
-      $return = $old_array;
-    } else {
-      $return = $old_value;
+    if ((!(bool) $old_value && !empty($new_value)) || $input['override']) {
+        if (!elgg_set_plugin_setting($input['name'], $new_value, $input['plugin'])) {
+            return FALSE;
+        } else {
+            $return = $new_value;
+        }
     }
-  }
 
-  if (!is_array($return) && $input['make_array'] && (bool) $return) {
-    $new_return_val[] = $return;
-    $return = $new_return_val;
-  }
+    if ((bool) $old_value !== FALSE) {
+        $old_array = explode('|', $old_value);
+        if (count($old_array) > 1) {
+            $return = $old_array;
+        } else {
+            $return = $old_value;
+        }
+    }
 
-  return $return;
+    if (!is_array($return) && $input['make_array'] && (bool) $return) {
+        $new_return_val[] = $return;
+        $return = $new_return_val;
+    }
+
+    return $return;
 }
 
 /**
@@ -275,16 +276,16 @@ function pluginSetting($supplied_array) {
  * @return <type>
  */
 function izap_is_onserver_enabled_izap_videos() {
-  $settings = pluginSetting(array(
-      'name' => 'onserver_enabled_izap_videos',
-      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-  ));
+    $settings = pluginSetting(array(
+        'name' => 'onserver_enabled_izap_videos',
+        'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+    ));
 
-  if ((string) $settings === 'no') {
-    return FALSE;
-  }
+    if ((string) $settings === 'no') {
+        return FALSE;
+    }
 
-  return $settings;
+    return $settings;
 }
 
 /**
@@ -293,7 +294,7 @@ function izap_is_onserver_enabled_izap_videos() {
  * @return boolean
  */
 function izapResetQueue_izap_videos() {
-  return izapAdminSettings_izap_videos('isQueueRunning', 'no', true);
+    return izapAdminSettings_izap_videos('isQueueRunning', 'no', true);
 }
 
 /**
@@ -302,14 +303,14 @@ function izapResetQueue_izap_videos() {
  * @return boolean
  */
 function izapEmptyQueue_izap_videos() {
-  $pending_videos = izapGetNotConvertedVideos_izap_videos();
-  if ($pending_videos) {
-    foreach ($pending_videos as $video) {
-      $video->delete();
+    $pending_videos = izapGetNotConvertedVideos_izap_videos();
+    if ($pending_videos) {
+        foreach ($pending_videos as $video) {
+            $video->delete();
+        }
     }
-  }
 
-  return izapResetQueue_izap_videos();
+    return izapResetQueue_izap_videos();
 }
 
 /**
@@ -318,12 +319,12 @@ function izapEmptyQueue_izap_videos() {
  * @return boolean or entites
  */
 function izapGetNotConvertedVideos_izap_videos() {
-  $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_videos', 0, 999999);
-  if ($not_converted_videos) {
-    return $not_converted_videos;
-  }
+    $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_videos', 0, 999999);
+    if ($not_converted_videos) {
+        return $not_converted_videos;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -334,8 +335,8 @@ function izapGetNotConvertedVideos_izap_videos() {
  * @return type
  */
 function getFormAction($file, $plugin) {
-  global $CONFIG;
-  return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
+    global $CONFIG;
+    return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
 }
 
 /**
@@ -344,17 +345,16 @@ function getFormAction($file, $plugin) {
  * @global <type> $CONFIG
  */
 function izapTrigger_izap_videos() {
-  $PHPpath = izapGetPhpPath_izap_videos();
-  $file_path = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
+    $PHPpath = izapGetPhpPath_izap_videos();
+    $file_path = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
 
-  if (!izap_is_queue_running_izap_videos()) {
-    if (izapIsWin_izap_videos()) {
-      pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
-    } else {
-      exec($PHPpath . ' ' . $file_path . ' izap web', $output);
-      
+    if (!izap_is_queue_running_izap_videos()) {
+        if (izapIsWin_izap_videos()) {
+            pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
+        } else {
+            exec($PHPpath . ' ' . $file_path . ' izap web', $output);
+        }
     }
-  }
 }
 
 /**
@@ -363,14 +363,14 @@ function izapTrigger_izap_videos() {
  * @return boolean true if yes or false if no
  */
 function izap_is_queue_running_izap_videos() {
-  $queue_object = new izapQueue();
+    $queue_object = new izapQueue();
 
-  $numberof_process = $queue_object->check_process();
-  if ($numberof_process > 0) {
-    return true;
-  } else {
-    return false;
-  }
+    $numberof_process = $queue_object->check_process();
+    if ($numberof_process > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -379,11 +379,11 @@ function izap_is_queue_running_izap_videos() {
  * @return mixed file extension if found else false
  */
 function getFileExtension($filename) {
-  if (empty($filename)) {
-    return false;
-  }
+    if (empty($filename)) {
+        return false;
+    }
 
-  return strtolower(end(explode('.', $filename)));
+    return strtolower(end(explode('.', $filename)));
 }
 
 /**
@@ -392,11 +392,11 @@ function getFileExtension($filename) {
  * @return string path
  */
 function izapGetPhpPath_izap_videos() {
-  $path = izapAdminSettings_izap_videos('izapPhpInterpreter');
-  $path = html_entity_decode($path);
-  if (!$path)
-    $path = '';
-  return $path;
+    $path = izapAdminSettings_izap_videos('izapPhpInterpreter');
+    $path = html_entity_decode($path);
+    if (!$path)
+        $path = '';
+    return $path;
 }
 
 /**
@@ -405,7 +405,7 @@ function izapGetPhpPath_izap_videos() {
  * @param <type> $functionName
  */
 function izapGetAccess_izap_videos() {
-  izap_access_override(array('status' => true));
+    izap_access_override(array('status' => true));
 }
 
 /**
@@ -415,23 +415,23 @@ function izapGetAccess_izap_videos() {
  * @param string $functionName
  */
 function izapRemoveAccess_izap_videos() {
-  izap_access_override(array('status' => false));
+    izap_access_override(array('status' => false));
 }
 
 function izap_access_override($params = array()) {
-  global $CONFIG;
+    global $CONFIG;
 
-  if ($params['status']) {
-    $func = "elgg_register_plugin_hook_handler";
-  } else {
-    $func = "elgg_unregister_plugin_hook_handler";
-  }
+    if ($params['status']) {
+        $func = "elgg_register_plugin_hook_handler";
+    } else {
+        $func = "elgg_unregister_plugin_hook_handler";
+    }
 
-  $func_name = "izapGetAccessForAll_izap_videos";
+    $func_name = "izapGetAccessForAll_izap_videos";
 
-  $func("premissions_check", "all", $func_name, 9999);
-  $func("container_permissions_check", "all", $func_name, 9999);
-  $func("permissions_check:metadata", "all", $func_name, 9999);
+    $func("premissions_check", "all", $func_name, 9999);
+    $func("container_permissions_check", "all", $func_name, 9999);
+    $func("permissions_check:metadata", "all", $func_name, 9999);
 }
 
 /**
@@ -444,22 +444,22 @@ function izap_access_override($params = array()) {
  * @return <type>
  */
 function izapGetAccessForAll_izap_videos($hook, $entity_type, $returnvalue, $params) {
-  return true;
+    return true;
 }
 
 function getQueue() {
-  global $CONFIG;
+    global $CONFIG;
 
-  $queue_status = (izap_is_queue_running_izap_videos()) ?
-          elgg_echo('izap_videos:running') :
-          elgg_echo('izap_videos:notRunning'); 
-  $queue_object = new izapQueue(); 
-  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
-      'status' => $queue_status,
-      'total' => $queue_object->count(),
-      'queue_videos' => $queue_object->get(),
-          )
-  );
+    $queue_status = (izap_is_queue_running_izap_videos()) ?
+            elgg_echo('izap_videos:running') :
+            elgg_echo('izap_videos:notRunning');
+    $queue_object = new izapQueue();
+    echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
+        'status' => $queue_status,
+        'total' => $queue_object->count(),
+        'queue_videos' => $queue_object->get(),
+            )
+    );
 }
 
 /**
@@ -471,25 +471,25 @@ function getQueue() {
  * @return string
  */
 function izapFormatBytes($bytes, $precision = 2) {
-  $units = array('B', 'KB', 'MB', 'GB', 'TB');
+    $units = array('B', 'KB', 'MB', 'GB', 'TB');
 
-  $bytes = max($bytes, 0);
-  $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
-  $pow = min($pow, count($units) - 1);
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
 
-  $bytes /= pow(1024, $pow);
+    $bytes /= pow(1024, $pow);
 
-  return round($bytes, $precision) . ' ' . $units[$pow];
+    return round($bytes, $precision) . ' ' . $units[$pow];
 }
 
 function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
-  if (!file_exists($file) || !$video) {
-    return false;
-  }
+    if (!file_exists($file) || !$video) {
+        return false;
+    }
 
-  $queue = new izapQueue();
-  $r = $queue->put($video, $file, $defined_access_id);
+    $queue = new izapQueue();
+    $r = $queue->put($video, $file, $defined_access_id);
 }
 
 /**
@@ -497,9 +497,9 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  * @return boolean
  */
 function izap_run_queue_izap_videos() {
-  $queue_object = new izapQueue();
-  $queue = $queue_object->fetch_videos();
-  return $queue;
+    $queue_object = new izapQueue();
+    $queue = $queue_object->fetch_videos();
+    return $queue;
 }
 
 /**
@@ -508,33 +508,26 @@ function izap_run_queue_izap_videos() {
  * @return string path
  */
 function izap_get_ffmpeg_videoConvertCommand_izap_videos() {
-  $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
-  $path = html_entity_decode($path);
-  if (!$path)
-    $path = '';
-  return $path;
+   $path = elgg_get_plugin_setting('izapVideoCommand',  GLOBAL_IZAP_VIDEOS_PLUGIN); 
+  //  $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
+    $path = html_entity_decode($path);
+    if (!$path)
+        $path = '';
+    return $path;
 }
 
 function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
- 
-  if (file_exists($file)) { 
-    $queue_object = new izapQueue();
-    $queue_object->change_conversion_flag($videoId);
 
-    $video = new izapConvert($file);
-    $videofile = $video->izap_video_convert();
-  }
-}
+    if (file_exists($file)) {
+        $queue_object = new izapQueue();
+        // $queue_object->change_conversion_flag($videoId);
 
-function izap_update_all_defined_access_id($entity_guid, $accessId = ACCESS_PUBLIC) {
-  global $CONFIG;
-  // update metadata
-  $query = 'UPDATE ' . $CONFIG->dbprefix . 'metadata SET access_id = ' . $accessId . ' WHERE entity_guid = ' . $entity_guid;
-  $query = update_data($query);
-  if (!$query) {
-    return false;
-  }
-  $query = 'UPDATE ' . $CONFIG->dbprefix . 'entities SET access_id = ' . $accessId . ' WHERE guid = ' . $entity_guid;
-  update_data($query);
-  return $query;
+        $video = new izapConvert($file);
+        $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
+        if ($videofile['error'] > 0) {
+            return $videofile['message'];
+        } else {
+            $queue_object->change_conversion_flag($videoId);
+        }
+    }
 }
