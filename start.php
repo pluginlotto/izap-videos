@@ -54,10 +54,11 @@ function izap_video_init() {
     elgg_register_action('izap-videos/reset_queue', dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
     //register hook handler
     elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
-
     //extend css
     elgg_extend_view('css/admin', 'izap-videos/admin_css');
 
+    elgg_register_plugin_hook_handler('entity:url', 'object', 'izap_videos_set_url');
+    
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
 
@@ -150,3 +151,12 @@ function izap_video_unit_tests($hook, $type, $value, $params) {
     $path[] = dirname(__FILE__) . '/tests/IzapVideoTest.php';
     return $path;
 }
+
+function izap_videos_set_url($hook, $type, $url, $params) {
+    $entity = $params['entity'];
+    if (elgg_instanceof($entity, 'object', 'izap_video')) {
+        $friendly_title = elgg_get_friendly_title($entity->title);
+        return "izap-videos/view/{$entity->guid}/$friendly_title";
+    }
+}
+
