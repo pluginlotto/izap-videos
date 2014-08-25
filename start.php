@@ -114,7 +114,7 @@ function izap_video_page_handler($page) {
             $params = izap_video_get_page_content_edit($page_type, $page[1]);
             break;
         //edit particular izap-videos 
-        case 'edit':
+        case 'edit': 
             elgg_gatekeeper();  //if user is not logged in then redirect usre to login page 
             $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
             break;

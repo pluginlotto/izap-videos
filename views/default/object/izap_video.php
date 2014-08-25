@@ -22,14 +22,14 @@
  * @package izap-video 
  */
 
-$full = elgg_extract('full_view', $vars, FALSE);
-$izap_video = elgg_extract('entity', $vars, FALSE);
+$full = elgg_extract('full_view', $vars, FALSE); 
+$izap_video = elgg_extract('entity', $vars, FALSE); 
 
 if (!$izap_video) {
     return TRUE;
 }
 
-$owner = $izap_video->getOwnerEntity();
+$owner = $izap_video->getOwnerEntity(); 
 $container = $izap_video->getContainerEntity();
 $categories = elgg_view('output/categories', $vars);
 $excerpt = $izap_video->excerpt;
@@ -66,7 +66,7 @@ if ($izap_video->comments_on != 'Off') {
 
 $metadata = elgg_view_menu('entity', array(
     'entity' => $vars['entity'],
-    'handler' => 'izap-video',
+    'handler' => 'izap-videos',
     'sort_by' => 'priority',
     'class' => 'elgg-menu-hz',
         ));

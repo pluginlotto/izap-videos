@@ -19,7 +19,7 @@
 
 $total_queued = $vars['total']; 
 $queueStatus = $vars['status'];
-$queuedVideos = $vars['queue_videos']; 
+$queuedVideos = $vars['queue_videos'];  //echo '<pre>'; print_r($queuedVideos);
 // load lib
 elgg_load_library('elgg:izap_video');
 ?>
@@ -37,7 +37,7 @@ elgg_load_library('elgg:izap_video');
             $extension_length = strlen(getFileExtension($queuedVideo['main_file'])); 
             $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
            
-            echo (file_exists($outputPath . '_c.flv'))?'true':'false';
+         
              $ORIGNAL_name = basename($queuedVideo['main_file']); 
             $ORIGNAL_size = izapFormatBytes(filesize($queuedVideo['main_file']));
 

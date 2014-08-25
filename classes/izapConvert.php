@@ -38,9 +38,9 @@ class izapConvert {
       $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand); 
       $videoCommand = $videoCommand . ' 2>&1'; 
       exec($videoCommand, $out, $err);
-
       
-      if(!err == 0) {
+      // if file not converted successfully return error message 
+      if(!$err == 0) { 
         $return = array();
         $return['error'] = 1;
         $return['message'] = end($out);

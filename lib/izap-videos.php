@@ -35,9 +35,9 @@ function izap_video_get_page_content_list($container_guid = NULL) {
     $current_user = elgg_get_logged_in_user_entity();
     if ($container_guid) {
 // access check for closed groups
-        elgg_group_gatekeeper(); 
+        elgg_group_gatekeeper();
 
-       $options['container_guid'] = $container_guid; 
+        $options['container_guid'] = $container_guid;
         $container = get_entity($container_guid);
         if (!$container) {
             
@@ -83,9 +83,9 @@ function izap_video_get_page_content_list($container_guid = NULL) {
             'link_class' => 'elgg-button elgg-button-action',
         ));
     }
-    
+
     $return['content'] = elgg_list_entities($options);
-      return $return;
+    return $return;
 }
 
 /**
@@ -111,7 +111,17 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
     $form_vars = array();
     $sidebar = '';
     if ($page == 'edit') {
-        
+        $izap_video = get_entity((int) $guid);
+        $title = elgg_echo('izap_videos:edit') . ":";
+        if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
+            $form_vars['entity'] = $izap_video;
+            $title .= ucwords($izap_video->title);
+             
+            $body_vars = izap_videos_prepare_form_vars($izap_video, $revision); 
+            elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
+            elgg_push_breadcrumb(elgg_echo('edit'));
+            $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);            
+        }
     } else {
         elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
         $body_vars = izap_videos_prepare_form_vars(null);
@@ -508,8 +518,8 @@ function izap_run_queue_izap_videos() {
  * @return string path
  */
 function izap_get_ffmpeg_videoConvertCommand_izap_videos() {
-   $path = elgg_get_plugin_setting('izapVideoCommand',  GLOBAL_IZAP_VIDEOS_PLUGIN); 
-  //  $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
+    $path = elgg_get_plugin_setting('izapVideoCommand', GLOBAL_IZAP_VIDEOS_PLUGIN);
+    //  $path = pluginSetting(array('plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN, 'name' => 'izapVideoCommand'));
     $path = html_entity_decode($path);
     if (!$path)
         $path = '';
@@ -524,9 +534,10 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
 
         $video = new izapConvert($file);
         $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
-        if ($videofile['error'] > 0) {
+     print_R($videofile);
+        if ($videofile['error'] > 0) { echo 'if'; exit;
             return $videofile['message'];
-        } else {
+        } else { 
             $queue_object->change_conversion_flag($videoId);
         }
     }
