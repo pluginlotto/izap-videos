@@ -116,11 +116,11 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
         if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
             $form_vars['entity'] = $izap_video;
             $title .= ucwords($izap_video->title);
-             
-            $body_vars = izap_videos_prepare_form_vars($izap_video, $revision); 
+
+            $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
             elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
             elgg_push_breadcrumb(elgg_echo('edit'));
-            $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);            
+            $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
         }
     } else {
         elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
@@ -135,6 +135,23 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
     $return['content'] = $content;
     $return['sidebar'] = $sidebar;
 
+    return $return;
+}
+
+/**
+ * show particular saved entity
+ * @param type $guid
+ * @return type
+ */
+function izap_videos_read_content($guid = null) {
+    $return = array();
+    $izap_video = get_entity($guid);
+    $return['title'] = ucwords($izap_video->title);
+    $return['content'] = elgg_view_entity($izap_video, array('full_view' => true));
+   
+    if ($izap_video->comments_on != 'Off') {
+        $return['content'] .= elgg_view_comments($izap_video);
+    }
     return $return;
 }
 
@@ -464,10 +481,11 @@ function getQueue() {
             elgg_echo('izap_videos:running') :
             elgg_echo('izap_videos:notRunning');
     $queue_object = new izapQueue();
+
     echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
         'status' => $queue_status,
         'total' => $queue_object->count(),
-        'queue_videos' => $queue_object->get(),
+        'queue_videos' => $queue_object->fetch_videos(),
             )
     );
 }
@@ -534,10 +552,10 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
 
         $video = new izapConvert($file);
         $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
-     print_R($videofile);
-        if ($videofile['error'] > 0) { echo 'if'; exit;
+
+        if ($videofile['error'] > 0) {
             return $videofile['message'];
-        } else { 
+        } else {
             $queue_object->change_conversion_flag($videoId);
         }
     }

@@ -48,6 +48,7 @@ class izapConvert {
       
         return $return;
       }
+      
     return end(explode('/', $this->outvideo));
   }
 }

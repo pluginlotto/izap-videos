@@ -122,6 +122,9 @@ function izap_video_page_handler($page) {
         case 'all':
             $params = izap_video_get_page_content_list();
             break;
+        case 'view':
+            $params = izap_videos_read_content($page[1]);
+            break;
         default:
             return false;
     }

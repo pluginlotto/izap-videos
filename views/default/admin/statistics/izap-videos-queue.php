@@ -19,23 +19,38 @@ elgg_load_library('elgg:izap_video');
 ?>
 
 <div id="load_data">
-  <?php
-  echo getQueue();
-  ?>
+    <?php
+    echo getQueue();
+    ?>
 </div>
-<?php
-//$queue = izapRunQueue_izap_videos();
-//foreach ($queue as $pending) {
-//  $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-//}
-?>
+
+<div id="trigger_queue">
+    <?php
+    $queue = izap_run_queue_izap_videos();
+    foreach ($queue as $pending) {
+        $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+        //echo $converted;
+    }
+    ?>
+</div>
+
+<!--<script>
+
+
+//        $('#queue').load(document.URL + "#trigger_queue", function(message) {
+        console.log('trigger');
+//        });
+        //document.getElementById('load_data');
+    }
+    $(document).ready(function() {
+        // load_div();
+        setInterval(load_div, 5000);
+    });
+</script>  -->
 
 <script>
-function load_div(){
-  //document.getElementById('load_data');
-}
-$(document).ready(function(){
-  load_div();
-  setInterval(load_div,1000);
-});
-</script>  
+    $(document).ready(function() {
+        setInterval('window.location.reload()', 5000);
+    });
+
+</script>
