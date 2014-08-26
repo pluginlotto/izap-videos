@@ -146,6 +146,7 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
 function izap_videos_read_content($guid = null) {
     $return = array();
     $izap_video = get_entity($guid);
+    $return['tmpfile'] = $izap_video->tmpfile;
     $return['title'] = ucwords($izap_video->title);
     $return['content'] = elgg_view_entity($izap_video, array('full_view' => true));
    

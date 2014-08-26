@@ -96,7 +96,6 @@ switch ($page_url) {
         break;
     case 'onserver':
         if ($_FILES['upload_video']['error'] == 0) {
-
             $set_video_name = $izap_videos->get_tmp_path($_FILES['upload_video']['name']);
             $izap_videos->setFilename($set_video_name);
             $izap_videos->open("write");
@@ -105,6 +104,14 @@ switch ($page_url) {
             //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
         }
 
+        if($_FILES['upload_thumbnail']['error'] == 0){
+            $set_image_name = $izap_videos->get_tmp_path($_FILES['upload_thumbnail']['name']);
+            $izap_videos->setFilename($set_image_name);
+            $izap_videos->open("write");
+            $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
+            $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
+            //move_uploaded_file($_FILES['upload_thumbnail']['tmp_name'], $izap_videos->getFilenameOnFilestore());
+        }
 
         if ($izap_videos->save()) {
             $get_guid = $izap_videos->getGUID();

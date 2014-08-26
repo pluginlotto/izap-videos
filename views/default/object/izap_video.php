@@ -22,14 +22,37 @@
  * @package izap-video 
  */
 
-$full = elgg_extract('full_view', $vars, FALSE); 
-$izap_video = elgg_extract('entity', $vars, FALSE); 
-//echo '<pre>'; print_r($izap_video);
+$full = elgg_extract('full_view', $vars, FALSE);
+$izap_video = elgg_extract('entity', $vars, FALSE);
 if (!$izap_video) {
     return TRUE;
 }
-//echo $izap_video->tmpfile;
+
+
+
 $owner = $izap_video->getOwnerEntity(); 
+//$file = new ElggFile;
+//$file->owner_guid = $file->owner_guid;
+//$file->setFilename($izap_video->filename);
+//$thumbnail = $file->getFilenameOnFilestore();
+//print_R($izap_video);
+//if($izap_video->imagefile){ 
+    $icon = elgg_view_entity_icon($izap_video,'small'); 
+    
+//}
+//else{
+//    $icon = elgg_view_entity_icon($owner, 'tiny');
+//}
+
+
+//echo $thumbnail;
+//if (file_exists($thumbnail)) {
+//    $icon = elgg_view_entity_icon($thumbnail, 'tiny');
+//} else {
+//  $icon = elgg_view_entity_icon($owner, 'tiny');
+//}
+//echo $izap_video->tmpfile;
+
 $container = $izap_video->getContainerEntity();
 $categories = elgg_view('output/categories', $vars);
 $excerpt = $izap_video->excerpt;
@@ -37,7 +60,7 @@ if (!$excerpt) {
     $excerpt = elgg_get_excerpt($izap_video->description);
 }
 
-$owner_icon = elgg_view_entity_icon($owner, 'tiny');
+//$owner_icon = elgg_view_entity_icon($owner, 'tiny');
 $owner_link = elgg_view('output/url', array(
     'href' => "izap-videos/owner/$owner->username",
     'text' => $owner->name,
@@ -96,7 +119,7 @@ if ($full) {
 
     echo elgg_view('object/elements/full', array(
         'summary' => $summary,
-        'icon' => $owner_icon,
+        'icon' => $icon,
         'body' => $body,
     ));
 } else {
@@ -111,6 +134,6 @@ if ($full) {
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
 
-    echo elgg_view_image_block($owner_icon, $list_body);
+    echo elgg_view_image_block($icon, $list_body);
 }
 

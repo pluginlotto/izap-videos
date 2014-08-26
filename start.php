@@ -58,7 +58,8 @@ function izap_video_init() {
     elgg_extend_view('css/admin', 'izap-videos/admin_css');
 
     elgg_register_plugin_hook_handler('entity:url', 'object', 'izap_videos_set_url');
-    
+    elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'izap_videos_set_icon_url');
+
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
 
@@ -114,7 +115,7 @@ function izap_video_page_handler($page) {
             $params = izap_video_get_page_content_edit($page_type, $page[1]);
             break;
         //edit particular izap-videos 
-        case 'edit': 
+        case 'edit':
             elgg_gatekeeper();  //if user is not logged in then redirect usre to login page 
             $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
             break;
@@ -122,7 +123,7 @@ function izap_video_page_handler($page) {
         case 'all':
             $params = izap_video_get_page_content_list();
             break;
-        case 'view':
+        case 'icon':
             $params = izap_videos_read_content($page[1]);
             break;
         default:
@@ -155,11 +156,24 @@ function izap_video_unit_tests($hook, $type, $value, $params) {
     return $path;
 }
 
-function izap_videos_set_url($hook, $type, $url, $params) {
+function izap_videos_set_url($hook, $type, $url, $params) { 
     $entity = $params['entity'];
     if (elgg_instanceof($entity, 'object', 'izap_video')) {
         $friendly_title = elgg_get_friendly_title($entity->title);
-        return "izap-videos/view/{$entity->guid}/$friendly_title";
+        return "izap-videos/icon/{$entity->guid}/$friendly_title";
     }
 }
+
+    function izap_videos_set_icon_url($hook, $type, $url, $params) { 
+        $file = $params['entity']; 
+        if (elgg_instanceof($file, 'object', 'izap_video')) {
+
+            // thumbnails get first priority
+            if ($file->imagefile) { 
+              $ts = (int) $file->icontime; 
+                return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
+            }
+        }
+    }
+
 
