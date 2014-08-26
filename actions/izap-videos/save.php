@@ -64,20 +64,21 @@ $page_url = end(explode('/', get_input('page_url')));
 //}
 
 if ($guid == 0) {
-    $izap_video = new IzapVideo();
-    $izap_video->subtype = "izap_video";
-    $izap_video->container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
+    $izap_videos = new IzapVideo();
+    $izap_videos->subtype = "izap_video";
+    $izap_videos->container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
     $new = true;
 } else {
     $entity = get_entity($guid);
-    elgg_instanceof($entity, 'object', 'izap_video');
-    if (!$izap_video->canEdit()) { 
-        system_message(elgg_echo('izap-videos:save:failed'));
-        forward(REFERRER);
+    if (elgg_instanceof($entity, 'object', 'izap_video') && $entity->canEdit()) { 
+        $izap_videos = $entity;  
+    } else { 
+        register_error(elgg_echo('izap_video:error:post_not_found'));
+        forward(get_input('forward', REFERER));
     }
 }
 
-$izap_videos = new IzapVideo();
+//$izap_videos = new IzapVideo();
 $izap_videos->subtype = 'izap_video';
 $izap_videos->title = $title;
 $izap_videos->description = $description;

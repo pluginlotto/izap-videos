@@ -24,11 +24,11 @@
 
 $full = elgg_extract('full_view', $vars, FALSE); 
 $izap_video = elgg_extract('entity', $vars, FALSE); 
-
+//echo '<pre>'; print_r($izap_video);
 if (!$izap_video) {
     return TRUE;
 }
-
+//echo $izap_video->tmpfile;
 $owner = $izap_video->getOwnerEntity(); 
 $container = $izap_video->getContainerEntity();
 $categories = elgg_view('output/categories', $vars);
