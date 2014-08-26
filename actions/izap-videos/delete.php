@@ -20,3 +20,20 @@
 /**
  * delete izap-video entity
  */
+$guid = get_input('guid');
+$izap_video = get_entity($guid);
+
+if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
+    $container = $izap_video->getContainerEntity();
+    if ($izap_video->delete()) {
+        system_message(elgg_echo('izap_videos:deleted'));
+        if (elgg_instanceof($container, 'group')) {
+            forward("izap-videos/group/$container->guid/all");
+        } else {
+            forward("izap-videos/owner/$container->username");
+        }
+    }
+}
+
+register_error(elgg_echo("izap-videos:delete:failed"));
+forward(REFERER);
