@@ -30,19 +30,17 @@ if (!$izap_video) {
 
 
 
-$owner = $izap_video->getOwnerEntity(); 
+$owner = $izap_video->getOwnerEntity();
 //$file = new ElggFile;
 //$file->owner_guid = $file->owner_guid;
 //$file->setFilename($izap_video->filename);
 //$thumbnail = $file->getFilenameOnFilestore();
 //print_R($izap_video);
-//if($izap_video->imagefile){ 
-    $icon = elgg_view_entity_icon($izap_video,'small'); 
-    
-//}
-//else{
-//    $icon = elgg_view_entity_icon($owner, 'tiny');
-//}
+if ($izap_video->imagefile) {
+    $icon = elgg_view_entity_icon($izap_video, 'small');
+} else {
+    $icon = elgg_view_entity_icon($owner, 'tiny');
+}
 
 
 //echo $thumbnail;
