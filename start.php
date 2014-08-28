@@ -52,13 +52,22 @@ function izap_video_init() {
     elgg_register_action('izap-videos/delete', $action_root . 'delete.php');
     elgg_register_action('izap-videos/trigger_queue', dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
     elgg_register_action('izap-videos/reset_queue', dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
+    
+    
     //register hook handler
     elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
     //extend css
     elgg_extend_view('css/admin', 'izap-videos/admin_css');
 
     elgg_register_plugin_hook_handler('entity:url', 'object', 'izap_videos_set_url');
+
+
+    //register icon handler for thumbnail
     elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'izap_videos_set_icon_url');
+    // elgg_register_plugin_hook_handler('entity:icon:url','object', 'video_set_icon_url');
+    //register video url handler
+    elgg_register_entity_url_handler('object', 'izap_video', 'video_url');
+
 
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
@@ -66,6 +75,11 @@ function izap_video_init() {
     elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
     elgg_register_widget_type(
             'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
+
+    elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/video.js");
+    elgg_register_js('elgg:player',"mod/izap-videos/views/default/js/player.js");
+
+    elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video_css.css');
 }
 
 /**
@@ -93,7 +107,7 @@ function izap_video_page_handler($page) {
     if (!isset($page[0])) {
         $page[0] = 'all';
     }
-    $page_type = $page[0];
+    $page_type = $page[0]; 
     switch ($page_type) {
         case 'owner':
             $user = get_user_by_username($page[1]);
@@ -126,6 +140,16 @@ function izap_video_page_handler($page) {
         case 'icon':
             $params = izap_videos_read_content($page[1]);
             break;
+        case 'video':
+            elgg_load_css('elgg:video_css');
+            elgg_load_js('elgg:video_js');
+            elgg_load_js('elgg:player');
+            $params = izap_read_video_file($page[1]);   
+            $params['filter'] = false;
+            
+           $params['video'] .= elgg_view('izap-videos/video',array('page' => $page_type));
+        
+            break;
         default:
             return false;
     }
@@ -136,9 +160,9 @@ function izap_video_page_handler($page) {
     } else {
         $params['sidebar'] = elgg_view('izap-videos/sidebar', array('page' => $page_type));
     }
-
+    
     $body = elgg_view_layout('content', $params);
-
+//print_r($params);exit;
     echo elgg_view_page($params['title'], $body);
     return true;
 }
@@ -156,24 +180,50 @@ function izap_video_unit_tests($hook, $type, $value, $params) {
     return $path;
 }
 
-function izap_videos_set_url($hook, $type, $url, $params) { 
+/**
+ * set url for view video
+ * @param type $hook
+ * @param type $type
+ * @param type $url
+ * @param type $params
+ * @return type
+ */
+function izap_videos_set_url($hook, $type, $url, $params) {
     $entity = $params['entity'];
     if (elgg_instanceof($entity, 'object', 'izap_video')) {
         $friendly_title = elgg_get_friendly_title($entity->title);
-        return "izap-videos/icon/{$entity->guid}/$friendly_title";
+        return "izap-videos/video/{$entity->guid}/$friendly_title";
     }
 }
 
-    function izap_videos_set_icon_url($hook, $type, $url, $params) { 
-        $file = $params['entity']; 
-        if (elgg_instanceof($file, 'object', 'izap_video')) {
+/**
+ * set icon for thumbnail
+ * @param type $hook
+ * @param type $type
+ * @param type $url
+ * @param type $params
+ * @return type
+ */
+function izap_videos_set_icon_url($hook, $type, $url, $params) {
+    $file = $params['entity'];
+    if (elgg_instanceof($file, 'object', 'izap_video')) {
 
-            // thumbnails get first priority
-            if ($file->imagefile) { 
-              $ts = (int) $file->icontime; 
-                return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
-            }
+        // thumbnails get first priority
+        if ($file->imagefile) {
+
+            return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
         }
     }
+}
 
+/**
+ * 
+ * @param type $entity
+ * @return type
+ */
+function video_url($entity) {
+    //$entity = $params['entity']; 
 
+    $title = elgg_get_friendly_title($entity->title);
+    return "mod/izap-videos/video.php?guid=$entity->guid";
+}

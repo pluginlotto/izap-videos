@@ -146,10 +146,50 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
 function izap_videos_read_content($guid = null) {
     $return = array();
     $izap_video = get_entity($guid);
-    $return['tmpfile'] = $izap_video->tmpfile;
+
     $return['title'] = ucwords($izap_video->title);
     $return['content'] = elgg_view_entity($izap_video, array('full_view' => true));
-   
+
+    if ($izap_video->comments_on != 'Off') {
+        $return['content'] .= elgg_view_comments($izap_video);
+    }
+    return $return;
+}
+
+function izap_read_video_file($guid = null) {
+    $entity = get_entity($guid);
+
+    if (!elgg_instanceof($entity, 'object', 'izap_video')) {
+        exit;
+    }
+
+    $get_video_name = end(explode('/', $entity->tmpfile));
+    $izapvideo_obj = new IzapVideo;
+    $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
+
+    if ($set_video_name) {
+        $elggfile_obj = new ElggFile;
+        $elggfile_obj->setFilename($set_video_name);
+        $read_content = $elggfile_obj->getFilenameOnFilestore($set_video_name);
+        $read_content = file_get_contents($read_content);
+
+        $content_type = 'video/x-msvideo';
+//
+        header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
+        header("Pragma: public", true);
+        header("Cache-Control: public", true);
+        header("Content-Length: " . strlen($read_content));
+        header("Content-type: {$content_type}", true);
+//         echo $read_content;
+      //   exit;
+    }
+    
+    
+    $return = array();
+    $izap_video = get_entity($guid);  
+    $return['title'] = ucwords($izap_video->title);
+    $return['content'] = elgg_view_entity($izap_video, array('full_view' => true));
+
     if ($izap_video->comments_on != 'Off') {
         $return['content'] .= elgg_view_comments($izap_video);
     }
@@ -175,10 +215,10 @@ function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
         'video_url' => NULL
     );
 
-    if ($post) { 
+    if ($post) {
         foreach (array_keys($values) as $field) {
-            if (isset($post->$field)) { 
-                $values[$field] = $post->$field; 
+            if (isset($post->$field)) {
+                $values[$field] = $post->$field;
             }
         }
     }
