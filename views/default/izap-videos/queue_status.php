@@ -19,7 +19,7 @@
 
 $total_queued = $vars['total']; 
 $queueStatus = $vars['status'];
-$queuedVideos = $vars['queue_videos'];  //echo '<pre>'; print_r($queuedVideos);
+$queuedVideos = $vars['queue_videos'];  
 // load lib
 elgg_load_library('elgg:izap_video');
 ?>

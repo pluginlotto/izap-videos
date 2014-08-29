@@ -98,10 +98,31 @@ if ($full) {
     );
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
+    $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid;
+    $image_url = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
+
+    //$player = elgg_get_site_url() .  'mod/izap-videos/player/izap_player.swf'; 
+    
+    
+//    $html = '<video width="320" height="240" controls autoplay>
+//  <source src="'.$video_path.'" type="video/mp4">
+//  <object data="'.$video_path.'" width="320" height="240">
+//    <embed width="320" height="240" src="'.$player.'">
+//  </object>
+//</video>';
+
+    $html = '<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="640" height="264"
+               poster="http://video-js.zencoder.com/oceans-clip.png"
+               data-setup="{}">
+ 		
+        <source src="http://mandeep.z/canvas_learning/New_folder/video/Mac.mp4" type="video/flv">
+ 		<p class="vjs-no-js">
+        To view this video please enable JavaScript, and consider upgrading to a web browser that 
+        <a href="#" target="_blank">supports HTML5 video</a></p>
+</video>';
 
     echo elgg_view('object/elements/full', array(
-        'summary' => $summary,
-        'icon' => $icon,
+        'summary' => $html,
         'body' => $body,
     ));
 } else {

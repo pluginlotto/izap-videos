@@ -143,4 +143,10 @@ class izapQueue extends IzapSqlite {
     }
     return $this->execute((($guid) ? "DELETE FROM video_queue WHERE guid = {$guid}" : 'DELETE FROM video_queue'));
   }
+  
+  public function get_converted_video($guid){ 
+     $select = $this->execute("SELECT * FROM video_queue WHERE conversion = 1 and guid=" . $guid); 
+  
+      return $select;
+  }
 }

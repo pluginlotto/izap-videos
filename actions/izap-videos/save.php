@@ -70,9 +70,9 @@ if ($guid == 0) {
     $new = true;
 } else {
     $entity = get_entity($guid);
-    if (elgg_instanceof($entity, 'object', 'izap_video') && $entity->canEdit()) { 
-        $izap_videos = $entity;  
-    } else { 
+    if (elgg_instanceof($entity, 'object', 'izap_video') && $entity->canEdit()) {
+        $izap_videos = $entity;
+    } else {
         register_error(elgg_echo('izap_video:error:post_not_found'));
         forward(get_input('forward', REFERER));
     }
@@ -87,45 +87,51 @@ $izap_videos->container_guid = $container_guid;
 $izap_videos->tags = string_to_tag_array($tags);
 $izap_videos->video_url = $video_url;
 
-switch ($page_url) {
-    case 'offserver':
-        $izap_videos->save();
-        elgg_clear_sticky_form('izap_videos');
-        system_messages(elgg_echo('izap-videos:Save:success'));
-        forward($izap_videos->getURL());
-        break;
-    case 'onserver':
-        if ($_FILES['upload_video']['error'] == 0) {
-            $set_video_name = $izap_videos->get_tmp_path($_FILES['upload_video']['name']);
-            $izap_videos->setFilename($set_video_name);
-            $izap_videos->open("write");
-            $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
-            $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
-            //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
-        }
+if ($page_url == 'offserver' || $page_url == 'onserver') { 
+    switch ($page_url) {
+        case 'offserver':
+            $izap_videos->save();
+            elgg_clear_sticky_form('izap_videos');
+            system_messages(elgg_echo('izap-videos:Save:success'));
+            forward($izap_videos->getURL());
+            break;
+        case 'onserver':
+            if ($_FILES['upload_video']['error'] == 0) {
+                $set_video_name = $izap_videos->get_tmp_path($_FILES['upload_video']['name']);
+                $izap_videos->setFilename($set_video_name);
+                $izap_videos->open("write");
+                $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
+                $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
+                //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
+            }
 
-        if($_FILES['upload_thumbnail']['error'] == 0){
-            $set_image_name = $izap_videos->get_tmp_path($_FILES['upload_thumbnail']['name']);
-            $izap_videos->setFilename($set_image_name);
-            $izap_videos->open("write");
-            $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
-            $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
-            //move_uploaded_file($_FILES['upload_thumbnail']['tmp_name'], $izap_videos->getFilenameOnFilestore());
-        }
+            if ($_FILES['upload_thumbnail']['error'] == 0) {
+                $set_image_name = $izap_videos->get_tmp_path($_FILES['upload_thumbnail']['name']);
+                $izap_videos->setFilename($set_image_name);
+                $izap_videos->open("write");
+                $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
+                $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
+                //move_uploaded_file($_FILES['upload_thumbnail']['tmp_name'], $izap_videos->getFilenameOnFilestore());
+            }
 
-        if ($izap_videos->save()) {
-            $get_guid = $izap_videos->getGUID();
-            $get_entity = get_entity($get_guid);
+            if ($izap_videos->save()) {
+                $get_guid = $izap_videos->getGUID();
+                $get_entity = get_entity($get_guid);
 
-            if (file_exists($get_entity->tmpfile)) {
-                if ($page_url == 'onserver') {
-                    izap_save_fileinfo_for_converting_izap_videos($izap_videos->tmpfile, $izap_videos, $izap_videos->access_id);
+                if (file_exists($get_entity->tmpfile)) {
+                    if ($page_url == 'onserver') {
+                        izap_save_fileinfo_for_converting_izap_videos($izap_videos->tmpfile, $izap_videos, $izap_videos->access_id);
+                    }
                 }
             }
-        }
 
-        elgg_clear_sticky_form('izap_videos');
-        system_messages(elgg_echo('izap-videos:Save:success'));
+            elgg_clear_sticky_form('izap_videos');
+            system_messages(elgg_echo('izap-videos:Save:success'));
+            forward($izap_videos->getURL());
+            break;
+    }
+} else { 
+    if($izap_videos->save()){
         forward($izap_videos->getURL());
-        break;
+    }
 }

@@ -52,8 +52,8 @@ function izap_video_init() {
     elgg_register_action('izap-videos/delete', $action_root . 'delete.php');
     elgg_register_action('izap-videos/trigger_queue', dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
     elgg_register_action('izap-videos/reset_queue', dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
-    
-    
+
+
     //register hook handler
     elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
     //extend css
@@ -77,9 +77,9 @@ function izap_video_init() {
             'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
 
     elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/video.js");
-    elgg_register_js('elgg:player',"mod/izap-videos/views/default/js/player.js");
+    elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/player.js");
 
-    elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video_css.css');
+    elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
 }
 
 /**
@@ -107,7 +107,7 @@ function izap_video_page_handler($page) {
     if (!isset($page[0])) {
         $page[0] = 'all';
     }
-    $page_type = $page[0]; 
+    $page_type = $page[0];
     switch ($page_type) {
         case 'owner':
             $user = get_user_by_username($page[1]);
@@ -142,13 +142,13 @@ function izap_video_page_handler($page) {
             break;
         case 'video':
             elgg_load_css('elgg:video_css');
+
             elgg_load_js('elgg:video_js');
             elgg_load_js('elgg:player');
-            $params = izap_read_video_file($page[1]);   
+            $params = izap_read_video_file($page[1]);
             $params['filter'] = false;
-            
-           $params['video'] .= elgg_view('izap-videos/video',array('page' => $page_type));
-        
+
+
             break;
         default:
             return false;
@@ -160,9 +160,9 @@ function izap_video_page_handler($page) {
     } else {
         $params['sidebar'] = elgg_view('izap-videos/sidebar', array('page' => $page_type));
     }
-    
+
     $body = elgg_view_layout('content', $params);
-//print_r($params);exit;
+    // print_r($params);exit;
     echo elgg_view_page($params['title'], $body);
     return true;
 }
