@@ -39,8 +39,11 @@ if ($thumbfile && !empty($thumbfile)) {
     $readfile = new ElggFile();
     $readfile->owner_guid = $file->owner_guid;
     $readfile->setFilename($thumbfile);
-    $contents = $readfile->getFilenameOnFilestore($thumbfile);
-    $contents = file_get_contents($contents);
+    if(file_exists($readfile->getFilenameOnFilestore())){
+        $contents = $readfile->grabFile();
+    }
+   // $contents = $readfile->getFilenameOnFilestore($thumbfile);
+ //   $contents = file_get_contents($contents);
     $content_type = 'image/jpeg';
     
     header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);

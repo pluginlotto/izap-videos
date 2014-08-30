@@ -37,12 +37,14 @@ elgg_load_library('elgg:izap_video');
             $extension_length = strlen(getFileExtension($queuedVideo['main_file'])); 
             $outputPath = substr($queuedVideo['main_file'], 0, '-' . ($extension_length + 1));
            
+            
+           // echo file_exists($outputPath . '_c.mp4')?"TRUE":"FALSE";
          
              $ORIGNAL_name = basename($queuedVideo['main_file']); 
             $ORIGNAL_size = izapFormatBytes(filesize($queuedVideo['main_file']));
 
             $FLV_name = basename($outputPath . '_c.flv'); 
-            $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv'));
+            $FLV_size = izapFormatBytes(filesize($outputPath . '_c.mp4'));
             ?>
         <tr class="odd <?php echo (!$i && izap_is_queue_running_izap_videos()) ? 'queue_selected' : ''?>">
           <td>

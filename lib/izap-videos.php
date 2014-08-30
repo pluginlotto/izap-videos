@@ -162,31 +162,6 @@ function izap_read_video_file($guid = null) {
     if (!elgg_instanceof($entity, 'object', 'izap_video')) {
         exit;
     }
-
-//    $get_video_name = end(explode('/', $entity->tmpfile));
-//    $izapvideo_obj = new IzapVideo;
-//    $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
-//
-//    if ($set_video_name) {
-//        $elggfile_obj = new ElggFile;
-//        $elggfile_obj->setFilename($set_video_name);
-//        $read_content = $elggfile_obj->getFilenameOnFilestore($set_video_name);
-//        // $read_content = file_get_contents($read_content);
-//
-//        $content_type = 'video/x-msvideo';
-//        header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
-//        header("Pragma: public", true);
-//        header("Cache-Control: public", true);
-//        header("Content-Length: " . strlen($read_content));
-//        header("Content-type: {$content_type}", true);
-        //echo $read_content;
-        
-        
-        
-        //   exit;
-    //}
-
-
     $return = array();
     $return['title'] = ucwords($entity->title);
     $return['content'] = elgg_view_entity($entity, array('full_view' => true));
@@ -557,9 +532,15 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
     if (!file_exists($file) || !$video) {
         return false;
     }
-
     $queue = new izapQueue();
-    $r = $queue->put($video, $file, $defined_access_id);
+    $create_queue = $queue->put($video, $file, $defined_access_id);
+    if ($create_queue) {
+        $queue = izap_run_queue_izap_videos();
+        foreach ($queue as $pending) {
+            $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+            //echo $converted;
+        }
+    }
 }
 
 /**

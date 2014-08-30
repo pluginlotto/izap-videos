@@ -82,6 +82,7 @@ if ($guid == 0) {
 $izap_videos->subtype = 'izap_video';
 $izap_videos->title = $title;
 $izap_videos->description = $description;
+$izap_videos->getOwnerGUID();
 $izap_videos->access_id = $access_id;
 $izap_videos->container_guid = $container_guid;
 $izap_videos->tags = string_to_tag_array($tags);

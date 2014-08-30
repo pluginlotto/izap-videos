@@ -22,7 +22,7 @@ class izapConvert {
   private $invideo;
   private $outvideo;
 
-  public $format = 'flv';
+  public $format = 'mp4';
   
   public function izapConvert($in = '') {
     $this->invideo = $in;
@@ -37,6 +37,7 @@ class izapConvert {
       $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
       $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand); 
       $videoCommand = $videoCommand . ' 2>&1';  
+     // echo $videoCommand;exit;
       exec($videoCommand, $out, $err);
      
       // if file not converted successfully return error message 

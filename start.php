@@ -64,11 +64,13 @@ function izap_video_init() {
 
     //register icon handler for thumbnail
     elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'izap_videos_set_icon_url');
+    
+   // elgg_register_plugin_hook_handler($action_root, $type, $callback);
     // elgg_register_plugin_hook_handler('entity:icon:url','object', 'video_set_icon_url');
     //register video url handler
     elgg_register_entity_url_handler('object', 'izap_video', 'video_url');
 
-
+    //add_group_tool_option('izap_video_page_handler', elgg_echo('izap-videos:enable_videos'));
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
 
@@ -76,8 +78,8 @@ function izap_video_init() {
     elgg_register_widget_type(
             'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
 
-    elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/video.js");
-    elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/player.js");
+    elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/jquery.js");
+    elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
 
     elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
 }
@@ -144,7 +146,7 @@ function izap_video_page_handler($page) {
             elgg_load_css('elgg:video_css');
 
             elgg_load_js('elgg:video_js');
-            elgg_load_js('elgg:player');
+          //  elgg_load_js('elgg:player');
             $params = izap_read_video_file($page[1]);
             $params['filter'] = false;
 
@@ -221,9 +223,8 @@ function izap_videos_set_icon_url($hook, $type, $url, $params) {
  * @param type $entity
  * @return type
  */
-function video_url($entity) {
-    //$entity = $params['entity']; 
-
-    $title = elgg_get_friendly_title($entity->title);
-    return "mod/izap-videos/video.php?guid=$entity->guid";
+function video_url($entity) { 
+   // $entity = $params['entity']; echo $entity->guid; exit;
+    $title = elgg_get_friendly_title($entity->title); //echo elgg_get_site_url() . "izap-videos/video/$entity->guid/$title"; exit;    
+    return "mod/izap-videos/video.php?file_guid=$entity->guid";
 }

@@ -24,39 +24,47 @@ $izapqueue_obj = new izapQueue();
 $get_converted_video = $izapqueue_obj->get_converted_video($guid);
 
 if (!elgg_instanceof($entity, 'object', 'izap_video')) {
-    exit;
+exit;
 }
+
 if ($get_converted_video) {
-    $get_video_name = end(explode('/', $get_converted_video[0]['main_file']));
-    $izapvideo_obj = new IzapVideo;
-    $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
-    $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
+$get_video_name = end(explode('/', $get_converted_video[0]['main_file']));
+$izapvideo_obj = new IzapVideo;
+$set_video_name = $izapvideo_obj->get_tmp_path($get_video_name); 
+$set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.mp4';
 
 
-    $elggfile_obj = new ElggFile;
-    $elggfile_obj->owner_guid = $entity->owner_guid;
-    $elggfile_obj->setFilename($set_video_name);
-    $read_content = $elggfile_obj->getFilenameOnFilestore($set_video_name);  
-    $read_content = file_get_contents($read_content);
+$elggfile_obj = new ElggFile;
+$elggfile_obj->owner_guid = $entity->owner_guid;
+$elggfile_obj->setFilename($set_video_name);
 
-    
-   // echo mime_content_type($read_content); exit;
 
+if (file_exists($elggfile_obj->getFilenameOnFilestore())){// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
+$contents = $elggfile_obj->grabFile();
+}
+
+
+
+//$read_content = $elggfile_obj->getFilenameOnFilestore();
+//$read_content = file_get_contents($read_content);
+
+
+//echo mime_content_type($read_content); exit;
 //    echo filesize($read_content);
 //    $finfo = finfo_open(FILEINFO_MIME_TYPE);
 //    echo finfo_file($finfo, $read_content);
 //    exit;
 
 
-    $content_type = 'video/flv';
+$content_type = 'video/mp4';
 
-    header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
-    header("Pragma: public", true);
-    header("Cache-Control: public", true);
+header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
+header("Pragma: public", true);
+header("Cache-Control: public", true);
 
-    header("Content-Length: " . strlen($read_content));
-    header("Content-type: {$content_type}", true);
+header("Content-Length: " . strlen($contents));
+header("Content-type: {$content_type}", true);
 
-    echo $read_content;
-    exit;
+echo $contents;
+exit;
 }

@@ -36,7 +36,7 @@ class IzapVideo extends ElggFile {
      * set tmp path for upload video
      */
     public function get_tmp_path($name) {
-        $setFileName = 'izap_videos/tmp/' . $name;
+        $setFileName = 'izap_videos/tmp/' .  $name;
         return $setFileName;
     }
 

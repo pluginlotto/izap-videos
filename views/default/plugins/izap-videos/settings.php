@@ -36,11 +36,14 @@ elgg_load_library('elgg:izap_video');
     <?php echo elgg_echo('izap_videos:adminSettings:izapVideoCommand'); ?>
     <br />
     <?php
-    echo elgg_view('input/text', array(
-        'name' => 'params[izapVideoCommand]',
-        'value' => (izapIsWin_izap_videos()) ?
+    $default = (izapIsWin_izap_videos()) ?
                 elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vcodec libx264 -vpre ' . elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/presets/libx264-hq.ffpreset' . ' -b 300k -bt 300k -ar 22050 -ab 48k -s 400x400 [outputVideoPath]' :
-                '/usr/bin/ffmpeg -y -i [inputVideoPath] [outputVideoPath]'
+                '/usr/bin/ffmpeg -y -i [inputVideoPath] [outputVideoPath]';
+    $saved_command = elgg_get_plugin_setting('izapVideoCommand', 'izap-videos');
+    
+            echo elgg_view('input/text', array(
+        'name' => 'params[izapVideoCommand]',
+        'value' => $saved_command?$saved_command: $default
     ));
     ?>
   </label>

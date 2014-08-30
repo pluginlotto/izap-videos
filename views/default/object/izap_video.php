@@ -84,12 +84,6 @@ if (elgg_in_context('widgets')) {
 }
 
 if ($full) {
-
-    $body = elgg_view('output/longtext', array(
-        'value' => $izap_video->description,
-        'class' => 'izap-video-post',
-    ));
-
     $params = array(
         'entity' => $izap_video,
         'title' => false,
@@ -98,32 +92,55 @@ if ($full) {
     );
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
-    $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid;
+
+    $text = elgg_view('output/longtext', array('value' => $izap_video->description));
+  
+     $path = elgg_get_site_url() . 'test.mp4';
+
+
+    $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid; //echo $video_path;
     $image_url = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
 
-    //$player = elgg_get_site_url() .  'mod/izap-videos/player/izap_player.swf'; 
-    
-    
-//    $html = '<video width="320" height="240" controls autoplay>
-//  <source src="'.$video_path.'" type="video/mp4">
-//  <object data="'.$video_path.'" width="320" height="240">
-//    <embed width="320" height="240" src="'.$player.'">
-//  </object>
-//</video>';
-
-    $html = '<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="640" height="264"
+    $html = '<video id="example_video_1" class="video-js vjs-default-skin" controls autoplay preload="none" width="640" height="264"
                poster="http://video-js.zencoder.com/oceans-clip.png"
                data-setup="{}">
  		
-        <source src="http://mandeep.z/canvas_learning/New_folder/video/Mac.mp4" type="video/flv">
+        <source src="' . $video_path . '" type="video/mp4">
  		<p class="vjs-no-js">
         To view this video please enable JavaScript, and consider upgrading to a web browser that 
         <a href="#" target="_blank">supports HTML5 video</a></p>
 </video>';
 
+ $body = "$text $html";
+//    $html = '
+//        
+//<video width="360" height="203" id="player1" src="'.$video_path.'" type="video/mp4" controls="controls"></video>
+//	
+//<script>
+//MediaElement("player1", {success: function(me) {
+//	
+//	me.play();
+//	
+//	me.addEventListener("timeupdate", function() {
+//		document.getElementById("time").innerHTML = me.currentTime;
+//	}, false);
+//	
+//	document.getElementById("pp")["onclick"] = function() {
+//		if (me.paused)
+//			me.play();
+//		else
+//			me.pause();
+//	};
+//
+//}});
+//</script>
+//';
+
     echo elgg_view('object/elements/full', array(
-        'summary' => $html,
-        'body' => $body,
+        'entity' => $izap_video,
+        // 'icon' => $icon,
+        'summary' => $summary,
+        'body' => $body
     ));
 } else {
     // brief view
