@@ -54,13 +54,14 @@ elgg_load_library('elgg:izap_video');
     <?php echo elgg_echo('izap_videos:adminSettings:izapVideoThumb'); ?>
     <br />
     <?php
+    $default_setting  = (izapIsWin_izap_videos()) ?
+                elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]' :
+                '/usr/bin/ffmpeg -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]';
+    $thumbnail_cmd = elgg_get_plugin_setting('izapVideoThumb','izap-videos');
     echo elgg_view('input/text', array(
         'name' => 'params[izapVideoThumb]',
-        'value' =>
-        (izapIsWin_izap_videos()) ?
-                elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]' :
-                '/usr/bin/ffmpeg -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]'
-    ));
+        'value' => $thumbnail_cmd?$thumbnail_cmd:$default_setting
+        ));
     ?>
   </label>
 </p>

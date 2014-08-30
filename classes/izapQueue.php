@@ -149,4 +149,9 @@ class izapQueue extends IzapSqlite {
   
       return $select;
   }
+  
+  public function get_not_converted_video(){
+      $select  = $this->execute("select count(*) as count from video_queue where conversion =" . PENDING); 
+      return $select[0]['count'];
+  }
 }

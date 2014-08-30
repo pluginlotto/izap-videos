@@ -22,8 +22,9 @@
  * @package izap-video 
  */
 
+
 $full = elgg_extract('full_view', $vars, FALSE);
-$izap_video = elgg_extract('entity', $vars, FALSE);
+$izap_video = elgg_extract('entity', $vars, FALSE); //echo $izap_video->access_id;
 if (!$izap_video) {
     return TRUE;
 }
@@ -94,8 +95,8 @@ if ($full) {
     $summary = elgg_view('object/elements/summary', $params);
 
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
-  
-     $path = elgg_get_site_url() . 'test.mp4';
+
+    $path = elgg_get_site_url() . 'test.mp4';
 
 
     $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid; //echo $video_path;
@@ -111,7 +112,7 @@ if ($full) {
         <a href="#" target="_blank">supports HTML5 video</a></p>
 </video>';
 
- $body = "$text $html";
+    $body = "$text $html";
 //    $html = '
 //        
 //<video width="360" height="203" id="player1" src="'.$video_path.'" type="video/mp4" controls="controls"></video>
@@ -144,7 +145,15 @@ if ($full) {
     ));
 } else {
     // brief view
+    $video_obj = new IzapVideo();
+    $owner_guid = $video_obj->owner_guid; //logged_in_user_id
+    $video_owner_guid = $izap_video->getOwnerguid(); //get video owner guid
 
+    $izapqueue_obj = new izapQueue;
+    $get_video_state = $izapqueue_obj->get_not_converted_video();
+    if ($get_video_state > 0 && $video_owner_guid) {
+        
+    }
     $params = array(
         'entity' => $izap_video,
         'metadata' => $metadata,
