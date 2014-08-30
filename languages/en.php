@@ -49,7 +49,7 @@ $english = array(
     'item:object:izap_videos' => 'Videos',
     'izap-videos:none' => 'No videos have been added yet.',
     //river
-    'river:created:object:izap_videos' => '%s created a video %s',
+    'river:create:object:default' => '%s created a video %s',
     'river:updated:object:izap_videos' => '%s updated a video %s',
     'river:comment:object:izap_videos' => '%s commented on the video %s',
     // General
