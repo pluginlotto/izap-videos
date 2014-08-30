@@ -88,13 +88,13 @@ $izap_videos->container_guid = $container_guid;
 $izap_videos->tags = string_to_tag_array($tags);
 $izap_videos->video_url = $video_url;
 
-if ($page_url == 'offserver' || $page_url == 'onserver') { 
+if ($page_url == 'offserver' || $page_url == 'onserver') {
     switch ($page_url) {
         case 'offserver':
             $izap_videos->save();
-            elgg_clear_sticky_form('izap_videos');
-            system_messages(elgg_echo('izap-videos:Save:success'));
-            forward($izap_videos->getURL());
+            //elgg_clear_sticky_form('izap_videos');
+            //  system_messages(elgg_echo('izap-videos:Save:success'));
+            // forward($izap_videos->getURL());
             break;
         case 'onserver':
             if ($_FILES['upload_video']['error'] == 0) {
@@ -125,14 +125,22 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
                     }
                 }
             }
-
-            elgg_clear_sticky_form('izap_videos');
-            system_messages(elgg_echo('izap-videos:Save:success'));
-            forward($izap_videos->getURL());
             break;
     }
-} else { 
-    if($izap_videos->save()){
+    //create river if new entity
+    if ($new == true) { 
+        elgg_create_river_item(array(
+            'view' => 'river/object/izap_video/create',
+            'action_type' => 'create',
+            'subject_guid' => elgg_get_logged_in_user_guid(),
+            'object_guid' => $izap_videos->getGUID(),
+        ));
+    }
+    elgg_clear_sticky_form('izap_videos');
+    system_messages(elgg_echo('izap-videos:Save:success'));
+    forward($izap_videos->getURL());
+} else {
+    if ($izap_videos->save()) {
         forward($izap_videos->getURL());
     }
 }

@@ -145,15 +145,7 @@ if ($full) {
     ));
 } else {
     // brief view
-    $video_obj = new IzapVideo();
-    $owner_guid = $video_obj->owner_guid; //logged_in_user_id
-    $video_owner_guid = $izap_video->getOwnerguid(); //get video owner guid
-
-    $izapqueue_obj = new izapQueue;
-    $get_video_state = $izapqueue_obj->get_not_converted_video();
-    if ($get_video_state > 0 && $video_owner_guid) {
-        
-    }
+   
     $params = array(
         'entity' => $izap_video,
         'metadata' => $metadata,

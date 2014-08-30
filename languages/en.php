@@ -21,6 +21,7 @@
  */
 $english = array(
     'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
+    'item:object:izap_video' => 'Izap Videos',  
     'izap-videos' => 'All Site Videos',  
     'izap-videos:upload video' => 'Upload Video',
     'izap-videos_videourl:save:failed' => 'Enter Video Url',

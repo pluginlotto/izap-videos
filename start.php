@@ -66,7 +66,7 @@ function izap_video_init() {
     elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'izap_videos_set_icon_url');
     
    // elgg_register_plugin_hook_handler($action_root, $type, $callback);
-    // elgg_register_plugin_hook_handler('entity:icon:url','object', 'video_set_icon_url');
+     elgg_register_plugin_hook_handler('get_views','ecml', 'izap_videos_ecml_view');
     //register video url handler
     elgg_register_entity_url_handler('object', 'izap_video', 'video_url');
 
@@ -82,6 +82,10 @@ function izap_video_init() {
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
 
     elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
+    
+    elgg_register_notification_event('object', 'izap_video',array('create'));
+    
+    
 }
 
 /**
@@ -227,4 +231,17 @@ function video_url($entity) {
    // $entity = $params['entity']; echo $entity->guid; exit;
     $title = elgg_get_friendly_title($entity->title); //echo elgg_get_site_url() . "izap-videos/video/$entity->guid/$title"; exit;    
     return "mod/izap-videos/video.php?file_guid=$entity->guid";
+}
+
+/**
+ * 
+ * @param type $hook
+ * @param type $type
+ * @param type $url
+ * @param type $params
+ * @return type
+ */
+function izap_videos_ecml_view($hook,$type,$return,$params){
+    $return['object/izap_video'] = elgg_echo('item:object:izap_video');
+    return $return;
 }
