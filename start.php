@@ -64,9 +64,9 @@ function izap_video_init() {
 
     //register icon handler for thumbnail
     elgg_register_plugin_hook_handler('entity:icon:url', 'object', 'izap_videos_set_icon_url');
-    
-   // elgg_register_plugin_hook_handler($action_root, $type, $callback);
-     elgg_register_plugin_hook_handler('get_views','ecml', 'izap_videos_ecml_view');
+
+    // elgg_register_plugin_hook_handler($action_root, $type, $callback);
+    elgg_register_plugin_hook_handler('get_views', 'ecml', 'izap_videos_ecml_view');
     //register video url handler
     elgg_register_entity_url_handler('object', 'izap_video', 'video_url');
 
@@ -82,10 +82,10 @@ function izap_video_init() {
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
 
     elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
-    
-    elgg_register_notification_event('object', 'izap_video',array('create'));
-    
-    
+
+    //elgg_register_notification_event('object', 'izap_video',array('create'));
+
+    elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_videos_owner_block_menu');
 }
 
 /**
@@ -123,7 +123,7 @@ function izap_video_page_handler($page) {
             $params = izap_video_get_page_content_list($user->guid);
             break;
         case 'friends':
-            $user = get_user_by_username($page[1]);
+            $user = get_user_by_username($page[1]);  
             if (!$user) {
                 forward('', '404');
             }
@@ -150,7 +150,7 @@ function izap_video_page_handler($page) {
             elgg_load_css('elgg:video_css');
 
             elgg_load_js('elgg:video_js');
-          //  elgg_load_js('elgg:player');
+            //  elgg_load_js('elgg:player');
             $params = izap_read_video_file($page[1]);
             $params['filter'] = false;
 
@@ -227,8 +227,8 @@ function izap_videos_set_icon_url($hook, $type, $url, $params) {
  * @param type $entity
  * @return type
  */
-function video_url($entity) { 
-   // $entity = $params['entity']; echo $entity->guid; exit;
+function video_url($entity) {
+    // $entity = $params['entity']; echo $entity->guid; exit;
     $title = elgg_get_friendly_title($entity->title); //echo elgg_get_site_url() . "izap-videos/video/$entity->guid/$title"; exit;    
     return "mod/izap-videos/video.php?file_guid=$entity->guid";
 }
@@ -241,7 +241,25 @@ function video_url($entity) {
  * @param type $params
  * @return type
  */
-function izap_videos_ecml_view($hook,$type,$return,$params){
+function izap_videos_ecml_view($hook, $type, $return, $params) {
     $return['object/izap_video'] = elgg_echo('item:object:izap_video');
+    return $return;
+}
+
+/**
+ * 
+ * @param type $hook
+ * @param type $type
+ * @param type $return
+ * @param type $params
+ * @return \ElggMenuItem
+ */
+function izap_videos_owner_block_menu($hook, $type, $return, $params) {
+    if (elgg_instanceof($params['entity'], 'user')) {
+        $url = "izap-videos/owner/{$params['entity']->username}";
+        $item = new ElggMenuItem('izap_videos', elgg_echo('item:object:izap-videos'), $url);
+        $return[] = $item;
+    }
+
     return $return;
 }

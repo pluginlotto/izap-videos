@@ -92,8 +92,36 @@ function izap_video_get_page_content_list($container_guid = NULL) {
  * Get page components to list of the user's friends' posts.
  * @param type $container_guid
  */
-function izap_video_get_page_content_friends($container_guid = NULL) {
-    
+function izap_video_get_page_content_friends($user_guid = NULL) { 
+    $user = get_user($user_guid); 
+    if (!$user) {  
+        forward('izap-videos/all');
+    }
+
+    $return = array();
+
+    $return['filter_context'] = 'friends';
+    $return['title'] = elgg_echo('izap-videos:title:friends');
+
+    $crumbs_title = $user->name;
+    elgg_push_breadcrumb($crumbs_title, "izap-videos/owner/{$user->username}");
+    elgg_push_breadcrumb(elgg_echo('friends'));
+
+    elgg_register_title_button();
+
+    $options = array(
+        'type' => 'object',
+        'subtype' => 'izap_video',
+        'full_view' => false,
+        'relationship' => 'friend',
+        'relationship_guid' => $user_guid,
+        'relationship_join_on' => 'container_guid',
+        'no_results' => elgg_echo('izap-videos:none'),
+    );
+
+    $return['content'] = elgg_list_entities_from_relationship($options);
+
+    return $return;
 }
 
 /**
