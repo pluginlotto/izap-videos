@@ -92,9 +92,9 @@ function izap_video_get_page_content_list($container_guid = NULL) {
  * Get page components to list of the user's friends' posts.
  * @param type $container_guid
  */
-function izap_video_get_page_content_friends($user_guid = NULL) { 
-    $user = get_user($user_guid); 
-    if (!$user) {  
+function izap_video_get_page_content_friends($user_guid = NULL) {
+    $user = get_user($user_guid);
+    if (!$user) {
         forward('izap-videos/all');
     }
 
@@ -563,10 +563,9 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
     $queue = new izapQueue();
     $create_queue = $queue->put($video, $file, $defined_access_id);
     if ($create_queue) {
-        $queue = izap_run_queue_izap_videos();
-        foreach ($queue as $pending) {
+        $queue = izap_run_queue_izap_videos(100);
+        foreach ($queue as $pending) { 
             $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-            //echo $converted;
         }
     }
 }
@@ -575,9 +574,9 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  * 
  * @return boolean
  */
-function izap_run_queue_izap_videos() {
+function izap_run_queue_izap_videos($limit = 100) {
     $queue_object = new izapQueue();
-    $queue = $queue_object->fetch_videos();
+    $queue = $queue_object->fetch_videos($limit);   
     return $queue;
 }
 
@@ -607,7 +606,7 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
         if ($videofile['error'] > 0) {
             return $videofile['message'];
         } else {
-            $queue_object->change_conversion_flag($videoId);
+            return $queue_object->change_conversion_flag($videoId);
         }
     }
 }

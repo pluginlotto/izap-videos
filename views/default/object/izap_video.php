@@ -96,21 +96,30 @@ if ($full) {
 
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
 
-    $path = elgg_get_site_url() . 'test.mp4';
-
+    $path = elgg_get_site_url() . 'test.flv';
+    $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;  //echo $player_path;
 
     $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid; //echo $video_path;
     $image_url = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
-
-    $html = '<video id="example_video_1" class="video-js vjs-default-skin" controls autoplay preload="none" width="640" height="264"
-               poster="http://video-js.zencoder.com/oceans-clip.png"
-               data-setup="{}">
- 		
-        <source src="' . $video_path . '" type="video/mp4">
- 		<p class="vjs-no-js">
-        To view this video please enable JavaScript, and consider upgrading to a web browser that 
-        <a href="#" target="_blank">supports HTML5 video</a></p>
-</video>';
+    
+     $html = "
+           <object width='200' height='200' id='flvPlayer'>
+            <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='transparent'>
+             <param name='allowScriptAccess' value='always'>
+            <param name='movie' value='" . $player_path . "?movie=" . $video_path . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' >
+            <embed src='" . $player_path . "?movie=" . $video_path . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+           </object>";
+    
+//    $html = '<video id="example_video_1" class="video-js vjs-default-skin" controls autoplay preload="none" width="640" height="264"
+//               poster="http://video-js.zencoder.com/oceans-clip.png"
+//               data-setup="{}">
+// 		
+//        <source src="' . $video_path . '" type="video/mp4">
+// 		<p class="vjs-no-js">
+//        To view this video please enable JavaScript, and consider upgrading to a web browser that 
+//        <a href="#" target="_blank">supports HTML5 video</a></p>
+//</video>';
 
     $body = "$text $html";
 //    $html = '

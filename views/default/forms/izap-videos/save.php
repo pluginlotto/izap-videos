@@ -35,7 +35,7 @@ if (!$container_guid) {
 
 if ($guid) {
   $file_label = elgg_echo("izap-videos:replace");
-  $submit_label = elgg_echo('update');
+  $submit_label = elgg_echo('save');
 } else {
   $file_label = elgg_echo("izap-videos:file");
   $submit_label = elgg_echo('upload');

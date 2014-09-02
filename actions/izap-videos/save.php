@@ -121,7 +121,7 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
 
                 if (file_exists($get_entity->tmpfile)) {
                     if ($page_url == 'onserver') {
-                        izap_save_fileinfo_for_converting_izap_videos($izap_videos->tmpfile, $izap_videos, $izap_videos->access_id);
+                        izap_save_fileinfo_for_converting_izap_videos($get_entity->tmpfile, $get_entity, $get_entity->access_id);
                     }
                 }
             }

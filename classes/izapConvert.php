@@ -18,38 +18,38 @@
  */
 
 class izapConvert {
-  
-  private $invideo;
-  private $outvideo;
 
-  public $format = 'mp4';
-  
-  public function izapConvert($in = '') {
-    $this->invideo = $in;
-    $extension_length = strlen(getFileExtension($this->invideo));
-    $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
-    $this->outvideo =  $outputPath . '_c.' . $this->format;
-  }
-  
-  public function izap_video_convert() {
+    private $invideo;
+    private $outvideo;
+    public $format = 'flv';
 
-      $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos(); 
-      $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
-      $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand); 
-      $videoCommand = $videoCommand . ' 2>&1';  
-     // echo $videoCommand;exit;
-      exec($videoCommand, $out, $err);
-     
-      // if file not converted successfully return error message 
-      if(!$err == 0) { 
-        $return = array();
-        $return['error'] = 1;
-        $return['message'] = end($out);
-        $return['completeMessage'] = implode(' ', $out);
-      
-        return $return;
-      }
-      
-    return end(explode('/', $this->outvideo));
-  }
+    public function izapConvert($in = '') {
+        $this->invideo = $in;
+        $extension_length = strlen(getFileExtension($this->invideo));
+//    $this->outvideo = elgg_get_data_path().'testnew.flv';
+        $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
+        $this->outvideo = $outputPath . '_c.' . $this->format;
+    }
+
+    public function izap_video_convert() {
+
+        $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
+        $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
+        $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);  //echo $videoCommand;
+        $videoCommand = $videoCommand . ' 2>&1';
+        exec($videoCommand, $out, $err);
+
+        // if file not converted successfully return error message 
+        if ($err != 0) {
+            $return = array();
+            $return['error'] = 1;
+            $return['message'] = end($out);
+            $return['completeMessage'] = implode(' ', $out);
+
+            return $return;
+        }
+
+        return end(explode('/', $this->outvideo));
+    }
+
 }
