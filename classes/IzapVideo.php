@@ -76,9 +76,9 @@ class IzapVideo extends ElggFile {
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
-            
+            <param name='flashvars' value='poster=".$image."'/>  
             <param name = 'movie' value = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
-            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent'>
+            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent' flashvars='file:".$image."'>
             </object>";
         return $html;
     }

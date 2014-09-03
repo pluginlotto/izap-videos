@@ -23,9 +23,11 @@ elgg_load_library('elgg:izap_video');
   <label>
     <?php echo elgg_echo('izap_videos:adminSettings:izapPhpInterpreter'); ?>
     <?php
+    $default= (izapIsWin_izap_videos()) ? '' : '/usr/bin/php';
+    $saved_command = elgg_get_plugin_setting('izapPhpInterpreter','izap-videos');
     echo elgg_view('input/text', array(
         'name' => 'params[izapPhpInterpreter]',
-        'value' => (izapIsWin_izap_videos()) ? '' : '/usr/bin/php'
+        'value' => $saved_command?$saved_command:$default
     ));
     ?>
   </label>
