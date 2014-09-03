@@ -78,7 +78,7 @@ class IzapVideo extends ElggFile {
              <param name='allowScriptAccess' value='always'>
              <param name='flashvars' value='image=http://video-js.zencoder.com/oceans-clip.png' />
             <param name = 'movie' value = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
-            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent' flashvars='image=http://video-js.zencoder.com/oceans-clip.png'>
+            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent'>
             </object>";
         return $html;
     }
