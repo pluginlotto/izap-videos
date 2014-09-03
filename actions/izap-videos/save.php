@@ -52,16 +52,7 @@ $page_url = end(explode('/', get_input('page_url')));
 //    forward(REFERER);
 //  }
 //}
-//check validation for title and description
-//if (!$title) {
-//  register_error(elgg_echo('izap-videos_title:save:failed'));
-//  forward(REFERER);
-//}
-//
-//if (!$description) {
-//  register_error(elgg_echo('izap-videos_description:save:failed'));
-//  forward(REFERER);
-//}
+
 
 if ($guid == 0) {
     $izap_videos = new IzapVideo();
@@ -121,6 +112,7 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
 
                 if (file_exists($get_entity->tmpfile)) {
                     if ($page_url == 'onserver') {
+                        $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
                         izap_save_fileinfo_for_converting_izap_videos($get_entity->tmpfile, $get_entity, $get_entity->access_id);
                     }
                 }
@@ -128,7 +120,7 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
             break;
     }
     //create river if new entity
-    if ($new == true) { 
+    if ($new == true) {
         elgg_create_river_item(array(
             'view' => 'river/object/izap_video/create',
             'action_type' => 'create',

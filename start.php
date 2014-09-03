@@ -34,6 +34,9 @@ function izap_video_init() {
 
     //register page handler for particular identifier
     elgg_register_page_handler('izap-videos', 'izap_video_page_handler');
+    
+    //register page handler for video page
+    elgg_register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
 
     elgg_register_entity_type('object', 'izap_video');
 
@@ -44,7 +47,7 @@ function izap_video_init() {
     if (elgg_is_admin_logged_in()) {
         // Add admin menu item @todo: can be done automatic loading via bridge
         elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
-        elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
+      //  elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
     }
 
     //register action
@@ -262,4 +265,16 @@ function izap_videos_owner_block_menu($hook, $type, $return, $params) {
     }
 
     return $return;
+}
+
+/**
+ * 
+ * @param type $page
+ */
+function pageHandler_izap_videos_files($page) { 
+  set_input('what', $page[0]);
+  set_input('videoID', $page[1]);
+  set_input('size', $page[2]);
+  elgg_load_library('elgg:izap_video');
+  read_video_file();
 }

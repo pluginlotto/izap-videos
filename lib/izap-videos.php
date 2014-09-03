@@ -562,10 +562,12 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
     }
     $queue = new izapQueue();
     $create_queue = $queue->put($video, $file, $defined_access_id);
-    if ($create_queue) {
-        $queue = izap_run_queue_izap_videos(100);
-        foreach ($queue as $pending) { 
+    // if ($create_queue) {
+    $queue = izap_run_queue_izap_videos(100);
+    if ($queue) {
+        foreach ($queue as $pending) {
             $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+            // izap_run_queue_izap_videos();
         }
     }
 }
@@ -576,7 +578,7 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  */
 function izap_run_queue_izap_videos($limit = 100) {
     $queue_object = new izapQueue();
-    $queue = $queue_object->fetch_videos($limit);   
+    $queue = $queue_object->fetch_videos($limit);
     return $queue;
 }
 
@@ -608,5 +610,49 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
         } else {
             return $queue_object->change_conversion_flag($videoId);
         }
+    }
+}
+
+/**
+ * read video file content
+ */
+function read_video_file() {
+    $guid = (int) get_input('videoID');  
+    $entity = get_entity($guid);
+
+    $izapqueue_obj = new izapQueue();
+    $get_converted_video = $izapqueue_obj->get_converted_video($guid);
+
+    if (!elgg_instanceof($entity, 'object', 'izap_video')) {
+        exit;
+    }
+
+    if ($get_converted_video) {
+        $get_video_name = end(explode('/', $get_converted_video[0]['main_file']));
+        $izapvideo_obj = new IzapVideo;
+        $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
+        $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
+
+
+        $elggfile_obj = new ElggFile;
+        $elggfile_obj->owner_guid = $entity->owner_guid;
+        $elggfile_obj->setFilename($set_video_name);
+
+
+        if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
+            $contents = $elggfile_obj->grabFile();
+        }
+
+
+        $content_type = 'video/x-flv';
+
+        header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
+        header("Pragma: public", true);
+        header("Cache-Control: public", true);
+        header("Content-Length: " . strlen($contents));
+        header("Content-type: {$content_type}", true);
+
+        echo $contents;
+        exit;
     }
 }
