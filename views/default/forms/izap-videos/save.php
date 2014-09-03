@@ -122,6 +122,7 @@ if ($categories) {
         upload_video: {
           required: true,
         },
+       
       },
       messages: {
         title: {
@@ -136,7 +137,8 @@ if ($categories) {
         },
         upload_video: {
           required: "Please select video to upload"
-        }
+        },
+       
       }
     });
   });

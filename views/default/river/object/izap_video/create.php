@@ -21,14 +21,16 @@
  * New izap-video river entry.
  */
 $object = $vars['item']->getObjectEntity();
-$width= '70px';
-$height = '70px';
+$width= '100px';
+$height = '100px';
 $get_image = $object->imagefile;
-$thumb = "mod/izap-videos/thumbnail.php?file_guid=$object->guid";
+//$thumb = "mod/izap-videos/thumbnail.php?file_guid=$object->guid";
 $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;
 $content = $object->getVideoPlayer($player_path,$object,$width,$height);
+
+//$path = 'izap-videos/player' . $object->guid ;
 //if($get_image) {
-//    $content = '<a href= ""><img src = "' . $thumb . '" width="50"/></a>';
+//    $content = '<a href= "izap-videos/"><img src = "' . $thumb . '" width="50"/></a>';
 //}
 
 $content .= $object->description;

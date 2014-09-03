@@ -161,9 +161,8 @@ function izap_video_page_handler($page) {
             //  elgg_load_js('elgg:player');
             $params = izap_read_video_file($page[1]);
             $params['filter'] = false;
-
-
             break;
+       
         default:
             return false;
     }

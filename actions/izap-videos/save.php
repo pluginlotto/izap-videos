@@ -47,10 +47,15 @@ $page_url = end(explode('/', get_input('page_url')));
 //    forward(REFERER);
 //  }
 //
-//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
-//    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
-//    forward(REFERER);
-//  }
+  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
+    forward(REFERER);
+  }
+  
+  if (!in_array(strtolower(end(explode('.', $_FILES['upload_thumbnail']['name']))), array('jpg', 'png', 'gif'))) {
+    register_error(elgg_echo('izap-videos_image_invalidformat:save:failed'));
+    forward(REFERER);
+  }
 //}
 
 
@@ -103,7 +108,6 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
                 $izap_videos->open("write");
                 $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
                 $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
-                //move_uploaded_file($_FILES['upload_thumbnail']['tmp_name'], $izap_videos->getFilenameOnFilestore());
             }
 
             if ($izap_videos->save()) {

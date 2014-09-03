@@ -31,7 +31,7 @@ if (!$izap_video) {
 
 $owner = $izap_video->getOwnerEntity();
 if ($izap_video->imagefile) {
-    $icon = elgg_view_entity_icon($izap_video, 'small');
+    $icon = elgg_view_entity_icon($izap_video, 'medium');
 } else {
     $icon = elgg_view_entity_icon($owner, 'tiny');
 }
@@ -134,4 +134,3 @@ if ($full) {
 
     echo elgg_view_image_block($icon, $list_body);
 }
-

@@ -29,7 +29,7 @@ class IzapVideo extends ElggFile {
 
     public function __construct($guid = NULL) {
         parent::__construct($guid);
-        // set some initial values so that old videos can work
+// set some initial values so that old videos can work
     }
 
     /**
@@ -45,40 +45,41 @@ class IzapVideo extends ElggFile {
      * @param type $file_path input path for ffmpeg processing
      */
     public function processOnserverVideo($source_path, $dest_path) {
-        // $returnvalue = new stdClass();
+// $returnvalue = new stdClass();
 
         $destination_path = $dest_path . time() . $this->format;
         $file_name = end(explode('/', $destination_path));
         $source_file = end(explode('/', $source_path));
 
-        //tmp file
+//tmp file
         $this->setFilename($this->get_tmp_path($source_file));
         $this->open('write');
         $this->write(file_get_contents($source_path));
         $this->tmpfile = $this->getFilenameOnFilestore();
-        //  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
-        //  return $returnvalue;
+//  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
+//  return $returnvalue;
     }
-    
+
     /**
-     *get video player 
+     * get video player 
      * @param type $player
      * @param type $entity
      * @return string
      */
-
-    function getVideoPlayer($player,$entity,$width,$height) {
-
-        
+    function getVideoPlayer($player, $entity, $width, $height) {
         $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $entity->guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
+//$image = elgg_get_site_url() . "mod/izap-videos/thumbnail.php?file_guid=$entity->guid"; 
+
+        $image = elgg_get_site_url() . 'twitter.png';
         $html = "
-           <object width='". $width ."' height='". $height ."' id='flvPlayer'>
+           <object width='" . $width . "' height='" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
-            <param name='movie' value='" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
-            <embed src='" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='".$width."' height='".$height."' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
-           </object>";
+             <param name='flashvars' value='image=http://video-js.zencoder.com/oceans-clip.png' />
+            <param name = 'movie' value = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
+            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent' flashvars='image=http://video-js.zencoder.com/oceans-clip.png'>
+            </object>";
         return $html;
     }
 
