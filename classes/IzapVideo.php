@@ -36,7 +36,7 @@ class IzapVideo extends ElggFile {
      * set tmp path for upload video
      */
     public function get_tmp_path($name) {
-        $setFileName = 'izap_videos/tmp/' .  $name;
+        $setFileName = 'izap_videos/tmp/' . $name;
         return $setFileName;
     }
 
@@ -45,7 +45,7 @@ class IzapVideo extends ElggFile {
      * @param type $file_path input path for ffmpeg processing
      */
     public function processOnserverVideo($source_path, $dest_path) {
-       // $returnvalue = new stdClass();
+        // $returnvalue = new stdClass();
 
         $destination_path = $dest_path . time() . $this->format;
         $file_name = end(explode('/', $destination_path));
@@ -55,9 +55,31 @@ class IzapVideo extends ElggFile {
         $this->setFilename($this->get_tmp_path($source_file));
         $this->open('write');
         $this->write(file_get_contents($source_path));
-        $this->tmpfile = $this->getFilenameOnFilestore(); 
-      //  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
-      //  return $returnvalue;
+        $this->tmpfile = $this->getFilenameOnFilestore();
+        //  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
+        //  return $returnvalue;
+    }
+    
+    /**
+     *get video player 
+     * @param type $player
+     * @param type $entity
+     * @return string
+     */
+
+    function getVideoPlayer($player,$entity,$width,$height) {
+
+        
+        $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $entity->guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
+        $html = "
+           <object width='". $width ."' height='". $height ."' id='flvPlayer'>
+            <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='transparent'>
+             <param name='allowScriptAccess' value='always'>
+            <param name='movie' value='" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
+            <embed src='" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='".$width."' height='".$height."' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+           </object>";
+        return $html;
     }
 
 }

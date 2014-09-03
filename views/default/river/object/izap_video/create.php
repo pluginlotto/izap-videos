@@ -1,4 +1,5 @@
 <?php
+
 /*
  *    This file is part of izap-videos plugin for Elgg.
  *
@@ -16,17 +17,22 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** 
+/**
  * New izap-video river entry.
  */
-
 $object = $vars['item']->getObjectEntity();
+$width= '70px';
+$height = '70px';
+$get_image = $object->imagefile;
+$thumb = "mod/izap-videos/thumbnail.php?file_guid=$object->guid";
+$player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;
+$content = $object->getVideoPlayer($player_path,$object,$width,$height);
+//if($get_image) {
+//    $content = '<a href= ""><img src = "' . $thumb . '" width="50"/></a>';
+//}
 
-$excerpt = $object->description;
-$excerpt = strip_tags($excerpt);
-$excerpt = elgg_get_excerpt($excerpt);
-
+$content .= $object->description;
 echo elgg_view('river/elements/layout', array(
-	'item' => $vars['item'],
-	'message' => $excerpt,
+    'item' => $vars['item'],
+    'message' => $content,
 ));

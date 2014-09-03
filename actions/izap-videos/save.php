@@ -114,6 +114,7 @@ if ($page_url == 'offserver' || $page_url == 'onserver') {
                     if ($page_url == 'onserver') {
                         $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
                         izap_save_fileinfo_for_converting_izap_videos($get_entity->tmpfile, $get_entity, $get_entity->access_id);
+                        $izap_videos->converted = 'yes';
                     }
                 }
             }

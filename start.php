@@ -24,6 +24,11 @@ elgg_register_event_handler('init', 'system', 'izap_video_init');
  * main init function
  */
 function izap_video_init() {
+    
+   // global $defaultsettings;
+ // //  $defaultsettings = new stdClass(); 
+  //  $defaultsettings->playerpath  = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf'; 
+    
     $root = dirname(__FILE__);
 
     //define path for actions folder

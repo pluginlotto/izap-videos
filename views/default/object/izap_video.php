@@ -96,21 +96,22 @@ if ($full) {
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
 
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $izap_video->guid . '/' . elgg_get_friendly_title($izap_video->title) . '.flv';
-    $path = elgg_get_site_url() . 'test.mp4';
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;  //echo $player_path;
 
-    $video_path = elgg_get_site_url() . 'mod/izap-videos/video.php?file_guid=' . $izap_video->guid; //echo $video_path;
-   // $image_url = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
-    
-     $html = "
-           <object width='200' height='200' id='flvPlayer'>
-            <param name='allowFullScreen' value='true'>
-            <param name='wmode' value='transparent'>
-             <param name='allowScriptAccess' value='always'>
-            <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' >
-            <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
-           </object>";
-   
+    if($izap_video->converted == 'yes'){
+        $video_obj = new IzapVideo;
+        $width = '600px';
+        $height = '400px';
+        $html  = $video_obj->getVideoPlayer($player_path,$izap_video,$width,$height);
+//     $html = "
+//           <object width='600' height='400' id='flvPlayer'>
+//            <param name='allowFullScreen' value='true'>
+//            <param name='wmode' value='transparent'>
+//             <param name='allowScriptAccess' value='always'>
+//            <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $izap_video->title . "&showTitle=yes' >
+//            <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+//           </object>";
+    }
     $body = "$text $html";
 
     echo elgg_view('object/elements/full', array(
