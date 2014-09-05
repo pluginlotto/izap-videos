@@ -1,5 +1,4 @@
 <?php
-
 /*
  *    This file is part of izap-videos plugin for Elgg.
  *
@@ -96,23 +95,36 @@ if ($full) {
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
 
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $izap_video->guid . '/' . elgg_get_friendly_title($izap_video->title) . '.flv';
-    $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;  //echo $player_path;
+    $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';  //echo $player_path;
 
-    if($izap_video->converted == 'yes'){
+    $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
+    if ($izap_video->imagefile) {
+        $image = $image_path;
+    } else {
+        $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+    }
+    if ($izap_video->converted == 'yes') {
         $video_obj = new IzapVideo;
         $width = '600px';
         $height = '400px';
-        $html  = $video_obj->getVideoPlayer($player_path,$izap_video,$width,$height);
-//     $html = "
-//           <object width='600' height='400' id='flvPlayer'>
-//            <param name='allowFullScreen' value='true'>
-//            <param name='wmode' value='transparent'>
-//             <param name='allowScriptAccess' value='always'>
-//            <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $izap_video->title . "&showTitle=yes' >
-//            <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
-//           </object>";
+        //$html = $video_obj->getVideoPlayer($player_path, $izap_video, $width, $height);
+
+        $html = '
+        <img src="' . $image . '" style= "max-height:500px; max-width: 500px;background-color:black" class="upload_div" />';
+
+        if ($izap_video->imagefile) {
+         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play"/>';
+        }
+        $data = "<p class='video' style='display:none;'>
+           <object width='600' height= '400' id='flvPlayer'>
+            <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='transparent'>
+             <param name='allowScriptAccess' value='always'>
+            <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' >
+            <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+           </object></p>";
     }
-    $body = "$text $html";
+    $body = "$text $html $data";
 
     echo elgg_view('object/elements/full', array(
         'entity' => $izap_video,
@@ -122,7 +134,7 @@ if ($full) {
     ));
 } else {
     // brief view
-   
+
     $params = array(
         'entity' => $izap_video,
         'metadata' => $metadata,
@@ -134,3 +146,20 @@ if ($full) {
 
     echo elgg_view_image_block($icon, $list_body);
 }
+?>
+<script>
+    var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+    $(document).ready(function() {
+        $('.upload_div').click(function() {
+            $("p").show();
+            $('.upload_div').hide();
+        });
+    });
+</script>
+
+<style>
+    .play{
+        position:absolute;
+        margin: 5px;
+    }
+</style>

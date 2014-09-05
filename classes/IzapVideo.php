@@ -1,5 +1,4 @@
 <?php
-
 /*
  *    This file is part of izap-videos plugin for Elgg.
  *
@@ -66,19 +65,39 @@ class IzapVideo extends ElggFile {
      * @param type $entity
      * @return string
      */
-    function getVideoPlayer($player, $entity, $width, $height) {
-        $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $entity->guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
-//$image = elgg_get_site_url() . "mod/izap-videos/thumbnail.php?file_guid=$entity->guid"; 
+//    function getVideoPlayer($player, $entity, $width, $height) {
+//        $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $entity->guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
+//
+//        $image = elgg_get_site_url() . 'twitter.png';
+//
+//        $html = '<div class="izap_ajaxed_thumb_div" id="load_video" style="position: relative;" >
+//      <a href="' . $this->player($video_src) . '" rel="' . $unique . '" class="izap_ajaxed_thumb">
+//        <img src="' . $image . '" style= "max-height:90px; max-width: 90px;" />
+//		<span class="izap_play_icon"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" /></span>
+//      </a>
+//      </div>';
+//
+//
+//        return $html;
+//    }
 
-        $image = elgg_get_site_url() . 'twitter.png';
+    function player($guid,$width,$height) {
+        $obj = new IzapVideo();
+        $p = $obj->getplayer($guid,$width,$height);
+        echo $p;
+    }
+
+    function getplayer($guid,$width,$height) {
+        $entity = get_entity($guid);
+        $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $entity->guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
+        $player = $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
         $html = "
            <object width='" . $width . "' height='" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
-            <param name='flashvars' value='poster=".$image."'/>  
             <param name = 'movie' value = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=off&vTitle=" . $entity->title . "&showTitle=yes' >
-            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent' flashvars='file:".$image."'>
+            <embed src = '" . $player . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width = '" . $width . "' height = '" . $height . "' allowFullScreen = 'true' type = 'application/x-shockwave-flash' allowScriptAccess = 'always' wmode = 'transparent'>
             </object>";
         return $html;
     }

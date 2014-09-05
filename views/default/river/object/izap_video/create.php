@@ -26,7 +26,7 @@ $height = '100px';
 $get_image = $object->imagefile;
 //$thumb = "mod/izap-videos/thumbnail.php?file_guid=$object->guid";
 $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf' ;
-$content = $object->getVideoPlayer($player_path,$object,$width,$height);
+//$content = $object->getVideoPlayer($player_path,$object,$width,$height);
 
 //$path = 'izap-videos/player' . $object->guid ;
 //if($get_image) {
