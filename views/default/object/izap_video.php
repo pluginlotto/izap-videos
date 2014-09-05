@@ -107,9 +107,9 @@ if ($full) {
         $video_obj = new IzapVideo;
         
         $html = '
-        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;" class="upload_div" />';
+        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;cursor:pointer;" class="upload_div" />';
         if ($izap_video->imagefile) {
-         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center"/>';
+         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer"/>';
         }
         $data = "<p class='video' style='display:none;'>
            <object width='600' height= '400' id='flvPlayer'>
@@ -155,8 +155,8 @@ if ($full) {
 
 <style>
     .play{
-/*        position:absolute;
+       position:absolute;
         margin: 157px -153px;
-        width:50px;*/
+        width:50px;
     }
 </style>

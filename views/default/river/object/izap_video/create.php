@@ -29,10 +29,10 @@
     $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
   }
   $default_image =  elgg_get_site_url() . 'mod/izap-videos/_graphics/default.png';
-  $content = '<img src="' . $image . '" style= "max-height:70px; max-width: 70px;background-color:black; " id="upload_div_' . $object->guid . '" class="upload_div" onclick = "video(' . $object->guid . ')"/>';
+  $content = '<img src="' . $image . '" style= "max-height:100px; max-width: 100px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" />';
 
   if ($object->imagefile) {
-    $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play"/>';
+    $content .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play" id="play_'.$object->guid.'" onclick = "video(' . $object->guid . ')"/>';
   }
   $content .= "<p class='video_" . $object->guid . "' style='display:none;' id='video_" . $object->guid . "' >
            <object width='200' height= '200' id='flvPlayer'>
@@ -51,15 +51,16 @@
 ?>
 <script>
   function video(id) {
-    console.log(id);
     $("#video_" + id).show();
     $("#upload_div_" + id + "").hide();
+    $("#play_" + id + "").hide();
   }
 </script>
 
 <style>
   .play{
-    position:absolute;
-    margin: 5px;
+    position:relative;
+    margin: 3px -11px;
+    cursor: pointer;
   }
 </style>
