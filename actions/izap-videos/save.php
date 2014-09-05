@@ -52,10 +52,10 @@ $page_url = end(explode('/', get_input('page_url')));
     forward(REFERER);
   }
   
-  if (!in_array(strtolower(end(explode('.', $_FILES['upload_thumbnail']['name']))), array('jpg', 'png', 'gif'))) {
-    register_error(elgg_echo('izap-videos_image_invalidformat:save:failed'));
-    forward(REFERER);
-  }
+//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_thumbnail']['name']))), array('jpg', 'png', 'gif'))) {
+//    register_error(elgg_echo('izap-videos_image_invalidformat:save:failed'));
+//    forward(REFERER);
+//  }
 //}
 
 

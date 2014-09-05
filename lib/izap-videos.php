@@ -617,7 +617,7 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
  * read video file content
  */
 function read_video_file() {
-    $guid = (int) get_input('videoID');  
+    $guid = (int) get_input('videoID');
     $entity = get_entity($guid);
 
     $izapqueue_obj = new izapQueue();
@@ -656,3 +656,5 @@ function read_video_file() {
         exit;
     }
 }
+
+
