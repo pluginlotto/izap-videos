@@ -47,11 +47,11 @@
 //    forward(REFERER);
 //  }
 //
-  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
-    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
-    forward(REFERER);
-  }
-
+//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
+//    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
+//    forward(REFERER);
+//  }
+  
 //  if (!in_array(strtolower(end(explode('.', $_FILES['upload_thumbnail']['name']))), array('jpg', 'png', 'gif'))) {
 //    register_error(elgg_echo('izap-videos_image_invalidformat:save:failed'));
 //    forward(REFERER);
