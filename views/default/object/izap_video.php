@@ -105,15 +105,11 @@ if ($full) {
     }
     if ($izap_video->converted == 'yes') {
         $video_obj = new IzapVideo;
-        $width = '600px';
-        $height = '400px';
-        //$html = $video_obj->getVideoPlayer($player_path, $izap_video, $width, $height);
-
+        
         $html = '
-        <img src="' . $image . '" style= "max-height:500px; max-width: 500px;background-color:black" class="upload_div" />';
-
+        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;" class="upload_div" />';
         if ($izap_video->imagefile) {
-         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play"/>';
+         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center"/>';
         }
         $data = "<p class='video' style='display:none;'>
            <object width='600' height= '400' id='flvPlayer'>
@@ -148,7 +144,7 @@ if ($full) {
 }
 ?>
 <script>
-    var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+    
     $(document).ready(function() {
         $('.upload_div').click(function() {
             $("p").show();
@@ -159,7 +155,8 @@ if ($full) {
 
 <style>
     .play{
-        position:absolute;
-        margin: 5px;
+/*        position:absolute;
+        margin: 157px -153px;
+        width:50px;*/
     }
 </style>
