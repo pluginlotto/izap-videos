@@ -72,12 +72,22 @@ elgg_load_library('elgg:izap_video');
   <?php echo elgg_echo('Onserver Video'); ?><br />
   <?php 
   $ffmpeg_path = exec('ffmpeg -version', $out, $err);
-  if($err == 0){ ?>
-  <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes" checked> Yes <br />
- <?php }else {  ?>
-   <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes"> Yes <br />
- <?php } ?>
-  <input type="radio" name="params[Onserver_enabled_izap_videos]" value= 'no'> No 
+  $onserver_settings = elgg_get_plugin_setting('Onserver_enabled_izap_videos','izap-videos');
+  if($onserver_settings == 'yes'){ ?>
+    <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes" checked> Yes <br />
+    <input type="radio" name="params[Onserver_enabled_izap_videos]" value= 'no'> No 
+  <?php }elseif($onserver_settings == 'no'){ ?>
+    <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes" > Yes <br />
+    <input type="radio" name="params[Onserver_enabled_izap_videos]" value= 'no' checked > No   
+  <?php }else{ 
+      if($err == 0){ ?> 
+          <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes" checked> Yes <br />
+      <?php }else{ ?>
+             <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes"> Yes <br />
+      <?php } ?>
+               <input type="radio" name="params[Onserver_enabled_izap_videos]" value= 'no'> No 
+  <?php } ?>
+  
   <?php
 //  echo elgg_view('input/radio', array(
 //      'name' => 'params[Onserver_enabled_izap_videos]',
