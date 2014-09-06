@@ -21,14 +21,16 @@ class izapConvert {
 
     private $invideo;
     private $outvideo;
+    private $outimage;
     public $format = 'flv';
+    private $values = array();
 
     public function izapConvert($in = '') {
         $this->invideo = $in;
         $extension_length = strlen(getFileExtension($this->invideo));
-//    $this->outvideo = elgg_get_data_path().'testnew.flv';
         $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
         $this->outvideo = $outputPath . '_c.' . $this->format;
+        $this->outimage = $outputPath . '_i.png';
     }
 
     public function izap_video_convert() {
@@ -52,4 +54,25 @@ class izapConvert {
         return end(explode('/', $this->outvideo));
     }
 
+    public function get_thumbnail_from_video(){
+      $thumbnail_cmd = izap_get_ffmpeg_thumbnailCommand();
+      $thumbnail_cmd = str_replace('[inputVideoPath]', $this->invideo, $thumbnail_cmd);
+      $thumbnail_cmd = str_replace('[outputImage]', $this->outimage, $thumbnail_cmd);
+      $thumbnail_cmd = $thumbnail_cmd . ' 2>&1'; 
+       exec($thumbnail_cmd, $out ,$err);
+      
+      if($err != 0){
+        $return = array();
+        $return['error'] =1;
+        $return['message'] = end($out);
+        return $return;
+      }
+      return $this->outimage;
+    }
+    
+   public function getValues(){
+     $this->values['imagename'] = end(explode('/',$this->outimage));
+     $this->values['imagecontent'] = file_get_contents($this->outimage); 
+     return $this->values;
+   }
 }
