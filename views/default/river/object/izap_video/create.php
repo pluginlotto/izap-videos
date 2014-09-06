@@ -28,8 +28,8 @@
   } else {
     $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
   }
-  $default_image =  elgg_get_site_url() . 'mod/izap-videos/_graphics/default.png';
-  $content = '<img src="' . $image . '" style= "max-height:100px; max-width: 100px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" />';
+  
+  $content = '<img src="' . $image . '" style= "max-height:90px; max-width: 90px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" onclick = "video(' . $object->guid . ')"/>';
 
   if ($object->imagefile) {
     $content .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play" id="play_'.$object->guid.'" onclick = "video(' . $object->guid . ')"/>';
