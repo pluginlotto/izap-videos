@@ -361,6 +361,20 @@ function izap_is_onserver_enabled_izap_videos() {
 }
 
 /**
+ * check whether offserver videos are enabled in admin settings
+ */
+function izap_is_offserver_enabled_izap_videos(){
+  $setting = pluginSetting(array(
+    'name' => 'Offserver_enabled_izap_videos',
+    'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
+  ));
+  if((string)$setting === 'no'){
+    return false;
+  }
+  return $setting;
+}
+
+/**
  * resets queue
  *
  * @return boolean

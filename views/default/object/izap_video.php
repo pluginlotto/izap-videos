@@ -1,94 +1,94 @@
 <?php
-/*
- *    This file is part of izap-videos plugin for Elgg.
- *
- *    izap-videos for Elgg is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 2 of the License, or
- *    (at your option) any later version.
- *
- *    izap-videos for Elgg is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
- */
+  /*
+   *    This file is part of izap-videos plugin for Elgg.
+   *
+   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+   *    it under the terms of the GNU General Public License as published by
+   *    the Free Software Foundation, either version 2 of the License, or
+   *    (at your option) any later version.
+   *
+   *    izap-videos for Elgg is distributed in the hope that it will be useful,
+   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *    GNU General Public License for more details.
+   *
+   *    You should have received a copy of the GNU General Public License
+   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+   */
 
-/*
- * object for izap-video
- * @package izap-video 
- */
+  /*
+   * object for izap-video
+   * @package izap-video 
+   */
 
 
-$full = elgg_extract('full_view', $vars, FALSE);
-$izap_video = elgg_extract('entity', $vars, FALSE); //echo $izap_video->access_id;
-if (!$izap_video) {
+  $full = elgg_extract('full_view', $vars, FALSE);
+  $izap_video = elgg_extract('entity', $vars, FALSE); //echo $izap_video->access_id;
+  if (!$izap_video) {
     return TRUE;
-}
+  }
 
-$owner = $izap_video->getOwnerEntity();
-if ($izap_video->imagefile) {
+  $owner = $izap_video->getOwnerEntity();
+  if ($izap_video->imagefile) {
     $icon = elgg_view_entity_icon($izap_video, 'medium');
-} else {
+  } else {
     $icon = elgg_view_entity_icon($owner, 'tiny');
-}
+  }
 
-$container = $izap_video->getContainerEntity();
-$categories = elgg_view('output/categories', $vars);
-$excerpt = $izap_video->excerpt;
-if (!$excerpt) {
+  $container = $izap_video->getContainerEntity();
+  $categories = elgg_view('output/categories', $vars);
+  $excerpt = $izap_video->excerpt;
+  if (!$excerpt) {
     $excerpt = elgg_get_excerpt($izap_video->description);
-}
+  }
 
 //$owner_icon = elgg_view_entity_icon($owner, 'tiny');
-$owner_link = elgg_view('output/url', array(
+  $owner_link = elgg_view('output/url', array(
     'href' => "izap-videos/owner/$owner->username",
     'text' => $owner->name,
     'is_trusted' => true,
-        ));
-$author_text = elgg_echo('byline', array($owner_link));
-$date = elgg_view_friendly_time($izap_video->time_created);
+  ));
+  $author_text = elgg_echo('byline', array($owner_link));
+  $date = elgg_view_friendly_time($izap_video->time_created);
 
 // The "on" status changes for comments, so best to check for !Off
-if ($izap_video->comments_on != 'Off') {
+  if ($izap_video->comments_on != 'Off') {
     $comments_count = $izap_video->countComments();
     //only display if there are commments
     if ($comments_count != 0) {
-        $text = elgg_echo("comments") . " ($comments_count)";
-        $comments_link = elgg_view('output/url', array(
-            'href' => $izap_video->getURL() . '#comments',
-            'text' => $text,
-            'is_trusted' => true,
-        ));
+      $text = elgg_echo("comments") . " ($comments_count)";
+      $comments_link = elgg_view('output/url', array(
+        'href' => $izap_video->getURL() . '#comments',
+        'text' => $text,
+        'is_trusted' => true,
+      ));
     } else {
-        $comments_link = '';
+      $comments_link = '';
     }
-} else {
+  } else {
     $comments_link = '';
-}
+  }
 
-$metadata = elgg_view_menu('entity', array(
+  $metadata = elgg_view_menu('entity', array(
     'entity' => $vars['entity'],
     'handler' => 'izap-videos',
     'sort_by' => 'priority',
     'class' => 'elgg-menu-hz',
-        ));
+  ));
 
-$subtitle = "$author_text $date $comments_link $categories";
+  $subtitle = "$author_text $date $comments_link $categories";
 
 // do not show the metadata and controls in widget view
-if (elgg_in_context('widgets')) {
+  if (elgg_in_context('widgets')) {
     $metadata = '';
-}
+  }
 
-if ($full) {
+  if ($full) {
     $params = array(
-        'entity' => $izap_video,
-        'title' => false,
-        'metadata' => $metadata,
-        'subtitle' => $subtitle,
+      'entity' => $izap_video,
+      'title' => false,
+      'metadata' => $metadata,
+      'subtitle' => $subtitle,
     );
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
@@ -99,19 +99,19 @@ if ($full) {
 
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagefile) {
-        $image = $image_path;
+      $image = $image_path;
     } else {
-        $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+      $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
     }
     if ($izap_video->converted == 'yes') {
-        $video_obj = new IzapVideo;
-        
-        $html = '
+      $video_obj = new IzapVideo;
+
+      $html = '
         <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;cursor:pointer;" class="upload_div" />';
-        if ($izap_video->imagefile) {
-         $html .=   '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer"/>';
-        }
-        $data = "<p class='video' style='display:none;'>
+      if ($izap_video->imagefile) {
+        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:400px;"/>';
+      }
+      $data = "<p class='video' style='display:none;'>
            <object width='600' height= '400' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
@@ -123,40 +123,48 @@ if ($full) {
     $body = "$text $html $data";
 
     echo elgg_view('object/elements/full', array(
-        'entity' => $izap_video,
-        // 'icon' => $icon,
-        'summary' => $summary,
-        'body' => $body
+      'entity' => $izap_video,
+      // 'icon' => $icon,
+      'summary' => $summary,
+      'body' => $body
     ));
-} else {
+  } else {
     // brief view
 
     $params = array(
-        'entity' => $izap_video,
-        'metadata' => $metadata,
-        'subtitle' => $subtitle,
-        'content' => $excerpt,
+      'entity' => $izap_video,
+      'metadata' => $metadata,
+      'subtitle' => $subtitle,
+      'content' => $excerpt,
     );
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
 
     echo elgg_view_image_block($icon, $list_body);
-}
+  }
 ?>
 <script>
-    
-    $(document).ready(function() {
-        $('.upload_div').click(function() {
-            $("p").show();
-            $('.upload_div').hide();
-        });
+  $(document).ready(function() {
+    $('.upload_div').click(function() {
+      $("p").show();
+      $('.upload_div').hide();
     });
+  });
+
+  $(document).ready(function() {
+    $('.play').click(function() {
+      $("p").show();
+      $('.play').hide();
+      $('.upload_div').hide();
+    });
+  });
+
 </script>
 
 <style>
-    .play{
-       position:absolute;
-        margin: 157px -153px;
-        width:50px;
-    }
+  .play{
+    position:absolute;
+    margin: 60px -429px;
+    width:50px;
+  }
 </style>
