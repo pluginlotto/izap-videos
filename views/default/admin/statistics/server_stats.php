@@ -54,24 +54,28 @@
         <td class="column_one"><b>exec() :</b></td>
         <td><?php echo ($exec) ? 'Success' : 'Fail'; ?></td>
         <td>Required to execute the commands.</td>
+        <td><?php echo ($exec) ? '<input type= "button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979";color:white;>'; ?></td>;
       </tr>
 
       <tr class="odd <?php echo ($curl) ? 'ok' : 'not_ok'; ?>">
         <td class="column_one"><b>cURL support :</b></td>
         <td><?php echo ($curl) ? 'Success' : 'Fail'; ?></td>
         <td>Required for fetching the remote feed.</td>
+        <td><?php echo($curl) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd <?php echo ($pdo_sqlite) ? 'ok' : 'not_ok'; ?>">
         <td class="column_one"><b>PDO :</b></td>
         <td><?php echo ($pdo_sqlite) ? 'Success' : 'Fail'; ?></td>
         <td>Required to manage que by sqlite database.</td>
+        <td><?php echo ($pdo_sqlite) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd <?php echo ($ffmpeg) ? 'ok' : 'not_ok'; ?>">
         <td class="column_one"><b>FFmpeg :</b></td>
         <td class="column_one"><?php echo ($ffmpeg) ? 'Success' : 'Fail'; ?></td>
         <td><?php echo $ffmpeg; ?><br />
+        <td><?php echo($ffmpeg)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
         </td>
       </tr>
 
@@ -88,36 +92,42 @@
             }
           ?>
         </td>
+        <td><?php echo ($php)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">';?></td>
       </tr>
 
       <tr class="odd ok">
         <td class="column_one"><b>upload_max_filesize :</b></td>
         <td class="column_one"><?php echo $max_file_upload; ?></td>
         <td>The maximum size of files that PHP will accept uploads. Keep it bigger for big files.</td>
+        <td><?php echo($max_file_upload)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd ok">
         <td class="column_one"><b>post_max_size : </b></td>
         <td class="column_one"><?php echo $max_post_size; ?></td>
         <td>Needs to be a small amount bigger or same, than upload_max_filesize for a file upload to work. Keep it bigger for big files.</td>
+        <td><?php echo($max_post_size)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'?></td>
       </tr>
 
       <tr class="odd ok">
         <td class="column_one"><b>max_input_time :</b></td>
         <td class="column_one"><?php echo $max_input_time; ?></td>
         <td>Determines how much time PHP will wait to receive file data. Keep it "0" for bigger file.</td>
+        <td><?php echo ($max_input_time)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd ok">
         <td class="column_one"><b>max_execution_time :</b></td>
         <td class="column_one"><?php echo $max_execution_time; ?></td>
         <td>This sets the maximum time in seconds a script is allowed to run before it is terminated. Keep it "0" for bigger files.</td>
+        <td><?php echo($max_execution_time)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">';   ?></td>
       </tr>
 
       <tr class="odd ok">
         <td class="column_one"><b>memory_limit :</b></td>
         <td class="column_one"><?php echo $memory_limit; ?></td>
         <td>This is php main memory limit and it needs to be bigger enough for your bigger file need to process via ffmpeg.</td>
+        <td><?php echo ($memory_limit)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
       </tbody>
     </table>

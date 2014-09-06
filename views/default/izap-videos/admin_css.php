@@ -4,7 +4,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 
-.izap_server_report .ok{
+.elgg-table-alt  .ok{
 background-color:#97FD79;
 }
 
@@ -12,3 +12,6 @@ background-color:#97FD79;
 background-color:#FD7979;
 }
 
+.elgg-table-alt .success{
+background-color:green;
+}
