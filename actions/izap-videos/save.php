@@ -93,12 +93,12 @@
         break;
       case 'onserver':
         if ($_FILES['upload_video']['error'] == 0) {
-          $set_video_name = $izap_videos->get_tmp_path($_FILES['upload_video']['name']);
+          $set_video_name = $izap_videos->get_tmp_path(time() . $_FILES['upload_video']['name']); 
           $izap_videos->access_id = 0;
           $izap_videos->setFilename($set_video_name);
           $izap_videos->open("write");
           $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
-          $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
+          $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore(); 
           //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
         }
 
