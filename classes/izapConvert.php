@@ -41,13 +41,13 @@ class izapConvert {
         $videoCommand = $videoCommand . ' 2>&1';
         exec($videoCommand, $out, $err);
 
+        
         // if file not converted successfully return error message 
-        if ($err != 0) {
+        if ($err != 0) { 
             $return = array();
             $return['error'] = 1;
             $return['message'] = end($out);
             $return['completeMessage'] = implode(' ', $out);
-
             return $return;
         }
 

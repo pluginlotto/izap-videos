@@ -451,10 +451,10 @@
   function izap_is_queue_running_izap_videos() {
     $queue_object = new izapQueue();
 
-    $numberof_process = $queue_object->check_process();
-    if ($numberof_process > 0) {
-      return true;
-    } else {
+    $numberof_process = $queue_object->check_process(); 
+    if ($numberof_process > 0) { 
+      return true; 
+    } else { 
       return false;
     }
   }
@@ -537,8 +537,8 @@
     global $CONFIG;
 
     $queue_status = (izap_is_queue_running_izap_videos()) ?
-      elgg_echo('izap_videos:running') :
-      elgg_echo('izap_videos:notRunning');
+      elgg_echo('izap_videos:notRunning') :
+      elgg_echo('izap_videos:Running');
     $queue_object = new izapQueue();
 
     echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
@@ -577,9 +577,9 @@
     $queue = new izapQueue();
     $create_queue = $queue->put($video, $file, $defined_access_id);
     // if ($create_queue) {
-    $queue = izap_run_queue_izap_videos(100);
-    if ($queue) {
-      foreach ($queue as $pending) {
+    $queue = izap_run_queue_izap_videos(100); 
+    if ($queue) { 
+      foreach ($queue as $pending) { 
         $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
         return $image_content;
       }
@@ -634,20 +634,24 @@
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
 
-    if (file_exists($file)) {
+    
+    if (file_exists($file)) { 
       $queue_object = new izapQueue();
       // $queue_object->change_conversion_flag($videoId);
-
-      $video = new izapConvert($file);
+      
+      $video = new izapConvert($file); 
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
-
-      if ($videofile['error'] > 0) {
+      
+      //echo $videofile; exit;
+      if ($videofile['error'] > 0) { 
         return $videofile['message'];
-      } else {
+      } else { 
         //get thumbnail if video converted successfully
          $queue_object->change_conversion_flag($videoId);
+         //delete        
           if($video->get_thumbnail_from_video()){
             $image_contents = $video->getValues(); 
+            $queue_object->delete($videoId);
           }
         return $image_contents;
       }
@@ -660,16 +664,16 @@
   function read_video_file() {
     $guid = (int) get_input('videoID');
     $entity = get_entity($guid);
-
-    $izapqueue_obj = new izapQueue();
-    $get_converted_video = $izapqueue_obj->get_converted_video($guid);
+//echo $entity->tmpfile; exit;
+  //  $izapqueue_obj = new izapQueue();
+ //   $get_converted_video = $izapqueue_obj->get_converted_video($guid);
 
     if (!elgg_instanceof($entity, 'object', 'izap_video')) {
       exit;
     }
 
-    if ($get_converted_video) {
-      $get_video_name = end(explode('/', $get_converted_video[0]['main_file']));
+    if ($entity->tmpfile) {
+      $get_video_name = end(explode('/', $entity->tmpfile));
       $izapvideo_obj = new IzapVideo;
       $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
       $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
@@ -679,9 +683,10 @@
       $elggfile_obj->owner_guid = $entity->owner_guid;
       $elggfile_obj->setFilename($set_video_name);
 
-
+//echo $elggfile_obj->getFilenameOnFilestore();
+//echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
-        $contents = $elggfile_obj->grabFile();
+        $contents = $elggfile_obj->grabFile(); 
       }
 
 
