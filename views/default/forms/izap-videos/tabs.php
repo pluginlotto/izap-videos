@@ -32,5 +32,12 @@
       'selected' => ($get_type == 'offserver')
     );
   }
+//  if(izap_is_youtube_integration() == 'yes'){
+//    $tabs['youtube'] = array(
+//      'title' => elgg_echo('izap-videos:youtube'),
+//      'url' => '',
+//      'selected' => ''
+//    );
+//  }
   echo elgg_view('navigation/tabs', array('tabs' => $tabs));
   

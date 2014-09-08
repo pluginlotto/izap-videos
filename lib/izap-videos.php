@@ -74,6 +74,14 @@
         'text' => $title,
         'link_class' => 'elgg-button elgg-button-action',
       ));
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
     } else {
       $url .= elgg_get_logged_in_user_guid() . '/offserver';
       elgg_register_menu_item('title', array(
@@ -451,10 +459,10 @@
   function izap_is_queue_running_izap_videos() {
     $queue_object = new izapQueue();
 
-    $numberof_process = $queue_object->check_process(); 
-    if ($numberof_process > 0) { 
-      return true; 
-    } else { 
+    $numberof_process = $queue_object->check_process();
+    if ($numberof_process > 0) {
+      return true;
+    } else {
       return false;
     }
   }
@@ -571,17 +579,17 @@
 
   function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
-    if (!file_exists($file) || !$video) { 
+    if (!file_exists($file) || !$video) {
       return false;
     }
-    $queue = new izapQueue();  
+    $queue = new izapQueue();
     $create_queue = $queue->put($video, $file, $defined_access_id);
     // if ($create_queue) {
-    $queue = izap_run_queue_izap_videos(100);  
-    if ($queue) { 
-      foreach ($queue as $pending) {  
+    $queue = izap_run_queue_izap_videos(100);
+    if ($queue) {
+      foreach ($queue as $pending) {
         $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-           return $image_content;
+        return $image_content;
       }
     }
   }
@@ -634,25 +642,25 @@
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
 
-    
-    if (file_exists($file)) { 
+
+    if (file_exists($file)) {
       $queue_object = new izapQueue();
       // $queue_object->change_conversion_flag($videoId);
-     
-      $video = new izapConvert($file);  
+
+      $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
-          
-      if (!empty($videofile['error']) > 0) { 
+
+      if (!empty($videofile['error']) > 0) {
         return $videofile['message'];
-      } else { 
+      } else {
         //get thumbnail if video converted successfully
-         $queue_object->change_conversion_flag($videoId);
-         //delete        
-          if($video->get_thumbnail_from_video()){
-            $image_contents = $video->getValues(); 
-            $queue_object->delete($videoId);
-          }
-      //    echo '<pre>'; print_R($image_contents);
+        $queue_object->change_conversion_flag($videoId);
+        //delete        
+        if ($video->get_thumbnail_from_video()) {
+          $image_contents = $video->getValues();
+          $queue_object->delete($videoId);
+        }
+        //    echo '<pre>'; print_R($image_contents);
         return $image_contents;
       }
     }
@@ -665,8 +673,8 @@
     $guid = (int) get_input('videoID');
     $entity = get_entity($guid);
 //echo $entity->tmpfile; exit;
-  //  $izapqueue_obj = new izapQueue();
- //   $get_converted_video = $izapqueue_obj->get_converted_video($guid);
+    //  $izapqueue_obj = new izapQueue();
+    //   $get_converted_video = $izapqueue_obj->get_converted_video($guid);
 
     if (!elgg_instanceof($entity, 'object', 'izap_video')) {
       exit;
@@ -686,7 +694,7 @@
 //echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
 //echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
-        $contents = $elggfile_obj->grabFile(); 
+        $contents = $elggfile_obj->grabFile();
       }
 
 
