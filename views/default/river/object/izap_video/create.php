@@ -23,10 +23,12 @@
   $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $object->guid . '/' . elgg_get_friendly_title($object->title) . '.flv';
   $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
   $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
-  if ($object->imagefile) {
-    $image = $image_path;
-  } else {
-    $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+  if (!$object->video_url) { 
+    if ($object->imagefile) {
+      $image = $image_path;
+    } else {
+      $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+    }
   }
 
   $content = '<img src="' . $image . '" style= "max-height:90px; max-width: 90px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" onclick = "video(' . $object->guid . ')"/>';
@@ -45,14 +47,8 @@
   if ($object->video_url) {
     parse_str(parse_url($object->video_url, PHP_URL_QUERY), $my_array_of_vars);
     $my_array_of_vars['v'];
-    $content .= '<iframe width="200" height="200" src="//www.youtube.com/embed/'.$my_array_of_vars['v'].'"frameborder="0" allowfullscreen></iframe>';
-//    $content .= "<p class='video_" . $object->guid . "' style='display:none;' id='video_" . $object->guid . "' >
-//                <iframe width='200' height= '200' id='flvPlayer'>
-//                <param name='allowFullScreen' value='true'>
-//                <param name='wmode' value='transparent'>
-//                <param name='allowScriptAccess' value='always'>
-//                <param name='movie' src='//www.youtube.com/embed/rPkSOFC13_g' >
-//                </iframe></p>";
+    $content .= "<iframe width='90' height='90' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "'frameborder='0'  id='upload_div_ ". $object->guid ."' onclick='video(".$object->guid.")' allowfullscreen ></iframe>";
+//    $content .= "<iframe width='200' height='200' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "&volume=30&autoload=on&autoplay=on&vTitle=". $object->title . "&showTitle=yes frameborder='0' id='video_" . $object->guid .'"allowfullscreen></iframe>';
   }
   $content .= $object->description;
   echo elgg_view('river/elements/layout', array(
@@ -61,7 +57,7 @@
   ));
 ?>
 <script>
-    function video(id) {
+    function video(id) { alert("id");
       $("#video_" + id).show();
       $("#upload_div_" + id + "").hide();
       $("#play_" + id + "").hide();
