@@ -25,11 +25,11 @@ class izapConvert {
     public $format = 'flv';
     private $values = array();
 
-    public function izapConvert($in = '') {
+    public function izapConvert($in = '') { 
         $this->invideo = $in;
         $extension_length = strlen(getFileExtension($this->invideo));
         $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
-        $this->outvideo = $outputPath . '_c.' . $this->format;
+        $this->outvideo =  $outputPath  . '_c.' . $this->format; 
         $this->outimage = $outputPath . '_i.png';
     }
 
@@ -37,20 +37,20 @@ class izapConvert {
 
         $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
         $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
-        $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);  //echo $videoCommand;
-        $videoCommand = $videoCommand . ' 2>&1';
+        $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);  
+        $videoCommand = $videoCommand . ' 2>&1'; 
         exec($videoCommand, $out, $err);
 
+        
         // if file not converted successfully return error message 
-        if ($err != 0) {
+        if ($err != 0) { 
             $return = array();
             $return['error'] = 1;
             $return['message'] = end($out);
             $return['completeMessage'] = implode(' ', $out);
-
             return $return;
         }
-
+       
         return end(explode('/', $this->outvideo));
     }
 
@@ -60,7 +60,7 @@ class izapConvert {
       $thumbnail_cmd = str_replace('[outputImage]', $this->outimage, $thumbnail_cmd);
       $thumbnail_cmd = $thumbnail_cmd . ' 2>&1'; 
        exec($thumbnail_cmd, $out ,$err);
-      
+     
       if($err != 0){
         $return = array();
         $return['error'] =1;
@@ -70,7 +70,7 @@ class izapConvert {
       return $this->outimage;
     }
     
-   public function getValues(){
+   public function getValues(){ 
      $this->values['imagename'] = end(explode('/',$this->outimage));
      $this->values['imagecontent'] = file_get_contents($this->outimage); 
      return $this->values;
