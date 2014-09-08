@@ -537,8 +537,8 @@
     global $CONFIG;
 
     $queue_status = (izap_is_queue_running_izap_videos()) ?
-      elgg_echo('izap_videos:notRunning') :
-      elgg_echo('izap_videos:Running');
+      elgg_echo('izap_videos:running') :
+      elgg_echo('izap_videos:notRunning');
     $queue_object = new izapQueue();
 
     echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(

@@ -68,14 +68,25 @@
   } else {
     $comments_link = '';
   }
-
-  $metadata = elgg_view_menu('entity', array(
-    'entity' => $vars['entity'],
-    'handler' => 'izap-videos',
-    'sort_by' => 'priority',
-    'class' => 'elgg-menu-hz',
-  ));
-
+//show links in onserver video if video is converted
+  if ($izap_video->tmpfile) {
+    if ($vars['entity']->converted == 'yes') {
+      //echo '<pre>'; print_r($vars['entity']->converted); 
+      $metadata = elgg_view_menu('entity', array(
+        'entity' => $vars['entity'],
+        'handler' => 'izap-videos',
+        'sort_by' => 'priority',
+        'class' => 'elgg-menu-hz',
+      ));
+    }
+  } else {
+    $metadata = elgg_view_menu('entity', array(
+      'entity' => $vars['entity'],
+      'handler' => 'izap-videos',
+      'sort_by' => 'priority',
+      'class' => 'elgg-menu-hz',
+    ));
+  }
   $subtitle = "$author_text $date $comments_link $categories";
 
 // do not show the metadata and controls in widget view
@@ -137,7 +148,7 @@
       'subtitle' => $subtitle,
       'content' => $excerpt,
     );
-    $params = $params + $vars;
+    $params = $params + $vars; //cho '<pre>'; print_R($params); 
     $list_body = elgg_view('object/elements/summary', $params);
 
     echo elgg_view_image_block($icon, $list_body);

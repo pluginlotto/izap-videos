@@ -26,8 +26,8 @@ elgg_load_library('elgg:izap_video');
 
 <div id="trigger_queue">
     <?php
-    $obj = new izapQueue();
-    $obj->get(); 
+   // $obj = new izapQueue();
+   //getQueue(); 
 //    $queue = izap_run_queue_izap_videos();
 //    foreach ($queue as $pending) { 
 //        $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
