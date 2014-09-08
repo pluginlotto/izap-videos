@@ -57,7 +57,7 @@
   ));
 ?>
 <script>
-    function video(id) { alert("id");
+    function video(id) { 
       $("#video_" + id).show();
       $("#upload_div_" + id + "").hide();
       $("#play_" + id + "").hide();
