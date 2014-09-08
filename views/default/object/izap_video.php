@@ -70,8 +70,7 @@
   }
 //show links in onserver video if video is converted
   if ($izap_video->tmpfile) {
-    if ($vars['entity']->converted == 'yes') {
-      //echo '<pre>'; print_r($vars['entity']->converted); 
+    if ($vars['entity']->converted == 'yes') { 
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
         'handler' => 'izap-videos',
@@ -139,7 +138,7 @@
       'summary' => $summary,
       'body' => $body
     ));
-  } else {
+  } else { 
     // brief view
 
     $params = array(
