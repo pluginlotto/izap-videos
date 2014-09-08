@@ -537,8 +537,8 @@
     global $CONFIG;
 
     $queue_status = (izap_is_queue_running_izap_videos()) ?
-      elgg_echo('izap_videos:notRunning') :
-      elgg_echo('izap_videos:Running');
+      elgg_echo('izap_videos:running') :
+      elgg_echo('izap_videos:notRunning');
     $queue_object = new izapQueue();
 
     echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue_status', array(
@@ -571,17 +571,17 @@
 
   function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2) {
 // this will not let save any thing if there is no file to convert
-    if (!file_exists($file) || !$video) {
+    if (!file_exists($file) || !$video) { 
       return false;
     }
-    $queue = new izapQueue();
+    $queue = new izapQueue();  
     $create_queue = $queue->put($video, $file, $defined_access_id);
     // if ($create_queue) {
-    $queue = izap_run_queue_izap_videos(100); 
+    $queue = izap_run_queue_izap_videos(100);  
     if ($queue) { 
-      foreach ($queue as $pending) { 
+      foreach ($queue as $pending) {  
         $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-        return $image_content;
+           return $image_content;
       }
     }
   }
@@ -638,12 +638,11 @@
     if (file_exists($file)) { 
       $queue_object = new izapQueue();
       // $queue_object->change_conversion_flag($videoId);
-      
-      $video = new izapConvert($file); 
+     
+      $video = new izapConvert($file);  
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
-      
-      //echo $videofile; exit;
-      if ($videofile['error'] > 0) { 
+          
+      if (!empty($videofile['error']) > 0) { 
         return $videofile['message'];
       } else { 
         //get thumbnail if video converted successfully
@@ -653,6 +652,7 @@
             $image_contents = $video->getValues(); 
             $queue_object->delete($videoId);
           }
+      //    echo '<pre>'; print_R($image_contents);
         return $image_contents;
       }
     }
@@ -683,7 +683,7 @@
       $elggfile_obj->owner_guid = $entity->owner_guid;
       $elggfile_obj->setFilename($set_video_name);
 
-//echo $elggfile_obj->getFilenameOnFilestore();
+//echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
 //echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
         $contents = $elggfile_obj->grabFile(); 
