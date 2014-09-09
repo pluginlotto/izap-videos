@@ -105,7 +105,7 @@
           $izap_videos->setFilename($set_video_name);
           $izap_videos->open("write");
           $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
-          $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
+          $izap_videos->videofile = $izap_videos->getFilenameOnFilestore();
           //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
         }
 
@@ -128,10 +128,10 @@
           $get_guid = $izap_videos->getGUID();
           $get_entity = get_entity($get_guid);
 
-          if (file_exists($get_entity->tmpfile)) {
+          if (file_exists($get_entity->videofile)) {
             if ($page_url == 'onserver') {
               $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
-              $get_results = izap_save_fileinfo_for_converting_izap_videos($get_entity->tmpfile, $get_entity, $get_entity->access_id);
+              $get_results = izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id);
 
               if ($get_results['imagename']) {
                 $izap_videos->converted = 'yes';

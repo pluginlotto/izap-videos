@@ -69,7 +69,7 @@
     $comments_link = '';
   }
 //show links in onserver video if video is converted
-  if ($izap_video->tmpfile) {
+  if ($izap_video->videofile) {
     if ($vars['entity']->converted == 'yes') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
@@ -104,7 +104,7 @@
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
 
-    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->tmpfile) .'_c.flv') ?"true":"false"; 
+    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) .'_c.flv') ?"true":"false"; 
   //  echo $get_flv_file;
     
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $izap_video->guid . '/' . elgg_get_friendly_title($izap_video->title) . '.flv';
@@ -189,7 +189,6 @@
       $('.upload_div').hide();
     });
   });
-
 </script>
 
 <style>
@@ -202,6 +201,6 @@
     width:660px;
     background-color: #FFC4C4;
     padding:5px;
-   
+    border-radius: 8px;
   }
 </style>
