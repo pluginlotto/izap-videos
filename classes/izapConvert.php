@@ -66,7 +66,7 @@ class izapConvert {
         $return['error'] =1;
         $return['message'] = end($out);
         return $return;
-      }
+      } 
       return $this->outimage;
     }
     

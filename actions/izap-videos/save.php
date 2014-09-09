@@ -99,7 +99,7 @@
         break;
       case 'onserver':
         if ($_FILES['upload_video']['error'] == 0) {
-          $izap_videos->type = $_FILES['upload_video']['type'];
+          $izap_videos->videotype = $_FILES['upload_video']['type'];
           $set_video_name = $izap_videos->get_tmp_path(time() . $_FILES['upload_video']['name']);
           $izap_videos->access_id = 0;
           $izap_videos->setFilename($set_video_name);
@@ -109,7 +109,7 @@
           //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
         }
 
-        if ($_FILES['upload_thumbnail']['error'] == 0) {
+        if ($_FILES['upload_thumbnail']['error'] == 0) { 
           $set_image_name = $izap_videos->get_tmp_path($_FILES['upload_thumbnail']['name']);
           $izap_videos->setFilename($set_image_name);
           $izap_videos->open("write");
@@ -121,7 +121,7 @@
           $izap_videos->setFilename($set_thumbnail_name);
           $izap_videos->open("write");
           $izap_videos->write($thumbnail);
-          $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore(); //echo $izap_videos->imagefile; exit;
+          $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore(); 
         }
 
         if ($izap_videos->save()) {
@@ -137,14 +137,14 @@
                 $izap_videos->converted = 'yes';
                 $izap_videos->access_id = $access_id;
                 $izap_videos->save();
-              }
+              } 
               if (empty($_FILES['upload_thumbnail']['name'])) {
                 if ($get_results['imagename']) {
                   $set_image_name = $izap_videos->get_tmp_path($get_results['imagename']);
                   $izap_videos->setFilename($set_image_name);
                   $izap_videos->open("write");
                   $izap_videos->write($get_results['imagecontent']);
-                  $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
+                  $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore(); //echo 'imagefile'. $izap_videos->imagefile; exit;
                 }
               }
             }

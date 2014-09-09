@@ -655,7 +655,6 @@
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
 
-
     if (file_exists($file)) {
       $queue_object = new izapQueue();
       // $queue_object->change_conversion_flag($videoId);
@@ -664,8 +663,8 @@
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
 
       if (!empty($videofile['error']) > 0) {
-        return $videofile['message'];
-      } else {
+      //  return $videofile['message'];
+      } else { 
         //get thumbnail if video converted successfully
         $queue_object->change_conversion_flag($videoId);
         //delete        
