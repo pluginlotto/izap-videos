@@ -142,7 +142,7 @@
         $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:670px;height:400px;"/>';
       }
       parse_str(parse_url($izap_video->video_url, PHP_URL_QUERY), $my_array_of_vars);
-      $data = "<p class='video' style='display:none;'><iframe width='600' height='400' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
+      $data = "<p class='video' style='display:none;'><iframe width='600' height='400' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
     }
     $body = "$text $html $data";
 

@@ -88,7 +88,7 @@
     switch ($page_url) {
       case 'offserver':
         parse_str(parse_url($izap_videos->video_url, PHP_URL_QUERY), $my_array_of_vars);
-        $izap_videos->imagefile = 'http://img.youtube.com/vi/'.$my_array_of_vars['v']."/1.jpg";
+        $izap_videos->imagefile = 'http://img.youtube.com/vi/'.$my_array_of_vars['v']."/0.jpg";
         $izap_videos->save();
         //elgg_clear_sticky_form('izap_videos');
         //  system_messages(elgg_echo('izap-videos:Save:success'));
