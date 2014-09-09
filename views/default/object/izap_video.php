@@ -144,12 +144,12 @@
       parse_str(parse_url($izap_video->video_url, PHP_URL_QUERY), $my_array_of_vars);
       $data = "<p class='video' style='display:none;'><iframe width='600' height='400' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
     }
-    $body = "$text $html $data";
+    $body = " $html $data $text $summary";
 
     echo elgg_view('object/elements/full', array(
       'entity' => $izap_video, 
       'body' => $body,
-      'summary' => $summary
+    //  'summary' => $summary
     ));
   } else {
     // brief view
