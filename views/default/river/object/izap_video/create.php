@@ -32,8 +32,12 @@
 
   if ($object->imagefile) {
     if (isset($object->video_url)) {
-      $content = '<img src="' . $object->imagefile . '"style= "max-height:90px; max-width: 90px;background-color:black;cursor:pointer;margin-left: 0px;" class="play" id="upload_div_' . $object->guid . '" onclick = "video(' . $object->guid . ')"/>';
-      $content .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play" id="play_' . $object->guid . '" onclick = "video(' . $object->guid . ')"/>';
+      parse_str(parse_url($object->video_url, PHP_URL_QUERY), $my_array_of_vars);
+      $youtube_id = trim($my_array_of_vars['v']);
+      $site_url = elgg_get_site_url();
+      $videos_plugin = GLOBAL_IZAP_VIDEOS_PLUGIN;
+      $content = "<img src=\"{$object->imagefile}\" style= \"max-height:90px; max-width: 90px;background-color:black;cursor:pointer;margin-left: 0px;\" class=\"play\" id=\"upload_div_{$object->guid}\" onclick = \"video({$object->guid},'{$youtube_id}')\"/>";
+      $content .= "<img src=\"{$site_url}/mod/{$videos_plugin}/_graphics/c-play.png\" class=\"play\" id=\"play_{$object->guid}\" onclick = \"video({$object->guid},'{$youtube_id}')\"/>";
     } else {
       $content = '<img src="' . $image . '" style= "max-height:90px; max-width: 90px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" onclick = "video(' . $object->guid . ')"/>';
       $content .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play" id="play_' . $object->guid . '" onclick = "video(' . $object->guid . ')"/>';
@@ -43,8 +47,8 @@
   }
 
   if ($object->video_url) { 
-    parse_str(parse_url($object->video_url, PHP_URL_QUERY), $my_array_of_vars);
-    $content .= "<p><iframe width='200' height='200' style='display:none' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
+    $content .= "<p id='played_section_" . $object->guid . "'</p>";
+//    $content .= "<p><iframe width='200' height='200' style='display:none' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
   } else {
     $content .= "<p class='video_" . $object->guid . "' style='display:none;' id='video_" . $object->guid . "' >
            <object width='200' height= '200' id='flvPlayer'>
@@ -62,10 +66,14 @@
   ));
 ?>
 <script>
-    function video(id) {
-      $("#video_" + id).show();
+    function video(id, youtube_id) { 
       $("#upload_div_" + id + "").hide();
       $("#play_" + id + "").hide();
+//       var added = "<iframe width='200' height='200' src='//www.youtube.com/embed/"+youtube_id+"></iframe>";console.log(added);
+      $( "#played_section_" + id ).prepend("<iframe width='200' height='200' src='//www.youtube.com/embed/rPkSOFC13_g/></iframe> ");
+//      $( "#played_section_" + id ).prepend("<iframe width='200' height='200' src='//www.youtube.com/embed/F9mwq6yhweQ' ></iframe>");
+//      $("#video_" + id).show();
+      ;
     }
 </script>
 

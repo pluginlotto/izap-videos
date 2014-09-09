@@ -43,6 +43,9 @@
     //register page handler for video page
     elgg_register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
 
+    //register page handler for view videos
+    elgg_register_page_handler('izap_view_video', 'izap_view_video_handler');
+
     elgg_register_entity_type('object', 'izap_video');
 
     //register menu item and set default path to all videos
@@ -165,6 +168,12 @@
 
       default:
         return false;
+    }
+    /*
+     * Izap view view with ajax call - to be continue
+     */
+    function izap_view_video_handler(){
+      
     }
 
     //add sidebar 
