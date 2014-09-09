@@ -142,9 +142,9 @@
         $params = izap_video_get_page_content_friends($user->guid);
         break;
       //add new video
-      case 'add':
+      case 'add': 
         elgg_gatekeeper(); //if user is not logged in then redirect user to login page
-        $params = izap_video_get_page_content_edit($page_type, $page[1]);
+        $params = izap_video_get_page_content_edit($page_type, $page[1],$page[2]);
         break;
       //edit particular izap-videos 
       case 'edit':
@@ -160,7 +160,6 @@
         break;
       case 'video':
         elgg_load_css('elgg:video_css');
-
         elgg_load_js('elgg:video_js');
         //  elgg_load_js('elgg:player');
         $params = izap_read_video_file($page[1]);

@@ -121,9 +121,9 @@
       $video_obj = new IzapVideo;
 
       $html = '
-        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;cursor:pointer;" class="upload_div" />';
+        <img src="' . $image . '" style= "height:400px; width: 670px;background-color: black;align:center;border-radius: 8px;cursor:pointer;" class="upload_div" />';
       if ($izap_video->imagefile) {
-        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:400px;"/>';
+        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:670px;height:400px;"/>';
       }
       $data = "<p class='video' style='display:none;'>
            <object width='600' height= '400' id='flvPlayer'>
@@ -137,20 +137,19 @@
       $video_obj = new IzapVideo;
 
       $html = '
-        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;cursor:pointer;" class="upload_div" />';
+        <img src="' . $image . '" style= "width:670px;height:400px;background-color:black;align:center;cursor:pointer;border-radius: 8px;" class="upload_div" />';
       if ($izap_video->imagefile) {
-        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:400px;"/>';
+        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:670px;height:400px;"/>';
       }
       parse_str(parse_url($izap_video->video_url, PHP_URL_QUERY), $my_array_of_vars);
       $data = "<p class='video' style='display:none;'><iframe width='600' height='400' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
     }
-    $body = "$text $html $data";
+    $body = " $html $data $text $summary";
 
     echo elgg_view('object/elements/full', array(
-      'entity' => $izap_video,
-      // 'icon' => $icon,
-      'summary' => $summary,
-      'body' => $body
+      'entity' => $izap_video, 
+      'body' => $body,
+    //  'summary' => $summary
     ));
   } else {
     // brief view
@@ -189,7 +188,7 @@
 <style>
   .play{
     position:absolute;
-    margin: 60px -429px;
+    margin: 1px -683px;
     width:50px;
   }
 </style>
