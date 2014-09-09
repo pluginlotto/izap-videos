@@ -86,6 +86,8 @@
   if ($page_url == 'offserver' || $page_url == 'onserver') {
     switch ($page_url) {
       case 'offserver':
+        parse_str(parse_url($izap_videos->video_url, PHP_URL_QUERY), $my_array_of_vars);
+        $izap_videos->imagefile = 'http://img.youtube.com/vi/'.$my_array_of_vars['v']."/1.jpg";
         $izap_videos->save();
         //elgg_clear_sticky_form('izap_videos');
         //  system_messages(elgg_echo('izap-videos:Save:success'));
@@ -93,12 +95,12 @@
         break;
       case 'onserver':
         if ($_FILES['upload_video']['error'] == 0) {
-          $set_video_name = $izap_videos->get_tmp_path(time() . $_FILES['upload_video']['name']); 
+          $set_video_name = $izap_videos->get_tmp_path(time() . $_FILES['upload_video']['name']);
           $izap_videos->access_id = 0;
           $izap_videos->setFilename($set_video_name);
           $izap_videos->open("write");
           $izap_videos->write(file_get_contents($_FILES['upload_video']['tmp_name']));
-          $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore(); 
+          $izap_videos->tmpfile = $izap_videos->getFilenameOnFilestore();
           //$process_video = $izap_videos->processOnserverVideo($_FILES['upload_video']['tmp_name'], $dest_path);
         }
 
@@ -126,9 +128,9 @@
               $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
               $get_results = izap_save_fileinfo_for_converting_izap_videos($get_entity->tmpfile, $get_entity, $get_entity->access_id);
 
-              if($get_results['imagename']){
+              if ($get_results['imagename']) {
                 $izap_videos->converted = 'yes';
-                $izap_videos->access_id = $access_id; 
+                $izap_videos->access_id = $access_id;
                 $izap_videos->save();
               }
               if (empty($_FILES['upload_thumbnail']['name'])) {
@@ -139,7 +141,7 @@
                   $izap_videos->write($get_results['imagecontent']);
                   $izap_videos->imagefile = $izap_videos->getFilenameOnFilestore();
                 }
-              } 
+              }
             }
           }
         }
