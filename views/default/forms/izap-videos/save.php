@@ -77,6 +77,17 @@
         <label><?php echo elgg_echo('description'); ?></label>
         <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
       </div>
+    <?php } elseif ($upload_type == 'youtube') { ?>
+      <div>
+        <label><?php echo elgg_echo('title'); ?></label><br />
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+      </div>
+
+      <div>
+        <label><?php echo elgg_echo('description'); ?></label>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+      </div>
+      
     <?php } ?>
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>

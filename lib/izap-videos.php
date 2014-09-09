@@ -74,7 +74,7 @@
         'text' => $title,
         'link_class' => 'elgg-button elgg-button-action',
       ));
-    } elseif (youtube_enabled_izap_videos() == 'yes') {
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
       $url .= elgg_get_logged_in_user_guid() . '/youtube';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
@@ -82,7 +82,7 @@
         'text' => $title,
         'link_class' => 'elgg-button elgg-button-action',
       ));
-    }elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
       $url .= elgg_get_logged_in_user_guid() . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
@@ -90,8 +90,7 @@
         'text' => $title,
         'link_class' => 'elgg-button elgg-button-action',
       ));
-    } 
-    else{ 
+    } else {
       $url .= elgg_get_logged_in_user_guid() . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
@@ -394,20 +393,6 @@
       return false;
     }
     return $setting;
-  }
-
-  /**
-   * check youtube enabled settings
-   */
-  function youtube_enabled_izap_videos() {
-    $settings = pluginSetting(array(
-      'name' => 'Youtube_enabled_izap_videos',
-      'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,
-    ));
-    if ((string) $settings === 'no') {
-      return false;
-    }
-    return $settings;
   }
 
   /**
