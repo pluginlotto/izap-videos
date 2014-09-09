@@ -45,7 +45,7 @@
   $current_url = current_page_url();
   $upload_type = end(explode('/', $current_url));
 //  if (!$guid) {
-  if (izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
+  if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
     if ($upload_type == 'offserver') {
       ?>
       <div class="row collapse">

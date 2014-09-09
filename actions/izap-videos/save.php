@@ -82,6 +82,7 @@
   $izap_videos->container_guid = $container_guid;
   $izap_videos->tags = string_to_tag_array($tags);
   $izap_videos->video_url = $video_url;
+  $izap_videos->videoprocess = $page_url;
 
   if ($page_url == 'offserver' || $page_url == 'onserver') {
     switch ($page_url) {
