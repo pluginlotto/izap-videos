@@ -26,7 +26,7 @@ $izap_video = get_entity($guid);
 //echo '<pre>';
 //print_R($izap_video); exit;
 if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) { 
-    $container = get_entity($izap_video->container_guid); 
+    $container = get_entity($izap_video->container_guid); //print_r($container); exit;
     if ($izap_video->delete()) {
         system_message(elgg_echo('izap_videos:deleted'));
         if (elgg_instanceof($container, 'group')) {

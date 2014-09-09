@@ -74,7 +74,15 @@
         'text' => $title,
         'link_class' => 'elgg-button elgg-button-action',
       ));
-    } elseif (izap_is_onserver_enabled_izap_videos() == 'yes') {
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
       $url .= elgg_get_logged_in_user_guid() . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
@@ -91,6 +99,11 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     }
+//    else {
+//      $url = 'izap-videos/all';
+//      register_error(elgg_echo('izap-videos:message:noAddFeature'));
+//      //forward($url);
+//    }
 
     $return['content'] = elgg_list_entities($options);
     return $return;
@@ -686,7 +699,6 @@
       $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
       $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
 
-
       $elggfile_obj = new ElggFile;
       $elggfile_obj->owner_guid = $entity->owner_guid;
       $elggfile_obj->setFilename($set_video_name);
@@ -696,7 +708,6 @@
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
         $contents = $elggfile_obj->grabFile();
       }
-
 
       $content_type = 'video/x-flv';
 
