@@ -42,9 +42,9 @@
     $content = '<img src="' . $image . '" style= "max-height:90px; max-width: 90px;background-color:black;cursor:pointer" id="upload_div_' . $object->guid . '" class="upload_div" onclick = "video(' . $object->guid . ')"/>';
   }
 
-  if ($object->video_url) {
+  if ($object->video_url) { 
     parse_str(parse_url($object->video_url, PHP_URL_QUERY), $my_array_of_vars);
-    $content .= "<iframe width='200' height='200' style='display:none' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe>";
+    $content .= "<iframe width='200' height='200' style='display:none' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "?volume=30&autoplay=1&vTitle=" . $izap_video->title . "&showTitle=yes' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe>";
   } else {
     $content .= "<p class='video_" . $object->guid . "' style='display:none;' id='video_" . $object->guid . "' >
            <object width='200' height= '200' id='flvPlayer'>
