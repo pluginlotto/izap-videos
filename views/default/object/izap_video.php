@@ -70,7 +70,7 @@
   }
 //show links in onserver video if video is converted
   if ($izap_video->tmpfile) {
-    if ($vars['entity']->converted == 'yes') { 
+    if ($vars['entity']->converted == 'yes') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
         'handler' => 'izap-videos',
@@ -109,7 +109,11 @@
 
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagefile) {
-      $image = $image_path;
+      if ($izap_video->video_url) {
+        $image = $izap_video->imagefile;
+      } else {
+        $image = $image_path;
+      }
     } else {
       $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
     }
@@ -129,6 +133,16 @@
             <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' >
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object></p>";
+    } elseif ($izap_video->video_url) {
+      $video_obj = new IzapVideo;
+
+      $html = '
+        <img src="' . $image . '" style= "height:400px; width: 500px;background-color:black;align:center;cursor:pointer;" class="upload_div" />';
+      if ($izap_video->imagefile) {
+        $html .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/trans_play.png" class="play" style="align:center;cursor:pointer;width:400px;"/>';
+      }
+      parse_str(parse_url($izap_video->video_url, PHP_URL_QUERY), $my_array_of_vars);
+      $data = "<p class='video' style='display:none;'><iframe width='600' height='400' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe></p>";
     }
     $body = "$text $html $data";
 
@@ -138,7 +152,7 @@
       'summary' => $summary,
       'body' => $body
     ));
-  } else { 
+  } else {
     // brief view
 
     $params = array(
@@ -154,20 +168,21 @@
   }
 ?>
 <script>
-  $(document).ready(function() {
-    $('.upload_div').click(function() {
-      $("p").show();
-      $('.upload_div').hide();
+    $(document).ready(function() { 
+      $('.upload_div').click(function() {
+        $("p").show();
+        $('.play').hide();
+        $('.upload_div').hide();
+      });
     });
-  });
 
-  $(document).ready(function() {
-    $('.play').click(function() {
-      $("p").show();
-      $('.play').hide();
-      $('.upload_div').hide();
+    $(document).ready(function() {
+      $('.play').click(function() {
+        $("p").show();
+        $('.play').hide();
+        $('.upload_div').hide();
+      });
     });
-  });
 
 </script>
 

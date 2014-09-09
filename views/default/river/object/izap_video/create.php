@@ -44,8 +44,7 @@
 
   if ($object->video_url) {
     parse_str(parse_url($object->video_url, PHP_URL_QUERY), $my_array_of_vars);
-    $my_array_of_vars['v'];
-    $content .= "<iframe width='200' height='200' style='display:none' src='https://www.youtube.com/embed/F9mwq6yhweQ' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe>";
+    $content .= "<iframe width='200' height='200' style='display:none' src='//www.youtube.com/embed/" . $my_array_of_vars['v'] . "' frameborder='0' id='video_" . $object->guid . "' allowfullscreen></iframe>";
   } else {
     $content .= "<p class='video_" . $object->guid . "' style='display:none;' id='video_" . $object->guid . "' >
            <object width='200' height= '200' id='flvPlayer'>
