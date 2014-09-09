@@ -68,6 +68,18 @@
   </label>
 </p>
 
+<div id="youtube_developer_key" style="display:none;">
+  <label>
+    <?php echo elgg_echo('Youtube Developer Key'); ?></label>
+  <?php
+    $saved_data = elgg_get_plugin_setting('Youtube_Developer_Key', 'izap-videos');
+    echo elgg_view('input/text', array(
+      'name' => 'params[Youtube_Developer_Key]',
+      'value' => $saved_data ? $saved_data : ""
+    ));
+  ?>
+</div>
+
 <div id="onserver_video">
   <?php echo elgg_echo('Onserver Video'); ?><br />
   <?php
@@ -98,7 +110,7 @@
 //  ));
   ?>
 </div>
-
+<?php //echo $youtube_Setting = elgg_get_plugin_setting('Youtube_enabled_izap_videos', 'izap-videos'); exit; ?>
 <div id="youtube_integration">
   <?php $youtube_Setting = elgg_get_plugin_setting('Youtube_enabled_izap_videos', 'izap-videos'); ?>
   <?php echo elgg_echo('Youtube Integration'); ?><br />
@@ -149,9 +161,8 @@
 <?php if ($err == 0) { ?>
         $("#youtube_integration").hide();
         jQuery('#youtube_integration input:radio').prop("disabled", true);
-  <?php } else{ ?>
-    $("#onserver_video").hide();
-    
+  <?php } else { ?>
+        $("#onserver_video").hide();
   <?php } ?>
     $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
       var onserver_value = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
@@ -169,6 +180,7 @@
       if (youtube_value == 'yes') {
         $("#onserver_video").hide();
         jQuery('#onserver_video input:radio').prop("disabled", true);
+        $("#youtube_developer_key").show();
       } else {
         $("#onserver_video").show();
         jQuery('#onserver_video input:radio').prop("disabled", false);

@@ -24,6 +24,12 @@
       'url' => "izap-videos/add/" . elgg_get_logged_in_user_guid() . '/onserver',
       'selected' => ($get_type == 'onserver'),
     );
+  }elseif (youtube_enabled_izap_videos() == 'yes') {
+    $tabs['youtube'] = array(
+      'title' => elgg_echo('izap-videos:youtube'),
+      'url' => 'izap-videos/add/' . elgg_get_logged_in_user_guid() . '/youtube',
+      'selected' => ($get_type == 'youtube')
+    );
   }
   if (izap_is_offserver_enabled_izap_videos() == 'yes') {
     $tabs['offserver'] = array(
