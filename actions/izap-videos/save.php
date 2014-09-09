@@ -94,8 +94,12 @@
         //  system_messages(elgg_echo('izap-videos:Save:success'));
         // forward($izap_videos->getURL());
         break;
+      case 'youtube':
+        
+        break;
       case 'onserver':
         if ($_FILES['upload_video']['error'] == 0) {
+          $izap_videos->type = $_FILES['upload_video']['type'];
           $set_video_name = $izap_videos->get_tmp_path(time() . $_FILES['upload_video']['name']);
           $izap_videos->access_id = 0;
           $izap_videos->setFilename($set_video_name);

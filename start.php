@@ -157,7 +157,6 @@
         break;
       case 'video':
         elgg_load_css('elgg:video_css');
-
         elgg_load_js('elgg:video_js');
         //  elgg_load_js('elgg:player');
         $params = izap_read_video_file($page[1]);
