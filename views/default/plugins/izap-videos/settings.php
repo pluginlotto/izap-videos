@@ -80,7 +80,7 @@
     <?php } elseif ($onserver_settings == 'no') { ?>
       <input type="radio" name="params[Onserver_enabled_izap_videos]" value="yes" > Yes <br />
       <input type="radio" name="params[Onserver_enabled_izap_videos]" value= 'no' checked > No   
-    <?php
+      <?php
     } else {
       if ($err == 0) {
         ?> 
@@ -102,13 +102,13 @@
 <div id="youtube_integration">
   <?php $youtube_Setting = elgg_get_plugin_setting('Youtube_enabled_izap_videos', 'izap-videos'); ?>
   <?php echo elgg_echo('Youtube Integration'); ?><br />
-<?php if ($youtube_Setting == 'yes') { ?>
+  <?php if ($youtube_Setting == 'yes') { ?>
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value="yes" checked> Yes <br />
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value= 'no'> No 
-  <?php } elseif ($youtube_Setting == 'no') { ?>
+    <?php } elseif ($youtube_Setting == 'no') { ?>
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value="yes"> Yes <br />
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value= 'no' checked> No 
-  <?php } else { ?>
+    <?php } else { ?>
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value="yes"> Yes <br />
       <input type="radio" name="params[Youtube_enabled_izap_videos]" value= 'no'> No 
     <?php } ?>
@@ -147,22 +147,30 @@
 <script type='text/javascript'>
   $(document).ready(function() {
 <?php if ($err == 0) { ?>
+        $("#youtube_integration").hide();
         jQuery('#youtube_integration input:radio').prop("disabled", true);
+  <?php } else{ ?>
+    $("#onserver_video").hide();
+    
   <?php } ?>
     $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
       var onserver_value = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
       if (onserver_value == 'yes') {
         jQuery('#youtube_integration input:radio').prop("disabled", true);
+        $("#youtube_integeration").hide();
       } else {
         jQuery('#youtube_integration input:radio').prop("disabled", false);
+        $("#youtube_integration").show();
       }
     });
 
     $("input:radio[name='params[Youtube_enabled_izap_videos]']").on("click", function() {
       var youtube_value = $("input:radio[name='params[Youtube_enabled_izap_videos]']:checked").val();
       if (youtube_value == 'yes') {
+        $("#onserver_video").hide();
         jQuery('#onserver_video input:radio').prop("disabled", true);
       } else {
+        $("#onserver_video").show();
         jQuery('#onserver_video input:radio').prop("disabled", false);
       }
     });
