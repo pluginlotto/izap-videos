@@ -18,6 +18,8 @@
    */
 
   define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
+  define('GLOBAL_IZAP_VIDEOS_SUBTYPE','izap_video');
+  
   elgg_register_event_handler('init', 'system', 'izap_video_init');
 
   /**
@@ -165,7 +167,9 @@
         $params = izap_read_video_file($page[1]);
         $params['filter'] = false;
         break;
-
+      case 'viewvideo':
+        $params = getVideoPlayer();
+        break;
       default:
         return false;
     }
