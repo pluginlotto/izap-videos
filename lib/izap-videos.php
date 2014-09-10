@@ -597,24 +597,34 @@
     }
     $queue = new izapQueue();
     $create_queue = $queue->put($video, $file, $defined_access_id);
-    // if ($create_queue) {
-    $queue = izap_run_queue_izap_videos(100);
-    if ($queue) {
-      foreach ($queue as $pending) {
-        $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-        return $image_content;
-      }
+    $image = izap_run_queue_izap_videos();
+
+    //check whether queue is empty
+    if ($queue->count() > 0) { 
+        $image = izap_run_queue_izap_videos();
     }
+    return $image;
+//    if ($queue) {
+//      foreach ($queue as $pending) {
+//        $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+//        return $image_content;
+//      }
+//    }
   }
 
   /**
    * 
    * @return boolean
    */
-  function izap_run_queue_izap_videos($limit = 100) {
+  function izap_run_queue_izap_videos() {
     $queue_object = new izapQueue();
-    $queue = $queue_object->fetch_videos($limit);
-    return $queue;
+    $queue = $queue_object->fetch_videos();
+    if ($queue) {
+      foreach ($queue as $pending) {
+        $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+        return $image_content;
+      }
+    }
   }
 
   /**
@@ -657,14 +667,12 @@
 
     if (file_exists($file)) {
       $queue_object = new izapQueue();
-      // $queue_object->change_conversion_flag($videoId);
-
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
 
       if (!empty($videofile['error']) > 0) {
-      //  return $videofile['message'];
-      } else { 
+        //  return $videofile['message'];
+      } else {
         //get thumbnail if video converted successfully
         $queue_object->change_conversion_flag($videoId);
         //delete        
@@ -684,7 +692,7 @@
   function read_video_file() {
     $guid = (int) get_input('videoID');
     $entity = get_entity($guid);
-//echo $entity->tmpfile; exit;
+    //echo $entity->videofile; exit;
     //  $izapqueue_obj = new izapQueue();
     //   $get_converted_video = $izapqueue_obj->get_converted_video($guid);
 
