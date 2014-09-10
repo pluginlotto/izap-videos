@@ -37,10 +37,7 @@
 
   $container = $izap_video->getContainerEntity();
   $categories = elgg_view('output/categories', $vars);
-  $excerpt = $izap_video->excerpt;
-  if (!$excerpt) {
-    $excerpt = elgg_get_excerpt($izap_video->description);
-  }
+  $description = elgg_get_excerpt($izap_video->description);
 
 //$owner_icon = elgg_view_entity_icon($owner, 'tiny');
   $owner_link = elgg_view('output/url', array(
@@ -70,16 +67,13 @@
   }
 //show links in onserver video if video is converted
   if ($izap_video->videofile) {
-   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) .'_c.flv') ?"true":"false"; echo $get_flv_file; 
-    if ($get_flv_file == 'true') {
+    if ($vars['entity']->converted == 'yes') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
         'handler' => 'izap-videos',
         'sort_by' => 'priority',
         'class' => 'elgg-menu-hz',
       ));
-    }else{
-      $metadata = '';
     }
   } else {
     $metadata = elgg_view_menu('entity', array(
@@ -107,22 +101,22 @@
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
 
-    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) .'_c.flv') ?"true":"false"; 
-  //  echo $get_flv_file;
-    
+    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
+    //  echo $get_flv_file;
+
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $izap_video->guid . '/' . elgg_get_friendly_title($izap_video->title) . '.flv';
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';  //echo $player_path;   
-    $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;  
+    $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagefile) {
       if ($izap_video->video_url) {
-        $image = $izap_video->imagefile; 
+        $image = $izap_video->imagefile;
       } else {
         $image = $image_path;
       }
     } else {
       $image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
     }
-    if ($get_flv_file == 'true') { 
+    if ($get_flv_file == 'true') {
       $video_obj = new IzapVideo;
 
       $html = '
@@ -138,10 +132,10 @@
             <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' >
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $izap_video->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object></p>";
-    } elseif ($get_flv_file == 'false') {  
+    } elseif ($get_flv_file == 'false') {
       $html = '<img src="' . $image . '" style= "width:670px;height:400px;background-color:black;align:center;cursor:pointer;border-radius: 8px;" class="no-video" />';
       echo '<p class="notConvertedWrapper">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
-       $data = "<p class='video' style='display:none;background-color:black;'></p>";
+      $data = "<p class='video' style='display:none;background-color:black;'></p>";
     } elseif ($izap_video->video_url) {
       $video_obj = new IzapVideo;
 
@@ -167,7 +161,7 @@
       'entity' => $izap_video,
       'metadata' => $metadata,
       'subtitle' => $subtitle,
-      'content' => $excerpt,
+      'content' => $description,
     );
     $params = $params + $vars; //cho '<pre>'; print_R($params); 
     $list_body = elgg_view('object/elements/summary', $params);
