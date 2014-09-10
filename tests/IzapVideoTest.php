@@ -53,9 +53,9 @@ class IzapVideoTest extends PHPUnit_Framework_TestCase {
         unset($izapvideo_obj);
         $saved_object = get_entity($saved_guid);
         
-        $tmppath =  $saved_object->tmpfile;  
+        $tmppath =  $saved_object->videofile;  
         var_dump($tmppath);
-        echo (file_exists($saved_object->tmpfile))?'true':'false';
+        echo (file_exists($saved_object->videofile))?'true':'false';
         exit;
 
 //print_r($saved_object); exit;
