@@ -730,20 +730,19 @@
   }
 
   function getVideoPlayer($guid) {
-echo $guid;
     $entity = get_entity($guid); 
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';  
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
     
-    $content .= "<p class='video_" . $guid . "'  id='video_" . $object->guid . "' >
+    $content .= "
            <object width='200' height= '200' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
             <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' >
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
-           </object></p>";
+           </object>";
     
     echo $content; 
     exit;

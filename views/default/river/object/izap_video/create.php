@@ -24,26 +24,34 @@
   }
   //load video by ajax
   $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $object->guid;
-?>
-<div id="load_video_<?php echo $object->guid; ?>">
-  <?php
-    $content = '<a href="' . $get_player_path . '" rel="'.$object->guid.'" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "max-height:90px; max-width: 90px;" /></a>';
-    $content .= '<img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play" id="play_' . $object->guid . '" onclick = "video(' . $object->guid . ')"/>';
 
-    $content .= $object->description;
-    echo elgg_view('river/elements/layout', array(
-      'item' => $vars['item'],
-      'message' => $content,
-    ));
+  $content = "<div id='load_video_".$object->guid."'>";
+  $content .= '<img src="' . $thumbnail_image . '"  style= "max-height:90px; max-width: 90px;" />';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play_icon" /></a>';
+   $content .= '</div>';
   ?>
-</div>
 
+<?php
+  $content .= $object->description;
+  echo elgg_view('river/elements/layout', array(
+    'item' => $vars['item'],
+    'message' => $content,
+  ));
+?>
 
 <script type="text/javascript">
-  var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/'.GLOBAL_IZAP_VIDEOS_PLUGIN.'/_graphics/ajax-loader_black.gif'?>';
-  $(".ajax_load_video").live('click', function() { 
+  var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+  $(".ajax_load_video").live('click', function() {
     $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;
   });
 </script>
+
+<style type="text/css">
+  .play_icon{
+    margin: 4px -16px;
+    width: 14px;
+    pointer:cursor;
+  }
+</style>
