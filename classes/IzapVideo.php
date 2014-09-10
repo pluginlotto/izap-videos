@@ -54,7 +54,7 @@ class IzapVideo extends ElggFile {
         $this->setFilename($this->get_tmp_path($source_file));
         $this->open('write');
         $this->write(file_get_contents($source_path));
-        $this->tmpfile = $this->getFilenameOnFilestore();
+        $this->videofile = $this->getFilenameOnFilestore();
 //  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
 //  return $returnvalue;
     }

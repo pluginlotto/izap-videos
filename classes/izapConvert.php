@@ -38,7 +38,7 @@ class izapConvert {
         $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
         $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
         $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);  
-        $videoCommand = $videoCommand . ' 2>&1'; 
+        $videoCommand = $videoCommand . ' 2>&1';  
         exec($videoCommand, $out, $err);
 
         
@@ -66,7 +66,7 @@ class izapConvert {
         $return['error'] =1;
         $return['message'] = end($out);
         return $return;
-      }
+      } 
       return $this->outimage;
     }
     
