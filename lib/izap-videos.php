@@ -733,7 +733,7 @@
    * load video via ajax
    * @param type $guid
    */
-  function getVideoPlayer($guid) {
+  function getVideoPlayer($guid,$height,$width) {
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
@@ -742,10 +742,10 @@
     if ($entity->video_url) {
       parse_str(parse_url($entity->video_url, PHP_URL_QUERY), $my_array_of_vars);
       $youtube_id = trim($my_array_of_vars['v']);   
-      $content = "<iframe width='200' height='200' src='//www.youtube.com/embed/".$youtube_id."?rel=0&autoplay=1'></iframe> ";
+      $content = "<iframe width='".$width."' height='".$height."' src='//www.youtube.com/embed/".$youtube_id."?rel=0&autoplay=1'></iframe> ";
     } else {
       $content = "
-           <object width='200' height= '200' id='flvPlayer'>
+           <object width='".$width."' height= '".$height."' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
