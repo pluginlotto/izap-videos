@@ -126,9 +126,9 @@
 ?>
 <script>
   $(document).ready(function() {
-    $(".close").onclick({
-      alert("here");
-    });
+//    $(".close").onclick({
+// 
+//    });
     $('form[name = video_upload]').validate({
       rules: {
         title: {

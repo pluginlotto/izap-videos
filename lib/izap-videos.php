@@ -600,8 +600,8 @@
     $image = izap_run_queue_izap_videos();
 
     //check whether queue is empty
-    if ($queue->count() > 0) { 
-        $image = izap_run_queue_izap_videos();
+    if ($queue->count() > 0) {
+      $image = izap_run_queue_izap_videos();
     }
     return $image;
 //    if ($queue) {
@@ -727,5 +727,33 @@
       echo $contents;
       exit;
     }
+  }
+
+  /**
+   * load video via ajax
+   * @param type $guid
+   */
+  function getVideoPlayer($guid) {
+    $entity = get_entity($guid);
+    $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
+    $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
+    $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
+
+    if ($entity->video_url) {
+      parse_str(parse_url($entity->video_url, PHP_URL_QUERY), $my_array_of_vars);
+      $youtube_id = trim($my_array_of_vars['v']);   
+      $content = "<iframe width='200' height='200' src='//www.youtube.com/embed/".$youtube_id."?rel=0&autoplay=1'></iframe> ";
+    } else {
+      $content = "
+           <object width='200' height= '200' id='flvPlayer'>
+            <param name='allowFullScreen' value='true'>
+            <param name='wmode' value='transparent'>
+             <param name='allowScriptAccess' value='always'>
+            <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' >
+            <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
+           </object>";
+    }
+    echo $content;
+    exit;
   }
   
