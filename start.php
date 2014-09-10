@@ -168,7 +168,7 @@
         $params['filter'] = false;
         break;
       case 'viewvideo':
-        $params = getVideoPlayer();
+        $params = getVideoPlayer($page[1]);
         break;
       default:
         return false;
