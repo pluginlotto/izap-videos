@@ -729,6 +729,10 @@
     }
   }
 
+  /**
+   * load video via ajax
+   * @param type $guid
+   */
   function getVideoPlayer($guid) {
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
