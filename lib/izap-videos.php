@@ -557,7 +557,6 @@
 
   function getQueue() {
     global $CONFIG;
-
     $queue_status = (izap_is_queue_running_izap_videos()) ?
       elgg_echo('izap_videos:running') :
       elgg_echo('izap_videos:notRunning');
@@ -568,7 +567,8 @@
       'total' => $queue_object->count(),
       'queue_videos' => $queue_object->get(),
       )
-    );
+    ); 
+    exit;
   }
 
   /**
@@ -765,7 +765,7 @@
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
       } else {
-        echo '<p class="notConvertedWrapper" style="background-color: #FFC4C4;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+        echo '<p class="notConvertedWrapper" style="background-color: #FFC4C4;radius:8px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
         $content = "<p class='video' style='display:none;background-color:black;'></p>";
       }
     }

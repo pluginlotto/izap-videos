@@ -65,9 +65,11 @@
   } else {
     $comments_link = '';
   }
+  
+ $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
 //show links in onserver video if video is converted
   if ($izap_video->videofile) {
-    if ($vars['entity']->converted == 'yes') {
+    if ($get_flv_file == 'true') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
         'handler' => 'izap-videos',

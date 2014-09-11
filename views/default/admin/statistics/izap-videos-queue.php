@@ -20,10 +20,12 @@ elgg_load_library('elgg:izap_video');
 
 <div id="load_data">
     <?php
-    echo getQueue();
+  //  echo getQueue();
     ?>
 </div>
-
+<div id="videoQueue" align="center">
+  <img src="<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/_queue_1.gif'; ?>" />
+</div>
 <div id="trigger_queue">
     <?php
     //$obj = new izapQueue(); $obj->delete();
@@ -36,23 +38,19 @@ elgg_load_library('elgg:izap_video');
     ?>
 </div>
 
+<script type="text/javascript">
+  function checkQueue(){ 
+    $('#videoQueue').load('<?php echo elgg_get_site_url() .GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue'?>');
+  }
+  $(document).ready(function(){
+    checkQueue();
+    setInterval(checkQueue, 1000);
+  });
+</script>
+
 <!--<script>
-
-
-//        $('#queue').load(document.URL + "#trigger_queue", function(message) {
-        console.log('trigger');
-//        });
-        //document.getElementById('load_data');
-    }
-    $(document).ready(function() {
-        // load_div();
-        setInterval(load_div, 5000);
-    });
-</script>  -->
-
-<script>
     $(document).ready(function() {
         setInterval('window.location.reload()', 5000);
     });
 
-</script>
+</script>-->
