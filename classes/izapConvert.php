@@ -41,7 +41,6 @@ class izapConvert {
         $videoCommand = $videoCommand . ' 2>&1';  
         exec($videoCommand, $out, $err);
 
-        
         // if file not converted successfully return error message 
         if ($err != 0) { 
             $return = array();

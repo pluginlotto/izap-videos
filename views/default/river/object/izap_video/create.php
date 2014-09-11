@@ -33,7 +33,7 @@
   }
 
   //load video by ajax
-  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $object->guid;
+  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $object->guid . '/200/200';
 
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";

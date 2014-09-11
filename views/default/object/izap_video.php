@@ -113,16 +113,16 @@
         $style = 'height:400px; width: 670px;border-radius:8px;';
       }
     } else {
-      $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+     // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
-    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $izap_video->guid;
+    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
     $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play_icon" /></a>';
+    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'trans_play.png" class="play_icon"/></a>';
     $content .= '</div>';
 
     $body = " $content $text $summary";
@@ -148,34 +148,24 @@
   }
 ?>
 
-<script>
-  $(document).ready(function() {
-    $('.upload_div').click(function() {
-      $("p").show();
-      $('.play').hide();
-      $('.upload_div').hide();
-    });
-  });
+<script type="text/javascript">
+  var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+  function ajax_request() {
+    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
+    $("#load_video_" + this.rel + "").load('' + this.href + '');
+    return false;
+  }
 
-  $(document).ready(function() {
-    $('.play').click(function() {
-      $("p").show();
-      $('.play').hide();
-      $('.upload_div').hide();
-    });
-  });
+  $('.ajax_load_video').click(ajax_request);
 </script>
 
-<style>
-  .play{
-    position:absolute;
-    margin: 1px -683px;
-    width:50px;
-  }
-  .notConvertedWrapper{
-    width:660px;
-    background-color: #FFC4C4;
-    padding:5px;
-    border-radius: 8px;
+<style type="text/css">
+  .play_icon{
+    cursor: pointer;
+    width: 670px;
+    height: 400px;
+    position: absolute;
+    margin: 1px -691px;
+
   }
 </style>
