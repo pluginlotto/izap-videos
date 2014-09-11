@@ -44,7 +44,6 @@
 <?php
   $current_url = current_page_url();
   $upload_type = end(explode('/', $current_url));
-//  if (!$guid) {
   if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
     if ($upload_type == 'offserver') {
       ?>
@@ -67,17 +66,7 @@
         <label><?php echo elgg_echo('izap-videos:thumbnail'); ?></label><br />
         <?php echo elgg_view('input/file', array('name' => 'upload_thumbnail')); ?>
       </div>
-      <?php //  } ?>
 
-      <div>
-        <label><?php echo elgg_echo('title'); ?></label><br />
-        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
-      </div>
-
-      <div>
-        <label><?php echo elgg_echo('description'); ?></label>
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
-      </div>
     <?php } elseif ($upload_type == 'youtube') { ?>
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
@@ -90,6 +79,17 @@
       </div>
 
     <?php } ?>
+
+    <div>
+      <label><?php echo elgg_echo('title'); ?></label><br />
+      <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+    </div>
+
+    <div>
+      <label><?php echo elgg_echo('description'); ?></label>
+      <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+    </div>
+
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>
       <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
@@ -154,22 +154,23 @@
         }
       });
     });
-    
+
     $('input[name = upload_video]').change(function() {
       var video_type = $('input[name = upload_video]').val();
       var get_ext = video_type.split('.');
-      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4') ? "validate" : "invalidate";
-      if(izap == "invalidate"){
+      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
+      if (izap == "invalidate") {
         $('#error').html("Invalid video format");
         document.getElementById("upload_button").disabled = true;
 //        $('#upload_button').disabled = true;
-      }else{
+      } else {
         $('#error').html("");
         document.getElementById("upload_button").disabled = false;
       }
     });
-    $('form[name = video_upload]').submit(function() { 
-      if ($('form[name = video_upload]').validate().form()) { }
+    $('form[name = video_upload]').submit(function() {
+      if ($('form[name = video_upload]').validate().form()) {
+      }
     });
 
     //Video Preview Start Here 
