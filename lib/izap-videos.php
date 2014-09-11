@@ -163,6 +163,7 @@
       $title = elgg_echo('izap_videos:edit') . ":";
       if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
         $form_vars['entity'] = $izap_video;
+        $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
 
         $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
