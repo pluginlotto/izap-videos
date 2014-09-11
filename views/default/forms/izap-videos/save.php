@@ -18,7 +18,7 @@
 
   /**
    * izap-video add new video form
-   */
+   *///echo "<pre>";print_r($vars);exit;
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
     echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -162,7 +162,6 @@
       if (izap == "invalidate") {
         $('#error').html("Invalid video format");
         document.getElementById("upload_button").disabled = true;
-//        $('#upload_button').disabled = true;
       } else {
         $('#error').html("");
         document.getElementById("upload_button").disabled = false;
