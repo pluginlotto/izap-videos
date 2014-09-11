@@ -60,6 +60,7 @@
       <div>
         <label><?php echo elgg_echo('izap-videos:upload video'); ?></label><br />
         <?php echo elgg_view('input/file', array('name' => 'upload_video')); ?>
+        <label id="error"></label>
       </div>
 
       <div>
@@ -114,7 +115,7 @@
       }
 
       echo elgg_view('input/hidden', array('name' => 'page_url', 'value' => $current_url));
-      echo elgg_view('input/submit', array('value' => $submit_label));
+      echo elgg_view('input/submit', array('value' => $submit_label, 'id' => 'upload_button'));
       ?>
     </div>
     <?php
@@ -136,8 +137,7 @@
             url: true,
           },
           upload_video: {
-            required: true,
-            accept: "audio/*"
+            required: true
           },
         },
         messages: {
@@ -149,11 +149,27 @@
             url: "Enter Valid Url"
           },
           upload_video: {
-            required: "Please select video to upload",
-            accept: "Please select valid video type"
+            required: "Please select video to upload"
           },
         }
       });
+    });
+    
+    $('input[name = upload_video]').change(function() {
+      var video_type = $('input[name = upload_video]').val();
+      var get_ext = video_type.split('.');
+      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4') ? "validate" : "invalidate";
+      if(izap == "invalidate"){
+        $('#error').html("Invalid video format");
+        document.getElementById("upload_button").disabled = true;
+//        $('#upload_button').disabled = true;
+      }else{
+        $('#error').html("");
+        document.getElementById("upload_button").disabled = false;
+      }
+    });
+    $('form[name = video_upload]').submit(function() { 
+      if ($('form[name = video_upload]').validate().form()) { }
     });
 
     //Video Preview Start Here 
@@ -220,5 +236,11 @@
   .error{
     color:red;
     font-weight: normal;
+  }
+  #error{
+    color:red;
+    font-weight: normal;
+    font-size: 110%;
+    display: inline;
   }
 </style>
