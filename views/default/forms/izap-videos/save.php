@@ -87,7 +87,7 @@
         <label><?php echo elgg_echo('description'); ?></label>
         <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
       </div>
-      
+
     <?php } ?>
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>
@@ -125,121 +125,100 @@
   }
 ?>
 <script>
-  $(document).ready(function() {
-//    $(".close").onclick({
-// 
-//    });
-    $('form[name = video_upload]').validate({
-      rules: {
-        title: {
-          required: true,
+    $(document).ready(function() {
+      $('form[name = video_upload]').validate({
+        rules: {
+          title: {
+            required: true,
+          },
+          video_url: {
+            required: true,
+            url: true,
+          },
+          upload_video: {
+            required: true,
+            accept: "audio/*"
+          },
         },
-        description: {
-          required: true,
-        },
-        video_url: {
-          required: true,
-          url: true,
-        },
-        upload_video: {
-          required: true,
-        },
-      },
-      messages: {
-        title: {
-          required: "Please Enter Title",
-        },
-        description: {
-          required: "Please Enter Description",
-        },
-        video_url: {
-          required: "Please Enter Video Url",
-          url: "Enter Valid Url"
-        },
-        upload_video: {
-          required: "Please select video to upload"
-        },
+        messages: {
+          title: {
+            required: "Please Enter Title",
+          },
+          video_url: {
+            required: "Please Enter Video Url",
+            url: "Enter Valid Url"
+          },
+          upload_video: {
+            required: "Please select video to upload",
+            accept: "Please select valid video type"
+          },
+        }
+      });
+    });
+
+    //Video Preview Start Here 
+    $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
+      .on('loading', function() {
+        $(this).prop('disabled', true);
+        $('form .button').html('<i class="icon-spinner icon-spin"></i>');
+      })
+      .on('loaded', function() {
+        $(this).prop('disabled', false);
+        $('form .button').text('Share');
+      })
+
+    $('form .button').on('click', function() {
+      url = $("#id_url").val();
+      if (url) {
+        regex = /\bhttps?:\/\/[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/))/g;
+        var patt = new RegExp(regex);
+        valid = Boolean(url.match(regex));
+        if (valid == true) {
+          $('#preview_form').trigger('submit')
+        }
       }
     });
-  });
-</script>
-<script>
 
-  $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'}) // Sign up for a key: http://embed.ly/pricing
-          .on('loading', function() {
-            $(this).prop('disabled', true);
-            $('form .button').html('<i class="icon-spinner icon-spin"></i>');
-          })
-          .on('loaded', function() {
-            $(this).prop('disabled', false);
-            $('form .button').text('Share');
-          })
-
-
-  $('form .button').on('click', function() {
-    url = $("#id_url").val();
-    if (url) {
-      regex = /\bhttps?:\/\/[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/))/g;
-      var patt = new RegExp(regex);
-      valid = Boolean(url.match(regex));
-      if (valid == true) {
-        $('#preview_form').trigger('submit')
+    $('#preview_form').on('submit', function() {
+      // Preview data.
+      if ($("#id_url").val()) {
+        var preview = $('#id_url').data('preview');
+        // add the preview data to the form if you are into that sort of thing.
+        $('#preview_form').addInputs(preview,
+          ['title', 'description', 'thumbnail_url',
+            'favicon_url', 'provider_name', 'provider_url', 'html']);
+        // Close the selector
+        $('#id_url').trigger('close');
+        $('#id_url').val('');
+        // Create a post using mustache, i.e. the nice way.
+        var template = [
+          '<div class="large-12 columns story-wrapper">',
+          '<div class="row">',
+          '<div class="large-8 columns">',
+          '<div class="large-12 columns story-container">',
+          '<div class="large-5 columns"style="padding: 0px 0px;">',
+          '<img class="thumb" src="{{thumbnail_url}}"></img>',
+          '</div>',
+          '<div class="large-7 columns"style="padding: 10px 10px;">',
+          '<a href="{{original_url}}">{{title}}</a>',
+          '<p>{{description}}</p>',
+          '</div>',
+          '</div>',
+          '</div>',
+          '</div>'].join('');
+        html = Mustache.to_html(template, preview);
+        $('#feed').append(html);
+        return false;
       }
-    }
-  });
-
-
-  $('#preview_form').on('submit', function() {
-    // Preview data.
-
-    if ($("#id_url").val()) {
-      var preview = $('#id_url').data('preview');
-
-      // add the preview data to the form if you are into that sort of thing.
-      $('#preview_form').addInputs(preview,
-              ['title', 'description', 'thumbnail_url',
-                'favicon_url', 'provider_name', 'provider_url', 'html']);
-
-
-      // Close the selector
-      $('#id_url').trigger('close');
-      $('#id_url').val('');
-
-
-      // Create a post using mustache, i.e. the nice way.
-      var template = [
-        '<div class="large-12 columns story-wrapper">',
-        '<div class="row">',
-        '<div class="large-8 columns">',
-        '<div class="large-12 columns story-container">',
-        '<div class="large-5 columns"style="padding: 0px 0px;">',
-        '<img class="thumb" src="{{thumbnail_url}}"></img>',
-        '</div>',
-        '<div class="large-7 columns"style="padding: 10px 10px;">',
-        '<a href="{{original_url}}">{{title}}</a>',
-        '<p>{{description}}</p>',
-        '</div>',
-        '</div>',
-        '</div>',
-        '</div>'].join('');
-//
-      html = Mustache.to_html(template, preview);
-      $('#feed').append(html);
-//       	
-//		
-      return false;
-    }
-  });
-
-</script>
-
-<script>
-  $("form :input").on("keypress", function(e) {
-    return e.keyCode != 13;
-  });
+    });
+    $("form :input").on("keypress", function(e) {
+      return e.keyCode != 13;
+    });
+    //Video Preview End Here 
 </script>
 <style type="text/css">
   .error{
-    color:maroon;
+    color:red;
+    font-weight: normal;
   }
 </style>
