@@ -19,9 +19,9 @@
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
 
-  if ($object->imagefile) {
+  if ($object->imagesrc) {
     if ($object->video_url) {
-      $thumbnail_image = $object->imagefile;
+      $thumbnail_image = $object->imagesrc;
       $style = 'max-height:90px; max-width: 90px;';
     } else {
       $thumbnail_image = $get_image;

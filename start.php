@@ -235,9 +235,9 @@
     if (elgg_instanceof($file, 'object', 'izap_video')) {
 
       // thumbnails get first priority
-      if ($file->imagefile) {
+      if ($file->imagesrc) {
         if ($file->video_url) {
-          return $file->imagefile;
+          return $file->imagesrc;
         } else {
           return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
         }
