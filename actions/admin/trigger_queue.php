@@ -18,7 +18,7 @@
  */
   
 elgg_load_library('elgg:izap_video');
-izapTrigger_izap_videos();
+izap_trigger_video_queue();
 system_message(elgg_echo('izap_videos:adminSettings:reset_queue'));
 forward(REFERER);
 exit;

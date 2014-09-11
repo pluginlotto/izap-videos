@@ -164,6 +164,7 @@
       $title = elgg_echo('izap_videos:edit') . ":";
       if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
         $form_vars['entity'] = $izap_video;
+        $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
 
         $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
@@ -426,7 +427,7 @@
    * @return boolean or entites
    */
   function izapGetNotConvertedVideos_izap_videos() {
-    $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_videos', 0, 999999);
+    $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_video', 0, 999999);
     if ($not_converted_videos) {
       return $not_converted_videos;
     }
@@ -441,7 +442,7 @@
    * @param type $plugin
    * @return type
    */
-  function getFormAction($file, $plugin) {
+  function getFormAction($file, $plugin) { 
     global $CONFIG;
     return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
   }
@@ -556,7 +557,6 @@
 
   function getQueue() {
     global $CONFIG;
-
     $queue_status = (izap_is_queue_running_izap_videos()) ?
       elgg_echo('izap_videos:running') :
       elgg_echo('izap_videos:notRunning');
@@ -567,7 +567,8 @@
       'total' => $queue_object->count(),
       'queue_videos' => $queue_object->get(),
       )
-    );
+    ); 
+    exit;
   }
 
   /**
@@ -764,7 +765,7 @@
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
       } else {
-        echo '<p class="notConvertedWrapper" style="background-color: #FFC4C4;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+        echo '<p class="notConvertedWrapper" style="background-color: #FFC4C4;radius:8px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
         $content = "<p class='video' style='display:none;background-color:black;'></p>";
       }
     }
