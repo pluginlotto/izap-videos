@@ -67,6 +67,16 @@
         <?php echo elgg_view('input/file', array('name' => 'upload_thumbnail')); ?>
       </div>
 
+      <div>
+        <label><?php echo elgg_echo('title'); ?></label><br />
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+      </div>
+
+      <div>
+        <label><?php echo elgg_echo('description'); ?></label>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+      </div>
+
     <?php } elseif ($upload_type == 'youtube') { ?>
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
@@ -80,16 +90,17 @@
 
     <?php } ?>
 
-    <div>
-      <label><?php echo elgg_echo('title'); ?></label><br />
-      <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
-    </div>
+    <?php if ($guid) { ?>
+      <div>
+        <label><?php echo elgg_echo('title'); ?></label><br />
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+      </div>
 
-    <div>
-      <label><?php echo elgg_echo('description'); ?></label>
-      <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
-    </div>
-
+      <div>
+        <label><?php echo elgg_echo('description'); ?></label>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+      </div>
+    <?php } ?>  
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>
       <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
