@@ -1,5 +1,4 @@
 <?php
-
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -619,6 +618,7 @@
   function izap_run_queue_izap_videos() {
     $queue_object = new izapQueue();
     $queue = $queue_object->fetch_videos();
+    
     if ($queue) {
       foreach ($queue as $pending) {
         $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
@@ -670,8 +670,9 @@
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
 
+      //echo '<pre>'; print_r($videofile); exit;
       if (!empty($videofile['error']) > 0) {
-        //  return $videofile['message'];
+          return $videofile['message'];
       } else {
         //get thumbnail if video converted successfully
         $queue_object->change_conversion_flag($videoId);
@@ -712,10 +713,10 @@
 
 //echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
 //echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
-      if (file_exists($elggfile_obj->getFilenameOnFilestore())) {// echo $elggfile_obj->getFilenameOnFilestore(); exit;  
+      if (file_exists($elggfile_obj->getFilenameOnFilestore())) { 
         $contents = $elggfile_obj->grabFile();
       }
-
+     //echo $contents; exit;
       $content_type = 'video/x-flv';
 
       header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
@@ -733,27 +734,33 @@
    * load video via ajax
    * @param type $guid
    */
-  function getVideoPlayer($guid,$height,$width) {
+  function getVideoPlayer($guid, $height, $width) {
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
 
+    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
+
     if ($entity->video_url) {
       parse_str(parse_url($entity->video_url, PHP_URL_QUERY), $my_array_of_vars);
-      $youtube_id = trim($my_array_of_vars['v']);   
-      $content = "<iframe width='".$width."' height='".$height."' src='//www.youtube.com/embed/".$youtube_id."?rel=0&autoplay=1'></iframe> ";
+      $youtube_id = trim($my_array_of_vars['v']);
+      $content = "<iframe width='" . $width . "' height='" . $height . "' src='//www.youtube.com/embed/" . $youtube_id . "?rel=0&autoplay=1'></iframe> ";
     } else {
-      $content = "
-           <object width='".$width."' height= '".$height."' id='flvPlayer'>
+      if ($get_flv_file == 'true') {
+        $content = "
+           <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
             <param name='wmode' value='transparent'>
              <param name='allowScriptAccess' value='always'>
             <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' >
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
+      } else {
+        echo '<p class="notConvertedWrapper">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+        $content = "<p class='video' style='display:none;background-color:black;'></p>";
+      }
     }
     echo $content;
     exit;
   }
-  

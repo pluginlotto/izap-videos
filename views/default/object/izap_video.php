@@ -113,7 +113,7 @@
         $style = 'height:400px; width: 670px;border-radius:8px;';
       }
     } else {
-      $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+     // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
@@ -150,7 +150,7 @@
 
 <script type="text/javascript">
   var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
-  function ajax_request() { 
+  function ajax_request() {
     $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;

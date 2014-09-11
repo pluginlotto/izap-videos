@@ -15,3 +15,10 @@ background-color:#FD7979;
 .elgg-table-alt .success{
 background-color:green;
 }-->
+
+.notConvertedWrapper{
+    width:660px;
+    background-color: #FFC4C4;
+    padding:5px;
+    border-radius: 8px;
+  }
