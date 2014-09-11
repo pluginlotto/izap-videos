@@ -1,5 +1,4 @@
 <?php
-
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -451,7 +450,7 @@
    *
    * @global <type> $CONFIG
    */
-  function izap_trigger_video_queue() {
+  function izapTrigger_izap_videos() {
     $PHPpath = izapGetPhpPath_izap_videos();
     $file_path = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
 
@@ -459,7 +458,7 @@
       if (izapIsWin_izap_videos()) {
         pclose(popen("start \"MyProcess\" \"cmd /C " . $PHPpath . " " . $file_path, "r"));
       } else {
-        exec($PHPpath . ' ' . $file_path . ' izap web > /dev/null 2>&1 &', $output);
+        exec($PHPpath . ' ' . $file_path . ' izap web', $output);
       }
     }
   }
@@ -596,18 +595,20 @@
       return false;
     }
     $queue = new izapQueue();
-    $queue->put($video, $file, $defined_access_id);
+    $create_queue = $queue->put($video, $file, $defined_access_id);
+    $image = izap_run_queue_izap_videos();
 
-    //run queue
-    izap_trigger_video_queue();
-
-//    $image = izap_run_queue_izap_videos();
-//
-//    //check whether queue is empty
-//    if ($queue->count() > 0) {
-//      $image = izap_run_queue_izap_videos();
+    //check whether queue is empty
+    if ($queue->count() > 0) {
+      $image = izap_run_queue_izap_videos();
+    }
+    return $image;
+//    if ($queue) {
+//      foreach ($queue as $pending) {
+//        $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+//        return $image_content;
+//      }
 //    }
-//    return $image;
   }
 
   /**
@@ -617,23 +618,13 @@
   function izap_run_queue_izap_videos() {
     $queue_object = new izapQueue();
     $queue = $queue_object->fetch_videos();
-
-    if (is_array($queue)) {
+    
+    if ($queue) {
       foreach ($queue as $pending) {
-        $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-
-        if ($converted['error']) {
-          $queue_object->move_to_trash($pending['guid']);
-        } else {
-          $queue_object->delete($pending['guid']);
-        }
-      }
-
-      if ($queue_object->count() > 0) {
-        izap_run_queue_izap_videos();
+        $image_content = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+        return $image_content;
       }
     }
-    return true;
   }
 
   /**
@@ -679,19 +670,21 @@
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
 
-      if (!is_array($videofile)) {
-        $queue_object->change_conversion_flag($videoId);
-        return $videofile;
+      //echo '<pre>'; print_r($videofile); exit;
+      if (!empty($videofile['error']) > 0) {
+          return $videofile['message'];
       } else {
-        $err_message = $videofile['message'];
+        //get thumbnail if video converted successfully
+        $queue_object->change_conversion_flag($videoId);
+        //delete        
+        if ($video->get_thumbnail_from_video()) {
+          $image_contents = $video->getValues();
+          $queue_object->delete($videoId);
+        }
+        //    echo '<pre>'; print_R($image_contents);
+        return $image_contents;
       }
-    } else {
-      $err_message = elgg_echo('izap_videos:file not found');
     }
-    if (isset($err_message)) {
-      $return = array('error' => true, 'message' => $err_message);
-    }
-    return $return;
   }
 
   /**
@@ -720,10 +713,10 @@
 
 //echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
 //echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
-      if (file_exists($elggfile_obj->getFilenameOnFilestore())) {
+      if (file_exists($elggfile_obj->getFilenameOnFilestore())) { 
         $contents = $elggfile_obj->grabFile();
       }
-      //echo $contents; exit;
+     //echo $contents; exit;
       $content_type = 'video/x-flv';
 
       header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
@@ -771,4 +764,3 @@
     echo $content;
     exit;
   }
-  

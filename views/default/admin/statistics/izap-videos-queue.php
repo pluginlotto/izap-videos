@@ -26,7 +26,7 @@ elgg_load_library('elgg:izap_video');
 
 <div id="trigger_queue">
     <?php
-   // $obj = new izapQueue();
+    //$obj = new izapQueue(); $obj->delete();
    //getQueue(); 
 //    $queue = izap_run_queue_izap_videos();
 //    foreach ($queue as $pending) { 

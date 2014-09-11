@@ -29,7 +29,7 @@
   }
 
   $owner = $izap_video->getOwnerEntity();
-  if ($izap_video->imagefile) {
+  if ($izap_video->imagesrc) {
     $icon = elgg_view_entity_icon($izap_video, 'medium');
   } else {
     $icon = elgg_view_entity_icon($owner, 'tiny');
@@ -104,9 +104,9 @@
     $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
-    if ($izap_video->imagefile) {
+    if ($izap_video->imagesrc) {
       if ($izap_video->video_url) {
-        $thumbnail_image = $izap_video->imagefile;
+        $thumbnail_image = $izap_video->imagesrc;
         $style = 'height:400px; width: 670px;';
       } else {
         $thumbnail_image = $get_image;

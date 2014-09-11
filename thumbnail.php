@@ -28,7 +28,7 @@ $file = get_entity($file_guid);
 if (!elgg_instanceof($file, 'object', 'izap_video')) {
     exit;
 } 
-$filename = end(explode('/', $file->imagefile));
+$filename = end(explode('/', $file->imagesrc));
 $filename = '' . $filename;
 
 $izap_video_obj = new IzapVideo;
