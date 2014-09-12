@@ -427,7 +427,7 @@
    * @return boolean or entites
    */
   function izapGetNotConvertedVideos_izap_videos() {
-    $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_videos', 0, 999999);
+    $not_converted_videos = get_entities_from_metadata('converted', 'no', 'object', 'izap_video', 0, 999999);
     if ($not_converted_videos) {
       return $not_converted_videos;
     }
@@ -442,7 +442,7 @@
    * @param type $plugin
    * @return type
    */
-  function getFormAction($file, $plugin) {
+  function getFormAction($file, $plugin) { 
     global $CONFIG;
     return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
   }
