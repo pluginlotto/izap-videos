@@ -37,7 +37,7 @@
     global $CONFIG, $IZAPSETTINGS;
     $IZAPSETTINGS = new stdClass();
 //    $hey = getOffserverApiKey();
-    $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com/';
+    $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
     
     $root = dirname(__FILE__);
