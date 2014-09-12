@@ -20,13 +20,13 @@
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
 
   if ($object->imagesrc) {
-    if ($object->video_url) {
-      $thumbnail_image = $object->imagesrc;
-      $style = 'max-height:90px; max-width: 90px;';
-    } else {
+//    if ($object->video_url) {
+//      $thumbnail_image = $object->imagesrc;
+//      $style = 'max-height:90px; max-width: 90px;';
+//    } else {
       $thumbnail_image = $get_image;
       $style = 'max-height:90px; max-width: 90px;';
-    }
+//    }
   } else {
     $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
     $style = 'background-color:black;max-height:90px; max-width: 90px;';

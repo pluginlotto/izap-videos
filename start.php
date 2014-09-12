@@ -20,6 +20,7 @@
   define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
   define('GLOBAL_IZAP_VIDEOS_SUBTYPE', 'izap_video');
   define('GLOBAL_IZAP_VIDEOS_PAGEHANDLER', 'videos');
+  define('GLOBAL_IZAP_VIDEOS_CLASS', 'IzapVideo');
 
   elgg_register_event_handler('init', 'system', 'izap_video_init');
 
