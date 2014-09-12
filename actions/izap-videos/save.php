@@ -97,19 +97,20 @@
       case 'onserver':
         include_once (dirname(__FILE__) . '/onserver.php');
 
-        //  echo '<pre>'; print_r($izap_videos); exit;
+        //before start converting
+        $izap_videos->converted = 'no';
         if ($izap_videos->save()) {
           $get_guid = $izap_videos->getGUID();
           $get_entity = get_entity($get_guid);
 
           if (file_exists($get_entity->videofile)) {
-           //  if ($page_url == 'onserver') {
               $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
-              izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id);
+              izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id,$izap_videos);
+              
+              //after converting video 
               $izap_videos->converted = 'yes';
               $izap_videos->access_id = $access_id;
               $izap_videos->save();
-           // }
           }
         }
         break;
