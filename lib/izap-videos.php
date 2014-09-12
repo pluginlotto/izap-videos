@@ -45,7 +45,7 @@
 
       $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
 
-      $crumbs_title = $container->name;
+      $crumbs_title = $container->name; 
       elgg_push_breadcrumb($crumbs_title);
 
       if ($current_user && ($container_guid == $current_user->guid)) {
@@ -64,7 +64,7 @@
     }
 
     $title = 'Add New Video';
-    $url = GLOBAL_IZAP_VIDEOS_PLUGIN . '/add/';
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
 
     if (izap_is_onserver_enabled_izap_videos() == 'yes') {
       $url .= elgg_get_logged_in_user_guid() . '/onserver';
@@ -116,7 +116,7 @@
   function izap_video_get_page_content_friends($user_guid = NULL) {
     $user = get_user($user_guid);
     if (!$user) {
-      forward('izap-videos/all');
+      forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all');
     }
 
     $return = array();
@@ -125,7 +125,7 @@
     $return['title'] = elgg_echo('izap-videos:title:friends');
 
     $crumbs_title = $user->name;
-    elgg_push_breadcrumb($crumbs_title, "izap-videos/owner/{$user->username}");
+    elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/owner/{$user->username}");
     elgg_push_breadcrumb(elgg_echo('friends'));
 
     elgg_register_title_button();
@@ -176,7 +176,7 @@
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
       $body_vars = izap_videos_prepare_form_vars(null);
 
-      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
+      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload'); 
       $title = elgg_echo('izap-videos:add');
       $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
     }
@@ -249,7 +249,7 @@
       }
     }
 
-    if (elgg_is_sticky_form('izap_videos')) {
+    if (elgg_is_sticky_form('izap_videos')) { 
       $sticky_values = elgg_get_sticky_values('izap_videos');
       foreach ($sticky_values as $key => $value) {
         $values[$key] = $value;
@@ -749,7 +749,7 @@
       $youtube_id = trim($my_array_of_vars['v']);
       $content = "<iframe width='" . $width . "' height='" . $height . "' src='//www.youtube.com/embed/" . $youtube_id . "?rel=0&autoplay=1'></iframe> ";
     } else {
-      if ($get_flv_file == 'true') {
+      if ($get_flv_file == 'true') { //echo 'asdas'; exit;
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>

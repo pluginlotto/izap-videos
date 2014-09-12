@@ -19,6 +19,7 @@
   /**
    * izap-video add new video form
    *///echo "<pre>";print_r($vars);exit;
+  
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
     echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -35,9 +36,9 @@
   if ($guid) {
     $file_label = elgg_echo("izap-videos:replace");
     $submit_label = elgg_echo('save');
-  } else {
+  } else { 
     $file_label = elgg_echo("izap-videos:file");
-    $submit_label = elgg_echo('upload');
+    $submit_label = elgg_echo('save');
   }
 ?>
 
@@ -131,7 +132,7 @@
     </div>
     <?php
   } else {
-    $url = 'izap-videos/all';
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all';
     register_error(elgg_echo('izap-videos:message:noAddFeature'));
     forward($url);
   }
