@@ -24,7 +24,7 @@
     protected function initializeAttributes() {
       parent::initializeAttributes();
 
-      $this->attributes['subtype'] = "izap_video";
+      $this->attributes['subtype'] = GLOBAL_IZAP_VIDEOS_SUBTYPE;
     }
 
     public function __construct($guid = NULL) {
