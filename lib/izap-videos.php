@@ -746,19 +746,13 @@
 
     if ($entity->videourl) {
       global $IZAPSETTINGS;
-
       $height = ($height) ? $height : $IZAPSETTINGS->ajaxed_video_height;
       $width = ($width) ? $width : $IZAPSETTINGS->ajaxed_video_width;
-
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
         $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
       } else {
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
-
-//      parse_str(parse_url($entity->video_url, PHP_URL_QUERY), $my_array_of_vars);
-//      $youtube_id = trim($my_array_of_vars['v']);
-//      $content = "<iframe width='" . $width . "' height='" . $height . "' src='//www.youtube.com/embed/" . $youtube_id . "?rel=0&autoplay=1'></iframe> ";
     } else {
       if ($get_flv_file == 'true') { //echo 'asdas'; exit;
         $content = "

@@ -28,11 +28,6 @@
    * main init function
    */
   function izap_video_init() {
-
-    // global $defaultsettings;
-    // //  $defaultsettings = new stdClass(); 
-    //  $defaultsettings->playerpath  = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf'; 
-    
     //Offser Api Key
     global $CONFIG, $IZAPSETTINGS;
     $IZAPSETTINGS = new stdClass();
