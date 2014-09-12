@@ -34,7 +34,7 @@
 //    $hey = getOffserverApiKey();
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
-    
+
     $root = dirname(__FILE__);
 
     //define path for actions folder
@@ -55,7 +55,7 @@
     elgg_register_entity_type('object', 'izap_video');
 
     //register menu item and set default path to all videos
-    $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all');
+    $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all');
     elgg_register_menu_item('site', $item);
 
     if (elgg_is_admin_logged_in()) {
@@ -218,7 +218,7 @@
     $entity = $params['entity'];
     if (elgg_instanceof($entity, 'object', 'izap_video')) {
       $friendly_title = elgg_get_friendly_title($entity->title);
-      return GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/video/{$entity->guid}/$friendly_title";
+      return GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/video/{$entity->guid}/$friendly_title";
     }
   }
 
@@ -275,7 +275,7 @@
    */
   function izap_videos_owner_block_menu($hook, $type, $return, $params) {
     if (elgg_instanceof($params['entity'], 'user')) {
-      $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/owner/{$params['entity']->username}";
+      $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/{$params['entity']->username}";
       $item = new ElggMenuItem('izap_videos', elgg_echo('item:object:izap-videos'), $url);
       $return[] = $item;
     }
@@ -293,5 +293,13 @@
     set_input('size', $page[2]);
     elgg_load_library('elgg:izap_video');
     read_video_file();
+  }
+
+  function c($array) {
+    echo '<pre>';
+    echo '<div style="border:3px solid #000">';
+    print_r($array);
+    echo '</div>';
+    echo '</pre>';
   }
   
