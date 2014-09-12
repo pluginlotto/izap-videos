@@ -18,8 +18,8 @@
    */
 
   define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
-  define('GLOBAL_IZAP_VIDEOS_SUBTYPE','izap_video');
-  
+  define('GLOBAL_IZAP_VIDEOS_SUBTYPE', 'izap_video');
+
   elgg_register_event_handler('init', 'system', 'izap_video_init');
 
   /**
@@ -30,7 +30,14 @@
     // global $defaultsettings;
     // //  $defaultsettings = new stdClass(); 
     //  $defaultsettings->playerpath  = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf'; 
-
+    
+    //Offser Api Key
+    global $CONFIG, $IZAPSETTINGS;
+    $IZAPSETTINGS = new stdClass();
+//    $hey = getOffserverApiKey();
+    $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com/';
+    $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
+    
     $root = dirname(__FILE__);
 
     //define path for actions folder
@@ -144,9 +151,9 @@
         $params = izap_video_get_page_content_friends($user->guid);
         break;
       //add new video
-      case 'add': 
+      case 'add':
         elgg_gatekeeper(); //if user is not logged in then redirect user to login page
-        $params = izap_video_get_page_content_edit($page_type, $page[1],$page[2]);
+        $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
       //edit particular izap-videos 
       case 'edit':
@@ -168,9 +175,9 @@
         $params['filter'] = false;
         break;
       case 'viewvideo':
-        $params = getVideoPlayer($page[1],$page[2],$page[3]);
+        $params = getVideoPlayer($page[1], $page[2], $page[3]);
         break;
-      case 'queue': 
+      case 'queue':
         $params = getQueue();
         break;
       default:
@@ -179,7 +186,8 @@
     /*
      * Izap view view with ajax call - to be continue
      */
-    function izap_view_video_handler(){
+
+    function izap_view_video_handler() {
       
     }
 
