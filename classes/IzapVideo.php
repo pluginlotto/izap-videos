@@ -69,29 +69,28 @@
       $returnvalue = new stdClass();
 
       $filename = $file['name'];
-      $tmpname = $file['tmp_name'];
+      $tmpname = $file['tmp_name']; 
       $file_err = $file['error'];
       $file_type = $file['type'];
       $file_size = $file['size'];
 
-      if ($file_err > 0) {
+      if ($file_err > 0) { 
         return 104;
       }
 
       // if file is of zero size
-      if ($file_size == 0) {
+      if ($file_size == 0) { 
         return 105;
       }
-      $returnvalue->videotype = $file_type;
-      $set_video_name = $this->get_tmp_path(time() . $filename);
+      $returnvalue->videotype = $file_type; 
+      $set_video_name = $this->get_tmp_path(time() . $filename); 
       $this->setFilename($set_video_name);
       $this->open("write");
       $this->write(file_get_contents($tmpname));
       $returnvalue->videofile = $this->getFilenameOnFilestore();
 
-
       // take snapshot of the video
-      $image = new izapConvert($returnvalue->videofile); 
+      $image = new izapConvert($returnvalue->videofile);  
       if ($image->get_thumbnail_from_video()) { 
         $retValues = $image->getValues(TRUE);
         if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') { 
