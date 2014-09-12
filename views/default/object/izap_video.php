@@ -65,11 +65,20 @@
   } else {
     $comments_link = '';
   }
-  
- $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
+
+  $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
 //show links in onserver video if video is converted
-  if ($izap_video->videofile) {
-    if ($get_flv_file == 'true') {
+  if ($izap_video->videofile) { 
+    if ($izap_video->converted == 'in_processing') {
+      
+    } elseif ($izap_video->converted == 'yes') {
+      $metadata = elgg_view_menu('entity', array(
+        'entity' => $vars['entity'],
+        'handler' => 'izap-videos',
+        'sort_by' => 'priority',
+        'class' => 'elgg-menu-hz',
+      ));
+    } elseif ($izap_video->converted == 'no') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
         'handler' => 'izap-videos',
@@ -115,7 +124,7 @@
         $style = 'height:400px; width: 670px;border-radius:8px;';
       }
     } else {
-     // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+      // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 

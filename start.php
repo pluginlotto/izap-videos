@@ -55,7 +55,7 @@
     elgg_register_menu_item('site', $item);
 
     if (elgg_is_admin_logged_in()) {
-      // Add admin menu item @todo: can be done automatic loading via bridge
+      // Add admin menu item 
       elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
       //  elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
     }
