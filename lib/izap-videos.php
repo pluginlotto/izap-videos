@@ -45,7 +45,7 @@
 
       $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
 
-      $crumbs_title = $container->name; 
+      $crumbs_title = $container->name;
       elgg_push_breadcrumb($crumbs_title);
 
       if ($current_user && ($container_guid == $current_user->guid)) {
@@ -116,7 +116,7 @@
   function izap_video_get_page_content_friends($user_guid = NULL) {
     $user = get_user($user_guid);
     if (!$user) {
-      forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all');
+      forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all');
     }
 
     $return = array();
@@ -125,7 +125,7 @@
     $return['title'] = elgg_echo('izap-videos:title:friends');
 
     $crumbs_title = $user->name;
-    elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/owner/{$user->username}");
+    elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/{$user->username}");
     elgg_push_breadcrumb(elgg_echo('friends'));
 
     elgg_register_title_button();
@@ -176,7 +176,7 @@
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
       $body_vars = izap_videos_prepare_form_vars(null);
 
-      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload'); 
+      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
       $title = elgg_echo('izap-videos:add');
       $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
     }
@@ -249,7 +249,7 @@
       }
     }
 
-    if (elgg_is_sticky_form('izap_videos')) { 
+    if (elgg_is_sticky_form('izap_videos')) {
       $sticky_values = elgg_get_sticky_values('izap_videos');
       foreach ($sticky_values as $key => $value) {
         $values[$key] = $value;
@@ -736,7 +736,7 @@
    * load video via ajax
    * @param type $guid
    */
-  function getVideoPlayer($guid, $height, $width) { 
+  function getVideoPlayer($guid, $height, $width) {
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
@@ -744,10 +744,15 @@
 
     $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
 
-    if ($entity->video_url) {
-      parse_str(parse_url($entity->video_url, PHP_URL_QUERY), $my_array_of_vars);
-      $youtube_id = trim($my_array_of_vars['v']);
-      $content = "<iframe width='" . $width . "' height='" . $height . "' src='//www.youtube.com/embed/" . $youtube_id . "?rel=0&autoplay=1'></iframe> ";
+    if ($entity->videourl) {
+      global $IZAPSETTINGS;
+      $height = ($height) ? $height : $IZAPSETTINGS->ajaxed_video_height;
+      $width = ($width) ? $width : $IZAPSETTINGS->ajaxed_video_width;
+      if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
+        $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
+      } else {
+        echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
+      }
     } else {
       if ($get_flv_file == 'true') { //echo 'asdas'; exit;
         $content = "
@@ -766,39 +771,48 @@
     echo $content;
     exit;
   }
-  
+
   /*
    * Get Offserver Api Key
    */
-  function getOffserverApiKey(){
+
+  function getOffserverApiKey() {
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
-  
-  function input($url){ 
+
+  function input($url) {
     global $IZAPSETTINGS;
-    $url = $IZAPSETTINGS->apiUrl . '&url=' .  urlencode($url);
+    $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($url);
     $curl = new IzapCurl();
     $raw_contents = $curl->get($url)->body;
     $returnObject = json_decode($raw_contents);
-    if($returnObject == NULL || $returnObject == FALSE) {
+    if ($returnObject == NULL || $returnObject == FALSE) {
       register_error(elgg_echo('izap_videos:no_response_from_server'));
       forward($_SERVER['HTTP_REFERER']);
       exit;
     }
     // We are not supporting this url.
-    if(!$returnObject || empty($returnObject->embed_code)) {
+    if (!$returnObject || empty($returnObject->embed_code)) {
       return $returnObject;
     }
-    $obj= new stdClass;
+    $obj = new stdClass;
     $obj->title = $returnObject->title;
     $obj->description = $returnObject->description;
     $obj->videothumbnail = $returnObject->thumb_url;
     $obj->videosrc = $returnObject->embed_code;
     $obj->videotags = $returnObject->tags;
     $obj->domain = $returnObject->url;
-    $obj->filename = time().'_'.basename($obj->videothumbnail);
+    $obj->filename = time() . '_' . basename($obj->videothumbnail);
     $obj->filecontent = $curl->get($obj->videothumbnail)->body;
     $obj->type = $returnObject->type;
     return $obj;
-    
   }
+
+  function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) { 
+    $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
+    $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
+    $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
+    $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
+    return $videodiv;
+  }
+  
