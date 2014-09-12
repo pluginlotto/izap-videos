@@ -18,8 +18,8 @@
    */
 
   define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
-  define('GLOBAL_IZAP_VIDEOS_SUBTYPE','izap_video');
-  
+  define('GLOBAL_IZAP_VIDEOS_SUBTYPE', 'izap_video');
+
   elgg_register_event_handler('init', 'system', 'izap_video_init');
 
   /**
@@ -55,9 +55,7 @@
     elgg_register_menu_item('site', $item);
 
     if (elgg_is_admin_logged_in()) {
-      // Add admin menu item @todo: can be done automatic loading via bridge
       elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
-      //  elgg_register_admin_menu_item('administer', 'izap-videos-conversion_queue', 'statistics');
     }
 
     //register action
@@ -144,9 +142,9 @@
         $params = izap_video_get_page_content_friends($user->guid);
         break;
       //add new video
-      case 'add': 
+      case 'add':
         elgg_gatekeeper(); //if user is not logged in then redirect user to login page
-        $params = izap_video_get_page_content_edit($page_type, $page[1],$page[2]);
+        $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
       //edit particular izap-videos 
       case 'edit':
@@ -168,9 +166,9 @@
         $params['filter'] = false;
         break;
       case 'viewvideo':
-        $params = getVideoPlayer($page[1],$page[2],$page[3]);
+        $params = getVideoPlayer($page[1], $page[2], $page[3]);
         break;
-      case 'queue': 
+      case 'queue':
         $params = getQueue();
         break;
       default:
@@ -179,7 +177,8 @@
     /*
      * Izap view view with ajax call - to be continue
      */
-    function izap_view_video_handler(){
+
+    function izap_view_video_handler() {
       
     }
 
@@ -235,15 +234,11 @@
    */
   function izap_videos_set_icon_url($hook, $type, $url, $params) {
     $file = $params['entity'];
-    if (elgg_instanceof($file, 'object', 'izap_video')) {
-
-      // thumbnails get first priority
-      if ($file->imagesrc) {
-        if ($file->video_url) {
-          return $file->imagesrc;
-        } else {
-          return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
-        }
+    if (elgg_instanceof($file, 'object', 'izap_video') && $file->imagesrc) {
+      if ($file->video_url) {
+        return $file->imagesrc;
+      } else {
+        return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
       }
     }
   }
