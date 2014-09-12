@@ -45,7 +45,7 @@
 
       $return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
 
-      $crumbs_title = $container->name; 
+      $crumbs_title = $container->name;
       elgg_push_breadcrumb($crumbs_title);
 
       if ($current_user && ($container_guid == $current_user->guid)) {
@@ -116,7 +116,7 @@
   function izap_video_get_page_content_friends($user_guid = NULL) {
     $user = get_user($user_guid);
     if (!$user) {
-      forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all');
+      forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all');
     }
 
     $return = array();
@@ -125,10 +125,45 @@
     $return['title'] = elgg_echo('izap-videos:title:friends');
 
     $crumbs_title = $user->name;
-    elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/owner/{$user->username}");
+    elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/{$user->username}");
     elgg_push_breadcrumb(elgg_echo('friends'));
 
-    elgg_register_title_button();
+    $title = 'Add New Video';
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+
+    if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/onserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } else {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    }
 
     $options = array(
       'type' => 'object',
@@ -176,7 +211,7 @@
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
       $body_vars = izap_videos_prepare_form_vars(null);
 
-      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload'); 
+      $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
       $title = elgg_echo('izap-videos:add');
       $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
     }
@@ -249,7 +284,7 @@
       }
     }
 
-    if (elgg_is_sticky_form('izap_videos')) { 
+    if (elgg_is_sticky_form('izap_videos')) {
       $sticky_values = elgg_get_sticky_values('izap_videos');
       foreach ($sticky_values as $key => $value) {
         $values[$key] = $value;
