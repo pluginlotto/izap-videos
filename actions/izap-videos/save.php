@@ -82,14 +82,13 @@
   $izap_videos->access_id = $access_id;
   $izap_videos->container_guid = $container_guid;
   $izap_videos->tags = string_to_tag_array($tags);
-  $izap_videos->video_url = $video_url;
+  $izap_videos->videourl = $video_url;
   $izap_videos->videoprocess = $page_url;
 
   if ($page_url == 'offserver' || $page_url == 'onserver') {
     switch ($page_url) {
       case 'offserver':
-        parse_str(parse_url($izap_videos->video_url, PHP_URL_QUERY), $my_array_of_vars);
-        $izap_videos->imagesrc = 'http://img.youtube.com/vi/' . $my_array_of_vars['v'] . "/0.jpg";
+        include_once (dirname(__FILE__) . '/offserver.php');
         $izap_videos->save();
         break;
       case 'youtube':
@@ -105,13 +104,13 @@
           $get_entity = get_entity($get_guid);
 
           if (file_exists($get_entity->videofile)) {
-              $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
-              izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id,$izap_videos);
-           //   echo 'after'; exit;
-              //after converting video 
-              $izap_videos->converted = 'yes';
-              $izap_videos->access_id = $access_id;
-              $izap_videos->save();
+            $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
+            izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $izap_videos);
+
+            //after converting video 
+            $izap_videos->converted = 'yes';
+            $izap_videos->access_id = $access_id;
+            $izap_videos->save();
           }
         }
         break;

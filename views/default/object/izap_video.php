@@ -116,15 +116,10 @@
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagesrc) {
-      if ($izap_video->video_url) {
-        $thumbnail_image = $izap_video->imagesrc;
-        $style = 'height:400px; width: 670px;';
-      } else {
         $thumbnail_image = $get_image;
         $style = 'height:400px; width: 670px;border-radius:8px;';
-      }
     } else {
-      // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+       $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
