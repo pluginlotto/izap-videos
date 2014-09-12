@@ -18,6 +18,7 @@
    */
 
 //maintain input field values if saving fails
+  
   elgg_make_sticky_form('izap_videos');
 
   elgg_load_library('elgg:izap_video');
@@ -106,7 +107,7 @@
           if (file_exists($get_entity->videofile)) {
               $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
               izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id,$izap_videos);
-              
+           //   echo 'after'; exit;
               //after converting video 
               $izap_videos->converted = 'yes';
               $izap_videos->access_id = $access_id;

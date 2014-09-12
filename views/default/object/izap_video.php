@@ -41,7 +41,7 @@
 
 //$owner_icon = elgg_view_entity_icon($owner, 'tiny');
   $owner_link = elgg_view('output/url', array(
-    'href' => "izap-videos/owner/$owner->username",
+    'href' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/$owner->username",
     'text' => $owner->name,
     'is_trusted' => true,
   ));
@@ -74,14 +74,14 @@
     } elseif ($izap_video->converted == 'yes') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
-        'handler' => 'izap-videos',
+        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'sort_by' => 'priority',
         'class' => 'elgg-menu-hz',
       ));
     } elseif ($izap_video->converted == 'no') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
-        'handler' => 'izap-videos',
+        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'sort_by' => 'priority',
         'class' => 'elgg-menu-hz',
       ));
@@ -89,7 +89,7 @@
   } else {
     $metadata = elgg_view_menu('entity', array(
       'entity' => $vars['entity'],
-      'handler' => 'izap-videos',
+      'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
       'sort_by' => 'priority',
       'class' => 'elgg-menu-hz',
     ));
@@ -128,7 +128,7 @@
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
-    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $izap_video->guid . '/400/670';
+    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
