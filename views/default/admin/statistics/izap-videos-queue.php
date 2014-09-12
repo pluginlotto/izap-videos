@@ -16,7 +16,7 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
   elgg_load_library('elgg:izap_video');
-  
+  //echo $CONFIG->wwwroot . 'action/' . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/' . 'trigger_queue';
 ?>
 
 <div id="videoQueue" align="center">
@@ -25,9 +25,9 @@
 <p align="right">
   <?php
     echo '[ ';
-    echo elgg_view('output/confirmlink', array('href' => getFormAction('trigger_queue', GLOBAL_IZAP_VIDEOS_PLUGIN), 'text' => elgg_echo('izap-videos:re_trigger_queue')));
+    echo elgg_view('output/confirmlink', array('href' => getFormAction('trigger_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:re_trigger_queue')));
     echo ' | ';
-    echo elgg_view('output/confirmlink', array('href' => getFormAction('reset_queue', GLOBAL_IZAP_VIDEOS_PLUGIN), 'text' => elgg_echo('izap-videos:reset_queue'), 'confirm' => 'Are you sure? It will empty queue and correspoinding videos.'));
+    echo elgg_view('output/confirmlink', array('href' => getFormAction('reset_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:reset_queue'), 'confirm' => 'Are you sure? It will empty queue and correspoinding videos.'));
     echo ' ]';
   ?>
   <br /><em>Refresh after every 5 seconds.</em>
@@ -35,7 +35,7 @@
 
 <script type="text/javascript">
     function checkQueue() {
-      $('#videoQueue').load('<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/queue' ?>');
+      $('#videoQueue').load('<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/queue' ?>');
     }
     $(document).ready(function() {
       checkQueue();

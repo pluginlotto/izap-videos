@@ -19,7 +19,6 @@
 
   define('GLOBAL_IZAP_VIDEOS_PLUGIN', 'izap-videos');
   define('GLOBAL_IZAP_VIDEOS_SUBTYPE', 'izap_video');
-  define('GLOBAL_IZAP_VIDEOS_PAGEHANDLER', 'videos');
 
   elgg_register_event_handler('init', 'system', 'izap_video_init');
 
@@ -31,14 +30,7 @@
     // global $defaultsettings;
     // //  $defaultsettings = new stdClass(); 
     //  $defaultsettings->playerpath  = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf'; 
-    
-    //Offser Api Key
-    global $CONFIG, $IZAPSETTINGS;
-    $IZAPSETTINGS = new stdClass();
-//    $hey = getOffserverApiKey();
-    $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com/';
-    $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
-    
+
     $root = dirname(__FILE__);
 
     //define path for actions folder
@@ -48,7 +40,7 @@
     elgg_register_library('elgg:izap_video', "$root/lib/izap-videos.php");
 
     //register page handler for particular identifier
-    elgg_register_page_handler(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, 'izap_video_page_handler');
+    elgg_register_page_handler('izap-videos', 'izap_video_page_handler');
 
     //register page handler for video page
     elgg_register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
@@ -59,7 +51,7 @@
     elgg_register_entity_type('object', 'izap_video');
 
     //register menu item and set default path to all videos
-    $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all');
+    $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), 'izap-videos/all');
     elgg_register_menu_item('site', $item);
 
     if (elgg_is_admin_logged_in()) {
@@ -69,9 +61,9 @@
 
     //register action
     elgg_register_action('izap-videos/save', $action_root . 'save.php');
-    elgg_register_action(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/delete', $action_root . 'delete.php');
-    elgg_register_action(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/trigger_queue', dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
-    elgg_register_action(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/reset_queue', dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
+    elgg_register_action('izap-videos/delete', $action_root . 'delete.php');
+    elgg_register_action('izap-videos/trigger_queue', dirname(__FILE__) . '/actions/admin/' . 'trigger_queue.php');
+    elgg_register_action('izap-videos/reset_queue', dirname(__FILE__) . '/actions/admin/' . 'reset_queue.php');
 
 
     //register hook handler
@@ -128,7 +120,7 @@
     elgg_load_library('elgg:izap_video');
 
     // push all blogs breadcrumb
-    elgg_push_breadcrumb(elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/all");
+    elgg_push_breadcrumb(elgg_echo('izap_video:Video'), "izap-videos/all");
 
     //if no param pass then default is all.
     if (!isset($page[0])) {
@@ -183,6 +175,13 @@
       default:
         return false;
     }
+    /*
+     * Izap view view with ajax call - to be continue
+     */
+
+    function izap_view_video_handler() {
+      
+    }
 
     //add sidebar 
     if (isset($params['sidebar'])) {
@@ -222,7 +221,7 @@
     $entity = $params['entity'];
     if (elgg_instanceof($entity, 'object', 'izap_video')) {
       $friendly_title = elgg_get_friendly_title($entity->title);
-      return GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/video/{$entity->guid}/$friendly_title";
+      return "izap-videos/video/{$entity->guid}/$friendly_title";
     }
   }
 
@@ -279,7 +278,7 @@
    */
   function izap_videos_owner_block_menu($hook, $type, $return, $params) {
     if (elgg_instanceof($params['entity'], 'user')) {
-      $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER ."/owner/{$params['entity']->username}";
+      $url = "izap-videos/owner/{$params['entity']->username}";
       $item = new ElggMenuItem('izap_videos', elgg_echo('item:object:izap-videos'), $url);
       $return[] = $item;
     }
