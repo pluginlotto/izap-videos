@@ -128,7 +128,42 @@
     elgg_push_breadcrumb($crumbs_title, GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/{$user->username}");
     elgg_push_breadcrumb(elgg_echo('friends'));
 
-    elgg_register_title_button();
+    $title = 'Add New Video';
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+
+    if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/onserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    } else {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      elgg_register_menu_item('title', array(
+        'name' => elgg_get_friendly_title($title),
+        'href' => $url,
+        'text' => $title,
+        'link_class' => 'elgg-button elgg-button-action',
+      ));
+    }
 
     $options = array(
       'type' => 'object',

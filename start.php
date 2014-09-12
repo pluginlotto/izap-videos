@@ -52,7 +52,7 @@
     //register page handler for view videos
     elgg_register_page_handler('izap_view_video', 'izap_view_video_handler');
 
-    elgg_register_entity_type('object', 'izap_video');
+    elgg_register_entity_type('object', GLOBAL_IZAP_VIDEOS_SUBTYPE);
 
     //register menu item and set default path to all videos
     $item = new ElggMenuItem('video', elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all');
@@ -163,17 +163,17 @@
       case 'icon':
         $params = izap_videos_read_content($page[1]);
         break;
-      case 'video':
+      case 'video': //full page video
         elgg_load_css('elgg:video_css');
         elgg_load_js('elgg:video_js');
         //  elgg_load_js('elgg:player');
         $params = izap_read_video_file($page[1]);
         $params['filter'] = false;
-        break;
-      case 'viewvideo':
+        break; 
+      case 'viewvideo':    //load video by ajax
         $params = getVideoPlayer($page[1], $page[2], $page[3]);
         break;
-      case 'queue':
+      case 'queue': //get queue status in admins
         $params = getQueue();
         break;
       default:
@@ -216,7 +216,7 @@
    */
   function izap_videos_set_url($hook, $type, $url, $params) {
     $entity = $params['entity'];
-    if (elgg_instanceof($entity, 'object', 'izap_video')) {
+    if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
       $friendly_title = elgg_get_friendly_title($entity->title);
       return GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/video/{$entity->guid}/$friendly_title";
     }
@@ -232,7 +232,7 @@
    */
   function izap_videos_set_icon_url($hook, $type, $url, $params) {
     $file = $params['entity'];
-    if (elgg_instanceof($file, 'object', 'izap_video') && $file->imagesrc) {
+    if (elgg_instanceof($file, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE) && $file->imagesrc) {
       if ($file->video_url) {
         return $file->imagesrc;
       } else {
