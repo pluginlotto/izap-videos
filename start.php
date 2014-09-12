@@ -55,6 +55,7 @@
     elgg_register_menu_item('site', $item);
 
     if (elgg_is_admin_logged_in()) {
+      // Add admin menu item 
       elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
     }
 

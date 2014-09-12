@@ -442,7 +442,7 @@
    * @param type $plugin
    * @return type
    */
-  function getFormAction($file, $plugin) { 
+  function getFormAction($file, $plugin) {
     global $CONFIG;
     return $CONFIG->wwwroot . 'action/' . $plugin . '/' . $file;
   }
@@ -567,7 +567,7 @@
       'total' => $queue_object->count(),
       'queue_videos' => $queue_object->get(),
       )
-    ); 
+    );
     exit;
   }
 
@@ -591,7 +591,7 @@
     return round($bytes, $precision) . ' ' . $units[$pow];
   }
 
-  function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2) {
+  function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2, $izapvideo) {
 // this will not let save any thing if there is no file to convert
     if (!file_exists($file) || !$video) {
       return false;
@@ -599,16 +599,10 @@
     $queue = new izapQueue();
     $queue->put($video, $file, $defined_access_id);
 
+    //set state processing for video
+    $izapvideo->converted = 'in_processing';
     //run queue
     izap_trigger_video_queue();
-
-//    $image = izap_run_queue_izap_videos();
-//
-//    //check whether queue is empty
-//    if ($queue->count() > 0) {
-//      $image = izap_run_queue_izap_videos();
-//    }
-//    return $image;
   }
 
   /**
