@@ -27,7 +27,7 @@
     $return['filter_context'] = $container_guid ? 'mine' : 'all';
     $options = array(
       'type' => 'object',
-      'subtype' => 'izap_video',
+      'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
       'full_view' => false,
       'no_results' => elgg_echo('izap-videos:none'),
     );
@@ -167,7 +167,7 @@
 
     $options = array(
       'type' => 'object',
-      'subtype' => 'izap_video',
+      'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
       'full_view' => false,
       'relationship' => 'friend',
       'relationship_guid' => $user_guid,
@@ -197,7 +197,7 @@
     if ($page == 'edit') {
       $izap_video = get_entity((int) $guid);
       $title = elgg_echo('izap_videos:edit') . ":";
-      if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
+      if (elgg_instanceof($izap_video, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE) && $izap_video->canEdit()) {
         $form_vars['entity'] = $izap_video;
         $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
@@ -244,7 +244,7 @@
   function izap_read_video_file($guid = null) {
     $entity = get_entity($guid);
 
-    if (!elgg_instanceof($entity, 'object', 'izap_video')) {
+    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
       exit;
     }
     $return = array();
@@ -734,7 +734,7 @@
     //  $izapqueue_obj = new izapQueue();
     //   $get_converted_video = $izapqueue_obj->get_converted_video($guid);
 
-    if (!elgg_instanceof($entity, 'object', 'izap_video')) {
+    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
       exit;
     }
 
