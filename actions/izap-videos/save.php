@@ -75,7 +75,7 @@
   }
 
 //$izap_videos = new IzapVideo();
-  $izap_videos->subtype = 'izap_video';
+  $izap_videos->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
   $izap_videos->title = $title;
   $izap_videos->description = $description;
   $izap_videos->getOwnerGUID();
