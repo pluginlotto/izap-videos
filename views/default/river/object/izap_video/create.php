@@ -19,11 +19,12 @@
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
 
+  global $IZAPSETTINGS;
   if ($object->imagesrc) {
       $thumbnail_image = $get_image;
       $style = 'max-height:90px; max-width: 90px;';
   } else {
-    $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+    $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
     $style = 'background-color:black;max-height:90px; max-width: 90px;';
   }
 
@@ -33,7 +34,7 @@
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
   $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'c-play.png" class="play_icon" /></a>';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon" /></a>';
   $content .= '</div>';
   $content .= $object->description;
   echo elgg_view('river/elements/layout', array(
@@ -43,7 +44,7 @@
 ?>
 
 <script type="text/javascript">
-  var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+  var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
   $(".ajax_load_video").live('click', function() {
     $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');

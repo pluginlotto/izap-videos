@@ -68,7 +68,7 @@
 
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
 //show links in onserver video if video is converted
-  if ($izap_video->videofile) { 
+  if ($izap_video->videofile) {
     if ($izap_video->converted == 'in_processing') {
       
     } elseif ($izap_video->converted == 'yes') {
@@ -102,6 +102,7 @@
   }
 
   if ($full) {
+    global $IZAPSETTINGS;
     $params = array(
       'entity' => $izap_video,
       'title' => false,
@@ -116,10 +117,10 @@
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagesrc) {
-        $thumbnail_image = $get_image;
-        $style = 'height:400px; width: 670px;border-radius:8px;';
+      $thumbnail_image = $get_image;
+      $style = 'height:400px; width: 670px;border-radius:8px;';
     } else {
-       $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+      $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
@@ -128,7 +129,7 @@
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
     $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/' . 'trans_play.png" class="play_icon"/></a>';
+    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'trans_play.png" class="play_icon"/></a>';
     $content .= '</div>';
 
     $body = " $content $text $summary";
@@ -155,7 +156,7 @@
 ?>
 
 <script type="text/javascript">
-  var video_loading_image = '<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/ajax-loader_black.gif' ?>';
+  var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
   function ajax_request() {
     $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');
