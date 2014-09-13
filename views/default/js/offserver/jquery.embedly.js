@@ -77,7 +77,7 @@
       this._deferred = $.Deferred();
     },
     // Only 2 methods we really care about.
-    notify : function(result) {
+    notify : function(result) { 
       // Store the result.
       this.results[result.original_url] = result;
       // Increase the count.
@@ -116,7 +116,7 @@
     */
     defaults: {},
 
-    log: function(level, message){
+    log: function(level, message){ alert('hereee');
       if (!none(window.console) && !none(window.console[level])){
         window.console[level].apply(window.console, [message]);
       }
@@ -135,13 +135,13 @@
         secure = window.location.protocol === 'https:'? true:false;
       }
       //Extra parameters like "1" & "Extra" removed - Monika
-      var base = (secure ? 'http': 'http') +
+      var base = (secure ? 'http': 'https') +
         '://api.pluginlotto.com';
 
       // Base Query;
       var query = none(options.query) ? {} : options.query;
-      query.api_key = options.key;//console.log($.param(query));
-      query.domain = options.domain;//console.log($.param(query));
+      query.api_key = options.key;
+      query.domain = options.domain;
       base += '?'+$.param(query);
       
       // Add the urls the way we like.
@@ -203,7 +203,7 @@
         $.ajax({
           url: self.build(method, batch, options),
           dataType: 'jsonp',
-          success: function(data){ 
+          success: function(data){ alert("success");
             // We zip together the urls and the data so we have the original_url
             $.each(zip([batch, data]), function(i, obj){
               var result = obj[1];
@@ -211,6 +211,12 @@
               result.invalid = false;
               keeper.notify(result);
             });
+          },
+          error: function (xhr, ajaxOptions, thrownError) { 
+            if (xhr != null) {
+              var err = JSON.parse(xhr.responseText); //you can throw a code-behinde Exception and it will automatically                                                 //render to a valid JSON string when we rerieve the responseText
+              alert("ErrorMessage: " + err.Message + " StackTrace: " + err.StackTrace);
+            }
           }
         });
       });
