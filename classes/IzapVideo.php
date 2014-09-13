@@ -41,26 +41,6 @@
     }
 
     /**
-     * 
-     * @param type $file_path input path for ffmpeg processing
-     */
-    public function processOnserverVideo($source_path, $dest_path) {
-// $returnvalue = new stdClass();
-
-      $destination_path = $dest_path . time() . $this->format;
-      $file_name = end(explode('/', $destination_path));
-      $source_file = end(explode('/', $source_path));
-
-//tmp file
-      $this->setFilename($this->get_tmp_path($source_file));
-      $this->open('write');
-      $this->write(file_get_contents($source_path));
-      $this->videofile = $this->getFilenameOnFilestore();
-//  $returnvalue->tmpfilepath = $this->getFilenameOnFilestore();
-//  return $returnvalue;
-    }
-
-    /**
      * process upload file
      * @param type $file
      * @return int
@@ -89,10 +69,10 @@
       $this->write(file_get_contents($tmpname));
       $returnvalue->videofile = $this->getFilenameOnFilestore();
 
-      // take snapshot of the video
+      // take snapshot from video
       $image = new izapConvert($returnvalue->videofile);  
       if ($image->get_thumbnail_from_video()) { 
-        $retValues = $image->getValues(TRUE);
+        $retValues = $image->getValues(TRUE); 
         if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') { 
           $set_original_thumbnail = $this->get_tmp_path('original_' . $retValues['imagename']); 
           $this->setFilename($set_original_thumbnail);

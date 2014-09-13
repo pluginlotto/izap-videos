@@ -31,7 +31,6 @@
     //Offser Api Key
     global $CONFIG, $IZAPSETTINGS;
     $IZAPSETTINGS = new stdClass();
-//    $hey = getOffserverApiKey();
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
     $IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' .GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
@@ -245,17 +244,6 @@
 
   /**
    * 
-   * @param type $entity
-   * @return type
-   */
-  function video_url($entity) {
-    // $entity = $params['entity']; echo $entity->guid; exit;
-    $title = elgg_get_friendly_title($entity->title); //echo elgg_get_site_url() . "izap-videos/video/$entity->guid/$title"; exit;    
-    return "mod/izap-videos/video.php?file_guid=$entity->guid";
-  }
-
-  /**
-   * 
    * @param type $hook
    * @param type $type
    * @param type $url
@@ -297,6 +285,10 @@
     read_video_file();
   }
 
+  /**
+   * print given array
+   * @param type $array
+   */
   function c($array) {
     echo '<pre>';
     echo '<div style="border:3px solid #000">';
