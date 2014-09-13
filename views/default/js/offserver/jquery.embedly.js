@@ -140,8 +140,8 @@
 
       // Base Query;
       var query = none(options.query) ? {} : options.query;
-      query.api_key = options.key;
-      query.domain = options.domain;
+      query.api_key = options.key;//console.log($.param(query));
+      query.domain = options.domain;//console.log($.param(query));
       base += '?'+$.param(query);
       
       // Add the urls the way we like.
@@ -203,7 +203,7 @@
         $.ajax({
           url: self.build(method, batch, options),
           dataType: 'jsonp',
-          success: function(data){
+          success: function(data){ 
             // We zip together the urls and the data so we have the original_url
             $.each(zip([batch, data]), function(i, obj){
               var result = obj[1];
