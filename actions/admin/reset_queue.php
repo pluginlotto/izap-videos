@@ -21,6 +21,8 @@ $queue_object = new izapQueue();
 foreach ($queue_object->get(get_input('guid')) as $key => $prods){ 
   get_entity($prods['guid'])->delete();
 }
+//delete video entity from queue
+$queue_object->delete(get_input('guid'));
 system_message(elgg_echo('izap-videos:queue_retriggred'));
 forward(REFERER);
 exit;

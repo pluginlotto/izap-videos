@@ -20,20 +20,15 @@
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
 
   if ($object->imagesrc) {
-    if ($object->video_url) {
-      $thumbnail_image = $object->imagesrc;
-      $style = 'max-height:90px; max-width: 90px;';
-    } else {
       $thumbnail_image = $get_image;
       $style = 'max-height:90px; max-width: 90px;';
-    }
   } else {
     $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
     $style = 'background-color:black;max-height:90px; max-width: 90px;';
   }
 
   //load video by ajax
-  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $object->guid . '/200/200';
+  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/200/200';
 
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";

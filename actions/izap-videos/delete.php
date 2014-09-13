@@ -30,9 +30,9 @@ if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit
     if ($izap_video->delete()) {
         system_message(elgg_echo('izap_videos:deleted'));
         if (elgg_instanceof($container, 'group')) {
-            forward("izap-videos/group/$container->guid/all");
+            forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/group/$container->guid/all");
         } else {
-            forward("izap-videos/owner/$container->username");
+            forward(GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/$container->username");
         }
     }
 }

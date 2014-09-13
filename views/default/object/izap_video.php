@@ -41,7 +41,7 @@
 
 //$owner_icon = elgg_view_entity_icon($owner, 'tiny');
   $owner_link = elgg_view('output/url', array(
-    'href' => "izap-videos/owner/$owner->username",
+    'href' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/$owner->username",
     'text' => $owner->name,
     'is_trusted' => true,
   ));
@@ -65,12 +65,23 @@
   } else {
     $comments_link = '';
   }
+
+  $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
 //show links in onserver video if video is converted
-  if ($izap_video->videofile) {
-    if ($vars['entity']->converted == 'yes') {
+  if ($izap_video->videofile) { 
+    if ($izap_video->converted == 'in_processing') {
+      
+    } elseif ($izap_video->converted == 'yes') {
       $metadata = elgg_view_menu('entity', array(
         'entity' => $vars['entity'],
-        'handler' => 'izap-videos',
+        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+        'sort_by' => 'priority',
+        'class' => 'elgg-menu-hz',
+      ));
+    } elseif ($izap_video->converted == 'no') {
+      $metadata = elgg_view_menu('entity', array(
+        'entity' => $vars['entity'],
+        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'sort_by' => 'priority',
         'class' => 'elgg-menu-hz',
       ));
@@ -78,7 +89,7 @@
   } else {
     $metadata = elgg_view_menu('entity', array(
       'entity' => $vars['entity'],
-      'handler' => 'izap-videos',
+      'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
       'sort_by' => 'priority',
       'class' => 'elgg-menu-hz',
     ));
@@ -105,19 +116,14 @@
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagesrc) {
-      if ($izap_video->video_url) {
-        $thumbnail_image = $izap_video->imagesrc;
-        $style = 'height:400px; width: 670px;';
-      } else {
         $thumbnail_image = $get_image;
         $style = 'height:400px; width: 670px;border-radius:8px;';
-      }
     } else {
-     // $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
+       $thumbnail_image = elgg_get_site_url() . 'mod/izap-videos/_graphics/trans_play.png';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
-    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/viewvideo/' . $izap_video->guid . '/400/670';
+    $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
