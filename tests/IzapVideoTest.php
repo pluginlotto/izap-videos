@@ -17,6 +17,7 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
+  require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/engine/start.php'; 
   class IzapVideoTest extends PHPUnit_Framework_TestCase {
 
     protected $obj;
@@ -48,19 +49,7 @@
       $file = array('name' => 'test_video.avi', 'tmp_name' => $source_path, 'size' => '309042', 'error' => '0', 'type' => 'video/x-msvideo');
       $data = $this->obj->processfile($file);
       $this->assertNotEmpty($data->videofile);
-      //$process_video = $izapvideo_obj->processOnserverVideo($source_path, $dest_path);
-//      if ($izapvideo_obj->save()) {
-//        $saved_guid = $izapvideo_obj->getGUID();
-//      }
-//      unset($izapvideo_obj);
-//      $saved_object = get_entity($saved_guid);
-//
-//      $tmppath = $saved_object->videofile;
-//      var_dump($tmppath);
-//      echo (file_exists($saved_object->videofile)) ? 'true' : 'false';
-//      exit;
-//print_r($saved_object); exit;
-      //  $this->assertEquals($saved_object->guid, $saved_guid);
+
     }
 
   }

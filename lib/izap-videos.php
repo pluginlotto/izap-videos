@@ -772,15 +772,15 @@
    * @param type $guid
    */
   function getVideoPlayer($guid, $height, $width) {
+    global $IZAPSETTINGS;
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
-    $player_path = elgg_get_site_url() . 'mod/izap-videos/player/izap_player.swf';
+    $player_path = $IZAPSETTINGS->playerPath;
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
 
     $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
 
     if ($entity->videourl) {
-      global $IZAPSETTINGS;
       $height = ($height) ? $height : $IZAPSETTINGS->ajaxed_video_height;
       $width = ($width) ? $width : $IZAPSETTINGS->ajaxed_video_width;
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
