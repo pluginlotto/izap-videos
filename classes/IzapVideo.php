@@ -69,7 +69,7 @@
       $returnvalue = new stdClass();
 
       $filename = $file['name'];
-      $tmpname = $file['tmp_name']; 
+      $tmpname =  $file['tmp_name']; 
       $file_err = $file['error'];
       $file_type = $file['type'];
       $file_size = $file['size'];

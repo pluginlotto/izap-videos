@@ -35,7 +35,7 @@
      */
     public function testCorrectOnserverVideo() {
 
-     // $izapvideo_obj = new IzapVideo();
+      // $izapvideo_obj = new IzapVideo();
       $source_path = dirname(__FILE__) . '/test_video.avi';
       $dest_path = elgg_get_data_path();  //get data folder path    
 
@@ -45,11 +45,10 @@
       $this->obj->owner_guid = 77;
       $this->obj->access_id = 2;
 
-      $file = array('name' => 'test_video.avi', 'tmp_name' => $source_path, 'size' => '309042' , 'error' => '0','type' => 'video/x-msvideo');
+      $file = array('name' => 'test_video.avi', 'tmp_name' => $source_path, 'size' => '309042', 'error' => '0', 'type' => 'video/x-msvideo');
       $data = $this->obj->processfile($file);
-       
+      $this->assertNotEmpty($data->videofile);
       //$process_video = $izapvideo_obj->processOnserverVideo($source_path, $dest_path);
-
 //      if ($izapvideo_obj->save()) {
 //        $saved_guid = $izapvideo_obj->getGUID();
 //      }
@@ -60,9 +59,8 @@
 //      var_dump($tmppath);
 //      echo (file_exists($saved_object->videofile)) ? 'true' : 'false';
 //      exit;
-
 //print_r($saved_object); exit;
-    //  $this->assertEquals($saved_object->guid, $saved_guid);
+      //  $this->assertEquals($saved_object->guid, $saved_guid);
     }
 
   }
