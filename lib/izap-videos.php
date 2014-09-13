@@ -781,15 +781,13 @@
     $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
 
     if ($entity->videourl) {
-      $height = ($height) ? $height : $IZAPSETTINGS->ajaxed_video_height;
-      $width = ($width) ? $width : $IZAPSETTINGS->ajaxed_video_width;
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
         $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
       } else {
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
     } else {
-      if ($get_flv_file == 'true') { //echo 'asdas'; exit;
+      if ($get_flv_file == 'true') { 
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>

@@ -16,11 +16,11 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
   elgg_load_library('elgg:izap_video');
-  //echo $CONFIG->wwwroot . 'action/' . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/' . 'trigger_queue';
+  global $IZAPSETTINGS;
 ?>
 
 <div id="videoQueue" align="center">
-  <img src="<?php echo elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/queue.gif'; ?>" />
+  <img src="<?php echo $IZAPSETTINGS->graphics  .'/queue.gif'; ?>" />
 </div>
 <p align="right">
   <?php
