@@ -185,14 +185,13 @@
     });
 
     //Video Preview Start Here 
-    $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
+    var current_domain = '<?php echo base64_encode(strtolower($_SERVER['HTTP_HOST'])); ?>'
+    $('#id_url').preview({key: '872fbac68e5758bdbefc8f5bcc2367a7',domain:current_domain})
       .on('loading', function() { console.log("loading");
-        $(this).prop('disabled', true);
-//        $('form .button').html('<i class="icon-spinner icon-spin"></i>');
+//        $(this).prop('disabled', true);
       })
       .on('loaded', function() { console.log("loaded");
         $(this).prop('disabled', false);
-//        $('form .button').text('Share');
       })
 
 //    $('form .button').on('click', function() {

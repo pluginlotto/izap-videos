@@ -62,7 +62,7 @@ Changelog:
  - initial release
 **/
 
-var sprintf = (function() {
+var sprintf = (function() { 
   function get_type(variable) {
     return Object.prototype.toString.call(variable).slice(8, -1).toLowerCase();
   }
@@ -399,7 +399,7 @@ var vsprintf = function(fmt, argv) {
         return url;
       }
       if (this.secure){
-        return 'https://i.embed.ly/1/display?' + $.param({key:options.key, url:url});
+        return 'https://i.pluginlotto.com/1/display?' + $.param({key:options.key, url:url});
       }
       return url;
     }
@@ -474,7 +474,7 @@ var vsprintf = function(fmt, argv) {
 
     // Add the thumb scroller.
     $wrapper.find('.thumb').thumb({
-      onchange: function(elem){
+      onchange: function(elem){ alert("on change");
         // Update the data.
         var val = null;
         if (!utils.none(elem)){
@@ -528,8 +528,8 @@ var vsprintf = function(fmt, argv) {
       maxwidth : 560
     }
   };
-
-  var Preview = function(elem, options){
+  //Here is input box and key 
+  var Preview = function(elem, options){ 
     this.init(elem, options);
   };
 
@@ -555,7 +555,7 @@ var vsprintf = function(fmt, argv) {
       this.options = $.extend({}, defaults, options);
 
       // Allow people to do change the bind functionality.
-      if (this.options.bind === true){
+      if (this.options.bind === true){ 
         // Attach events, proxy so "this" is correct.
         this.$elem.on('keyup', $.proxy(this.keyUp, this));
         this.$elem.on('paste', $.proxy(this.paste, this));
@@ -640,10 +640,10 @@ var vsprintf = function(fmt, argv) {
       // use Embedly jQuery to make the call.
       $.embedly.extract(url, {
         key: this.options.key,
-        query : this.options.query
+        domain : this.options.domain
       }).progress($.proxy(this._callback,this));
     },
-    error: function(obj){
+    error: function(obj){ 
       // By default Preview does nothing for error cases. If you would
       // like to do something else, you should overwrite this funciton.
       if (this.options.error !== null){

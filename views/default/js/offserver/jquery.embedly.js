@@ -127,22 +127,25 @@
       options = none(options) ? {}: options;
       // Base method.
 
-      var secure = options.secure;
+//      var secure = options.secure;
+      //Remove Secure - Monika
+      var secure = options;
       if (none(secure)){
         // If the secure param was not see, use the protocol instead.
         secure = window.location.protocol === 'https:'? true:false;
       }
-
-      var base = (secure ? 'https': 'http') +
-        '://api.embed.ly/' + (method === 'objectify' ? '2/' : '1/') + method;
+      //Extra parameters like "1" & "Extra" removed - Monika
+      var base = (secure ? 'http': 'http') +
+        '://api.pluginlotto.com';
 
       // Base Query;
       var query = none(options.query) ? {} : options.query;
-      query.key = options.key;
+      query.api_key = options.key;
+      query.domain = options.domain;
       base += '?'+$.param(query);
-
+      
       // Add the urls the way we like.
-      base += '&urls='+ $.map(urls, encodeURIComponent).join(',');
+      base += '&url='+ $.map(urls, encodeURIComponent).join(',');
 
       return base;
     },
@@ -154,7 +157,7 @@
       options = $.extend({}, defaults, $.embedly.defaults, typeof options === 'object' && options);
 
       if (none(options.key)){
-        this.log('error', 'Embedly jQuery requires an API Key. Please sign up for one at http://embed.ly');
+        this.log('error', 'Embedly jQuery requires an API Key. Please sign up for one at http://pluginlotto.com');
         return null;
       }
 
@@ -196,7 +199,7 @@
       var batches = batch(valid_urls, options.batch), self = this;
 
       // Actually make those calls.
-      $.each(batches, function(i, batch){
+      $.each(batches, function(i, batch){ 
         $.ajax({
           url: self.build(method, batch, options),
           dataType: 'jsonp',
@@ -229,7 +232,7 @@
     oembed: function(urls, options){
       return this.ajax('oembed', urls, options);
     },
-    preview: function(urls, options){
+    preview: function(urls, options){ 
       return this.ajax('preview', urls, options);
     },
     objectify: function(urls, options){
@@ -339,7 +342,7 @@
   // Sets up a generic API for use.
   $.embedly = new API();
 
-  $.fn.embedly = function ( options ) {
+  $.fn.embedly = function ( options ) { 
     if (options === undefined || typeof options === 'object') {
 
       // Use the defaults
@@ -347,7 +350,7 @@
 
       // Kill these early.
       if (none(options.key)){
-        $.embedly.log('error', 'Embedly jQuery requires an API Key. Please sign up for one at http://embed.ly');
+        $.embedly.log('error', 'Embedly jQuery requires an API Key. Please sign up for one at http://pluginlotto.com');
         return this.each($.noop);
       }
       // Keep track of the nodes we are working on so we can add them to the
