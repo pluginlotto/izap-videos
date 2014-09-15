@@ -73,7 +73,7 @@
 
     //register hook handler
     elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
-    elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_offserver_unit_tests');
+    elgg_register_plugin_hook_handler('video_unit_test', 'system', 'izap_offserver_unit_tests');
     //extend css
     elgg_extend_view('css/admin', 'izap-videos/admin_css');
 
@@ -94,8 +94,7 @@
     elgg_extend_view('page/elements/header', 'forms/izap-videos/my_javascript');
 
     elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
-    elgg_register_widget_type(
-      'izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
+    elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
 
     elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/jquery.js");
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");

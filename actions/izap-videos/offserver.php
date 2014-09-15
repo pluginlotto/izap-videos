@@ -8,7 +8,12 @@
     register_error('Register API Key for offserver video');
     forward(REFERER);
   }
-  $videoValues = input($this->videourl, 'url');
+  $video_data = array(
+    'url' => $this->videourl,
+    'title' => $this->title,
+    'description' => $this->description,
+  );
+  $videoValues = input($video_data);
   $this->videosrc = $videoValues->videosrc;
   $this->videotype = $videoValues->type;
   $this->orignal_thumb = $this->get_tmp_path('original_' . $videoValues->filename);
