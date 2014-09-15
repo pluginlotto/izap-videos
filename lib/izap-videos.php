@@ -813,9 +813,9 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($url) {
+  function input($video_data=array()) { 
     global $IZAPSETTINGS;
-    $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($url);
+    $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
     $curl = new IzapCurl();
     $raw_contents = $curl->get($url)->body;
     $returnObject = json_decode($raw_contents);
@@ -829,8 +829,8 @@
       return $returnObject;
     }
     $obj = new stdClass;
-    $obj->title = $returnObject->title;
-    $obj->description = $returnObject->description;
+    $obj->title = $video_data['title'] ? $video_data['title'] :$returnObject->title;
+    $obj->description = $video_data['description'] ? $video_data['description'] :$returnObject->description;
     $obj->videothumbnail = $returnObject->thumb_url;
     $obj->videosrc = $returnObject->embed_code;
     $obj->videotags = $returnObject->tags;

@@ -101,7 +101,7 @@
      * @param type $file
      * @return int
      */
-    public function processfile($file) { 
+    public function processfile($file) {
       $returnvalue = new stdClass();
 
       $filename = $file['name'];
