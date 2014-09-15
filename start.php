@@ -33,9 +33,9 @@
     $IZAPSETTINGS = new stdClass();
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
-    $IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' .GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
+    $IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
     $IZAPSETTINGS->graphics = $CONFIG->wwwroot . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
-    
+
     $root = dirname(__FILE__);
 
     //define path for actions folder
@@ -170,7 +170,7 @@
         //  elgg_load_js('elgg:player');
         $params = izap_read_video_file($page[1]);
         $params['filter'] = false;
-        break; 
+        break;
       case 'viewvideo':    //load video by ajax
         $params = getVideoPlayer($page[1], $page[2], $page[3]);
         break;
@@ -206,6 +206,7 @@
     $path[] = dirname(__FILE__) . '/tests/IzapVideoTest.php';
     return $path;
   }
+
   function izap_offserver_unit_tests($hook, $type, $value, $params) {
     $path[] = dirname(__FILE__) . '/tests/VideoUnitTest.php';
     return $path;
@@ -236,13 +237,14 @@
    * @return type
    */
   function izap_videos_set_icon_url($hook, $type, $url, $params) {
-    $file = $params['entity'];
+    $file = $params['entity']; 
     if (elgg_instanceof($file, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE) && $file->imagesrc) {
-      if ($file->video_url) {
-        return $file->imagesrc;
-      } else {
-        return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
-      }
+          return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
+    }else{
+      global $IZAPSETTINGS;
+          $url = $IZAPSETTINGS->graphics . 'no_preview.jpg'; 
+          $url = elgg_trigger_plugin_hook('file:icon:url', 'override', $params, $url);
+          return $url;
     }
   }
 

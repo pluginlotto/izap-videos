@@ -31,8 +31,6 @@
   $owner = $izap_video->getOwnerEntity();
   if ($izap_video->imagesrc) {
     $icon = elgg_view_entity_icon($izap_video, 'medium');
-  } else {
-    $icon = elgg_view_entity_icon($owner, 'tiny');
   }
 
   $container = $izap_video->getContainerEntity();
@@ -141,7 +139,8 @@
     ));
   } else {
     // brief view
-
+    
+    $file_icon = elgg_view_entity_icon($izap_video, 'small');
     $params = array(
       'entity' => $izap_video,
       'metadata' => $metadata,
@@ -151,7 +150,7 @@
     $params = $params + $vars; //cho '<pre>'; print_R($params); 
     $list_body = elgg_view('object/elements/summary', $params);
 
-    echo elgg_view_image_block($icon, $list_body);
+    echo elgg_view_image_block($file_icon, $list_body);
   }
 ?>
 
