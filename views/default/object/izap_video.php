@@ -120,7 +120,7 @@
       $thumbnail_image = $get_image;
       $style = 'height:400px; width: 670px;border-radius:8px;';
     } else {
-      $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
+      $thumbnail_image = $IZAPSETTINGS->graphics . '/no_preview.jpg';
       $style = 'height:400px; width: 670px;background-color:black';
     }
 
