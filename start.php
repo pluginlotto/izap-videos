@@ -237,14 +237,14 @@
    * @return type
    */
   function izap_videos_set_icon_url($hook, $type, $url, $params) {
-    $file = $params['entity']; 
+    $file = $params['entity'];
     if (elgg_instanceof($file, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE) && $file->imagesrc) {
-          return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
-    }else{
+      return "mod/izap-videos/thumbnail.php?file_guid=$file->guid";
+    } else {
       global $IZAPSETTINGS;
-          $url = $IZAPSETTINGS->graphics . 'no_preview.jpg'; 
-          $url = elgg_trigger_plugin_hook('file:icon:url', 'override', $params, $url);
-          return $url;
+      $url = $IZAPSETTINGS->graphics . 'no_preview.jpg';
+      $url = elgg_trigger_plugin_hook('file:icon:url', 'override', $params, $url);
+      return $url;
     }
   }
 
