@@ -130,7 +130,7 @@
     $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'trans_play.png" class="play_icon"/></a>';
     if ($get_flv_file == 'false' && !($izap_video->videourl)) {
       $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
-      $content .= "<p class='video' style='display:none;background-color:black;'></p>";
+     // $content .= "<p class='video' style='display:none;background-color:black;'></p>";
     }
     $content .= '</div>';
 
