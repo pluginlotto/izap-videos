@@ -18,6 +18,7 @@
    */
 //echo dirname(dirname(dirname(dirname(__FILE__)))) . '/engine/start.php'; exit;
   include dirname(dirname(dirname(__FILE__))) . '/engine/start.php';
+
   class IzapVideoTest extends PHPUnit_Framework_TestCase {
 
     protected $obj;
@@ -32,9 +33,9 @@
     }
 
     /**
-     * test 
+     * test thumbnail
      */
-    public function testThumbnailFromValidVideoFormat() {
+    public function testThumbnailFromVideo() {
       // $izapvideo_obj = new IzapVideo();
       $source_path = dirname(__FILE__) . '/test_video.avi';
 
@@ -86,55 +87,55 @@
       $this->assertEquals($actual_path, $phppath);
     }
 
-    public function testSaveEntity() {
-      $izapvideo = new IzapVideo();
-      $izapvideo->title = 'Add new video';
-      $izapvideo->description = 'video';
-      //    $izapvideo->owner_guid = 77;
-      $izapvideo->access_id = 2;
-      $izapvideo->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
-
-      $md_name = 'test_metadata_name_' . rand();
-      $md_value = 'test_metadata_value_' . rand();
-
-      $izapvideo->$md_name = $md_value;
-      $izapvideo->save();
-
-      $options = array(
-        'type' => 'object',
-        'subtype' => $izapvideo->subtype,
-        'metadata_names' => $md_name,
-        'metadata_values' => $md_value
-      );
-
-      $entities = elgg_get_entities_from_metadata($options); 
-      $this->assertEquals(count($entities), 1);
-
-      foreach ($entities as $entity) { 
-        $this->assertEquals($entity->getGUID(), $izapvideo->getGUID());
-        $this->assertEquals($entity->$md_name, $md_value);
+    /**
+     * test create table for queue processing
+     */
+    public function testTableForQueueExistence() {
+      global $CONFIG;
+      $queue_file = $CONFIG->dataroot . 'izap_queue.db';
+      if (file_exists($queue_file)) {
+        $this->assertFileExists($queue_file);
+      } else {
+        $izap_queue = new izapQueue();
+        $this->assertFileExists($queue_file);
       }
-
-       $izapvideo->delete();
     }
 
-    public function testQueue() {
-      $izapvideo = new IzapVideo();
-      $izapvideo->title = 'Add new video';
-      $izapvideo->owner_guid = 77;
-      $izapvideo->guid = '';
-      $izapvideo->save();
-      // $guid = $izapvideo->getGUID();
-
-      $izapqueue = new izapQueue();
-      $file = dirname(__FILE__) . '/test_video.avi';
-      $izapqueue->put($izapvideo, $file, 2);
-
-      $count = $izapqueue->get();
-      print_r($count);
-      exit;
-      //   $this->assertNotEmpty($izapqueue->get($guid));
-    }
-
+//    public function testSaveEntity() {
+//      $izapvideo = new IzapVideo();
+//      $izapvideo->title = 'Add new video';
+//      $izapvideo->description = 'video';
+//     // $izapvideo->owner_guid = 77;
+//      $izapvideo->access_id = 2;
+//      $izapvideo->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
+//
+//      if ($izapvideo->save()) {
+//        $get_guid = $izapvideo->getGUID();
+//        $entity = get_entity($get_guid); //echo '<pre>'; print_r($entity); exit;
+//        $this->assertEquals(count($entity), 1);
+//        $this->assertEquals($entity->guid, $izapvideo->getGUID());
+//        if($entity->delete()){
+//          echo 'delete entity'; exit;
+//        }
+//      }
+//    }
+//
+//    public function testQueue() {
+//      $izapvideo = new IzapVideo();
+//      $izapvideo->title = 'Add new video';
+//      $izapvideo->owner_guid = 77;
+//      $izapvideo->guid = '';
+//      $izapvideo->save();
+//      // $guid = $izapvideo->getGUID();
+//
+//      $izapqueue = new izapQueue();
+//      $file = dirname(__FILE__) . '/test_video.avi';
+//      $izapqueue->put($izapvideo, $file, 2);
+//
+//      $count = $izapqueue->get();
+//      print_r($count);
+//      exit;
+//      //   $this->assertNotEmpty($izapqueue->get($guid));
+//    }
   }
   
