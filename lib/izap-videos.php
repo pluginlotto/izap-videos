@@ -813,7 +813,7 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($video_data=array()) { print_r($video_data);exit;
+  function input($video_data=array()) { 
     global $IZAPSETTINGS;
     $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
     $curl = new IzapCurl();
