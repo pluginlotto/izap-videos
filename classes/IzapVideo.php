@@ -40,6 +40,62 @@
       return $setFileName;
     }
 
+    public function saveVideo($data = array()) {
+      foreach ($data as $key => $value) {
+        $this->$key = $value;
+      }
+// mark it as new vidoe if guid is not there yet
+      if ($this->guid == 0) {
+        $new = true;
+      }
+
+      if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver') {
+        switch ($this->videoprocess) {
+          case 'offserver':
+            include_once  (dirname(dirname(__FILE__)) .'/actions/izap-videos/offserver.php');
+            $saved = $this->save();
+            break;
+          case 'youtube':
+
+            break;
+          case 'onserver':
+            include_once  (dirname(dirname(__FILE__)) .'/actions/izap-videos/onserver.php');
+
+            //before start converting
+            $this->converted = 'no';
+            if ($saved = $this->save()) {
+              $get_guid = $this->getGUID();
+              $get_entity = get_entity($get_guid);
+
+              if (file_exists($get_entity->videofile)) {
+                $this->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
+                izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $this);
+
+                //after converting video 
+                $this->converted = 'yes';
+//                $this->access_id = $access_id;
+                $saved = $this->save();
+              }
+            }
+            break;
+        }
+        //create river if new entity
+        if ($new == true) {
+          elgg_create_river_item(array(
+            'view' => 'river/object/izap_video/create',
+            'action_type' => 'create',
+            'subject_guid' => elgg_get_logged_in_user_guid(),
+            'object_guid' => $this->getGUID(),
+          ));
+        }
+        elgg_clear_sticky_form('izap_videos');
+        system_messages(elgg_echo('izap-videos:Save:success'));
+      } else {
+        $saved = $this->save();
+      }
+      return $saved;
+    }
+
     /**
      * process upload file
      * @param type $file
@@ -49,32 +105,32 @@
       $returnvalue = new stdClass();
 
       $filename = $file['name'];
-      $tmpname =  $file['tmp_name']; 
+      $tmpname = $file['tmp_name'];
       $file_err = $file['error'];
       $file_type = $file['type'];
       $file_size = $file['size'];
 
-      if ($file_err > 0) { 
+      if ($file_err > 0) {
         return 104;
       }
 
       // if file is of zero size
-      if ($file_size == 0) { 
+      if ($file_size == 0) {
         return 105;
       }
-      $returnvalue->videotype = $file_type; 
-      $set_video_name = $this->get_tmp_path(time() . $filename); 
+      $returnvalue->videotype = $file_type;
+      $set_video_name = $this->get_tmp_path(time() . $filename);
       $this->setFilename($set_video_name);
       $this->open("write");
       $this->write(file_get_contents($tmpname));
       $returnvalue->videofile = $this->getFilenameOnFilestore();
 
       // take snapshot from video
-      $image = new izapConvert($returnvalue->videofile);  
-      if ($image->get_thumbnail_from_video()) { 
-        $retValues = $image->getValues(TRUE); 
-        if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') { 
-          $set_original_thumbnail = $this->get_tmp_path('original_' . $retValues['imagename']); 
+      $image = new izapConvert($returnvalue->videofile);
+      if ($image->get_thumbnail_from_video()) {
+        $retValues = $image->getValues(TRUE);
+        if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
+          $set_original_thumbnail = $this->get_tmp_path('original_' . $retValues['imagename']);
           $this->setFilename($set_original_thumbnail);
           $this->open("write");
           if ($this->write($retValues['imagecontent'])) {
@@ -86,7 +142,7 @@
             $this->open("write");
             $this->write($thumb);
 
-           // $this->close();
+            // $this->close();
             $returnvalue->orignal_thumb = $set_original_thumbnail;
             $returnvalue->thumb = $set_thumb;
           }

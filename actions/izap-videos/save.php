@@ -18,7 +18,7 @@
    */
 
 //maintain input field values if saving fails
-  
+
   elgg_make_sticky_form('izap_videos');
 
   elgg_load_library('elgg:izap_video');
@@ -61,9 +61,6 @@
 
   if ($guid == 0) {
     $izap_videos = new IzapVideo();
-    $izap_videos->subtype = "izap_video";
-    $izap_videos->container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
-    $new = true;
   } else {
     $entity = get_entity($guid);
     if (elgg_instanceof($entity, 'object', 'izap_video') && $entity->canEdit()) {
@@ -73,62 +70,18 @@
       forward(get_input('forward', REFERER));
     }
   }
+  $data = array(
+    'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+    'title' => $title,
+    'description' => $description,
+    'access_id' => $access_id,
+    'container_guid' => $container_guid,
+    'tags' => string_to_tag_array($tags),
+    'videourl' => $video_url,
+    'videoprocess' => $page_url,
+  );
 
-//$izap_videos = new IzapVideo();
-  $izap_videos->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
-  $izap_videos->title = $title;
-  $izap_videos->description = $description;
-  $izap_videos->getOwnerGUID();
-  $izap_videos->access_id = $access_id;
-  $izap_videos->container_guid = $container_guid;
-  $izap_videos->tags = string_to_tag_array($tags);
-  $izap_videos->videourl = $video_url;
-  $izap_videos->videoprocess = $page_url;
-
-  if ($page_url == 'offserver' || $page_url == 'onserver') {
-    switch ($page_url) {
-      case 'offserver':
-        include_once (dirname(__FILE__) . '/offserver.php');
-        $izap_videos->save();
-        break;
-      case 'youtube':
-
-        break;
-      case 'onserver':
-        include_once (dirname(__FILE__) . '/onserver.php');
-
-        //before start converting
-        $izap_videos->converted = 'no';
-        if ($izap_videos->save()) {
-          $get_guid = $izap_videos->getGUID();
-          $get_entity = get_entity($get_guid);
-
-          if (file_exists($get_entity->videofile)) {
-            $izap_videos->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
-            izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $izap_videos);
-
-            //after converting video 
-            $izap_videos->converted = 'yes';
-            $izap_videos->access_id = $access_id;
-            $izap_videos->save();
-          }
-        }
-        break;
-    }
-    //create river if new entity
-    if ($new == true) {
-      elgg_create_river_item(array(
-        'view' => 'river/object/izap_video/create',
-        'action_type' => 'create',
-        'subject_guid' => elgg_get_logged_in_user_guid(),
-        'object_guid' => $izap_videos->getGUID(),
-      ));
-    }
-    elgg_clear_sticky_form('izap_videos');
-    system_messages(elgg_echo('izap-videos:Save:success'));
+  if ($izap_videos->saveVideo($data)) {
     forward($izap_videos->getURL());
-  } else {
-    if ($izap_videos->save()) {
-      forward($izap_videos->getURL());
-    }
   }
+  
