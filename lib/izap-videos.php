@@ -632,7 +632,7 @@
       return false;
     }
     $queue = new izapQueue();
-    $queue->put($video, $file, $defined_access_id);
+    $queue->put($video, $file, $defined_access_id,$izapvideo->getURL());
 
     //set state processing for video
     $izapvideo->converted = 'in_processing';

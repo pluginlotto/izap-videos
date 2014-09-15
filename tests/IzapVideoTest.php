@@ -33,7 +33,7 @@
     }
 
     /**
-     * test thumbnail
+     * test thumbnail process
      */
     public function testThumbnailFromVideo() {
       // $izapvideo_obj = new IzapVideo();
@@ -67,13 +67,28 @@
       $this->assertEquals($actual_dbcmd, $thumbnail_cmd);
     }
 
+    /**
+     * test video-conversion process
+     */
     public function testValidVideoTypeConversion() {
       $file = dirname(__FILE__) . '/test_video.avi';
-      $izapconvert_obj = new izapConvert($file);
-      $videofile = $izapconvert_obj->izap_video_convert();
-      $this->assertFileExists(dirname(__FILE__) . '/test_video_c.flv');
+      $izap_video = new IzapVideo();
+      $set_video_name = $izap_video->get_tmp_path(time() . 'test_video.avi');
+      $izap_video->owner_guid = 77;
+      $izap_video->setFilename($set_video_name);
+      $izap_video->open("write");
+      $izap_video->write(file_get_contents($file));
+      $videofile = $izap_video->getFilenameOnFilestore();
+
+      $izapconvert_obj = new izapConvert($videofile);
+      $converted_videofile = $izapconvert_obj->izap_video_convert();
+      $convertedvideo_path = preg_replace('/\\.[^.\\s]{3,4}$/', '', $videofile) . '_c.flv';
+      $this->assertFileExists($convertedvideo_path);
     }
 
+    /**
+     * test process when video format is not supported
+     */
     public function testInvalidVideoFormat() {
       $file = dirname(__FILE__) . '/test.odt';
       $izapconvert_obj = new izapConvert($file);
@@ -101,41 +116,31 @@
       }
     }
 
-//    public function testSaveEntity() {
-//      $izapvideo = new IzapVideo();
-//      $izapvideo->title = 'Add new video';
-//      $izapvideo->description = 'video';
-//     // $izapvideo->owner_guid = 77;
-//      $izapvideo->access_id = 2;
-//      $izapvideo->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
-//
-//      if ($izapvideo->save()) {
-//        $get_guid = $izapvideo->getGUID();
-//        $entity = get_entity($get_guid); //echo '<pre>'; print_r($entity); exit;
-//        $this->assertEquals(count($entity), 1);
-//        $this->assertEquals($entity->guid, $izapvideo->getGUID());
-//        if($entity->delete()){
-//          echo 'delete entity'; exit;
-//        }
-//      }
-//    }
-//
-//    public function testQueue() {
-//      $izapvideo = new IzapVideo();
-//      $izapvideo->title = 'Add new video';
-//      $izapvideo->owner_guid = 77;
-//      $izapvideo->guid = '';
-//      $izapvideo->save();
-//      // $guid = $izapvideo->getGUID();
-//
-//      $izapqueue = new izapQueue();
-//      $file = dirname(__FILE__) . '/test_video.avi';
-//      $izapqueue->put($izapvideo, $file, 2);
-//
-//      $count = $izapqueue->get();
-//      print_r($count);
-//      exit;
-//      //   $this->assertNotEmpty($izapqueue->get($guid));
-//    }
+    /**
+     * test process for save video in queue 
+     */
+    public function testQueue() {
+      $izapvideo = new IzapVideo();
+      $izapvideo->title = 'Add new video';
+      $izapvideo->description = 'video';
+      $izapvideo->access_id = 2;
+      $izapvideo->save();
+      $guid = $izapvideo->getGUID();
+      $izapvideo->guid = $guid;
+
+      $izapqueue = new izapQueue();
+      $file = dirname(__FILE__) . '/test_video.avi';
+   //   $izapvideo->owner_guid = 77;
+      $izapqueue->put($izapvideo, $file, 2, '');
+
+      $count = $izapqueue->get($izapvideo->guid);
+      $this->assertEquals(count($count), 1);
+      $izapqueue->delete($izapvideo->guid);
+      
+      //$izapvideo = get_entity($guid);
+      $izapvideo->owner_guid = 77;
+      var_dump($izapvideo->delete($guid));
+    }
+
   }
   
