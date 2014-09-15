@@ -18,6 +18,7 @@
    */
 //echo dirname(dirname(dirname(dirname(__FILE__)))) . '/engine/start.php'; exit;
   include dirname(dirname(dirname(__FILE__))) . '/engine/start.php';
+
   class IzapVideoTest extends PHPUnit_Framework_TestCase {
 
     protected $obj;
@@ -32,9 +33,9 @@
     }
 
     /**
-     * test 
+     * test thumbnail process
      */
-    public function testThumbnailFromValidVideoFormat() {
+    public function testThumbnailFromVideo() {
       // $izapvideo_obj = new IzapVideo();
       $source_path = dirname(__FILE__) . '/test_video.avi';
 
@@ -66,13 +67,28 @@
       $this->assertEquals($actual_dbcmd, $thumbnail_cmd);
     }
 
+    /**
+     * test video-conversion process
+     */
     public function testValidVideoTypeConversion() {
       $file = dirname(__FILE__) . '/test_video.avi';
-      $izapconvert_obj = new izapConvert($file);
-      $videofile = $izapconvert_obj->izap_video_convert();
-      $this->assertFileExists(dirname(__FILE__) . '/test_video_c.flv');
+      $izap_video = new IzapVideo();
+      $set_video_name = $izap_video->get_tmp_path(time() . 'test_video.avi');
+      $izap_video->owner_guid = 77;
+      $izap_video->setFilename($set_video_name);
+      $izap_video->open("write");
+      $izap_video->write(file_get_contents($file));
+      $videofile = $izap_video->getFilenameOnFilestore();
+
+      $izapconvert_obj = new izapConvert($videofile);
+      $converted_videofile = $izapconvert_obj->izap_video_convert();
+      $convertedvideo_path = preg_replace('/\\.[^.\\s]{3,4}$/', '', $videofile) . '_c.flv';
+      $this->assertFileExists($convertedvideo_path);
     }
 
+    /**
+     * test process when video format is not supported
+     */
     public function testInvalidVideoFormat() {
       $file = dirname(__FILE__) . '/test.odt';
       $izapconvert_obj = new izapConvert($file);
@@ -86,54 +102,44 @@
       $this->assertEquals($actual_path, $phppath);
     }
 
-    public function testSaveEntity() {
-      $izapvideo = new IzapVideo();
-      $izapvideo->title = 'Add new video';
-      $izapvideo->description = 'video';
-      //    $izapvideo->owner_guid = 77;
-      $izapvideo->access_id = 2;
-      $izapvideo->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
-
-      $md_name = 'test_metadata_name_' . rand();
-      $md_value = 'test_metadata_value_' . rand();
-
-      $izapvideo->$md_name = $md_value;
-      $izapvideo->save();
-
-      $options = array(
-        'type' => 'object',
-        'subtype' => $izapvideo->subtype,
-        'metadata_names' => $md_name,
-        'metadata_values' => $md_value
-      );
-
-      $entities = elgg_get_entities_from_metadata($options); 
-      $this->assertEquals(count($entities), 1);
-
-      foreach ($entities as $entity) { 
-        $this->assertEquals($entity->getGUID(), $izapvideo->getGUID());
-        $this->assertEquals($entity->$md_name, $md_value);
+    /**
+     * test create table for queue processing
+     */
+    public function testTableForQueueExistence() {
+      global $CONFIG;
+      $queue_file = $CONFIG->dataroot . 'izap_queue.db';
+      if (file_exists($queue_file)) {
+        $this->assertFileExists($queue_file);
+      } else {
+        $izap_queue = new izapQueue();
+        $this->assertFileExists($queue_file);
       }
-
-       $izapvideo->delete();
     }
 
+    /**
+     * test process for save video in queue 
+     */
     public function testQueue() {
       $izapvideo = new IzapVideo();
       $izapvideo->title = 'Add new video';
-      $izapvideo->owner_guid = 77;
-      $izapvideo->guid = '';
+      $izapvideo->description = 'video';
+      $izapvideo->access_id = 2;
       $izapvideo->save();
-      // $guid = $izapvideo->getGUID();
+      $guid = $izapvideo->getGUID();
+      $izapvideo->guid = $guid;
 
       $izapqueue = new izapQueue();
       $file = dirname(__FILE__) . '/test_video.avi';
-      $izapqueue->put($izapvideo, $file, 2);
+   //   $izapvideo->owner_guid = 77;
+      $izapqueue->put($izapvideo, $file, 2, '');
 
-      $count = $izapqueue->get();
-      print_r($count);
-      exit;
-      //   $this->assertNotEmpty($izapqueue->get($guid));
+      $count = $izapqueue->get($izapvideo->guid);
+      $this->assertEquals(count($count), 1);
+      $izapqueue->delete($izapvideo->guid);
+      
+      //$izapvideo = get_entity($guid);
+      $izapvideo->owner_guid = 77;
+      var_dump($izapvideo->delete($guid));
     }
 
   }
