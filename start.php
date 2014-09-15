@@ -73,6 +73,7 @@
 
     //register hook handler
     elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_video_unit_tests');
+    elgg_register_plugin_hook_handler('unit_test', 'system', 'izap_offserver_unit_tests');
     //extend css
     elgg_extend_view('css/admin', 'izap-videos/admin_css');
 
@@ -204,6 +205,10 @@
    */
   function izap_video_unit_tests($hook, $type, $value, $params) {
     $path[] = dirname(__FILE__) . '/tests/IzapVideoTest.php';
+    return $path;
+  }
+  function izap_offserver_unit_tests($hook, $type, $value, $params) {
+    $path[] = dirname(__FILE__) . '/tests/VideoUnitTest.php';
     return $path;
   }
 

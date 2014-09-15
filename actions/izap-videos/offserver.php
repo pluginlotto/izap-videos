@@ -8,20 +8,20 @@
     register_error('Register API Key for offserver video');
     forward(REFERER);
   }
-  $videoValues = input($izap_videos->videourl, 'url');
-  $izap_videos->videosrc = $videoValues->videosrc;
-  $izap_videos->videotype = $videoValues->type;
-  $izap_videos->orignal_thumb = $izap_videos->get_tmp_path('original_' . $videoValues->filename);
-  $izap_videos->imagesrc = $izap_videos->get_tmp_path($videoValues->filename);
-  $izap_videos->videotype_site = $videoValues->domain;
-  $izap_videos->converted = 'yes';
-  $izap_videos->setFilename($izap_videos->orignal_thumb);
-  $izap_videos->open("write");
-  if ($izap_videos->write($videoValues->filecontent)) {
-    $thumb = get_resized_image_from_existing_file($izap_videos->getFilenameOnFilestore(), 120, 90);
-    $izap_videos->setFilename($izap_videos->imagesrc);
-    $izap_videos->open("write");
-    if (!$izap_videos->write($thumb)) {
+  $videoValues = input($this->videourl, 'url');
+  $this->videosrc = $videoValues->videosrc;
+  $this->videotype = $videoValues->type;
+  $this->orignal_thumb = $this->get_tmp_path('original_' . $videoValues->filename);
+  $this->imagesrc = $this->get_tmp_path($videoValues->filename);
+  $this->videotype_site = $videoValues->domain;
+  $this->converted = 'yes';
+  $this->setFilename($this->orignal_thumb);
+  $this->open("write");
+  if ($this->write($videoValues->filecontent)) {
+    $thumb = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
+    $this->setFilename($this->imagesrc);
+    $this->open("write");
+    if (!$this->write($thumb)) {
       register_error(elgg_echo('izap_videos:error:saving_thumb'));
     }
   } else {
