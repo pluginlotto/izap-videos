@@ -632,7 +632,7 @@
       return false;
     }
     $queue = new izapQueue();
-    $queue->put($video, $file, $defined_access_id,$izapvideo->getURL());
+    $queue->put($video, $file, $defined_access_id, $izapvideo->getURL());
 
     //set state processing for video
     $izapvideo->converted = 'in_processing';
@@ -787,7 +787,7 @@
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
     } else {
-      if ($get_flv_file == 'true') { 
+      if ($get_flv_file == 'true') {
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
@@ -796,9 +796,11 @@
             <param name='movie' value='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' >
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
-      } else {
-        echo '<p class="notConvertedWrapper" style="background-color: #FFC4C4;radius:8px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
-        $content = "<p class='video' style='display:none;background-color:black;'></p>";
+      } else { 
+        //echo '<p class="notConvertedWrapper" style="background-color:height:400px; black;radius:8px;">' . '</p>';
+        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "'.$height.'px";">
+             <div align="left" id="no_video" style="height:"'.$height.'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
+       </div>';
       }
     }
     echo $content;
@@ -813,9 +815,9 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($video_data=array()) { 
+  function input($video_data = array()) {
     global $IZAPSETTINGS;
-    $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
+    $url = $IZAPSETTINGS->apiUrl . '&url = ' . urlencode($video_data['url']);
     $curl = new IzapCurl();
     $raw_contents = $curl->get($url)->body;
     $returnObject = json_decode($raw_contents);
@@ -829,8 +831,8 @@
       return $returnObject;
     }
     $obj = new stdClass;
-    $obj->title = $video_data['title'] ? $video_data['title'] :$returnObject->title;
-    $obj->description = $video_data['description'] ? $video_data['description'] :$returnObject->description;
+    $obj->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
+    $obj->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
     $obj->videothumbnail = $returnObject->thumb_url;
     $obj->videosrc = $returnObject->embed_code;
     $obj->videotags = $returnObject->tags;
@@ -841,8 +843,8 @@
     return $obj;
   }
 
-  function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) { 
-    $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
+  function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
+    $videodiv = preg_replace('/width = ["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
     $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
     $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
     $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
