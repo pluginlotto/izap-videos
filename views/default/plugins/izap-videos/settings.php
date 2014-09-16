@@ -74,7 +74,7 @@
   <?php
     $saved_data = elgg_get_plugin_setting('Youtube_Developer_Key', 'izap-videos');
     echo elgg_view('input/text', array(
-      'name' => 'params[Youtube_Developer_Key]',
+      'name' => 'params[youtubeDeveloperKey]',
       'value' => $saved_data ? $saved_data : ""
     ));
   ?>
@@ -177,7 +177,7 @@
       <?php
       $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
       echo elgg_view('input/text', array(
-        'name' => 'params[Izap_Api_Key]',
+        'name' => 'params[izap_api_key]',
         'value' => $saved_data ? $saved_data : ""
       ));
       ?>
