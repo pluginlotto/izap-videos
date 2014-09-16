@@ -782,7 +782,7 @@
 
     if ($entity->videourl) {
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
-        $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
+        $content = izapGetReplacedHeightWidth_izap_videos($height,$width, $entity->videosrc);
       } else {
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
@@ -844,7 +844,7 @@
   }
 
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
-    $videodiv = preg_replace('/width = ["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
+    $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
     $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
     $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
     $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
