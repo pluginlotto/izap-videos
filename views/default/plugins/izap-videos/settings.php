@@ -165,7 +165,7 @@
       <?php
       $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
       echo elgg_view('input/text', array(
-        'name' => 'params[Izap_Api_Key]',
+        'name' => 'params[izap_api_key]',
         'value' => $saved_data ? $saved_data : ""
       ));
       ?>
