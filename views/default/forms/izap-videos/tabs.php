@@ -27,7 +27,7 @@
     );
   }elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
     $tabs['onserver'] = array(
-      'title' => elgg_echo('izap-videos:onserver'),
+      'title' => elgg_echo('izap-videos:youtube'),
       'url' => "$url/add/" . elgg_get_logged_in_user_guid() . '/youtube',
       'selected' => ($get_type == 'youtube'),
     );
