@@ -816,10 +816,10 @@
   }
 
   function input($video_data = array()) {
-    global $IZAPSETTINGS;
-    $url = $IZAPSETTINGS->apiUrl . '&url = ' . urlencode($video_data['url']);
+    global $IZAPSETTINGS; 
+    $url = $IZAPSETTINGS->apiUrl . '&url=' . $video_data['url']; 
     $curl = new IzapCurl();
-    $raw_contents = $curl->get($url)->body;
+    $raw_contents = $curl->get($url)->body; 
     $returnObject = json_decode($raw_contents);
     if ($returnObject == NULL || $returnObject == FALSE) {
       register_error(elgg_echo('izap_videos:no_response_from_server'));
