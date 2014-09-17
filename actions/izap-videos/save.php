@@ -33,33 +33,6 @@
   $page_url = end(explode('/', get_input('page_url')));
   $youtube_cat = get_input("youtube_cats");
 
-//check video url exist in case of offserver
-//if ($page_url == 'offserver') {
-//  if (!$video_url) {
-//    register_error(elgg_echo('izap-videos_videourl:save:failed'));
-//    forward(REFERER);
-//  }
-//  if (!filter_var($video_url, FILTER_VALIDATE_URL)) {
-//    register_error(elgg_echo('izap-videos_invalidvideourl:save:failed'));
-//    forward(REFERER);
-//  }
-//} else {
-//  if ($_FILES['upload_video']['size'] == 0) {
-//    register_error(elgg_echo('izap-videos_uploadVideo:save:failed'));
-//    forward(REFERER);
-//  }
-//
-//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_video']['name']))), array('avi', 'flv', '3gp', 'mp4', 'wmv', 'mpg', 'mpeg'))) {
-//    register_error(elgg_echo('izap-videos_invalidformat:save:failed'));
-//    forward(REFERER);
-//  }
-//  if (!in_array(strtolower(end(explode('.', $_FILES['upload_thumbnail']['name']))), array('jpg', 'png', 'gif'))) {
-//    register_error(elgg_echo('izap-videos_image_invalidformat:save:failed'));
-//    forward(REFERER);
-//  }
-//}
-
-
   if ($guid == 0) {
     $izap_videos = new IzapVideo();
   } else {

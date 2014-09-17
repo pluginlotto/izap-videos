@@ -26,7 +26,6 @@
     forward($_SERVER['HTTP_REFERER']);
     exit;
   }
-//echo '<pre>'; print_r($return_value); exit;
   $this->access_id = 0;
   $this->videotype = $return_value->videotype;
   if ($return_value->videofile) {

@@ -110,8 +110,11 @@
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
-
-    $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
+    if (getFileExtension($izap_video->videofile) == 'flv') { 
+      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
+    }else{ 
+      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
+    }
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->imagesrc) {

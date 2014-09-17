@@ -16,9 +16,9 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
-  /**
+  /*
    * izap-video add new video form
-   *///echo "<pre>";print_r($vars);exit;
+   */
   
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
@@ -142,111 +142,58 @@
   }
 ?>
 <script>
-    $(document).ready(function() {
-      $('form[name = video_upload]').validate({
-        rules: {
-          title: {
-            required: true,
-          },
-          video_url: {
-            required: true,
-            url: true,
-          },
-          upload_video: {
-            required: true
-          },
+  $(document).ready(function() {
+    $('form[name = video_upload]').validate({
+      rules: {
+        title: {
+          required: true,
         },
-        messages: {
-          title: {
-            required: "Please Enter Title",
-          },
-          video_url: {
-            required: "Please Enter Video Url",
-            url: "Enter Valid Url"
-          },
-          upload_video: {
-            required: "Please select video to upload"
-          },
-        }
-      });
-    });
-
-    $('input[name = upload_video]').change(function() {
-      var video_type = $('input[name = upload_video]').val();
-      var get_ext = video_type.split('.');
-      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
-      if (izap == "invalidate") {
-        $('#error').html("Invalid video format");
-        document.getElementById("upload_button").disabled = true;
-      } else {
-        $('#error').html("");
-        document.getElementById("upload_button").disabled = false;
+        video_url: {
+          required: true,
+          url: true,
+        },
+        upload_video: {
+          required: true
+        },
+      },
+      messages: {
+        title: {
+          required: "Please Enter Title",
+        },
+        video_url: {
+          required: "Please Enter Video Url",
+          url: "Enter Valid Url"
+        },
+        upload_video: {
+          required: "Please select video to upload"
+        },
       }
     });
-    $('form[name = video_upload]').submit(function() {
-      if ($('form[name = video_upload]').validate().form()) {
-      }
-    });
-
-    //Video Preview Start Here 
-    $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
-      .on('loading', function() { 
-        $(this).prop('disabled', true);
-//        $('form .button').html('<i class="icon-spinner icon-spin"></i>');
-      })
-      .on('loaded', function() { 
-        $(this).prop('disabled', false);
-//        $('form .button').text('Share');
-      })
-
-//    $('form .button').on('click', function() {
-//      url = $("#id_url").val();
-//      if (url) {
-//        regex = /\bhttps?:\/\/[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|\/))/g;
-//        var patt = new RegExp(regex);
-//        valid = Boolean(url.match(regex));
-//        if (valid == true) {
-//          $('#preview_form').trigger('submit')
-//        }
-//      }
-//    });
-
-//    $('#preview_form').on('submit', function() { console.log("mmmmmmmmmmmmmmmmmmm");
-//      // Preview data.
-//      if ($("#id_url").val()) {
-//        var preview = $('#id_url').data('preview');
-//        // add the preview data to the form if you are into that sort of thing.
-//        $('#preview_form').addInputs(preview,
-//          ['title', 'description', 'thumbnail_url',
-//            'favicon_url', 'provider_name', 'provider_url', 'html']);
-//        // Close the selector
-//        $('#id_url').trigger('close');
-//        $('#id_url').val('');
-//        // Create a post using mustache, i.e. the nice way.
-//        var template = [
-//          '<div class="large-12 columns story-wrapper">',
-//          '<div class="row">',
-//          '<div class="large-8 columns">',
-//          '<div class="large-12 columns story-container">',
-//          '<div class="large-5 columns"style="padding: 0px 0px;">',
-//          '<img class="thumb" src="{{thumbnail_url}}"></img>',
-//          '</div>',
-//          '<div class="large-7 columns"style="padding: 10px 10px;">',
-//          '<a href="{{original_url}}">{{title}}</a>',
-//          '<p>{{description}}</p>',
-//          '</div>',
-//          '</div>',
-//          '</div>',
-//          '</div>'].join('');
-//        html = Mustache.to_html(template, preview);
-//        $('#feed').append(html);
-//        return false;
-//      }
-//    });
-//    $("form :input").on("keypress", function(e) {
-//      return e.keyCode != 13;
-//    });
-    //Video Preview End Here 
+  });
+  $('input[name = upload_video]').change(function() {
+    var video_type = $('input[name = upload_video]').val();
+    var get_ext = video_type.split('.');
+    var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
+    if (izap == "invalidate") {
+      $('#error').html("Invalid video format");
+      document.getElementById("upload_button").disabled = true;
+    } else {
+      $('#error').html("");
+      document.getElementById("upload_button").disabled = false;
+    }
+  });
+  $('form[name = video_upload]').submit(function() {
+    if ($('form[name = video_upload]').validate().form()) {
+    }
+  });
+  //Video Preview Start Here 
+  $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
+    .on('loading', function() { 
+      $(this).prop('disabled', true);
+    })
+    .on('loaded', function() { 
+      $(this).prop('disabled', false);
+    })
 </script>
 <style type="text/css">
   .error{
