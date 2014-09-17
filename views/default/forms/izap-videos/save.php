@@ -190,11 +190,11 @@
 
     //Video Preview Start Here 
     $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
-      .on('loading', function() { console.log("loading");
+      .on('loading', function() { 
         $(this).prop('disabled', true);
 //        $('form .button').html('<i class="icon-spinner icon-spin"></i>');
       })
-      .on('loaded', function() { console.log("loaded");
+      .on('loaded', function() { 
         $(this).prop('disabled', false);
 //        $('form .button').text('Share');
       })
