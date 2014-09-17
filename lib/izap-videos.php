@@ -899,7 +899,7 @@
   }
 
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
-      $videodiv = preg_replace('/width = ["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
+      $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
       $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
       $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
       $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
