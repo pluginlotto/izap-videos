@@ -68,18 +68,7 @@
   </label>
 </p>
 
-<div id="youtube-server">
-  <label>
-    <?php echo elgg_echo('Youtube Developer Key'); ?></label>
-  <?php
-    $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-    echo elgg_view('input/text', array(
-      'name' => 'params[youtubeDeveloperKey]',
-      'value' => $saved_data ? $saved_data : ""
-    ));
-  ?>
-</div>
-
+<!--Onserver and Youtube Settings Start Here-->
 <div>
   <label><?php echo elgg_echo('izap_videos:adminSettings:onServerVideos'); ?></label>
   <?php
@@ -101,6 +90,39 @@
   ?>
 </div>
 
+<?php $onserver_setting = elgg_get_plugin_setting('Onserver_enabled_izap_videos', 'izap-videos'); ?>
+<?php if ($onserver_setting == 'yes') { ?>
+  <div style="display: none;"></div>
+<?php } elseif ($onserver_setting == 'no') { ?>
+  <div style="display: none;"></div>
+<?php }elseif($onserver_setting == 'youtube'){?>
+  <div id="youtube_key_youtube">
+    <label>
+    <?php echo elgg_echo('Youtube Developer Key'); ?></label>
+    <?php
+    $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos'); 
+    echo elgg_view('input/text', array(
+      'name' => 'params[youtubeDeveloperKey]',
+      'value' => $saved_data ? $saved_data : ""
+    ));
+    ?>
+  </div>
+<?php } else{ ?>
+  <div id="youtube_key" style="display: none;">
+    <label>
+      <?php echo elgg_echo('Offserver API Key'); ?></label>
+    <?php
+    $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
+    echo elgg_view('input/text', array(
+      'name' => 'params[izap_api_key]',
+      'value' => $saved_data ? $saved_data : ""
+    ));
+    ?>
+  </div>
+<?php } ?>
+<!--Onserver and Youtube Settings End Here-->
+
+<!--Offserver Settings Start Here-->
 <div>
   <label>
     <?php echo elgg_echo('Offserver Video'); ?></label><br />
@@ -155,38 +177,33 @@
       ?>
     </div>
   <?php } ?>
+<!--Offserver Settings End Here-->
 
 <script type='text/javascript'>
     $(document).ready(function() {
-<?php
-  if ($get_server_value = (izap_is_onserver_enabled_izap_videos() == 'youtube')) {
-    echo "$('#" . izap_is_onserver_enabled_izap_videos() . "-server').show()";
-  } else {
-    ?>
-          $("#youtube-server").hide();
-  <?php } ?>
-//      $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
-//        var onserver_value = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
-//        if (onserver_value == 'yes') {
-//          //jQuery('#youtube_integration input:radio').prop("disabled", true);
-//          $("#youtube-server").hide();
-//        } else if (onserver_value == 'youtube') {
-//          // jQuery('#youtube_integration input:radio').prop("disabled", false);
-//          $("#youtube-server").show();
-//        } else if (onserver_value == 'no') {
-//          $("#youtube-server").hide();
-//        }
-//      });
-    });
-    $("#offserver_disable").on("click", function() { 
-      $("#offserver_key_yes").hide();
-      $("#offserver_key_no").hide();
-      $("#offserver_key").hide();
-    });
-    $("#offserver_enable").on("click", function() {
-      $("#offserver_key_yes").show();
-      $("#offserver_key_no").show();
-//      $("#offserver_key").show();
+      $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
+        var radio_input = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
+        if(radio_input == 'youtube'){ 
+          $("#youtube_key").show();
+          $("#youtube_key_youtube").show();
+        }else if(radio_input == 'yes'){
+          $("#youtube_key").hide();
+          $("#youtube_key_youtube").hide();
+        }else if(radio_input == 'no'){
+          $("#youtube_key").hide();
+          $("#youtube_key_youtube").hide();
+        }
+      });
+    
+      $("#offserver_disable").on("click", function() { 
+        $("#offserver_key_yes").hide();
+        $("#offserver_key_no").hide();
+        $("#offserver_key").hide();
+      });
+      $("#offserver_enable").on("click", function() {
+        $("#offserver_key_yes").show();
+        $("#offserver_key_no").show();
+      });
     });
 </script>
 
