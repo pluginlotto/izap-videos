@@ -117,8 +117,8 @@
       <input type="radio" name="params[Offserver_enabled_izap_videos]" value="yes" id="offserver_enable" checked> Yes <br />
       <input type="radio" name="params[Offserver_enabled_izap_videos]" value= 'no' id="offserver_disable"> No 
     <?php } ?>
-</div>
-<?php if ($offserver_setting == 'yes') { echo 'if';?>
+  </div>
+  <?php if ($offserver_setting == 'yes') { ?>
     <div id="offserver_key_yes">
       <label>
         <?php echo elgg_echo('Offserver API Key'); ?></label>
@@ -130,7 +130,7 @@
       ));
       ?>
     </div>
-  <?php } elseif ($offserver_setting == 'no') {  echo 'else if';?>
+  <?php } elseif ($offserver_setting == 'no') { ?>
     <div id="offserver_key_no" style="display: none;">
       <label>
         <?php echo elgg_echo('Offserver API Key'); ?></label>
@@ -142,7 +142,7 @@
       ));
       ?>
     </div>
-  <?php }else{  echo 'else';?>
+  <?php }else{ ?>
     <div id="offserver_key">
       <label>
         <?php echo elgg_echo('Offserver API Key'); ?></label>
