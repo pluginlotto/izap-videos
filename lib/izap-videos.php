@@ -780,7 +780,7 @@
   /**
    * read video file content
    */
-  function read_video_file() {
+  function read_video_file() { 
       $guid = (int) get_input('videoID');
       $entity = get_entity($guid);
       //echo $entity->videofile; exit;
@@ -791,15 +791,21 @@
           exit;
       }
 
-      if ($entity->videofile) {
-          $get_video_name = end(explode('/', $entity->videofile));
+      if ($entity->videofile) { 
+          $get_video_name = end(explode('/', $entity->videofile)); 
           $izapvideo_obj = new IzapVideo;
-          $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
-          $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
+          $set_video_name = $izapvideo_obj->get_tmp_path($get_video_name); 
+          if (getFileExtension($set_video_name) == 'flv') { 
+            $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '.flv';
+          }else{ 
+            $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
+          }
+//          $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
 
+         // echo $set_video_name; exit;
           $elggfile_obj = new ElggFile;
           $elggfile_obj->owner_guid = $entity->owner_guid;
-          $elggfile_obj->setFilename($set_video_name);
+          $elggfile_obj->setFilename($set_video_name); 
 
 //echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
 //echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
