@@ -31,6 +31,7 @@
   $tags = get_input("tags");
   $video_url = get_input("video_url");
   $page_url = end(explode('/', get_input('page_url')));
+  $youtube_cat = get_input("youtube_cats");
 
   if ($guid == 0) {
     $izap_videos = new IzapVideo();
@@ -52,6 +53,7 @@
     'tags' => string_to_tag_array($tags),
     'videourl' => $video_url,
     'videoprocess' => $page_url,
+    'youtube_cat' => $youtube_cat,
   );
 
   if ($izap_videos->saveVideo($data)) {
