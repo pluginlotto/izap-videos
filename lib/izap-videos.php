@@ -799,7 +799,7 @@
       } else { 
         //echo '<p class="notConvertedWrapper" style="background-color:height:400px; black;radius:8px;">' . '</p>';
         $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "'.$height.'px";">
-             <div align="left" id="no_video" style="height:"'.$height.'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
+             <div  id="no_video" style="height:"'.$height.'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
        </div>';
       }
     }
