@@ -841,13 +841,13 @@
     }else{ 
       $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
     }
-//    if ($entity->videourl) {
-//      if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
-//        $content = izapGetReplacedHeightWidth_izap_videos($height,$width, $entity->videosrc);
-//      } else {
-//        echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
-//      }
-//    } else {
+    if ($entity->videourl) {
+      if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
+        $content = izapGetReplacedHeightWidth_izap_videos($height,$width, $entity->videosrc);
+      } else {
+        echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
+      }
+    } else {
       if ($get_flv_file == 'true') {  
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
@@ -862,9 +862,8 @@
               $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
              <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
        </div>';
-          }
-//      }
-//    }
+      }
+    }
     echo $content;
     exit;
   }
@@ -906,7 +905,7 @@
   }
 
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
-      $videodiv = preg_replace('/width = ["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
+      $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
       $videodiv = preg_replace('/width:\d+/', 'width:' . $newWidth, $videodiv);
       $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
       $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
