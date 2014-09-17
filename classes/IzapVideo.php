@@ -48,15 +48,14 @@
       if ($this->guid == 0) {
         $new = true;
       }
-
-      if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver') {
+      if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {
         switch ($this->videoprocess) {
           case 'offserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
             $saved = $this->save();
             break;
           case 'youtube':
-
+              include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
