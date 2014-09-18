@@ -19,38 +19,37 @@
 
   
   $upload_video = $_FILES['upload_video'];
-  $return_value = $izap_videos->processfile($upload_video);
+  $return_value = $this->processfile($upload_video);
 
   if (!file_exists($return_value->videofile)) {
     register_error(elgg_echo('izap_videos:error:notUploaded'));
     forward($_SERVER['HTTP_REFERER']);
     exit;
   }
-//echo '<pre>'; print_r($return_value); exit;
-  $izap_videos->access_id = 0;
-  $izap_videos->videotype = $return_value->videotype;
+  $this->access_id = 0;
+  $this->videotype = $return_value->videotype;
   if ($return_value->videofile) {
-    $izap_videos->videofile = $return_value->videofile;
+    $this->videofile = $return_value->videofile;
   }
 
   if (empty($_FILES['upload_thumbnail']['name'])) {
     if ($return_value->thumb) { 
-      $izap_videos->orignal_thumb = $return_value->orignal_thumb;
-      $izap_videos->imagesrc = $return_value->thumb;
+      $this->orignal_thumb = $return_value->orignal_thumb;
+      $this->imagesrc = $return_value->thumb;
     }
   } else {
     if($_FILES['upload_thumbnail']['error'] == 0) {
-      $set_original_thumbnail = $izap_videos->get_tmp_path('original_' .$_FILES['upload_thumbnail']['name']);
-      $izap_videos->setFilename($set_original_thumbnail);
-      $izap_videos->open("write");
-      $izap_videos->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
+      $set_original_thumbnail = $this->get_tmp_path('original_' .$_FILES['upload_thumbnail']['name']);
+      $this->setFilename($set_original_thumbnail);
+      $this->open("write");
+      $this->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
 
       //set thumbnail size
-      $thumbnail = get_resized_image_from_existing_file($izap_videos->getFilenameOnFilestore(), 120, 90);
-      $set_thumb = $izap_videos->get_tmp_path($_FILES['upload_thumbnail']['name']);
-      $izap_videos->setFilename($set_thumb);
-      $izap_videos->open("write");
-      $izap_videos->write($thumbnail);
-      $izap_videos->imagesrc = $set_thumb;
+      $thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
+      $set_thumb = $this->get_tmp_path($_FILES['upload_thumbnail']['name']);
+      $this->setFilename($set_thumb);
+      $this->open("write");
+      $this->write($thumbnail);
+      $this->imagesrc = $set_thumb;
     }
   }
