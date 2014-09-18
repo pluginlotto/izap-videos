@@ -23,7 +23,7 @@
 
 
   $full = elgg_extract('full_view', $vars, FALSE);
-  $izap_video = elgg_extract('entity', $vars, FALSE); //echo $izap_video->access_id;
+  $izap_video = elgg_extract('entity', $vars, FALSE);
   if (!$izap_video) {
     return TRUE;
   }
@@ -37,7 +37,6 @@
   $categories = elgg_view('output/categories', $vars);
   $description = elgg_get_excerpt($izap_video->description);
 
-//$owner_icon = elgg_view_entity_icon($owner, 'tiny');
   $owner_link = elgg_view('output/url', array(
     'href' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/owner/$owner->username",
     'text' => $owner->name,
@@ -153,7 +152,7 @@
       'subtitle' => $subtitle,
       'content' => $description,
     );
-    $params = $params + $vars; //cho '<pre>'; print_R($params); 
+    $params = $params + $vars; 
     $list_body = elgg_view('object/elements/summary', $params);
 
     echo elgg_view_image_block($file_icon, $list_body);
