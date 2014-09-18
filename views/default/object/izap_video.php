@@ -106,6 +106,8 @@
       'metadata' => $metadata,
       'subtitle' => $subtitle,
     );
+    increaseViews($izap_video);
+    getViews($izap_video);
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
@@ -145,7 +147,9 @@
     ));
   } else {
     // brief view
+    $view_count = getViews($izap_video);
     $file_icon = elgg_view_entity_icon($izap_video, 'small');
+    $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
     $params = array(
       'entity' => $izap_video,
       'metadata' => $metadata,
@@ -154,7 +158,7 @@
     );
     $params = $params + $vars; 
     $list_body = elgg_view('object/elements/summary', $params);
-
+    
     echo elgg_view_image_block($file_icon, $list_body);
   }
 ?>
