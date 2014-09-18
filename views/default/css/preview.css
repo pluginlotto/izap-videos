@@ -60,11 +60,12 @@ transition: opacity 0.5s;
     top: 0px;
     left: 0px;
     width: 100px;
-    position: absolute;
     height: 16px;
     z-index: 1;
     background-color: #222;
-    opacity: 0.5; }
+    opacity: 1; 
+    float: left;
+}
 .thumb .controls .left, .thumb .controls .right, .thumb .controls .nothumb {
     display: block;
     position: absolute;

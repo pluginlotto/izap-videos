@@ -182,6 +182,10 @@
               elgg_gatekeeper(); //if user is not logged in then redirect user to login page
               $params = izap_video_get_page_content_youtube_upload($page_type, $page[1], $page[2]);
               break;
+          case 'preview':
+            elgg_gatekeeper();
+            preview();
+            break;
           default:
               return false;
       }
