@@ -151,8 +151,9 @@
       return $returnvalue;
     }
 
-    public function getURL() {
-      return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . elgg_get_logged_in_user_entity()->username . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
+    public function getURL() { 
+      $owner = $this->getOwnerEntity();
+      return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
     }
 
   }
