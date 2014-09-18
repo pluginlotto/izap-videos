@@ -19,7 +19,7 @@
   /*
    * izap-video add new video form
    */
-  
+
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
     echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -36,13 +36,13 @@
   if ($guid) {
     $file_label = elgg_echo("izap-videos:replace");
     $submit_label = elgg_echo('save');
-  } else { 
+  } else {
     $file_label = elgg_echo("izap-videos:file");
     $submit_label = elgg_echo('save');
   }
 ?>
 
-<?php
+  <?php
   $current_url = current_page_url();
   $upload_type = end(explode('/', $current_url));
   if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
@@ -53,7 +53,20 @@
         <?php echo elgg_view('input/text', array('name' => 'video_url', 'class' => 'xlarge', 'id' => 'id_url', 'placeholder' => 'Enter a URL')); ?>
       </div>
       <!-- Placeholder that tells Preview where to put the selector-->
-      <div class="selector-wrapper"></div>
+      <div class="selector-wrapper" id="off_preview" style="display:none;">
+        <div class="selector">
+            <div class="thumb">
+              <div class="controls">
+                <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
+              </div>
+            </div>
+            <div class="attributes">
+              <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
+              <?php echo elgg_view('input/longtext', array('name' => 'description', 'class' => 'description', 'id' => 'off_desc')); ?>
+            </div>
+          </div>
+       
+      </div>
 
     <?php } elseif ($upload_type == 'onserver') { ?>
 
@@ -136,64 +149,84 @@
     </div>
     <?php
   } else {
-    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/all';
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all';
     register_error(elgg_echo('izap-videos:message:noAddFeature'));
     forward($url);
   }
 ?>
 <script>
-  $(document).ready(function() {
-    $('form[name = video_upload]').validate({
-      rules: {
-        title: {
-          required: true,
+    $(document).ready(function() {
+      $('form[name = video_upload]').validate({
+        rules: {
+          title: {
+            required: true,
+          },
+          video_url: {
+            required: true,
+            url: true,
+          },
+          upload_video: {
+            required: true
+          },
         },
-        video_url: {
-          required: true,
-          url: true,
-        },
-        upload_video: {
-          required: true
-        },
-      },
-      messages: {
-        title: {
-          required: "Please Enter Title",
-        },
-        video_url: {
-          required: "Please Enter Video Url",
-          url: "Enter Valid Url"
-        },
-        upload_video: {
-          required: "Please select video to upload"
-        },
+        messages: {
+          title: {
+            required: "Please Enter Title",
+          },
+          video_url: {
+            required: "Please Enter Video Url",
+            url: "Enter Valid Url"
+          },
+          upload_video: {
+            required: "Please select video to upload"
+          },
+        }
+      });
+    });
+    $('input[name = upload_video]').change(function() {
+      var video_type = $('input[name = upload_video]').val();
+      var get_ext = video_type.split('.');
+      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
+      if (izap == "invalidate") {
+        $('#error').html("Invalid video format");
+        document.getElementById("upload_button").disabled = true;
+      } else {
+        $('#error').html("");
+        document.getElementById("upload_button").disabled = false;
       }
     });
-  });
-  $('input[name = upload_video]').change(function() {
-    var video_type = $('input[name = upload_video]').val();
-    var get_ext = video_type.split('.');
-    var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
-    if (izap == "invalidate") {
-      $('#error').html("Invalid video format");
-      document.getElementById("upload_button").disabled = true;
-    } else {
-      $('#error').html("");
-      document.getElementById("upload_button").disabled = false;
-    }
-  });
-  $('form[name = video_upload]').submit(function() {
-    if ($('form[name = video_upload]').validate().form()) {
-    }
-  });
-  //Video Preview Start Here 
-  $('#id_url').preview({key: '3569cb00d092409897e31a6637fc81dd'})
-    .on('loading', function() { 
-      $(this).prop('disabled', true);
-    })
-    .on('loaded', function() { 
-      $(this).prop('disabled', false);
-    })
+    $('form[name = video_upload]').submit(function() {
+      if ($('form[name = video_upload]').validate().form()) {
+      }
+    });
+    ;
+    //Video Preview Start Here 
+    $("#id_url").on('input', function() {
+      $.ajax({
+        type: 'POST',
+        url: '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>',
+        data: {url: $(this).val()},
+        success: function(msg) {
+          var obj = $.parseJSON(msg);
+          console.log(obj.description);
+          $("#off_preview").show();
+          $("#off_title").val(obj.title);
+          $("#off_desc").val(obj.description);
+          $('#off_thumb').attr('src',obj.thumbnail);
+//     console.log(obj.thumbnail);
+        }
+      });
+    });
+
+
+//  var current_domain = '<?php //echo base64_encode(strtolower($_SERVER['HTTP_HOST']));  ?>';
+//  $('#id_url').preview({key: '872fbac68e5758bdbefc8f5bcc2367a7',domain: current_domain})
+//    .on('loading', function() { 
+////      $(this).prop('disabled', true);
+//    })
+//    .on('loaded', function() { 
+//      $(this).prop('disabled', false);
+//    })
 </script>
 <style type="text/css">
   .error{
