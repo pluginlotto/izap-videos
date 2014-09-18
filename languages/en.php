@@ -22,7 +22,7 @@
 $english = array(
     'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
     'izap-videos_image_invalidformat:save:failed' => 'Invalid Image Type',
-    'item:object:izap_video' => 'Izap Videos',
+    'item:object:izap_video' => 'Videos',
     'item:object:izap-videos' => 'Izap Videos',  
     'izap-videos:youtube' => 'Youtube Videos',
     'izap-videos' => 'All Site Videos',  
