@@ -55,7 +55,7 @@
             $saved = $this->save();
             break;
           case 'youtube':
-              include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
+            include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
@@ -67,7 +67,7 @@
               $get_entity = get_entity($get_guid);
               if (file_exists($get_entity->videofile)) {
                 $this->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
-                if (getFileExtension($get_entity->videofile) != 'flv') { 
+                if (getFileExtension($get_entity->videofile) != 'flv') {
                   izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $this);
                 }
                 //after converting video 
@@ -149,6 +149,11 @@
         }
       }
       return $returnvalue;
+    }
+
+    public function getURL() { 
+      $owner = $this->getOwnerEntity();
+      return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
     }
 
   }

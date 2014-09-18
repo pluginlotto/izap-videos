@@ -164,11 +164,11 @@
           case 'icon':
               $params = izap_videos_read_content($page[1]);
               break;
-          case 'video': //full page video
+          case 'play': //full page video
               elgg_load_css('elgg:video_css');
               elgg_load_js('elgg:video_js');
               //  elgg_load_js('elgg:player');
-              $params = izap_read_video_file($page[1]);
+              $params = izap_read_video_file($page[2]);
               $params['filter'] = false;
               break;
           case 'viewvideo':    //load video by ajax
@@ -182,6 +182,10 @@
               elgg_gatekeeper(); //if user is not logged in then redirect user to login page
               $params = izap_video_get_page_content_youtube_upload($page_type, $page[1], $page[2]);
               break;
+          case 'preview':
+            elgg_gatekeeper();
+            preview();
+            break;
           default:
               return false;
       }
