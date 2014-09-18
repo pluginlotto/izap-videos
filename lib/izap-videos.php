@@ -876,7 +876,7 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($video_data = array()) { 
+  function input($video_data = array()) {
     global $IZAPSETTINGS;
     $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
     $curl = new IzapCurl();
@@ -910,6 +910,25 @@
     $videodiv = preg_replace('/height=["\']\d+["\']/', 'height="' . $newHeight . '"', $videodiv);
     $videodiv = preg_replace('/height:\d+/', 'height:' . $newHeight, $videodiv);
     return $videodiv;
+  }
+
+  /**
+   * Increment the views when user visits the page
+   * @param elggEntity $entity
+   */
+  function increaseViews($entity) {
+    if (is_object($entity)) {
+      $entity->total_views++;
+    }
+  }
+
+  /**
+   * gives the total number of views of the entity
+   * @param elggEntity $entity
+   * @return string
+   */
+  function getViews($entity) {
+    return (int) $entity->total_views;
   }
 
   function getYoutubeCategories() {
@@ -960,7 +979,8 @@
       'description' => $videoValues->description,
       'thumbnail' => $videoValues->videothumbnail
     );
-    echo json_encode($video_data);exit;
+    echo json_encode($video_data);
+    exit;
   }
 
   function setHref($input = array()) {
