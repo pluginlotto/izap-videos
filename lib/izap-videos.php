@@ -1005,7 +1005,6 @@
 
   function youtube_response() { 
     $id = get_input('id');
-//    $url = 'https://www.youtube.com/watch?v=eIho2S0ZahI';
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url
