@@ -1003,10 +1003,10 @@
     exit;
   }
 
-  function youtube_response() {
+  function youtube_response() { echo $id;exit;
     $id = get_input('id');
 //    $url = 'https://www.youtube.com/watch?v=eIho2S0ZahI';
-    $url = 'http://www.youtube.com/watch?v=' . $id;
+    $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url
     );
