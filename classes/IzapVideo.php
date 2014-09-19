@@ -40,7 +40,7 @@
       return $setFileName;
     }
 
-    public function saveVideo($data = array()) { echo "save function";exit;
+    public function saveVideo($data = array()) {
       foreach ($data as $key => $value) {
         $this->$key = $value;
       }
@@ -80,7 +80,7 @@
             }
             break;
           default:
-            $id = get_input('id');echo $id;exit;
+            $id = get_input('id'); echo "save function";echo $id;exit;
             $izap_videos->videourl = 'http://www.youtube.com/watch?v=' . $id;
             //handle youtube video upload when it get back to the same action.
             if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
