@@ -248,7 +248,7 @@
     try {
       $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
     } catch (Exception $e) {
-      t;
+      echo 'catch';exit;
       if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
         register_error('YouTube Error: ' . $matches[1]);
       } else {
@@ -296,7 +296,7 @@
     }
     $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/save?id=' . $id . '&p=' . $pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() .GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/youtube_response?id=' . $id . '&p=' . $pass));
     exit;
   }
 
@@ -1003,7 +1003,7 @@
     exit;
   }
 
-  function youtube_response() { echo $id;exit;
+  function youtube_response() { 
     $id = get_input('id');
 //    $url = 'https://www.youtube.com/watch?v=eIho2S0ZahI';
     $url = 'https://www.youtube.com/watch?v=' . $id;

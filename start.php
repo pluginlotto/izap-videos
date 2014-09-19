@@ -190,7 +190,7 @@
             elgg_gatekeeper();
             preview();
             break;
-          case 'youtube_response':
+          case 'youtube_response': 
             elgg_gatekeeper();
             youtube_response();
             break;
