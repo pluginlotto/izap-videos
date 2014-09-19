@@ -262,7 +262,7 @@
       )));
     }
     $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . 'next';
+    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next';
     elgg_push_breadcrumb(elgg_echo('upload'));
 
     $form_vars = array(
