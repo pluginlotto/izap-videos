@@ -294,7 +294,7 @@
 //      )));
       exit;
     }
-    $id = get_input('id');echo $id;exit;
+    $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
     forward(elgg_add_action_tokens_to_url(elgg_get_site_url() .'action/izap-videos/save?id=' . $id . '&p=' . $pass));
     exit;
