@@ -173,8 +173,8 @@
 
     public function saveYouTubeVideoData($url) {
       $videoValues = input($url,$this); 
-      $this->videosrc = $this->videosrc;
-      $this->videotype = $this->type;
+//      $this->videosrc = $this->videosrc;
+//      $this->videotype = $this->type;
       $this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
       $this->imagesrc = $this->get_tmp_path($this->filename);
       $this->videotype_site = $this->domain;

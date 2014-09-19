@@ -1005,13 +1005,15 @@
 
   function youtube_response() {
     $id = get_input('id');
-    $url = 'https://www.youtube.com/watch?v=eIho2S0ZahI';
-//    $url = 'http://www.youtube.com/watch?v=' . $id;
+//    $url = 'https://www.youtube.com/watch?v=eIho2S0ZahI';
+    $url = 'http://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url
     );
     $izap_video = new IzapVideo();
+    $izap_video->videourl = $url;
     $izap_video->saveYouTubeVideoData($video_data);
+   
     if ($izap_video->save()) {
       forward($izap_video->getURL());
     }
