@@ -79,6 +79,17 @@
               }
             }
             break;
+          default:
+            $id = get_input('id');
+            $izap_videos->videourl = 'http://www.youtube.com/watch?v=' . $id;
+            //handle youtube video upload when it get back to the same action.
+            if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
+              register_error(elgg_echo('izap_videos:error:notValidUrl'));
+              forward(REFERRER);
+              exit;
+            }
+            include_once (dirname(__FILE__) . '/offserver.php');
+            break;
         }
         //create river if new entity
         if ($new == true) {
@@ -152,7 +163,7 @@
       return $returnvalue;
     }
 
-    public function getURL() { 
+    public function getURL() {
       $owner = $this->getOwnerEntity();
       return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
     }
