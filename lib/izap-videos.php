@@ -233,8 +233,8 @@
     $return = array(
       'filter' => '',
     );
-//      $form_vars = array();
-//      $sidebar = '';
+    $form_vars = array();
+    $params = array();
     $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
     $yt = $video->YoutubeObject();
     $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
@@ -242,14 +242,13 @@
     $myVideoEntry->setVideoDescription($_SESSION['youtube_attributes']['description']);
 
     // Note that category must be a valid YouTube category
-    $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']['youtube_cats']);
-    $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']['tags']);
+    $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
+    $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']->tags);
     $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
     try {
       $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
     } catch (Exception $e) {
-      echo "catch";
-      exit;
+      t;
       if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
         register_error('YouTube Error: ' . $matches[1]);
       } else {
@@ -263,18 +262,42 @@
       )));
     }
     $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . 'videos/next';
+    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . 'next';
     elgg_push_breadcrumb(elgg_echo('upload'));
-    $body_vars = izap_videos_prepare_form_vars($params);
 
-    $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
+    $form_vars = array(
+      'enctype' => 'multipart/form-data',
+      'name' => 'video_upload',
+      'action' => $params['action'],
+      'id' => 'izap-video-form',
+    );
     $title = elgg_echo('Upload video with title: "' . $_SESSION['youtube_attributes']['title'] . '"');
-    $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $body_vars);
-//      $return['title'] = $title;
+    $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $params);
+    $return['title'] = $title;
     $return['content'] = $content;
-//      $return['sidebar'] = $sidebar;
 
     return $return;
+  }
+
+  function izap_video_get_page_content_youtube_next() {
+    $is_status = (get_input('status') == 200) ? true : false;
+    if (!$is_status) {
+      // redirect the user from where he was trying to upload the video.
+      register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
+      forward(IzapBase::setHref(array(
+          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+          'action' => 'add',
+          'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+          'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
+              ($onserver == 'yes') ? 'onserver' : 'youtube' :
+              'offserver'),
+      )));
+      exit;
+    }
+    $id = get_input('id');
+    $pass = '%kdkdhSw*jdksl';
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id . '&p=' . $pass));
+    exit;
   }
 
   /**
