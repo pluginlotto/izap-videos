@@ -80,7 +80,7 @@
             }
             break;
           default:
-            $id = get_input('id');
+            $id = get_input('id');echo $id;exit;
             $izap_videos->videourl = 'http://www.youtube.com/watch?v=' . $id;
             //handle youtube video upload when it get back to the same action.
             if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
