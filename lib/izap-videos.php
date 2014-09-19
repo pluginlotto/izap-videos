@@ -296,7 +296,7 @@
     }
     $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/play?id=' . $id . '&p=' . $pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/add?id=' . $id . '&p=' . $pass));
     exit;
   }
 

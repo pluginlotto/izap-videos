@@ -56,6 +56,7 @@
             break;
           case 'youtube':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
+            forward(REFERRER);
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
