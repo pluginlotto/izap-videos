@@ -212,3 +212,22 @@ html[xmlns] .clearfix {
 
 * html .clearfix {
     height: 1%; }
+
+// For Total Views - Start
+.elgg-subtext {
+	color: #666666;
+	font-size: 85%;
+	line-height: 1.2em;
+	font-style: italic;
+}
+.main_page_total_views{
+  float:right;
+  margin-right: 2px;
+  background-color:#c2daef;
+  padding-top:7px;
+  padding-bottom:7px;
+  padding-left:10px;
+  padding-right:10px;
+  color:#26455f;
+}
+// For Total Views - End
