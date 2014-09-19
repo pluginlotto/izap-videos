@@ -40,7 +40,7 @@
       return $setFileName;
     }
 
-    public function saveVideo($data = array()) {
+    public function saveVideo($data = array()) { echo "save function";exit;
       foreach ($data as $key => $value) {
         $this->$key = $value;
       }

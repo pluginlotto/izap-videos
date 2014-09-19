@@ -284,17 +284,17 @@
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
-//      forward(setHref(array(
-//          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-//          'action' => 'add',
-//          'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
-//          'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
-//              ($onserver == 'yes') ? 'onserver' : 'youtube' :
-//              'offserver'),
-//      )));
+      forward(setHref(array(
+          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+          'action' => 'add',
+          'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+          'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
+              ($onserver == 'yes') ? 'onserver' : 'youtube' :
+              'offserver'),
+      )));
       exit;
     }
-    $id = get_input('id');echo $id;exit;
+    $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
     forward(elgg_add_action_tokens_to_url(elgg_get_site_url() .'action/izap-videos/save?id=' . $id . '&p=' . $pass));
     exit;
