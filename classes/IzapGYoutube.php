@@ -71,12 +71,12 @@ class IzapGYoutube extends IzapGoogle {
         $scope = 'http://gdata.youtube.com';
         $secure = false;
         $session = true;
-//        if (!isset($_SESSION['YT_TOKEN']) && !$token) {
-//            return Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure, $session);
-//        } else if (!isset($_SESSION['YT_TOKEN']) && $token) {
-//            $_SESSION['YT_TOKEN'] = Zend_Gdata_AuthSub::getAuthSubSessionToken($token);
-//        }
-        return new self(Zend_Gdata_AuthSub::getHttpClient('1/DDVVTu-tYwLLw17XRMDNbFbfFUvPkAMWLBxAjfEOVBU '),
+        if (!isset($_SESSION['YT_TOKEN']) && !$token) {
+            return Zend_Gdata_AuthSub::getAuthSubTokenUri($next, $scope, $secure, $session);
+        } else if (!isset($_SESSION['YT_TOKEN']) && $token) {
+            $_SESSION['YT_TOKEN'] = Zend_Gdata_AuthSub::getAuthSubSessionToken($token);
+        }
+        return new self(Zend_Gdata_AuthSub::getHttpClient($_SESSION['YT_TOKEN']),
                         izapAdminSettings_izap_videos('youtubeDeveloperKey'));
     }
 
