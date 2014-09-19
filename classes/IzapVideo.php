@@ -52,7 +52,7 @@
         switch ($this->videoprocess) {
           case 'offserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
-            $saved = $this->save();
+            $saved = $this->save();c($saved);exit;
             break;
           case 'youtube':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
@@ -80,7 +80,10 @@
             }
             break;
           default:
-            $id = get_input('id'); echo "save function";echo $id;exit;
+            $id = get_input('id');
+            echo "save function";
+            echo $id;
+            exit;
             $izap_videos->videourl = 'http://www.youtube.com/watch?v=' . $id;
             //handle youtube video upload when it get back to the same action.
             if (!filter_var($izap_videos->videourl, FILTER_VALIDATE_URL)) {
@@ -166,6 +169,28 @@
     public function getURL() {
       $owner = $this->getOwnerEntity();
       return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
+    }
+
+    public function saveYouTubeVideoData($url) {
+      $videoValues = input($url,$this); 
+      $this->videosrc = $this->videosrc;
+      $this->videotype = $this->type;
+      $this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
+      $this->imagesrc = $this->get_tmp_path($this->filename);
+      $this->videotype_site = $this->domain;
+      $this->converted = 'yes';
+      $this->setFilename($this->orignal_thumb);
+      $this->open("write");
+      if ($this->write($this->filecontent)) {
+        $thumb = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
+        $this->setFilename($this->imagesrc);
+        $this->open("write");
+        if (!$this->write($thumb)) {
+          register_error(elgg_echo('izap_videos:error:saving_thumb'));
+        }
+      } else {
+        register_error(elgg_echo('izap_videos:error:saving_thumb'));
+      }
     }
 
   }
