@@ -262,7 +262,7 @@
       )));
     }
     $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next';
+    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next&scope=https://gdata.youtube.com&session=1&secure=0';
     elgg_push_breadcrumb(elgg_echo('upload'));
 
     $form_vars = array(
@@ -284,7 +284,7 @@
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
-      forward(IzapBase::setHref(array(
+      forward(setHref(array(
           'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
           'action' => 'add',
           'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
