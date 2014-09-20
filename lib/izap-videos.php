@@ -284,7 +284,7 @@
   }
 
   function izap_video_get_page_content_youtube_next() {
-    $is_status = (get_input('status') == 200) ? true : false; echo $is_status;exit;
+    $is_status = (get_input('status') == 200) ? true : false; 
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
