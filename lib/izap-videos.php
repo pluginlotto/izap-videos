@@ -248,7 +248,7 @@
     try {
       $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
     } catch (Exception $e) {
-      t;
+      echo 'catch';exit;
       if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
         register_error('YouTube Error: ' . $matches[1]);
       } else {
@@ -262,7 +262,7 @@
       )));
     }
     $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next';
+    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next&scope=https://gdata.youtube.com&session=1&secure=0';
     elgg_push_breadcrumb(elgg_echo('upload'));
 
     $form_vars = array(
@@ -284,19 +284,19 @@
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
-      forward(IzapBase::setHref(array(
-          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-          'action' => 'add',
-          'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
-          'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
-              ($onserver == 'yes') ? 'onserver' : 'youtube' :
-              'offserver'),
+      forward(setHref(array(
+        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+        'action' => 'add',
+        'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+        'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
+            ($onserver == 'yes') ? 'onserver' : 'youtube' :
+            'offserver'),
       )));
       exit;
     }
     $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . 'action/izap-videos/add_edit?id=' . $id . '&p=' . $pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() .GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/youtube_response?id=' . $id . '&p=' . $pass));
     exit;
   }
 
@@ -899,7 +899,7 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($video_data = array()) {
+  function input($video_data = array(), &$video_object) {
     global $IZAPSETTINGS;
     $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
     $curl = new IzapCurl();
@@ -914,17 +914,15 @@
     if (!$returnObject || empty($returnObject->embed_code)) {
       return $returnObject;
     }
-    $obj = new stdClass;
-    $obj->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
-    $obj->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
-    $obj->videothumbnail = $returnObject->thumb_url;
-    $obj->videosrc = $returnObject->embed_code;
-    $obj->videotags = $returnObject->tags;
-    $obj->domain = $returnObject->url;
-    $obj->filename = time() . '_' . basename($obj->videothumbnail);
-    $obj->filecontent = $curl->get($obj->videothumbnail)->body;
-    $obj->type = $returnObject->type;
-    return $obj;
+    $video_object->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
+    $video_object->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
+    $video_object->videothumbnail = $returnObject->thumb_url;
+    $video_object->videosrc = $returnObject->embed_code;
+    $video_object->videotags = $returnObject->tags;
+    $video_object->domain = $returnObject->url;
+    $video_object->filename = time() . '_' . basename($video_object->videothumbnail);
+    $video_object->filecontent = $curl->get($video_object->videothumbnail)->body;
+    $video_object->video_type = $returnObject->type;
   }
 
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
@@ -992,7 +990,6 @@
   }
 
   function preview() {
-//    echo json_encode(array('test'=>'name'));exit;
     $video_url = array(
       'url' => $_POST['url']
     );
@@ -1006,31 +1003,39 @@
     exit;
   }
 
+  function youtube_response() { 
+    $id = get_input('id');
+    $url = 'https://www.youtube.com/watch?v=' . $id;
+    $video_data = array(
+      'url' => $url
+    );
+    $izap_video = new IzapVideo();
+    $izap_video->videourl = $url;
+    $izap_video->saveYouTubeVideoData($video_data);
+   
+    if ($izap_video->save()) {
+      forward($izap_video->getURL());
+    }
+  }
+
   function setHref($input = array()) {
     global $CONFIG;
-
-    /**
-     * Default Params
-     */
+//      Default Params
     $default = array(
       'trailing_slash' => TRUE,
       'full_url' => TRUE,
     );
     $params = array_merge($default, $input);
-
     // start url array
     $url_array = array();
     //$url_array[] = 'pg';
-
     if ($params['context']) {
       $url_array[] = $params['context'];
     } else {
       $url_array[] = elgg_get_context();
     }
-
     // set which page to call
     $url_array[] = $params['action'];
-
     // check to set the page owner
     if ($params['page_owner'] !== FALSE) {
       if (isset($params['page_owner'])) {
@@ -1041,31 +1046,22 @@
         $url_array[] = elgg_get_logged_in_user_guid();
       }
     }
-
     if (is_array($params['vars']) && sizeof($params['vars'])) {
       foreach ($params['vars'] as $var) {
         $url_array[] = filter_var($var);
       }
     }
-
     // short circuit for empty values
     foreach ($url_array as $value) {
       if (!empty($value)) {
         $final_array[] = $value;
       }
     }
-
     // create URL
     $final_url = implode('/', $final_array);
-
     if ($params['full_url']) {
       $final_url = $CONFIG->wwwroot . $final_url;
     }
-    // check for trailing_slash
-//      if ($params['trailing_slash']) {
-//          $final_url .= '/';
-//      }
-//c($final_url);exit;
     return $final_url;
   }
   
