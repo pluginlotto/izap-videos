@@ -209,25 +209,13 @@
         data: {url: $(this).val()},
         success: function(msg) {
           var obj = $.parseJSON(msg);
-          console.log(obj.description);
           $("#off_preview").show();
           $("#off_title").val(obj.title);
           $("#off_desc").val(obj.description);
           $('#off_thumb').attr('src',obj.thumbnail);
-//     console.log(obj.thumbnail);
         }
       });
     });
-
-
-//  var current_domain = '<?php //echo base64_encode(strtolower($_SERVER['HTTP_HOST']));  ?>';
-//  $('#id_url').preview({key: '872fbac68e5758bdbefc8f5bcc2367a7',domain: current_domain})
-//    .on('loading', function() { 
-////      $(this).prop('disabled', true);
-//    })
-//    .on('loaded', function() { 
-//      $(this).prop('disabled', false);
-//    })
 </script>
 <style type="text/css">
   .error{

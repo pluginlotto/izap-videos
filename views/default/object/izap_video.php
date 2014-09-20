@@ -157,7 +157,6 @@
       $thumb_path = 'http://i.ytimg.com/vi/'.$my_array_of_vars['v'].'/0.jpg';
       $path = $izap_video->getURL();
       $file_icon = '<a href="'.$path .'"><img class="elgg-photo " src="'.$thumb_path .'" alt="check it out" style="width:80px;"></a>';
-//      $file_icon = elgg_view_entity_icon($thumb_path,'small');
     }else{
       $file_icon = elgg_view_entity_icon($izap_video, 'small'); 
     }

@@ -284,7 +284,7 @@
   }
 
   function izap_video_get_page_content_youtube_next() {
-    $is_status = (get_input('status') == 200) ? true : false; //echo $is_status;exit;
+    $is_status = (get_input('status') == 200) ? true : false; echo $is_status;exit;
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
@@ -997,11 +997,12 @@
     $video_url = array(
       'url' => $_POST['url']
     );
-    $videoValues = input($video_url);
+    $izap_video = new IzapVideo();
+    $izap_video->saveYouTubeVideoData($video_url);
     $video_data = array(
-      'title' => $videoValues->title,
-      'description' => $videoValues->description,
-      'thumbnail' => $videoValues->videothumbnail
+      'title' => $izap_video->title,
+      'description' => $izap_video->description,
+      'thumbnail' => $izap_video->videothumbnail
     );
     echo json_encode($video_data);
     exit;
@@ -1014,19 +1015,24 @@
       'url' => $url
     );
     $izap_video = new IzapVideo();
+    if ($izap_video->guid == 0) { 
+      $new = true;
+    }
     $izap_video->videourl = $url;
-    
-//    $token = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-//    $video = IzapGYoutube::getAuthSubHttpClient($token);
-//    $yt = $video->YoutubeObject();
-//    $yt->setMajorProtocolVersion(2);
-//    $youtubeEntry = $yt->getVideoEntry('ZqguEBhk2AU', null, true);c($youtubeEntry);exit;
-
-       $izap_video->saveYouTubeVideoData($video_data);
-      if ($izap_video->save()) {
-        forward($izap_video->getURL());
-      }
-
+    $izap_video->saveYouTubeVideoData($video_data);
+    if ($izap_video->save()) {
+      if ($new == true) {
+          elgg_create_river_item(array(
+            'view' => 'river/object/izap_video/create',
+            'action_type' => 'create',
+            'subject_guid' => elgg_get_logged_in_user_guid(),
+            'object_guid' => $izap_video->getGUID(),
+          ));
+        }
+        elgg_clear_sticky_form('izap_videos');
+        system_messages(elgg_echo('izap-videos:Save:success'));
+      forward($izap_video->getURL());
+    }
   }
 
   function setHref($input = array()) {
