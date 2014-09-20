@@ -103,7 +103,8 @@
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+        <!--<textarea name="description" value="<?php echo $desc; ?>"></textarea>-->
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc, 'type' => 'plain')); ?>
       </div>
 
     <?php } ?>

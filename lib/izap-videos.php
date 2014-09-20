@@ -239,7 +239,10 @@
     $yt = $video->YoutubeObject();
     $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
     $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
-    $myVideoEntry->setVideoDescription($_SESSION['youtube_attributes']['description']);
+    $description = strip_tags($_SESSION['youtube_attributes']['description']);
+//    $breaks = array("<br />","<br>","<br/>");  
+//    $description = str_ireplace($breaks, "\r\n", $description); 
+    $myVideoEntry->setVideoDescription($description);
 
     // Note that category must be a valid YouTube category
     $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
@@ -280,7 +283,7 @@
   }
 
   function izap_video_get_page_content_youtube_next() {
-    $is_status = (get_input('status') == 200) ? true : false;
+    $is_status = (get_input('status') == 200) ? true : false;//echo $is_status;exit;
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
