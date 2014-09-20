@@ -239,7 +239,10 @@
     $yt = $video->YoutubeObject();
     $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
     $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
-    $myVideoEntry->setVideoDescription($_SESSION['youtube_attributes']['description']);
+    $description = strip_tags($_SESSION['youtube_attributes']['description']);
+//    $breaks = array("<br />","<br>","<br/>");  
+//    $description = str_ireplace($breaks, "\r\n", $description); 
+    $myVideoEntry->setVideoDescription($description);
 
     // Note that category must be a valid YouTube category
     $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
@@ -248,7 +251,8 @@
     try {
       $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
     } catch (Exception $e) {
-      echo 'catch';exit;
+      echo 'catch';
+      exit;
       if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
         register_error('YouTube Error: ' . $matches[1]);
       } else {
@@ -280,7 +284,7 @@
   }
 
   function izap_video_get_page_content_youtube_next() {
-    $is_status = (get_input('status') == 200) ? true : false;
+    $is_status = (get_input('status') == 200) ? true : false; //echo $is_status;exit;
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
@@ -296,7 +300,7 @@
     }
     $id = get_input('id');
     $pass = '%kdkdhSw*jdksl';
-    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() .GLOBAL_IZAP_VIDEOS_PAGEHANDLER .'/youtube_response?id=' . $id . '&p=' . $pass));
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/youtube_response?id=' . $id . '&p=' . $pass));
     exit;
   }
 
@@ -1003,7 +1007,7 @@
     exit;
   }
 
-  function youtube_response() { 
+  function youtube_response() {
     $id = get_input('id');
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
@@ -1011,11 +1015,18 @@
     );
     $izap_video = new IzapVideo();
     $izap_video->videourl = $url;
-    $izap_video->saveYouTubeVideoData($video_data);
-   
-    if ($izap_video->save()) {
-      forward($izap_video->getURL());
-    }
+    
+//    $token = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+//    $video = IzapGYoutube::getAuthSubHttpClient($token);
+//    $yt = $video->YoutubeObject();
+//    $yt->setMajorProtocolVersion(2);
+//    $youtubeEntry = $yt->getVideoEntry('ZqguEBhk2AU', null, true);c($youtubeEntry);exit;
+
+       $izap_video->saveYouTubeVideoData($video_data);
+      if ($izap_video->save()) {
+        forward($izap_video->getURL());
+      }
+
   }
 
   function setHref($input = array()) {

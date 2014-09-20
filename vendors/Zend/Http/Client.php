@@ -1072,7 +1072,7 @@ class Zend_Http_Client
             $this->last_request = $this->adapter->write($this->method,
                 $uri, $this->config['httpversion'], $headers, $body);
 
-            $response = $this->adapter->read();
+            $response = $this->adapter->read();//c($response);exit;
             if (! $response) {
                 /** @see Zend_Http_Client_Exception */
                 require_once 'Zend/Http/Client/Exception.php';
