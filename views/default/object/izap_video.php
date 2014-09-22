@@ -97,7 +97,7 @@
   if (elgg_in_context('widgets')) {
     $metadata = '';
   }
-global $IZAPSETTINGS;
+  global $IZAPSETTINGS;
   if ($full) {
     $params = array(
       'entity' => $izap_video,
@@ -150,12 +150,14 @@ global $IZAPSETTINGS;
   } else {
     // brief view
     $view_count = getViews($izap_video);
-    if($izap_video->videothumbnail){
+    if ($izap_video->videothumbnail) {
       $thumb_path = $izap_video->videothumbnail;
       $path = $izap_video->getURL();
-      $file_icon = '<a href="'.$path .'"><img class="elgg-photo " src="'.$thumb_path .'" alt="check it out" style="width:130px;"></a>';
-    }else{
-      $file_icon = elgg_view_entity_icon($izap_video, 'small'); 
+      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
+    } else {
+//      $file_icon = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN .'thumbnail.php?file_guid=421';
+//      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $file_icon . '" alt="check it out" style="width:130px;"></a>';
+      $file_icon = elgg_view_entity_icon($izap_video, 'medium');
     }
     $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
     $params = array(
