@@ -916,11 +916,18 @@
     if (!$returnObject || empty($returnObject->embed_code)) {
       return $returnObject;
     }
+    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+    parse_str(parse_url($video_data['url'], PHP_URL_QUERY), $my_array_of_vars);
+    $video = IzapGYoutube::getAuthSubHttpClient($token);
+    $yt = $video->YoutubeObject();
+    $video_entity = $yt->getVideoEntry($my_array_of_vars['v']);
+    $tags = (array) $video_entity->getVideoTags();
+    
     $video_object->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
     $video_object->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
     $video_object->videothumbnail = $returnObject->thumb_url;
     $video_object->videosrc = $returnObject->embed_code;
-    $video_object->videotags = $returnObject->tags;
+    $video_object->tags = $tags;
     $video_object->domain = $returnObject->url;
     $video_object->filename = time() . '_' . basename($video_object->videothumbnail);
     $video_object->filecontent = $curl->get($video_object->videothumbnail)->body;
@@ -1008,23 +1015,21 @@
 
   function youtube_response() {
     $id = get_input('id');
-    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-    $video = IzapGYoutube::getAuthSubHttpClient($token);
-    $yt = $video->YoutubeObject();
-    $video_entity = $yt->getVideoEntry($id);
-    
+//    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+//    $video = IzapGYoutube::getAuthSubHttpClient($token);
+//    $yt = $video->YoutubeObject();
+//    $video_entity = $yt->getVideoEntry('WbG7bhiW4lI');
+//    
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
-      'url' => $url,
-      'tags' => $video_entity->getVideoTags()
+      'url' => $url
     );
     $izap_video = new IzapVideo();
     if ($izap_video->guid == 0) { 
       $new = true;
     }
-    $tags = (array) $video_entity->getVideoTags();
+//    $tags = (array) $video_entity->getVideoTags();
     $izap_video->videourl = $url;
-    $izap_video->tags = $tags;
     $izap_video->saveYouTubeVideoData($video_data);
     if ($izap_video->save()) {
       if ($new == true) {

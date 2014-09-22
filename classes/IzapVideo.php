@@ -53,8 +53,6 @@
           case 'offserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
             $saved = $this->save();
-            c($saved);
-            exit;
             break;
           case 'youtube':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
