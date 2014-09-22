@@ -1,3 +1,19 @@
+/*
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 .selector-wrapper{
   height: auto;
@@ -8,20 +24,6 @@
   width: 100%;
   display: none;
 }
-
-/*.selector-wrapper::after{
-position: absolute;
-top: 0;
-right: 0;
-width: 100%;
-height: 100%;
-background: rgba(0,0,0,0.2);
-content: '';
-opacity: 1;
--webkit-transition: opacity 0.5s;
-transition: opacity 0.5s;
-        }*/
-
 .selector-wrapper .thumb {
   float: left;
   margin: 0 10px 0 0;
@@ -30,8 +32,6 @@ transition: opacity 0.5s;
   height: 192px;
   border-radius: 12px;
 }
-
-
 .thumb {
   float: left;
   margin: 0 10px 0 0;

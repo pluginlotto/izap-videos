@@ -1,15 +1,21 @@
-/*!
-Video.js Default Styles (http://videojs.com)
-Version 4.7.3
-Create your own skin at http://designer.videojs.com
-*/
-/* SKIN
-================================================================================
-The main class name for all skin-specific styles. To make your own skin,
-replace all occurances of 'vjs-default-skin' with a new name. Then add your new
-skin name to your video tag instead of the default skin.
-e.g. <video class="video-js my-skin-name">
-*/
+
+  /*
+   *    This file is part of izap-videos plugin for Elgg.
+   *
+   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+   *    it under the terms of the GNU General Public License as published by
+   *    the Free Software Foundation, either version 2 of the License, or
+   *    (at your option) any later version.
+   *
+   *    izap-videos for Elgg is distributed in the hope that it will be useful,
+   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *    GNU General Public License for more details.
+   *
+   *    You should have received a copy of the GNU General Public License
+   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+   */
+
 .vjs-default-skin {
   color: #cccccc;
 }
@@ -263,7 +269,6 @@ fonts to show/hide properly.
   /* Assumes volume starts at 1.0. If you change the size of the
      handle relative to the volume bar, you'll need to update this value
      too. */
-
   left: 4.5em;
 }
 .vjs-default-skin .vjs-volume-handle:before {
@@ -915,6 +920,3 @@ body.vjs-full-window {
 .vjs-no-js a:visited {
   color: #F4A460;
 }
-/* -----------------------------------------------------------------------------
-The original source of this file lives at
-https://github.com/videojs/video.js/blob/master/src/css/video-js.less */

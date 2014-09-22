@@ -42,7 +42,7 @@
   }
 ?>
 
-  <?php
+<?php
   $current_url = current_page_url();
   $upload_type = end(explode('/', $current_url));
   if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
@@ -55,17 +55,15 @@
       <!-- Placeholder that tells Preview where to put the selector-->
       <div class="selector-wrapper" id="off_preview" style="display:none;">
         <div class="selector">
-            <div class="thumb">
-              <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
-            </div>
-            <div class="attributes">
-              <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
-              <?php echo elgg_view('input/longtext', array('name' => 'description', 'class' => 'description', 'id' => 'off_desc')); ?>
-            </div>
+          <div class="thumb">
+            <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
           </div>
-       
+          <div class="attributes">
+            <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
+            <?php echo elgg_view('input/longtext', array('name' => 'description', 'class' => 'description', 'id' => 'off_desc')); ?>
+          </div>
+        </div>       
       </div>
-
     <?php } elseif ($upload_type == 'onserver') { ?>
 
       <div>
@@ -101,10 +99,8 @@
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <!--<textarea name="description" value="<?php echo $desc; ?>"></textarea>-->
         <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc, 'type' => 'plain')); ?>
       </div>
-
     <?php } ?>
 
     <?php if ($guid) { ?>
@@ -120,7 +116,7 @@
     <?php } ?>  
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>
-      <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
+      <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags, 'id' => 'tag')); ?>
     </div>
 
     <?php
@@ -137,22 +133,18 @@
     <div class="elgg-foot">
       <?php
       echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
-
       if ($guid) {
         echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $guid));
       }
-
       echo elgg_view('input/hidden', array('name' => 'page_url', 'value' => $current_url));
       echo elgg_view('input/submit', array('value' => $submit_label, 'id' => 'upload_button'));
       ?>
     </div>
-    <?php
-  } else {
-    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all';
-    register_error(elgg_echo('izap-videos:message:noAddFeature'));
-    forward($url);
-  }
-?>
+    <?php } else {
+      $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all';
+      register_error(elgg_echo('izap-videos:message:noAddFeature'));
+      forward($url);
+    } ?>
 <script>
     $(document).ready(function() {
       $('form[name = video_upload]').validate({
@@ -211,6 +203,7 @@
           $("#off_title").val(obj.title);
           $("#off_desc").val(obj.description);
           $('#off_thumb').attr('src',obj.thumbnail);
+          $("#tag").val(obj.tags);
         }
       });
     });

@@ -34,7 +34,7 @@
 
     $current_user = elgg_get_logged_in_user_entity();
     if ($container_guid) {
-// access check for closed groups
+    // access check for closed groups
       elgg_group_gatekeeper();
 
       $options['container_guid'] = $container_guid;
@@ -53,7 +53,7 @@
       } else if (elgg_instanceof($container, 'group')) {
         $return['filter'] = false;
       } else {
-// do not show button or select a tab when viewing someone else's posts
+        // do not show button or select a tab when viewing someone else's posts
         $return['filter_context'] = 'none';
       }
     } else {
@@ -99,12 +99,6 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     }
-//    else {
-//      $url = 'izap-videos/all';
-//      register_error(elgg_echo('izap-videos:message:noAddFeature'));
-//      //forward($url);
-//    }
-
     $return['content'] = elgg_list_entities($options);
     return $return;
   }
@@ -444,10 +438,10 @@
     );
 
     $input = array_merge($default, (array) $supplied_array);
-// get old values
+    // get old values
     $old_value = elgg_get_plugin_setting($input['name'], $input['plugin']);
 
-//make new value
+    //make new value
     if (is_array($input['value'])) {
       $new_value = implode('|', $input['value']);
     } else {
@@ -826,18 +820,13 @@
       } else {
         $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
       }
-//          $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
-      // echo $set_video_name; exit;
       $elggfile_obj = new ElggFile;
       $elggfile_obj->owner_guid = $entity->owner_guid;
       $elggfile_obj->setFilename($set_video_name);
 
-//echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
-//echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {
         $contents = $elggfile_obj->grabFile();
       }
-      //echo $contents; exit;
       $content_type = 'video/x-flv';
 
       header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
@@ -927,8 +916,6 @@
     $video_object->videosrc = $returnObject->embed_code;
     $video_object->tags = $tags;
     $video_object->domain = $returnObject->url;
-//    $video_object->filename = time() . '_' . basename($video_object->videothumbnail);
-//    $video_object->filecontent = $curl->get($video_object->videothumbnail)->body;
     $video_object->video_type = $returnObject->type;
   }
 
@@ -1002,10 +989,12 @@
     );
     $izap_video = new IzapVideo();
     $izap_video->saveYouTubeVideoData($video_url);
+    $tags = implode(',', $izap_video->tags); 
     $video_data = array(
       'title' => $izap_video->title,
       'description' => $izap_video->description,
-      'thumbnail' => $izap_video->videothumbnail
+      'thumbnail' => $izap_video->videothumbnail,
+      'tags' => $tags
     );
     echo json_encode($video_data);
     exit;
@@ -1048,7 +1037,6 @@
     $params = array_merge($default, $input);
     // start url array
     $url_array = array();
-    //$url_array[] = 'pg';
     if ($params['context']) {
       $url_array[] = $params['context'];
     } else {

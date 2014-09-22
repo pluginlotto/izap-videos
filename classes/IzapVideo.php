@@ -165,16 +165,6 @@
       $this->converted = 'yes';
       $this->setFilename($this->orignal_thumb);
       $this->open("write");
-//      if ($this->write($this->filecontent)) {
-//        $thumb = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
-//        $this->setFilename($this->imagesrc);
-//        $this->open("write");
-//        if (!$this->write($thumb)) {
-//          register_error(elgg_echo('izap_videos:error:saving_thumb'));
-//        }
-//      } else {
-//        register_error(elgg_echo('izap_videos:error:saving_thumb'));
-//      }
     }
 
   }
