@@ -64,7 +64,7 @@
   }
 
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
-//show links in onserver video if video is converted
+  //show links in onserver video if video is converted
   if ($izap_video->videofile) {
     if ($izap_video->converted == 'in_processing') {
       
@@ -93,7 +93,7 @@
   }
   $subtitle = "$author_text $date $comments_link $categories";
 
-// do not show the metadata and controls in widget view
+  // do not show the metadata and controls in widget view
   if (elgg_in_context('widgets')) {
     $metadata = '';
   }
@@ -146,8 +146,7 @@
 
     echo elgg_view('object/elements/full', array(
       'entity' => $izap_video,
-      'body' => $body,
-      //  'summary' => $summary
+      'body' => $body
     ));
   } else {
     // brief view
@@ -168,7 +167,6 @@
     );
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
-
     echo elgg_view_image_block($file_icon, $list_body);
   }
 ?>

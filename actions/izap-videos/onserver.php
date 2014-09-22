@@ -17,7 +17,6 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
-  
   $upload_video = $_FILES['upload_video'];
   $return_value = $this->processfile($upload_video);
 
