@@ -904,17 +904,11 @@
     if (!$returnObject || empty($returnObject->embed_code)) {
       return $returnObject;
     }
-    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-    parse_str(parse_url($video_data['url'], PHP_URL_QUERY), $my_array_of_vars);
-    $video = IzapGYoutube::getAuthSubHttpClient($token);
-    $yt = $video->YoutubeObject();
-    $video_entity = $yt->getVideoEntry($my_array_of_vars['v']);
-    $tags = (array) $video_entity->getVideoTags();
     $video_object->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
     $video_object->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
     $video_object->videothumbnail = $returnObject->thumb_url;
     $video_object->videosrc = $returnObject->embed_code;
-    $video_object->tags = $tags;
+//    $video_object->tags = $tags;
     $video_object->domain = $returnObject->url;
     $video_object->video_type = $returnObject->type;
   }
@@ -1001,7 +995,8 @@
   }
 
   function youtube_response() {
-    $id = get_input('id');
+//    $id = get_input('id');
+    $id = 'x1fe8-Qli9E';
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url

@@ -197,7 +197,7 @@
         type: 'POST',
         url: '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>',
         data: {url: $(this).val()},
-        success: function(msg) {
+        success: function(msg) { console.log(msg);
           var obj = $.parseJSON(msg);
           $("#off_preview").show();
           $("#off_title").val(obj.title);
