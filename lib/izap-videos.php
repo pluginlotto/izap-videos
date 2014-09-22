@@ -240,8 +240,6 @@
     $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
     $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
     $description = strip_tags($_SESSION['youtube_attributes']['description']);
-//    $breaks = array("<br />","<br>","<br/>");  
-//    $description = str_ireplace($breaks, "\r\n", $description); 
     $myVideoEntry->setVideoDescription($description);
 
     // Note that category must be a valid YouTube category
@@ -1010,15 +1008,23 @@
 
   function youtube_response() {
     $id = get_input('id');
+    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+    $video = IzapGYoutube::getAuthSubHttpClient($token);
+    $yt = $video->YoutubeObject();
+    $video_entity = $yt->getVideoEntry($id);
+    
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
-      'url' => $url
+      'url' => $url,
+      'tags' => $video_entity->getVideoTags()
     );
     $izap_video = new IzapVideo();
     if ($izap_video->guid == 0) { 
       $new = true;
     }
+    $tags = (array) $video_entity->getVideoTags();
     $izap_video->videourl = $url;
+    $izap_video->tags = $tags;
     $izap_video->saveYouTubeVideoData($video_data);
     if ($izap_video->save()) {
       if ($new == true) {
