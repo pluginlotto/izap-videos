@@ -20,20 +20,23 @@
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
 
   global $IZAPSETTINGS;
-  if ($object->imagesrc) {
-      $thumbnail_image = $get_image;
-      $style = 'max-height:90px; max-width: 90px;';
+  if ($object->videothumbnail) {
+    $thumbnail_image = $object->videothumbnail;
+    $style = 'width: 365px;';
+  } elseif ($object->imagesrc) {
+    $thumbnail_image = $get_image;
+    $style = 'width: 365px;';
   } else {
     $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
-    $style = 'background-color:black;max-height:90px; max-width: 90px;';
+    $style = 'background-color:black;width: 365px;';
   }
 
   //load video by ajax
-  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/200/200';
+  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/370/658';
 
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
-  $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon" /></a>';
   $content .= '</div>';
   $content .= $object->description;
@@ -46,7 +49,7 @@
 <script type="text/javascript">
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
   $(".ajax_load_video").live('click', function() {
-    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
+//    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;
   });
@@ -54,8 +57,9 @@
 
 <style type="text/css">
   .play_icon{
-    margin: 4px -16px;
-    width: 14px;
-    pointer:cursor;
+    cursor: pointer;
+    height: 52px;
+    position: absolute;
+    margin: 107px -208px;
   }
 </style>

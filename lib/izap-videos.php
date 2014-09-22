@@ -883,7 +883,6 @@
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
       } else {
-        //echo '<p class="notConvertedWrapper" style="background-color:height:400px; black;radius:8px;">' . '</p>';
         $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
              <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
        </div>';
@@ -922,15 +921,14 @@
     $yt = $video->YoutubeObject();
     $video_entity = $yt->getVideoEntry($my_array_of_vars['v']);
     $tags = (array) $video_entity->getVideoTags();
-    
     $video_object->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
     $video_object->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
     $video_object->videothumbnail = $returnObject->thumb_url;
     $video_object->videosrc = $returnObject->embed_code;
     $video_object->tags = $tags;
     $video_object->domain = $returnObject->url;
-    $video_object->filename = time() . '_' . basename($video_object->videothumbnail);
-    $video_object->filecontent = $curl->get($video_object->videothumbnail)->body;
+//    $video_object->filename = time() . '_' . basename($video_object->videothumbnail);
+//    $video_object->filecontent = $curl->get($video_object->videothumbnail)->body;
     $video_object->video_type = $returnObject->type;
   }
 

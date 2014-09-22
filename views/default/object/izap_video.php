@@ -97,9 +97,8 @@
   if (elgg_in_context('widgets')) {
     $metadata = '';
   }
-
+global $IZAPSETTINGS;
   if ($full) {
-    global $IZAPSETTINGS;
     $params = array(
       'entity' => $izap_video,
       'title' => false,
@@ -118,9 +117,8 @@
     }
 
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
-    if ($izap_video->videourl) {
-      parse_str(parse_url($izap_video->videourl, PHP_URL_QUERY), $my_array_of_vars);
-      $thumbnail_image = 'http://i.ytimg.com/vi/'.$my_array_of_vars['v'].'/0.jpg';
+    if ($izap_video->videothumbnail) {
+      $thumbnail_image = $izap_video->videothumbnail;
       $style = 'height:400px; width: 670px;border-radius:8px;';
     } elseif ($izap_video->imagesrc) {
       $thumbnail_image = $get_image;
@@ -152,11 +150,10 @@
   } else {
     // brief view
     $view_count = getViews($izap_video);
-    if($izap_video->videourl){
-      parse_str(parse_url($izap_video->videourl, PHP_URL_QUERY), $my_array_of_vars);
-      $thumb_path = 'http://i.ytimg.com/vi/'.$my_array_of_vars['v'].'/0.jpg';
+    if($izap_video->videothumbnail){
+      $thumb_path = $izap_video->videothumbnail;
       $path = $izap_video->getURL();
-      $file_icon = '<a href="'.$path .'"><img class="elgg-photo " src="'.$thumb_path .'" alt="check it out" style="width:80px;"></a>';
+      $file_icon = '<a href="'.$path .'"><img class="elgg-photo " src="'.$thumb_path .'" alt="check it out" style="width:130px;"></a>';
     }else{
       $file_icon = elgg_view_entity_icon($izap_video, 'small'); 
     }
@@ -188,10 +185,8 @@
 <style type="text/css">
   .play_icon{
     cursor: pointer;
-    width: 670px;
-    height: 400px;
+    height: 52px;
     position: absolute;
-    margin: 1px -691px;
-
+    margin: 176px -365px;
   }
 </style>

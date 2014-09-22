@@ -56,9 +56,7 @@
       <div class="selector-wrapper" id="off_preview" style="display:none;">
         <div class="selector">
             <div class="thumb">
-              <div class="controls">
-                <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
-              </div>
+              <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
             </div>
             <div class="attributes">
               <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
