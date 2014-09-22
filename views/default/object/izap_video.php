@@ -111,7 +111,9 @@
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
     if (getFileExtension($izap_video->videofile) == 'flv') {
-      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
+      $get_flv_file = file_exists (preg_replace ('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
+    }elseif (!$izap_video->videofile) {
+      $get_flv_file = "true";
     } else {
       $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
     }
@@ -133,7 +135,7 @@
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
     $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'trans_play.png" class="play_icon"/></a>';
+    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
     if ($get_flv_file == 'false' && !($izap_video->videourl)) {
       $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
       // $content .= "<p class='video' style='display:none;background-color:black;'></p>";
@@ -155,8 +157,6 @@
       $path = $izap_video->getURL();
       $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
     } else {
-//      $file_icon = elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN .'thumbnail.php?file_guid=421';
-//      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $file_icon . '" alt="check it out" style="width:130px;"></a>';
       $file_icon = elgg_view_entity_icon($izap_video, 'medium');
     }
     $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";

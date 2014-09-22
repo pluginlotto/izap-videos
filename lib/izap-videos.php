@@ -1013,11 +1013,6 @@
 
   function youtube_response() {
     $id = get_input('id');
-//    $token =  elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-//    $video = IzapGYoutube::getAuthSubHttpClient($token);
-//    $yt = $video->YoutubeObject();
-//    $video_entity = $yt->getVideoEntry('WbG7bhiW4lI');
-//    
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url
@@ -1026,7 +1021,6 @@
     if ($izap_video->guid == 0) { 
       $new = true;
     }
-//    $tags = (array) $video_entity->getVideoTags();
     $izap_video->videourl = $url;
     $izap_video->saveYouTubeVideoData($video_data);
     if ($izap_video->save()) {
