@@ -34,7 +34,7 @@
 
     $current_user = elgg_get_logged_in_user_entity();
     if ($container_guid) {
-    // access check for closed groups
+      // access check for closed groups
       elgg_group_gatekeeper();
 
       $options['container_guid'] = $container_guid;
@@ -276,7 +276,7 @@
   }
 
   function izap_video_get_page_content_youtube_next() {
-    $is_status = (get_input('status') == 200) ? true : false; 
+    $is_status = (get_input('status') == 200) ? true : false;
     if (!$is_status) {
       // redirect the user from where he was trying to upload the video.
       register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
@@ -972,7 +972,6 @@
       'Shows' => 'Shows',
       'Trailers' => 'Trailers');
 
-
     asort($cats);
     return $cats;
   }
@@ -983,7 +982,7 @@
     );
     $izap_video = new IzapVideo();
     $izap_video->saveYouTubeVideoData($video_url);
-    $tags = implode(',', $izap_video->tags); 
+    $tags = implode(',', $izap_video->tags);
     $video_data = array(
       'title' => $izap_video->title,
       'description' => $izap_video->description,
@@ -995,29 +994,28 @@
   }
 
   function youtube_response() {
-//    $id = get_input('id');
-    $id = 'x1fe8-Qli9E';
+    $id = get_input('id');
     $url = 'https://www.youtube.com/watch?v=' . $id;
     $video_data = array(
       'url' => $url
     );
     $izap_video = new IzapVideo();
-    if ($izap_video->guid == 0) { 
+    if ($izap_video->guid == 0) {
       $new = true;
     }
     $izap_video->videourl = $url;
     $izap_video->saveYouTubeVideoData($video_data);
     if ($izap_video->save()) {
       if ($new == true) {
-          elgg_create_river_item(array(
-            'view' => 'river/object/izap_video/create',
-            'action_type' => 'create',
-            'subject_guid' => elgg_get_logged_in_user_guid(),
-            'object_guid' => $izap_video->getGUID(),
-          ));
-        }
-        elgg_clear_sticky_form('izap_videos');
-        system_messages(elgg_echo('izap-videos:Save:success'));
+        elgg_create_river_item(array(
+          'view' => 'river/object/izap_video/create',
+          'action_type' => 'create',
+          'subject_guid' => elgg_get_logged_in_user_guid(),
+          'object_guid' => $izap_video->getGUID(),
+        ));
+      }
+      elgg_clear_sticky_form('izap_videos');
+      system_messages(elgg_echo('izap-videos:Save:success'));
       forward($izap_video->getURL());
     }
   }
