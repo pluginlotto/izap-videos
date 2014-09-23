@@ -100,7 +100,7 @@
     <label>
     <?php echo elgg_echo('Youtube Developer Key'); ?></label>
     <?php
-    $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos'); c( $saved_data);exit;
+    $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
     echo elgg_view('input/text', array(
       'name' => 'params[youtubeDeveloperKey]',
       'value' => $saved_data ? $saved_data : ""
