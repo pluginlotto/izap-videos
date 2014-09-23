@@ -31,9 +31,10 @@
       'full_view' => false,
       'no_results' => elgg_echo('izap-videos:none'),
     );
-
+    $url_id = elgg_get_logged_in_user_guid();
     $current_user = elgg_get_logged_in_user_entity();
     if ($container_guid) {
+      $url_id = $container_guid;
       // access check for closed groups
       elgg_group_gatekeeper();
 
@@ -65,9 +66,9 @@
 
     $title = 'Add New Video';
     $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
-
+    
     if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/onserver';
+      $url .= $url_id . '/onserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -75,7 +76,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
-      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      $url .= $url_id . '/youtube';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -83,7 +84,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      $url .= $url_id . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -91,7 +92,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } else {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      $url .= $url_id . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -243,8 +244,6 @@
     try {
       $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
     } catch (Exception $e) {
-      echo 'catch';
-      exit;
       if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
         register_error('YouTube Error: ' . $matches[1]);
       } else {
@@ -1041,8 +1040,8 @@
     if ($params['page_owner'] !== FALSE) {
       if (isset($params['page_owner'])) {
         $url_array[] = $params['page_owner'];
-      } elseif (elgg_get_logged_in_user_guid()) {
-        $url_array[] = elgg_get_logged_in_user_guid();
+      } elseif (elgg_get_page_owner_entity ()) { 
+        $url_array[] = elgg_get_page_owner_entity()->guid;
       } elseif (elgg_is_logged_in()) {
         $url_array[] = elgg_get_logged_in_user_guid();
       }

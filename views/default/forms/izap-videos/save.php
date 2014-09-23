@@ -32,7 +32,6 @@
   if (!$container_guid) {
     $container_guid = elgg_get_logged_in_user_guid();
   }
-
   if ($guid) {
     $file_label = elgg_echo("izap-videos:replace");
     $submit_label = elgg_echo('save');
