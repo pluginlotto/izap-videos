@@ -27,6 +27,10 @@
 <div>
   <?php echo elgg_view('input/hidden', array('name' => 'token', 'value' => $vars['token'])); ?>
 </div>
+<?php 
+  // extendable view for other plugins
+  echo elgg_view('izap_upload/form_extension'); 
+?>
 <?php echo elgg_view('input/submit', array('value' => 'upload', 'id' => 'submit_button')); ?>
 
 <div id="progress_button" style="display: none;">
