@@ -22,9 +22,9 @@
    */
 
   $full = elgg_extract('full_view', $vars, FALSE);
-  $izap_video = elgg_extract('entity', $vars, FALSE); 
+  $izap_video = elgg_extract('entity', $vars, FALSE);
   $view_type = end(explode('/', current_page_url()));
-  
+
   if (!$izap_video) {
     return TRUE;
   }
@@ -148,8 +148,8 @@
       'entity' => $izap_video,
       'body' => $body
     ));
-  }elseif($view_type == 'all'){
-     // brief view
+  } elseif ($view_type == 'all') {
+    // brief view
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
       $thumb_path = $izap_video->videothumbnail;
@@ -158,6 +158,11 @@
     } else {
       $file_icon = elgg_view_entity_icon($izap_video, 'medium');
     }
+    $description_length = strlen($description);
+    if ($description_length > 183) {
+      $description = substr($description, 0, 180 ). "...";
+    }
+
     $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
     $params = array(
       'entity' => $izap_video,
@@ -191,26 +196,28 @@
         if ($title_length < 28) {
           ?>
           <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $izap_video->title ?></a></h3>
-        <?php
+          <?php
         } else {
           $title = substr($izap_video->title, 0, 25);
           ?> 
           <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $title . "..." ?></a></h3>
         <?php } ?>
         <div class="elgg-subtext"><?php echo $subtitle; ?></div>
-        <?php 
-          $description_length = strlen($description); 
-          if($description_length < 87){ ?>
-            <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-          <?php }else{ 
-            $description = substr($description, 0, 83);
+        <?php
+        $description_length = strlen($description);
+        if ($description_length < 87) {
+          ?>
+          <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+        <?php
+        } else {
+          $description = substr($description, 0, 83);
           ?>  
-            <div class="elgg-content"><?php echo $description."..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-          <?php } ?>
+          <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+    <?php } ?>
       </div>
     </div>
 
-  <?php
+    <?php
   }
 ?>
 

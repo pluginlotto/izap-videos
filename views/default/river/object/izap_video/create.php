@@ -1,5 +1,4 @@
 <?php
-  
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -34,13 +33,17 @@
 
   //load video by ajax
   $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/370/658';
+  $description_length = strlen($object->description);
+  if ($description_length > 263) {
+    $description = substr($object->description, 0, 260) . "...";
+  }
 
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon" /></a>';
   $content .= '</div>';
-  $content .= $object->description;
+  $content .= $description;
   echo elgg_view('river/elements/layout', array(
     'item' => $vars['item'],
     'message' => $content,
