@@ -159,8 +159,8 @@
       $file_icon = elgg_view_entity_icon($izap_video, 'medium');
     }
     $description_length = strlen($description);
-    if ($description_length > 183) {
-      $description = substr($description, 0, 180 ). "...";
+    if ($description_length > 173) {
+      $description = substr($description, 0, 170 ). "...";
     }
 
     $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
