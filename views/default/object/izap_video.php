@@ -22,7 +22,9 @@
    */
 
   $full = elgg_extract('full_view', $vars, FALSE);
-  $izap_video = elgg_extract('entity', $vars, FALSE);
+  $izap_video = elgg_extract('entity', $vars, FALSE); 
+  $view_type = end(explode('/', current_page_url()));
+  
   if (!$izap_video) {
     return TRUE;
   }
@@ -64,32 +66,32 @@
 
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
   //show links in onserver video if video is converted
-  if ($izap_video->videofile) {
-    if ($izap_video->converted == 'in_processing') {
-      
-    } elseif ($izap_video->converted == 'yes') {
-      $metadata = elgg_view_menu('entity', array(
-        'entity' => $vars['entity'],
-        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-        'sort_by' => 'priority',
-        'class' => 'elgg-menu-hz',
-      ));
-    } elseif ($izap_video->converted == 'no') {
-      $metadata = elgg_view_menu('entity', array(
-        'entity' => $vars['entity'],
-        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-        'sort_by' => 'priority',
-        'class' => 'elgg-menu-hz',
-      ));
-    }
-  } else {
-    $metadata = elgg_view_menu('entity', array(
-      'entity' => $vars['entity'],
-      'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-      'sort_by' => 'priority',
-      'class' => 'elgg-menu-hz',
-    ));
-  }
+//  if ($izap_video->videofile) {
+//    if ($izap_video->converted == 'in_processing') {
+//      
+//    } elseif ($izap_video->converted == 'yes') {
+//      $metadata = elgg_view_menu('entity', array(
+//        'entity' => $vars['entity'],
+//        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+//        'sort_by' => 'priority',
+//        'class' => 'elgg-menu-hz',
+//      ));
+//    } elseif ($izap_video->converted == 'no') {
+//      $metadata = elgg_view_menu('entity', array(
+//        'entity' => $vars['entity'],
+//        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+//        'sort_by' => 'priority',
+//        'class' => 'elgg-menu-hz',
+//      ));
+//    }
+//  } else {
+  $metadata = elgg_view_menu('entity', array(
+    'entity' => $vars['entity'],
+    'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+    'sort_by' => 'priority',
+    'class' => 'elgg-menu-hz',
+  ));
+//  }
   $subtitle = "$author_text $date $comments_link $categories";
 
   // do not show the metadata and controls in widget view
@@ -110,8 +112,8 @@
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
     if (getFileExtension($izap_video->videofile) == 'flv') {
-      $get_flv_file = file_exists (preg_replace ('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
-    }elseif (!$izap_video->videofile) {
+      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
+    } elseif (!$izap_video->videofile) {
       $get_flv_file = "true";
     } else {
       $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
@@ -146,8 +148,8 @@
       'entity' => $izap_video,
       'body' => $body
     ));
-  } else {
-    // brief view
+  }elseif($view_type == 'all'){
+     // brief view
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
       $thumb_path = $izap_video->videothumbnail;
@@ -166,6 +168,49 @@
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
     echo elgg_view_image_block($file_icon, $list_body);
+  } elseif ($container->type == 'group') {
+    $view_count = getViews($izap_video);
+    if ($izap_video->videothumbnail) {
+      $thumb_path = $izap_video->videothumbnail;
+      $path = $izap_video->getURL();
+      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
+    } else {
+      $file_icon = elgg_view_entity_icon($izap_video, 'medium');
+    }
+    ?>
+    <div class="elgg-image-block clearfix group_video" >
+      <div class="elgg-image ">
+        <?php echo $file_icon; ?>
+      </div>
+      <div class="elgg-body">
+        <ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
+          <?php echo $metadata; ?>
+        </ul>
+        <?php
+        $title_length = strlen($izap_video->title);
+        if ($title_length < 28) {
+          ?>
+          <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $izap_video->title ?></a></h3>
+        <?php
+        } else {
+          $title = substr($izap_video->title, 0, 25);
+          ?> 
+          <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $title . "..." ?></a></h3>
+        <?php } ?>
+        <div class="elgg-subtext"><?php echo $subtitle; ?></div>
+        <?php 
+          $description_length = strlen($description); 
+          if($description_length < 87){ ?>
+            <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+          <?php }else{ 
+            $description = substr($description, 0, 83);
+          ?>  
+            <div class="elgg-content"><?php echo $description."..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+          <?php } ?>
+      </div>
+    </div>
+
+  <?php
   }
 ?>
 
@@ -176,7 +221,6 @@
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;
   }
-
   $('.ajax_load_video').click(ajax_request);
 </script>
 
@@ -186,5 +230,25 @@
     height: 52px;
     position: absolute;
     margin: 176px -365px;
+  }
+  .group_video img{
+    height: 77px;
+    width: 77px! important;
+  }
+  .group_video h3{
+    font-size: 12px; 
+  }
+  .group_video ul{
+    font-size: 90%; 
+    margin-left: 0px;
+  }
+  .group_video li{
+    margin-left: 3px;
+  }
+  .total{
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 4px;
+    padding-right: 4px;;
   }
 </style>

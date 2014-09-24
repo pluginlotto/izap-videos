@@ -196,7 +196,7 @@
         $form_vars['entity'] = $izap_video;
         $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
-        $izap_video->container_guid = $guid;
+        $izap_video->container_guid = $izap_video->container_guid;
         $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
         elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
         elgg_push_breadcrumb(elgg_echo('edit'));
