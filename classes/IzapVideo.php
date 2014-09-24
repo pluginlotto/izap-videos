@@ -44,7 +44,7 @@
       foreach ($data as $key => $value) {
         $this->$key = $value;
       }
-// mark it as new vidoe if guid is not there yet
+      // mark it as new vidoe if guid is not there yet
       if ($this->guid == 0) {
         $new = true;
       }
@@ -60,7 +60,6 @@
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
-
             //before start converting
             $this->converted = 'no';
             if ($saved = $this->save()) {

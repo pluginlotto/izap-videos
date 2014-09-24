@@ -196,7 +196,7 @@
         $form_vars['entity'] = $izap_video;
         $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
-
+        $izap_video->container_guid = $guid;
         $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
         elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
         elgg_push_breadcrumb(elgg_echo('edit'));
@@ -204,7 +204,8 @@
       }
     } else {
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
-      $body_vars = izap_videos_prepare_form_vars(null);
+      $izap_video->container_guid = $guid;
+      $body_vars = izap_videos_prepare_form_vars($izap_video);
 
       $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
       $title = elgg_echo('izap-videos:add');

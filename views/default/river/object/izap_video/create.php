@@ -59,6 +59,6 @@
     cursor: pointer;
     height: 52px;
     position: absolute;
-    margin: 107px -208px;
+    margin: 88px -208px;
   }
 </style>
