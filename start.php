@@ -62,6 +62,7 @@
     if (elgg_is_admin_logged_in()) {
       // Add admin menu item 
       elgg_register_admin_menu_item('administer', 'izap-videos-queue', 'statistics');
+      elgg_register_admin_menu_item('administer', 'izap-videos-converson-fail', 'statistics');
     }
 
     //register action
@@ -95,6 +96,7 @@
 
     elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
     elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
+    elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin');
 
     elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/jquery.js");
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");

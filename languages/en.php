@@ -44,7 +44,9 @@ $english = array(
     'izap-videos:add' => 'Add New Video',
     'izap-videos:video' => 'video',
     'video_url' => 'Video Url',
-    'admin:statistics:queue_status' => 'Current Queue Status',
+//    'admin:statistics:queue_status' => 'Current Queue Status',
+    'admin:statistics:izap-videos-queue' => 'Current Queue Status',
+    'admin:statistics:izap-videos-converson-fail' => 'Conversion Fail',
     'izap-videos:thumbnail' => 'Thumbnail (Optional)',
     'tags(Optional)' => 'Tags(Optional)',
     'izap-videos:videos' => 'videos',
@@ -74,7 +76,6 @@ $english = array(
     // queue
     'izap-videos:queue_empty' => 'Queue is empty',
     'izap-videos:video_queue' => 'Videos Queue',
-    'admin:statistics:izap-videos-queue' => 'Current queue status',
     'izap-videos:total_videos_in_queue' => 'Total videos in queue',
     'izap-videos:total_videos_in_trash' => 'Total videos in trash',
     'izap-videos:queue_retriggred' => 'Queue re-triggred',
@@ -93,6 +94,8 @@ $english = array(
     'izap_my_videos:widget_description' => 'Lists your latest videos.',
     'izap_queue_statistics-admin:widget_name' => 'Current video queue statistics',
     'izap_queue_statistics-admin:widget_description' => 'Displays current video queue statistics.',
+    'izap_fail_conversion_statistics-admin:widget_name' => 'Failed Video Conversion',
+    'izap_fail_conversion_statistics-admin:widget_description' => 'Displays Not converted Videos.',
     // widgets
     'izap-videos:numbertodisplay' => 'Number of videos to display',
     // group widget

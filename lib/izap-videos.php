@@ -738,7 +738,7 @@
     }
     return true;
   }
-
+  
   /**
    * this function gives the FFmpeg video converting command
    *
