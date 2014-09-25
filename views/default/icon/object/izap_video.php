@@ -45,7 +45,7 @@
 
   $img_src = $entity->getIconURL($vars['size']);
   $img_src = elgg_format_url($img_src);
-  $img = "<img $class src=\"$img_src\" alt=\"$title\" style = 'width:130px;' />";
+  $img = "<img $class src=\"$img_src\" alt=\"$title\" style = 'width:130px;height:100px' />";
   if ($url) {
     $params = array(
       'href' => $url,
