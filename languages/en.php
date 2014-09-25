@@ -22,8 +22,10 @@
 $english = array(
     'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
     'izap-videos_image_invalidformat:save:failed' => 'Invalid Image Type',
-    'item:object:izap_video' => 'Videos',
-    'item:object:izap-videos' => 'Videos',  
+//    'item:object:izap_video' => 'Videos', 
+//    'item:object:izap_videos' => 'Videos',
+//    'item:object:izap-videos' => 'Videos',  
+    'izap-videos:videos_user' => 'Videos',
     'izap-videos:youtube' => 'Youtube Videos',
     'izap-videos' => 'All Site Videos',  
     'izap-videos:title:friends' =>'Friend \'s Videos',   
@@ -48,9 +50,7 @@ $english = array(
     'izap-videos:videos' => 'videos',
     'item:object:izap_videos:singular' => 'video',
     'river:commented:object:izap_videos' => 'video',
-    'izap-videos:videos_user' => 'Videos',
     'izap-videos:videos_group' => 'Group videos',
-    'item:object:izap_videos' => 'Videos',
     'izap-videos:none' => 'No videos have been added yet.',
     //river
     'river:create:object:default' => '%s created a video %s',
