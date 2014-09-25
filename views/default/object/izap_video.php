@@ -77,9 +77,9 @@
   // do not show the metadata and controls in widget view
   if (elgg_in_context('widgets')) {
     $metadata = '';
-  }c($izap_video->converted);
+  }
   global $IZAPSETTINGS;
-  if($get_flv_file == 'false' || $izap_video->converted == 'no' || $izap_video->converted == 'in_processing'){
+  if ($get_flv_file == 'false' || $izap_video->converted == 'no' || $izap_video->converted == 'in_processing') {
     $izap_video->access_id = ACCESS_PRIVATE;
     $izap_video->save();
   }
@@ -144,7 +144,7 @@
     }
     $description_length = strlen($description);
     if ($description_length > 163) {
-      $description = substr($description, 0, 160 ). "...";
+      $description = substr($description, 0, 160) . "...";
     }
 
     $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
@@ -192,16 +192,41 @@
         if ($description_length < 87) {
           ?>
           <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-        <?php
+          <?php
         } else {
           $description = substr($description, 0, 83);
           ?>  
           <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-    <?php } ?>
+        <?php } ?>
       </div>
     </div>
 
     <?php
+  } else {
+    // brief view
+    $view_count = getViews($izap_video);
+    if ($izap_video->videothumbnail) {
+      $thumb_path = $izap_video->videothumbnail;
+      $path = $izap_video->getURL();
+      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
+    } else {
+      $file_icon = elgg_view_entity_icon($izap_video, 'medium');
+    }
+    $description_length = strlen($description);
+    if ($description_length > 163) {
+      $description = substr($description, 0, 160) . "...";
+    }
+
+    $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
+    $params = array(
+      'entity' => $izap_video,
+      'metadata' => $metadata,
+      'subtitle' => $subtitle,
+      'content' => $description,
+    );
+    $params = $params + $vars;
+    $list_body = elgg_view('object/elements/summary', $params);
+    echo elgg_view_image_block($file_icon, $list_body);
   }
 ?>
 
