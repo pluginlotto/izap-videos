@@ -81,7 +81,7 @@
   global $IZAPSETTINGS;
   if($get_flv_file == 'false' || $izap_video->converted == 'no' || $izap_video->converted == 'in_processing'){
     $izap_video->access_id = ACCESS_PRIVATE;
-    $izap = $izap_video->save();
+    $izap_video->save();
   }
   if ($full) {
     $params = array(
