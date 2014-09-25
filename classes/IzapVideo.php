@@ -136,7 +136,7 @@
           if ($this->write($retValues['imagecontent'])) {
             $orignal_file_path = $this->getFilenameOnFilestore();
 
-            $thumb = get_resized_image_from_existing_file($orignal_file_path, 120, 90);
+            $thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
             $set_thumb = $this->get_tmp_path($retValues['imagename']);
             $this->setFilename($set_thumb);
             $this->open("write");
