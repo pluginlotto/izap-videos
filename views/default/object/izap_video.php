@@ -99,6 +99,7 @@
     $metadata = '';
   }
   global $IZAPSETTINGS;
+  if($izap_video->converted == 'yes'){
   if ($full) {
     $params = array(
       'entity' => $izap_video,
@@ -218,7 +219,7 @@
     </div>
 
     <?php
-  }
+  }}
 ?>
 
 <script type="text/javascript">
