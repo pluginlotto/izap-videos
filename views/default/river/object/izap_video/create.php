@@ -26,13 +26,13 @@
   global $IZAPSETTINGS;
   if ($object->videothumbnail) {
     $thumbnail_image = $object->videothumbnail;
-    $style = 'width: 365px;';
+    $style = 'width: 365px;height: 300px;';
   } elseif ($object->imagesrc) {
     $thumbnail_image = $get_image;
-    $style = 'width: 365px;';
+    $style = 'width: 365px;height: 300px;';
   } else {
-    $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
-    $style = 'background-color:black;width: 365px;';
+//    $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
+    $style = 'background-color:black;width: 365px;height: 300px;';
   }
 
   //load video by ajax
@@ -66,6 +66,6 @@
     cursor: pointer;
     height: 52px;
     position: absolute;
-    margin: 88px -208px;
+    margin: 128px -208px;
   }
 </style>
