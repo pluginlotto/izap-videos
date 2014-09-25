@@ -66,32 +66,12 @@
 
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
   //show links in onserver video if video is converted
-//  if ($izap_video->videofile) {
-//    if ($izap_video->converted == 'in_processing') {
-//      
-//    } elseif ($izap_video->converted == 'yes') {
-//      $metadata = elgg_view_menu('entity', array(
-//        'entity' => $vars['entity'],
-//        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-//        'sort_by' => 'priority',
-//        'class' => 'elgg-menu-hz',
-//      ));
-//    } elseif ($izap_video->converted == 'no') {
-//      $metadata = elgg_view_menu('entity', array(
-//        'entity' => $vars['entity'],
-//        'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-//        'sort_by' => 'priority',
-//        'class' => 'elgg-menu-hz',
-//      ));
-//    }
-//  } else {
   $metadata = elgg_view_menu('entity', array(
     'entity' => $vars['entity'],
     'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
     'sort_by' => 'priority',
     'class' => 'elgg-menu-hz',
   ));
-//  }
   $subtitle = "$author_text $date $comments_link $categories";
 
   // do not show the metadata and controls in widget view
@@ -99,7 +79,10 @@
     $metadata = '';
   }
   global $IZAPSETTINGS;
-  if($izap_video->converted == 'yes'){
+  if($get_flv_file == 'false' || $izap_video->converted == 'no' || $izap_video->converted == 'in_processing'){ echo "ifffffffff";
+    $izap_video->access_id = ACCESS_PRIVATE;
+    $izap = $izap_video->save();
+  }
   if ($full) {
     $params = array(
       'entity' => $izap_video,
@@ -219,7 +202,7 @@
     </div>
 
     <?php
-  }}
+  }
 ?>
 
 <script type="text/javascript">
