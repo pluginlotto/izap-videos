@@ -50,6 +50,7 @@
       <div class="row collapse">
         <label><?php echo elgg_echo('video_url'); ?></label>
         <?php echo elgg_view('input/text', array('name' => 'video_url', 'class' => 'xlarge', 'id' => 'id_url', 'placeholder' => 'Enter a URL')); ?>
+        <label id="error" style="color:red;"></label>
       </div>
       <!-- Placeholder that tells Preview where to put the selector-->
       <div class="selector-wrapper" id="off_preview" style="display:none;">
@@ -204,7 +205,11 @@
       success: function(msg) {
         console.log(msg);
         var obj = $.parseJSON(msg);
-        $("#off_preview").show();
+        if(obj.title == null && obj.description == null){ 
+          $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
+        }else if(obj.title != null || obj.title  != null){ 
+          $("#off_preview").show();
+        } 
         $("#off_title").val(obj.title);
         $("#off_desc").val(obj.description);
         $('#off_thumb').attr('src', obj.thumbnail);
