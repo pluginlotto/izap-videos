@@ -231,48 +231,53 @@
     );
     $form_vars = array();
     $params = array();
-    $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
-    $yt = $video->YoutubeObject();
-    $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
-    $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
-    $description = strip_tags($_SESSION['youtube_attributes']['description']);
-    $myVideoEntry->setVideoDescription($description);
+    if (get_input('token')) {
+      $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
+      $yt = $video->YoutubeObject();
+      $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
+      $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
+      $description = strip_tags($_SESSION['youtube_attributes']['description']);
+      $myVideoEntry->setVideoDescription($description);
 
-    // Note that category must be a valid YouTube category
-    $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
-    $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']->tags);
-    $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
-    try {
-      $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
-    } catch (Exception $e) {
-      if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
-        register_error('YouTube Error: ' . $matches[1]);
-      } else {
-        register_error('YouTube Error: ' . $e->getMessage());
+      // Note that category must be a valid YouTube category
+      $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
+      $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']->tags);
+      $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
+      try {
+        $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
+      } catch (Exception $e) {
+        if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
+          register_error('YouTube Error: ' . $matches[1]);
+        } else {
+          register_error('YouTube Error: ' . $e->getMessage());
+        }
+        forward(setHref(array(
+          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+          'action' => 'add',
+          'page_owner' => elgg_get_logged_in_user_guid(),
+          'vars' => array('tab' => 'youtube'),
+        )));
       }
-      forward(setHref(array(
-        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-        'action' => 'add',
-        'page_owner' => elgg_get_logged_in_user_guid(),
-        'vars' => array('tab' => 'youtube'),
-      )));
+      $params['token'] = $tokenArray['token'];
+      $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next&scope=https://gdata.youtube.com&session=1&secure=0';
+      elgg_push_breadcrumb(elgg_echo('upload'));
+
+      $form_vars = array(
+        'enctype' => 'multipart/form-data',
+        'name' => 'video_upload',
+        'action' => $params['action'],
+        'id' => 'izap-video-form',
+      );
+      $title = elgg_echo('Upload video with title: "' . $_SESSION['youtube_attributes']['title'] . '"');
+      $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $params);
+      $return['title'] = $title;
+      $return['content'] = $content;
+
+      return $return;
+    } else {
+      register_error('You must have to grant access for youtube upload');
+      forward();
     }
-    $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next&scope=https://gdata.youtube.com&session=1&secure=0';
-    elgg_push_breadcrumb(elgg_echo('upload'));
-
-    $form_vars = array(
-      'enctype' => 'multipart/form-data',
-      'name' => 'video_upload',
-      'action' => $params['action'],
-      'id' => 'izap-video-form',
-    );
-    $title = elgg_echo('Upload video with title: "' . $_SESSION['youtube_attributes']['title'] . '"');
-    $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $params);
-    $return['title'] = $title;
-    $return['content'] = $content;
-
-    return $return;
   }
 
   function izap_video_get_page_content_youtube_next() {
