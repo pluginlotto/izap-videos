@@ -321,7 +321,7 @@
    * @return type
    */
   function izap_videos_ecml_view($hook, $type, $return, $params) {
-    $return['object/izap_video'] = elgg_echo('item:object:izap_video');
+    $return['object/izap_video'] = elgg_echo('item:object:izap-videos');
     return $return;
   }
 
