@@ -39,7 +39,8 @@
   $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/370/658';
   $description_length = strlen($object->description);
   if ($description_length > 263) {
-    $description = substr($object->description, 0, 260) . "...";
+    $path = $object->getURL();
+    $description = substr($object->description, 0, 260) . "... <a href='".$path."'>View More</a>";
   }
 
   //load video div
