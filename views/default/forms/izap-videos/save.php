@@ -19,7 +19,6 @@
   /*
    * izap-video add new video form
    */
-
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
     echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -79,12 +78,12 @@
 
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
-        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => '')); ?>
       </div>
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => '')); ?>
       </div>
 
     <?php } elseif ($upload_type == 'youtube') { ?>
@@ -94,12 +93,12 @@
       </div>
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
-        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => '')); ?>
       </div>
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc, 'type' => 'plain')); ?>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => '', 'type' => 'plain')); ?>
       </div>
     <?php } ?>
 

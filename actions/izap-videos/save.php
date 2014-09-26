@@ -57,6 +57,7 @@
   );
 
   if ($izap_videos->saveVideo($data)) {
+    elgg_clear_sticky_form('izap_videos');
     forward($izap_videos->getURL());
   }
   

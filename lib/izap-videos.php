@@ -188,7 +188,7 @@
     );
 
     $form_vars = array();
-    $sidebar = '';
+    $body_vars = array();
     if ($page == 'edit') {
       $izap_video = get_entity((int) $guid);
       $title = elgg_echo('izap_videos:edit') . ":";
@@ -206,16 +206,12 @@
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
       $izap_video->container_guid = $guid;
       $body_vars = izap_videos_prepare_form_vars($izap_video);
-
       $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
       $title = elgg_echo('izap-videos:add');
       $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
     }
-
     $return['title'] = $title;
     $return['content'] = $content;
-    $return['sidebar'] = $sidebar;
-
     return $return;
   }
 
@@ -337,27 +333,25 @@
 
   /**
    * Pull together izap-video variables for the save form
-   * @param type $post
-   * @param type $revision
+   * @param type $video
    */
-  function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
+  function izap_videos_prepare_form_vars($video = NULL) {
 
 // input names => defaults
     $values = array(
       'title' => NULL,
       'description' => NULL,
       'access_id' => ACCESS_DEFAULT,
-      'comments_on' => 'On',
       'tags' => NULL,
       'container_guid' => NULL,
       'guid' => NULL,
       'video_url' => NULL
     );
 
-    if ($post) {
+    if ($video) {
       foreach (array_keys($values) as $field) {
-        if (isset($post->$field)) {
-          $values[$field] = $post->$field;
+        if (isset($video->$field)) {
+          $values[$field] = $video->$field;
         }
       }
     }
