@@ -26,7 +26,7 @@
   $title = htmlspecialchars(get_input('title', '', false), ENT_QUOTES, 'UTF-8');
   $description = get_input("description");
   $access_id = (int) get_input("access_id");
-  $container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
+  $container_guid = (int) get_input('container_guid');
   $guid = (int) get_input('guid');
   $tags = get_input("tags");
   $video_url = get_input("video_url");
@@ -57,6 +57,7 @@
   );
 
   if ($izap_videos->saveVideo($data)) {
+    elgg_clear_sticky_form('izap_videos');
     forward($izap_videos->getURL());
   }
   

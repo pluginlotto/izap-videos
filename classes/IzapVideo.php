@@ -44,7 +44,7 @@
       foreach ($data as $key => $value) {
         $this->$key = $value;
       }
-// mark it as new vidoe if guid is not there yet
+      // mark it as new vidoe if guid is not there yet
       if ($this->guid == 0) {
         $new = true;
       }
@@ -53,8 +53,6 @@
           case 'offserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
             $saved = $this->save();
-            c($saved);
-            exit;
             break;
           case 'youtube':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
@@ -62,7 +60,6 @@
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
-
             //before start converting
             $this->converted = 'no';
             if ($saved = $this->save()) {
@@ -139,7 +136,7 @@
           if ($this->write($retValues['imagecontent'])) {
             $orignal_file_path = $this->getFilenameOnFilestore();
 
-            $thumb = get_resized_image_from_existing_file($orignal_file_path, 120, 90);
+            $thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
             $set_thumb = $this->get_tmp_path($retValues['imagename']);
             $this->setFilename($set_thumb);
             $this->open("write");
@@ -161,24 +158,12 @@
 
     public function saveYouTubeVideoData($url) {
       $videoValues = input($url, $this);
-//      $this->videosrc = $this->videosrc;
-//      $this->videotype = $this->type;
       $this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
       $this->imagesrc = $this->get_tmp_path($this->filename);
       $this->videotype_site = $this->domain;
       $this->converted = 'yes';
       $this->setFilename($this->orignal_thumb);
       $this->open("write");
-      if ($this->write($this->filecontent)) {
-        $thumb = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
-        $this->setFilename($this->imagesrc);
-        $this->open("write");
-        if (!$this->write($thumb)) {
-          register_error(elgg_echo('izap_videos:error:saving_thumb'));
-        }
-      } else {
-        register_error(elgg_echo('izap_videos:error:saving_thumb'));
-      }
     }
 
   }

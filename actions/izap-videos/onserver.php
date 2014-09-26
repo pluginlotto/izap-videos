@@ -17,7 +17,6 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
-  
   $upload_video = $_FILES['upload_video'];
   $return_value = $this->processfile($upload_video);
 
@@ -45,7 +44,7 @@
       $this->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
 
       //set thumbnail size
-      $thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
+      $thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 650, 500);
       $set_thumb = $this->get_tmp_path($_FILES['upload_thumbnail']['name']);
       $this->setFilename($set_thumb);
       $this->open("write");

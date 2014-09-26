@@ -22,8 +22,10 @@
 $english = array(
     'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
     'izap-videos_image_invalidformat:save:failed' => 'Invalid Image Type',
-    'item:object:izap_video' => 'Videos',
+    'item:object:izap_video' => 'Videos', 
+//    'item:object:izap_videos' => 'Videos',
     'item:object:izap-videos' => 'Videos',  
+//    'izap-videos:videos_user' => 'All Videos',
     'izap-videos:youtube' => 'Youtube Videos',
     'izap-videos' => 'All Site Videos',  
     'izap-videos:title:friends' =>'Friend \'s Videos',   
@@ -42,15 +44,15 @@ $english = array(
     'izap-videos:add' => 'Add New Video',
     'izap-videos:video' => 'video',
     'video_url' => 'Video Url',
-    'admin:statistics:queue_status' => 'Current Queue Status',
+//    'admin:statistics:queue_status' => 'Current Queue Status',
+    'admin:statistics:izap-videos-queue' => 'Current Queue Status',
+    'admin:statistics:izap-videos-converson-fail' => 'Conversion Fail',
     'izap-videos:thumbnail' => 'Thumbnail (Optional)',
     'tags(Optional)' => 'Tags(Optional)',
     'izap-videos:videos' => 'videos',
     'item:object:izap_videos:singular' => 'video',
     'river:commented:object:izap_videos' => 'video',
-    'izap-videos:videos_user' => 'Videos',
     'izap-videos:videos_group' => 'Group videos',
-    'item:object:izap_videos' => 'Videos',
     'izap-videos:none' => 'No videos have been added yet.',
     //river
     'river:create:object:default' => '%s created a video %s',
@@ -74,7 +76,6 @@ $english = array(
     // queue
     'izap-videos:queue_empty' => 'Queue is empty',
     'izap-videos:video_queue' => 'Videos Queue',
-    'admin:statistics:izap-videos-queue' => 'Current queue status',
     'izap-videos:total_videos_in_queue' => 'Total videos in queue',
     'izap-videos:total_videos_in_trash' => 'Total videos in trash',
     'izap-videos:queue_retriggred' => 'Queue re-triggred',
@@ -93,6 +94,8 @@ $english = array(
     'izap_my_videos:widget_description' => 'Lists your latest videos.',
     'izap_queue_statistics-admin:widget_name' => 'Current video queue statistics',
     'izap_queue_statistics-admin:widget_description' => 'Displays current video queue statistics.',
+    'izap_fail_conversion_statistics-admin:widget_name' => 'Failed Video Conversion',
+    'izap_fail_conversion_statistics-admin:widget_description' => 'Displays Not converted Videos.',
     // widgets
     'izap-videos:numbertodisplay' => 'Number of videos to display',
     // group widget
@@ -233,6 +236,7 @@ $english = array(
     'izap_videos:restore' => 'Restore',
     'izap_videos:send_user_message' => 'Send message to user',
     'izap_videos:alert:not-converted' => 'You can not edit/play this video until completion of conversion process.',
+    'izap_videos:alert:fail-converted' => 'Conversion failed for this video.',
 
     //admin keys
 

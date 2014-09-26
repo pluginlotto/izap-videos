@@ -19,7 +19,6 @@
   /*
    * izap-video add new video form
    */
-
   $guid = elgg_extract('guid', $vars, null);
   if (!$guid) {
     echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -32,7 +31,6 @@
   if (!$container_guid) {
     $container_guid = elgg_get_logged_in_user_guid();
   }
-
   if ($guid) {
     $file_label = elgg_echo("izap-videos:replace");
     $submit_label = elgg_echo('save');
@@ -42,7 +40,7 @@
   }
 ?>
 
-  <?php
+<?php
   $current_url = current_page_url();
   $upload_type = end(explode('/', $current_url));
   if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
@@ -51,23 +49,20 @@
       <div class="row collapse">
         <label><?php echo elgg_echo('video_url'); ?></label>
         <?php echo elgg_view('input/text', array('name' => 'video_url', 'class' => 'xlarge', 'id' => 'id_url', 'placeholder' => 'Enter a URL')); ?>
+        <label id="error" style="color:red;"></label>
       </div>
       <!-- Placeholder that tells Preview where to put the selector-->
       <div class="selector-wrapper" id="off_preview" style="display:none;">
         <div class="selector">
-            <div class="thumb">
-              <div class="controls">
-                <?php echo  elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
-              </div>
-            </div>
-            <div class="attributes">
-              <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
-              <?php echo elgg_view('input/longtext', array('name' => 'description', 'class' => 'description', 'id' => 'off_desc')); ?>
-            </div>
+          <div class="thumb">
+            <?php echo elgg_view('output/img', array('class' => 'thumb', 'id' => 'off_thumb', 'src' => '', 'alt' => elgg_echo('avatar'))); ?>
           </div>
-       
+          <div class="attributes">
+            <?php echo elgg_view('input/text', array('name' => 'title', 'class' => 'title', 'id' => 'off_title')); ?>
+            <?php echo elgg_view('input/longtext', array('name' => 'description', 'class' => 'description', 'id' => 'off_desc')); ?>
+          </div>
+        </div>       
       </div>
-
     <?php } elseif ($upload_type == 'onserver') { ?>
 
       <div>
@@ -83,12 +78,12 @@
 
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
-        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => '')); ?>
       </div>
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc)); ?>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => '')); ?>
       </div>
 
     <?php } elseif ($upload_type == 'youtube') { ?>
@@ -98,15 +93,13 @@
       </div>
       <div>
         <label><?php echo elgg_echo('title'); ?></label><br />
-        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => $title)); ?>
+        <?php echo elgg_view('input/text', array('name' => 'title', 'value' => '')); ?>
       </div>
 
       <div>
         <label><?php echo elgg_echo('description'); ?></label>
-        <!--<textarea name="description" value="<?php echo $desc; ?>"></textarea>-->
-        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => $desc, 'type' => 'plain')); ?>
+        <?php echo elgg_view('input/longtext', array('name' => 'description', 'value' => '', 'type' => 'plain')); ?>
       </div>
-
     <?php } ?>
 
     <?php if ($guid) { ?>
@@ -122,7 +115,7 @@
     <?php } ?>  
     <div>
       <label><?php echo elgg_echo('tags(Optional)'); ?></label>
-      <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags)); ?>
+      <?php echo elgg_view('input/tags', array('name' => 'tags', 'value' => $tags, 'id' => 'tag')); ?>
     </div>
 
     <?php
@@ -130,6 +123,9 @@
     if ($categories) {
       echo $categories;
     }
+    // extendable view for other plugins
+    echo elgg_view('izap_videos/form_extension');
+    
     ?>
     <div  style="clear: both">
       <label><?php echo elgg_echo('access'); ?></label><br />
@@ -139,16 +135,14 @@
     <div class="elgg-foot">
       <?php
       echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $container_guid));
-
       if ($guid) {
         echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $guid));
       }
-
       echo elgg_view('input/hidden', array('name' => 'page_url', 'value' => $current_url));
       echo elgg_view('input/submit', array('value' => $submit_label, 'id' => 'upload_button'));
       ?>
     </div>
-    <?php
+  <?php
   } else {
     $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all';
     register_error(elgg_echo('izap-videos:message:noAddFeature'));
@@ -156,66 +150,72 @@
   }
 ?>
 <script>
-    $(document).ready(function() {
-      $('form[name = video_upload]').validate({
-        rules: {
-          title: {
-            required: true,
-          },
-          video_url: {
-            required: true,
-            url: true,
-          },
-          upload_video: {
-            required: true
-          },
+  $(document).ready(function() {
+    $('form[name = video_upload]').validate({
+      rules: {
+        title: {
+          required: true,
         },
-        messages: {
-          title: {
-            required: "Please Enter Title",
-          },
-          video_url: {
-            required: "Please Enter Video Url",
-            url: "Enter Valid Url"
-          },
-          upload_video: {
-            required: "Please select video to upload"
-          },
-        }
-      });
-    });
-    $('input[name = upload_video]').change(function() {
-      var video_type = $('input[name = upload_video]').val();
-      var get_ext = video_type.split('.');
-      var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
-      if (izap == "invalidate") {
-        $('#error').html("Invalid video format");
-        document.getElementById("upload_button").disabled = true;
-      } else {
-        $('#error').html("");
-        document.getElementById("upload_button").disabled = false;
+        video_url: {
+          required: true,
+          url: true,
+        },
+        upload_video: {
+          required: true
+        },
+      },
+      messages: {
+        title: {
+          required: "Please enter the title",
+        },
+        video_url: {
+          required: "Please enter the video url",
+          url: "Enter the valid url"
+        },
+        upload_video: {
+          required: "Please select the video to upload"
+        },
       }
     });
-    $('form[name = video_upload]').submit(function() {
-      if ($('form[name = video_upload]').validate().form()) {
-      }
-    });
-    ;
-    //Video Preview Start Here 
-    $("#id_url").on('input', function() {
-      $.ajax({
-        type: 'POST',
-        url: '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>',
-        data: {url: $(this).val()},
-        success: function(msg) {
-          var obj = $.parseJSON(msg);
+  });
+  $('input[name = upload_video]').change(function() {
+    var video_type = $('input[name = upload_video]').val();
+    var get_ext = video_type.split('.');
+    var izap = (get_ext[get_ext.length - 1] == 'avi' || get_ext[get_ext.length - 1] == 'flv' || get_ext[get_ext.length - 1] == 'mp4' || get_ext[get_ext.length - 1] == '3gp') ? "validate" : "invalidate";
+    if (izap == "invalidate") {
+      $('#error').html("Invalid video format");
+      document.getElementById("upload_button").disabled = true;
+    } else {
+      $('#error').html("");
+      document.getElementById("upload_button").disabled = false;
+    }
+  });
+  $('form[name = video_upload]').submit(function() {
+    if ($('form[name = video_upload]').validate().form()) {
+    }
+  });
+  ;
+  //Video Preview Start Here 
+  $("#id_url").on('input', function() {
+    $.ajax({
+      type: 'POST',
+      url: '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>',
+      data: {url: $(this).val()},
+      success: function(msg) {
+        console.log(msg);
+        var obj = $.parseJSON(msg);
+        if(obj.title == null && obj.description == null){ 
+          $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
+        }else if(obj.title != null || obj.title  != null){ 
           $("#off_preview").show();
-          $("#off_title").val(obj.title);
-          $("#off_desc").val(obj.description);
-          $('#off_thumb').attr('src',obj.thumbnail);
-        }
-      });
+        } 
+        $("#off_title").val(obj.title);
+        $("#off_desc").val(obj.description);
+        $('#off_thumb').attr('src', obj.thumbnail);
+        $("#tag").val(obj.tags);
+      }
     });
+  });
 </script>
 <style type="text/css">
   .error{

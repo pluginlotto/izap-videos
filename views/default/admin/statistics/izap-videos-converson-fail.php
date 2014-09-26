@@ -1,5 +1,4 @@
 <?php
-  
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -16,19 +15,9 @@
    *    You should have received a copy of the GNU General Public License
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
-
+  elgg_load_library('elgg:izap_video');
   global $IZAPSETTINGS;
-  $arg = parse_url($IZAPSETTINGS->apiUrl);
-  $api = explode('&', $arg['query']);
-  $key = explode('=', $api[0]);
-  if ($key[1] == '') { 
-    register_error('Register API Key for offserver video');
-    forward(REFERER);
-  }
-  $video_data = array(
-    'url' => $this->videourl,
-    'title' => $this->title,
-    'description' => $this->description,
-  );
-  $this->saveYouTubeVideoData($video_data);
   
+echo "hetee";
+
+?>

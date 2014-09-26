@@ -19,7 +19,6 @@
   $total_queued = $vars['total'];
   $queueStatus = $vars['status'];
   $queuedVideos = $vars['queue_videos'];
-// load lib
   elgg_load_library('elgg:izap_video');
 ?>
 <div class="elgg-module elgg-module-inline">
@@ -43,12 +42,8 @@
               $FLV_size = izapFormatBytes(filesize($outputPath . '_c.flv')); //echo $FLV_size; EXIT;
               ?>
               <tr class="odd <?php echo (!$i && izap_is_queue_running_izap_videos()) ? 'queue_selected' : '' ?>">
-                <td>
-                  <?php echo $ORIGNAL_name . '<br />' . $FLV_name; ?>
-                </td>
-                <td>
-                  <?php echo $ORIGNAL_size . '<br />' . $FLV_size; ?>
-                </td>
+                <td> <?php echo $ORIGNAL_name . '<br />' . $FLV_name; ?></td>
+                <td><?php echo $ORIGNAL_size . '<br />' . $FLV_size; ?></td>
                 <td>
                   <?php
                   if ($queuedVideo['conversion'] != IN_PROCESS) {
@@ -72,9 +67,7 @@
           else:
             ?>
             <tr>
-              <td>
-    <?php echo elgg_echo('izap-videos:queue_empty'); ?>
-              </td>
+              <td><?php echo elgg_echo('izap-videos:queue_empty'); ?></td>
             </tr>
         <?php
           endif;
