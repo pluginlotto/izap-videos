@@ -40,7 +40,7 @@
   $description_length = strlen($object->description);
   if ($description_length > 263) {
     $path = $object->getURL();
-    $description = substr($object->description, 0, 260) . "... <a href='".$path."'>View More</a>";
+    $description = substr($object->description, 0, 260) . "... <a href='".$path."'>View More</a>";echo $description;exit;
   }
 
   //load video div
