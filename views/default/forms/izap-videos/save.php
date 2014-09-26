@@ -167,14 +167,14 @@
       },
       messages: {
         title: {
-          required: "Please Enter Title",
+          required: "Please enter the title",
         },
         video_url: {
-          required: "Please Enter Video Url",
+          required: "Please enter the video url",
           url: "Enter Valid Url"
         },
         upload_video: {
-          required: "Please select video to upload"
+          required: "Please select the video to upload"
         },
       }
     });
