@@ -66,7 +66,7 @@
 
     $title = 'Add New Video';
     $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
-    
+
     if (izap_is_onserver_enabled_izap_videos() == 'yes') {
       $url .= $url_id . '/onserver';
       elgg_register_menu_item('title', array(
@@ -738,7 +738,7 @@
     }
     return true;
   }
-  
+
   /**
    * this function gives the FFmpeg video converting command
    *
@@ -1041,7 +1041,7 @@
     if ($params['page_owner'] !== FALSE) {
       if (isset($params['page_owner'])) {
         $url_array[] = $params['page_owner'];
-      } elseif (elgg_get_page_owner_entity ()) { 
+      } elseif (elgg_get_page_owner_entity()) {
         $url_array[] = elgg_get_page_owner_entity()->guid;
       } elseif (elgg_is_logged_in()) {
         $url_array[] = elgg_get_logged_in_user_guid();

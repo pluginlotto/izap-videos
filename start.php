@@ -34,7 +34,7 @@
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
     $IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
-    $IZAPSETTINGS->graphics = $CONFIG->wwwroot . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
+    $IZAPSETTINGS->graphics = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
 
     $root = dirname(__FILE__);
 
@@ -120,7 +120,6 @@
       $url = setHref(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'action' => 'all',
-        'page_owner' => $parms['entity']->username,
         'full_url' => FALSE
       ));
       $item = new ElggMenuItem(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:videos_' . $params['entity']->getType()), $url);
@@ -141,11 +140,12 @@
   /**
    * Dispatches izap-video pages.
    * URLs take the form of
-   *  All izap-video:       izap-videos/all
-   *  User's izap-video:    izap-videos/owner/<username>
-   *  Friends' izap-video:   izap-videos/friends/<username>
-   *  New post:        izap-videos/add/<guid>
-   *  Edit post:       izap-videos/edit/<guid>/<revision>
+   * All izap-video:       izap-videos/all
+   * User's izap-video:    izap-videos/owner/<username>
+   * Friends' izap-video:  izap-videos/friends/<username>
+   * New post:             izap-videos/add/<guid>
+   * Edit post:            izap-videos/edit/<guid>/<revision>
+   * 
    * Title is ignored
    *
    * @todo no archives for all izap-videos or friends
@@ -179,7 +179,7 @@
         $params = izap_video_get_page_content_friends($user->guid);
         break;
       //add new video
-      case 'add': 
+      case 'add':
         elgg_gatekeeper(); //if user is not logged in then redirect user to login page
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
@@ -237,7 +237,6 @@
     }
 
     $body = elgg_view_layout('content', $params);
-    // print_r($params);exit;
     echo elgg_view_page($params['title'], $body);
     return true;
   }
@@ -255,6 +254,14 @@
     return $path;
   }
 
+  /**
+   * 
+   * @param type $hook
+   * @param type $type
+   * @param type $value
+   * @param type $params
+   * @return string
+   */
   function izap_offserver_unit_tests($hook, $type, $value, $params) {
     $path[] = dirname(__FILE__) . '/tests/VideoUnitTest.php';
     return $path;
@@ -351,6 +358,7 @@
     echo '</pre>';
   }
 
+  // need for including ZEND
   $paths = array(
     elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/vendors/',
     '.',
