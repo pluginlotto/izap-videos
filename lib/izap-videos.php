@@ -182,6 +182,7 @@
    * @param type $revision
    */
   function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
+
     $return = array(
       'filter' => '',
     );
@@ -202,19 +203,6 @@
         $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
       }
     } else {
-      $category = end(explode('/', current_page_url()));
-//      if($category == 'onserver'){
-//        if(izap_is_onserver_enabled_izap_videos() == 'youtube'){
-//          izap_video_get_page_content_edit($page, $guid, 'youtube');
-//        }
-//      }
-//      elseif($category == 'offserver'){
-//        
-//      }elseif($category == 'youtube'){
-//        
-//      }else{
-//        
-//      }
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
       $izap_video->container_guid = $guid;
       $body_vars = izap_videos_prepare_form_vars($izap_video);

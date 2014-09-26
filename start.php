@@ -179,8 +179,17 @@
         $params = izap_video_get_page_content_friends($user->guid);
         break;
       //add new video
-      case 'add':
-        elgg_gatekeeper(); //if user is not logged in then redirect user to login page
+      case 'add': 
+        if($page[2] == 'onserver' && izap_is_onserver_enabled_izap_videos() != 'yes') {
+          register_error("Currently this service is not available, please try again later");
+          forward();
+        }elseif($page[2] == 'youtube' && izap_is_onserver_enabled_izap_videos() != 'youtube') {
+          register_error("Currently this service is not available, please try again later");
+          forward();
+        }elseif($page[2] == 'offserver' && izap_is_offserver_enabled_izap_videos() != 'yes') {
+          register_error("Currently this service is not available, please try again later");
+          forward();
+        }elgg_gatekeeper(); //if user is not logged in then redirect user to login page
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
       //edit particular izap-videos 
