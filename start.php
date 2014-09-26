@@ -115,18 +115,18 @@
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_owner_block_izap_videos');
   }
 
-  function izap_owner_block_izap_videos($hook, $type, $return, $params) {
-    if (elgg_instanceof($params['entity'], 'user') || (elgg_instanceof($params['entity'], 'group'))) {
-      $url = setHref(array(
-        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
-        'action' => 'all',
-        'full_url' => FALSE
-      ));
-      $item = new ElggMenuItem(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:videos_' . $params['entity']->getType()), $url);
-      $return[] = $item;
-    }
-    return $return;
-  }
+//  function izap_owner_block_izap_videos($hook, $type, $return, $params) {
+//    if (elgg_instanceof($params['entity'], 'user') || (elgg_instanceof($params['entity'], 'group'))) {
+//      $url = setHref(array(
+//        'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+//        'action' => 'all',
+//        'full_url' => FALSE
+//      ));
+//      $item = new ElggMenuItem(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, elgg_echo('izap-videos:videos_' . $params['entity']->getType()), $url);
+//      $return[] = $item;
+//    }
+//    return $return;
+//  }
 
   function izap_defalut_get_videos_options($provided = array()) {
     $default = array(
