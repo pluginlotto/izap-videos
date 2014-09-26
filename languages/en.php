@@ -236,6 +236,7 @@ $english = array(
     'izap_videos:restore' => 'Restore',
     'izap_videos:send_user_message' => 'Send message to user',
     'izap_videos:alert:not-converted' => 'You can not edit/play this video until completion of conversion process.',
+    'izap_videos:alert:fail-converted' => 'Conversion failed for this video.',
 
     //admin keys
 
