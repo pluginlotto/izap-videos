@@ -709,7 +709,7 @@
     //set state processing for video
     $izapvideo->converted = 'in_processing';
     //run queue
-    izap_trigger_video_queue();
+//    izap_trigger_video_queue();
   }
 
   /**
@@ -778,7 +778,8 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-    if (file_exists($file)) {
+    $file = '/home/priya/etc/php_apps/www/priya.z/elgg_data/test.mp4';
+    if (file_exists($file)) { 
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
