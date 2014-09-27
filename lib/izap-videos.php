@@ -726,15 +726,10 @@
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
         $izap_video = get_entity($pending['guid']);
         if (isset($converted['error'])) { 
-          if(sizeof($converted['error'])){
-            $izap_video->converted = $converted['error'];
-          }else{
-            $izap_video->converted = '2222';
-          }
-          
+          $izap_video->converted = $converted['message'];
           $queue_object->move_to_trash($pending['guid']);
         } else { 
-          $izap_video->converted = 'yes';
+          $izap_video->converted = 'yesss';
           $queue_object->delete($pending['guid']);
         }
       }
@@ -783,7 +778,7 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-    if (file_exists($file)) {
+    if (file_exists($file)) { 
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
