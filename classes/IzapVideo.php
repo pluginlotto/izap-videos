@@ -70,8 +70,6 @@
                 if (getFileExtension($get_entity->videofile) != 'flv') {
                   izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $this);
                 }
-                //after converting video 
-                $this->converted = 'yes';
                 //change access id to submit by user after converting video
                 $this->access_id = $data['access_id'];
                 $saved = $this->save();

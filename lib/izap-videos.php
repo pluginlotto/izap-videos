@@ -717,16 +717,19 @@
    * @return boolean
    */
   function izap_run_queue_izap_videos() {
+    getAllAccess();
     $queue_object = new izapQueue();
     $queue = $queue_object->fetch_videos();
 
     if (is_array($queue)) {
       foreach ($queue as $pending) {
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-
-        if ($converted['error']) {
+        $izap_video = get_entity($pending['guid']);
+        if (isset($converted['error'])) { 
+          $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
-        } else {
+        } else { 
+          $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
       }
@@ -775,7 +778,6 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-
     if (file_exists($file)) {
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
@@ -1064,4 +1066,13 @@
     }
     return $final_url;
   }
+  
+  function getAllAccess($func_name = 'izap_access_over_ride', $priority = 99999) {
+    elgg_set_ignore_access(true);
+    elgg_register_event_handler("enable", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("permissions_check", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("container_permissions_check", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("permissions_check:metadata", "all", $func_name, $priority);
+  }
+  
   
