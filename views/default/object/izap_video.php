@@ -77,7 +77,7 @@
   // do not show the metadata and controls in widget view
   if (elgg_in_context('widgets')) {
     $metadata = '';
-  }
+  }c($izap_video->converted);
   global $IZAPSETTINGS;
   if ($get_flv_file == 'false' || $izap_video->converted == 'no') {
     $izap_video->access_id = ACCESS_PRIVATE;
