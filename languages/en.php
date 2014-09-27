@@ -83,6 +83,9 @@ $english = array(
     'izap-videos:reset_queue' => 'Reset Queue',
     'izap-videos:video_trash' => 'Videos queue trash',
     'admin:statistics:izap-videos-trash' => 'Video trash',
+    'izap-videos:conversion_failed' => 'Conversion Failed',
+    'izap-videos:conversion_failed_no' => 'No Conversion Failed',
+    'izap-videos:conversion_failed_list' => 'List Conversion Failed',
     // server analysis
     'admin:utilities:izap-videos-server' => 'Server analysis for videos (iZAP Videos)',
     'admin:utilities' => 'iZAP Utilities',

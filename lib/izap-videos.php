@@ -1074,5 +1074,15 @@
     elgg_register_plugin_hook_handler("container_permissions_check", "all", $func_name, $priority);
     elgg_register_plugin_hook_handler("permissions_check:metadata", "all", $func_name, $priority);
   }
+  function getFailedVideos(){
+    $records = elgg_get_entities_from_metadata(array(
+        'types' => 'object',
+        'subtypes' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+        'metadata_names' => 'converted',
+        'metadata_values' => 'no',
+        'limit' => 99999999
+      ));
+    return $records;
+  }
   
   

@@ -16,8 +16,22 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
   elgg_load_library('elgg:izap_video');
-  global $IZAPSETTINGS;
-  
-echo "hetee";
+  echo 'here';
+  $conversion_failed = getFailedVideos();
+  if(sizeof($conversion_failed)){
+    $status = elgg_echo('izap-videos:conversion_failed_no');
+  }else{
+    $status = elgg_echo('izap-videos:conversion_failed_list');
+  }
+  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/conversion_failed', array(
+      'queue_videos' => getFailedVideos(),
+      'status' => $status,
+      'total' => count($conversion_failed)
+      )
+    );
+  foreach($conversion_failed as $failed){
+    
+    
+  }
 
 ?>

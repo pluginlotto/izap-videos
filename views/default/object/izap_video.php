@@ -79,7 +79,7 @@
     $metadata = '';
   }
   global $IZAPSETTINGS;
-  if ($get_flv_file == 'false' || $izap_video->converted == 'no' || $izap_video->converted == 'in_processing') {
+  if ($get_flv_file == 'false' || $izap_video->converted == 'no') {
     $izap_video->access_id = ACCESS_PRIVATE;
     $izap_video->save();
   }

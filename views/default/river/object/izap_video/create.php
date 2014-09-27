@@ -19,7 +19,7 @@
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $object->videofile) . '_c.flv') ? "true" : "false";
-  if($get_flv_file == 'false' || $object->converted == 'no' || $object->converted == 'in_processing'){
+  if($get_flv_file == 'false' || $object->converted == 'no'){
     $object->access_id = ACCESS_PRIVATE;
     $object->save();
   }
