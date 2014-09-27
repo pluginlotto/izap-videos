@@ -727,7 +727,7 @@
         $izap_video = get_entity($pending['guid']);
         if (isset($converted['error'])) { 
           if(sizeof($converted['error'])){
-            $izap_video->converted = '1111';
+            $izap_video->converted = $converted['error'];
           }else{
             $izap_video->converted = '2222';
           }
