@@ -726,10 +726,15 @@
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
         $izap_video = get_entity($pending['guid']);
         if (isset($converted['error'])) { 
-          $izap_video->converted = 'no00';
+          if(sizeof($converted['error'])){
+            $izap_video->converted = '1111';
+          }else{
+            $izap_video->converted = '2222';
+          }
+          
           $queue_object->move_to_trash($pending['guid']);
         } else { 
-          $izap_video->converted = 'yesSS';
+          $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
       }
