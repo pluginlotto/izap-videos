@@ -16,7 +16,6 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
   elgg_load_library('elgg:izap_video');
-  echo 'here';
   $conversion_failed = getFailedVideos();
   if(sizeof($conversion_failed)){
     $status = elgg_echo('izap-videos:conversion_failed_no');
