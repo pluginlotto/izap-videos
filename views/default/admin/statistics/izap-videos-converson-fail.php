@@ -22,15 +22,10 @@
   }else{
     $status = elgg_echo('izap-videos:conversion_failed_list');
   }
-//  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/conversion_failed', array(
-//      'queue_videos' => getFailedVideos(),
-//      'status' => $status,
-//      'total' => count($conversion_failed)
-//      )
-//    );
-  foreach($conversion_failed as $failed){
-    
-    c($failed->converted);
-  }
-
+  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/conversion_failed', array(
+      'queue_videos' => getFailedVideos(),
+      'status' => $status,
+      'total' => count($conversion_failed)
+      )
+    );
 ?>
