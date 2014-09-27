@@ -77,7 +77,7 @@
   // do not show the metadata and controls in widget view
   if (elgg_in_context('widgets')) {
     $metadata = '';
-  }c($izap_video->converted);
+  }
   global $IZAPSETTINGS;
   if ($get_flv_file == 'false' || $izap_video->converted == 'no') {
     $izap_video->access_id = ACCESS_PRIVATE;
@@ -241,32 +241,3 @@
   }
   $('.ajax_load_video').click(ajax_request);
 </script>
-
-<style type="text/css">
-  .play_icon{
-    cursor: pointer;
-    height: 52px;
-    position: absolute;
-    margin: 176px -365px;
-  }
-  .group_video img{
-    height: 77px;
-    width: 77px! important;
-  }
-  .group_video h3{
-    font-size: 12px; 
-  }
-  .group_video ul{
-    font-size: 90%; 
-    margin-left: 0px;
-  }
-  .group_video li{
-    margin-left: 3px;
-  }
-  .total{
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 4px;
-    padding-right: 4px;;
-  }
-</style>

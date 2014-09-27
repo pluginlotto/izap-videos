@@ -92,7 +92,7 @@
     //add_group_tool_option('izap_video_page_handler', elgg_echo('izap-videos:enable_videos'));
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
-    elgg_extend_view('page/elements/header', 'forms/izap-videos/my_javascript');
+    elgg_extend_view('page/elements/footer', 'forms/izap-videos/my_javascript');
 
     elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
     elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
