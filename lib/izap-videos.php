@@ -724,12 +724,12 @@
     if (is_array($queue)) {
       foreach ($queue as $pending) {
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-//        $izap_video = get_entity($pending['guid']);
-        if (isset($converted['error'])) { 
-//          $izap_video->converted = 'no';
+        $izap_video = get_entity($pending['guid']);
+        if ($converted['error']) { 
+          $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
         } else { 
-//          $izap_video->converted = 'yes';
+          $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
       }
@@ -778,21 +778,18 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-    getAllAccess();
-    $izap_video = get_entity($videoId);
     if (file_exists($file)) {
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
 
       if (!is_array($videofile)) {
-                  $izap_video->converted = '111';
         $queue_object->change_conversion_flag($videoId);
         return $videofile;
-      } else {           $izap_video->converted = '222';
+      } else {
         $err_message = $videofile['message'];
       }
-    } else {           $izap_video->converted = '333';
+    } else {
       $err_message = elgg_echo('izap_videos:file not found');
     }
     if (isset($err_message)) {
