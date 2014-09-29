@@ -298,3 +298,13 @@ html[xmlns] .clearfix {
     padding-right: 4px;;
   }
  
+   .error{
+    color:red;
+    font-weight: normal;
+  }
+  #error{
+    color:red;
+    font-weight: normal;
+    font-size: 110%;
+    display: inline;
+  }

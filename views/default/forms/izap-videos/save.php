@@ -150,37 +150,5 @@
   }
 ?>
 <script>
-  //Video Preview Start Here 
-  $("#id_url").on('input', function() {
-    $.ajax({
-      type: 'POST',
-      url: '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>',
-      data: {url: $(this).val()},
-      success: function(msg) {
-        console.log(msg);
-        var obj = $.parseJSON(msg);
-        if(obj.title == null && obj.description == null){ 
-          $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
-        }else if(obj.title != null || obj.title  != null){ 
-          $("#off_preview").show();
-        } 
-        $("#off_title").val(obj.title);
-        $("#off_desc").val(obj.description);
-        $('#off_thumb').attr('src', obj.thumbnail);
-        $("#tag").val(obj.tags);
-      }
-    });
-  });
+  var preview_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>";
 </script>
-<style type="text/css">
-  .error{
-    color:red;
-    font-weight: normal;
-  }
-  #error{
-    color:red;
-    font-weight: normal;
-    font-size: 110%;
-    display: inline;
-  }
-</style>
