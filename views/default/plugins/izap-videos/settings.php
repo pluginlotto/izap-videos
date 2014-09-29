@@ -187,9 +187,3 @@
   <?php } ?>
 <!--Offserver Settings End Here-->
 <script src="/mod/izap-videos/vendors/video_settings.js" ></script>
-<style type='text/css'>
-  .izap_admin_fieldset {
-    border: 2px solid #DEDEDE;
-    margin: 0 0 20px 0;
-  }
-</style>
