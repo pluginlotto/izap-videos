@@ -93,6 +93,7 @@
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
     elgg_extend_view('page/elements/footer', 'forms/izap-videos/my_javascript');
+    elgg_extend_view('page/elements/footer', 'icon/object/powered_by');
 
     elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/jquery.js");
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
