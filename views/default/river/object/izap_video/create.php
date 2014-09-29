@@ -26,12 +26,12 @@
   global $IZAPSETTINGS;
   if ($object->videothumbnail) {
     $thumbnail_image = $object->videothumbnail;
-    $style = 'width: 365px;height: 300px;';
+    $style = 'width: 365px;height: 300px;float: left;';
   } elseif ($object->imagesrc) {
     $thumbnail_image = $get_image;
-    $style = 'width: 365px;height: 300px;';
+    $style = 'width: 365px;height: 300px;float: left;';
   } else {
-    $style = 'background-color:black;width: 365px;height: 300px;';
+    $style = 'background-color:black;width: 365px;height: 300px;float: left;';
   }
 
   //load video by ajax
@@ -41,13 +41,13 @@
     $path = $object->getURL();
     $description = substr(strip_tags($object->description), 0, 260) . "... <a href='" . $path . "'>View More</a>";
   }
-
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
-  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="activity_play_icon" /></a>';
+//  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" /></a>';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video" id="activity_play_icon"></a>';
   $content .= '</div>';
-  $content .= $description;
+  $content .= '<div style="float:left;">'.$description.'</div>';
   echo elgg_view('river/elements/layout', array(
     'item' => $vars['item'],
     'message' => $content,
@@ -58,10 +58,10 @@
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
 </script>
 <style type="text/css">
-  .activity_play_icon{
+/*  .activity_play_icon{
     cursor: pointer;
     height: 52px;
     position: absolute;
     margin: 128px -208px;
-  }
+  }*/
 </style>
