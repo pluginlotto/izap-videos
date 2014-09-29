@@ -41,13 +41,6 @@
                 <td> <?php echo end(explode('/', $failedVideo->videofile)); ?></td>
                 <td><?php echo 'Not Converted'; ?></td>
                 <td><?php echo $owner->username; ?></td>
-                <td>
-                  <?php
-                  if ($failedVideo['conversion'] != IN_PROCESS) {
-                    echo elgg_view('output/confirmlink', array('href' => getFormAction('reset_queue', GLOBAL_IZAP_VIDEOS_PLUGIN) . '?guid=' . $failedVideo['guid'], 'text' => 'X', 'confirm' => 'Are you sure? It will delete this videos from queue and correspoindingly from db.'));
-                  }
-                  ?>
-                </td>
               </tr>
               <?php
               $i++;
