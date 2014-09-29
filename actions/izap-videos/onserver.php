@@ -32,13 +32,13 @@
   }
 
   if (empty($_FILES['upload_thumbnail']['name'])) {
-    if ($return_value->thumb) { 
+    if ($return_value->thumb) {
       $this->orignal_thumb = $return_value->orignal_thumb;
       $this->imagesrc = $return_value->thumb;
     }
   } else {
-    if($_FILES['upload_thumbnail']['error'] == 0) {
-      $set_original_thumbnail = $this->get_tmp_path('original_' .$_FILES['upload_thumbnail']['name']);
+    if ($_FILES['upload_thumbnail']['error'] == 0) {
+      $set_original_thumbnail = $this->get_tmp_path('original_' . $_FILES['upload_thumbnail']['name']);
       $this->setFilename($set_original_thumbnail);
       $this->open("write");
       $this->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));

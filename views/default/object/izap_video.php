@@ -121,9 +121,9 @@
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
     $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
     $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
-    if($izap_video->converted == 'in_processing'){
+    if ($izap_video->converted == 'in_processing') {
       $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
-    }elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
+    } elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
       $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
     }
     $content .= '</div>';
@@ -199,7 +199,7 @@
           $description = substr($description, 0, 83);
           ?>  
           <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-        <?php } ?>
+            <?php } ?>
       </div>
     </div>
 
@@ -233,5 +233,5 @@
 ?>
 
 <script type="text/javascript">
-  var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
+    var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
 </script>

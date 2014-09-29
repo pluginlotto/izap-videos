@@ -15,7 +15,7 @@
    *    You should have received a copy of the GNU General Public License
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
-  
+
   elgg_load_library('elgg:izap_video');
 
   $Fail_functions = ini_get('disable_functions');
@@ -76,7 +76,7 @@
         <td class="column_one"><b>FFmpeg :</b></td>
         <td class="column_one"><?php echo ($ffmpeg) ? 'Success' : 'Fail'; ?></td>
         <td><?php echo $ffmpeg; ?><br />
-        <td><?php echo($ffmpeg)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
+        <td><?php echo($ffmpeg) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
         </td>
       </tr>
 
@@ -93,42 +93,42 @@
             }
           ?>
         </td>
-        <td><?php echo ($php)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">';?></td>
+        <td><?php echo ($php) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd">
         <td class="column_one"><b>upload_max_filesize :</b></td>
         <td class="column_one"><?php echo $max_file_upload; ?></td>
         <td>The maximum size of files that PHP will accept uploads. Keep it bigger for big files.</td>
-        <td><?php echo($max_file_upload)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
+        <td><?php echo($max_file_upload) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd">
         <td class="column_one"><b>post_max_size : </b></td>
         <td class="column_one"><?php echo $max_post_size; ?></td>
         <td>Needs to be a small amount bigger or same, than upload_max_filesize for a file upload to work. Keep it bigger for big files.</td>
-        <td><?php echo($max_post_size)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'?></td>
+        <td><?php echo($max_post_size) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">' ?></td>
       </tr>
 
       <tr class="odd">
         <td class="column_one"><b>max_input_time :</b></td>
         <td class="column_one"><?php echo $max_input_time; ?></td>
         <td>Determines how much time PHP will wait to receive file data. Keep it "0" for bigger file.</td>
-        <td><?php echo ($max_input_time)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
+        <td><?php echo ($max_input_time) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd">
         <td class="column_one"><b>max_execution_time :</b></td>
         <td class="column_one"><?php echo $max_execution_time; ?></td>
         <td>This sets the maximum time in seconds a script is allowed to run before it is terminated. Keep it "0" for bigger files.</td>
-        <td><?php echo($max_execution_time)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">';   ?></td>
+        <td><?php echo($max_execution_time) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
 
       <tr class="odd">
         <td class="column_one"><b>memory_limit :</b></td>
         <td class="column_one"><?php echo $memory_limit; ?></td>
         <td>This is php main memory limit and it needs to be bigger enough for your bigger file need to process via ffmpeg.</td>
-        <td><?php echo ($memory_limit)?'<input type="button" value="Success" style="background-color:#97FD79">':'<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
+        <td><?php echo ($memory_limit) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
       </tbody>
     </table>

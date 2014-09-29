@@ -1,34 +1,35 @@
 <?php
-/*
- *    This file is part of izap-videos plugin for Elgg.
- *
- *    izap-videos for Elgg is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 2 of the License, or
- *    (at your option) any later version.
- *
- *    izap-videos for Elgg is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
- */
 
-/**
- * add language translation
- */
-$english = array(
+  /*
+   *    This file is part of izap-videos plugin for Elgg.
+   *
+   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+   *    it under the terms of the GNU General Public License as published by
+   *    the Free Software Foundation, either version 2 of the License, or
+   *    (at your option) any later version.
+   *
+   *    izap-videos for Elgg is distributed in the hope that it will be useful,
+   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *    GNU General Public License for more details.
+   *
+   *    You should have received a copy of the GNU General Public License
+   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+   */
+
+  /**
+   * add language translation
+   */
+  $english = array(
     'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',
     'izap-videos_image_invalidformat:save:failed' => 'Invalid Image Type',
-    'item:object:izap_video' => 'Videos', 
+    'item:object:izap_video' => 'Videos',
 //    'item:object:izap_videos' => 'Videos',
-    'item:object:izap-videos' => 'Videos',  
+    'item:object:izap-videos' => 'Videos',
 //    'izap-videos:videos_user' => 'All Videos',
     'izap-videos:youtube' => 'Youtube Videos',
-    'izap-videos' => 'All Site Videos',  
-    'izap-videos:title:friends' =>'Friend \'s Videos',   
+    'izap-videos' => 'All Site Videos',
+    'izap-videos:title:friends' => 'Friend \'s Videos',
     'izap-videos:upload video' => 'Upload Video',
     'izap-videos_videourl:save:failed' => 'Enter Video Url',
     'izap-videos_uploadVideo:save:failed' => 'Select Video to Upload',
@@ -214,7 +215,7 @@ $english = array(
     'restore' => 'Restore',
     'delete' => 'Delete',
     'send_message' => 'Send messge to user',
-    'izap_videos:adminSettings:deleted_not_from_trash' =>'All Videos not moved from the trash',
+    'izap_videos:adminSettings:deleted_not_from_trash' => 'All Videos not moved from the trash',
     'video_name :' => 'Video Name: ',
     'size' => 'Size: ',
     'izap-videos:do-not-refresh' => 'Do not refresh the page.',
@@ -240,9 +241,7 @@ $english = array(
     'izap_videos:send_user_message' => 'Send message to user',
     'izap_videos:alert:not-converted' => 'You can not edit/play this video until completion of conversion process.',
     'izap_videos:alert:fail-converted' => 'Conversion failed for this video.',
-
     //admin keys
-
     'izap-videos:adminSettings:my-server' => 'I\'ve enough resources to compile my videos.',
     'izap-videos:adminSettings:youtube-server' => 'Activate youtube channel to handle uploaded videos.',
     'izap-videos:adminSettings:youtubeDeveloperKey' => 'Youtube Developer Key (Create one here: <a href="http://code.google.com/apis/youtube/dashboard/">Create Yourtube Developer Key</a>)',
@@ -254,6 +253,7 @@ $english = array(
     //izap-videos-help
     'admin:help:izap_help?plugin=izap-videos' => 'iZAP Videos',
     'izap_videos:success:adminSettingsReset' => 'All settings have been reset to default.'
-);
+  );
 
-add_translation('en', $english);
+  add_translation('en', $english);
+  

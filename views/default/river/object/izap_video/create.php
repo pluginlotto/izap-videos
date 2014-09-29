@@ -19,7 +19,7 @@
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
   $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $object->videofile) . '_c.flv') ? "true" : "false";
-  if($get_flv_file == 'false' || $object->converted == 'no'){
+  if ($get_flv_file == 'false' || $object->converted == 'no') {
     $object->access_id = ACCESS_PRIVATE;
     $object->save();
   }
@@ -31,7 +31,6 @@
     $thumbnail_image = $get_image;
     $style = 'width: 365px;height: 300px;';
   } else {
-//    $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
     $style = 'background-color:black;width: 365px;height: 300px;';
   }
 
@@ -40,7 +39,7 @@
   $description_length = strlen($object->description);
   if ($description_length > 263) {
     $path = $object->getURL();
-    $description = substr(strip_tags($object->description), 0, 260) . "... <a href='".$path."'>View More</a>";
+    $description = substr(strip_tags($object->description), 0, 260) . "... <a href='" . $path . "'>View More</a>";
   }
 
   //load video div

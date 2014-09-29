@@ -1,5 +1,5 @@
 <?php
-  
+
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -21,7 +21,7 @@
   $arg = parse_url($IZAPSETTINGS->apiUrl);
   $api = explode('&', $arg['query']);
   $key = explode('=', $api[0]);
-  if ($key[1] == '') { 
+  if ($key[1] == '') {
     register_error('Register API Key for offserver video');
     forward(REFERER);
   }

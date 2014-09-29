@@ -91,35 +91,43 @@
 </div>
 
 <?php $onserver_setting = elgg_get_plugin_setting('Onserver_enabled_izap_videos', 'izap-videos'); ?>
-<?php if ($onserver_setting == 'yes') { ?>
-  <div style="display: none;"></div>
-<?php } elseif ($onserver_setting == 'no') { ?>
-  <div style="display: none;"></div>
-<?php }elseif($onserver_setting == 'youtube'){?>
-  <div id="youtube_key_youtube">
-    <label>
-    <?php echo elgg_echo('Youtube Developer Key'); ?></label>
-    <?php
-    $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
-    echo elgg_view('input/text', array(
-      'name' => 'params[youtubeDeveloperKey]',
-      'value' => $saved_data ? $saved_data : ""
-    ));
-    ?>
-  </div>
-<?php } else{ ?>
-  <div id="youtube_key" style="display: none;">
-    <label>
-      <?php echo elgg_echo('Offserver API Key'); ?></label>
-    <?php
-    $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
-    echo elgg_view('input/text', array(
-      'name' => 'params[izap_api_key]',
-      'value' => $saved_data ? $saved_data : ""
-    ));
-    ?>
-  </div>
-<?php } ?>
+<?php if ($onserver_setting == 'yes' || $onserver_setting == 'no') { ?>
+    <div id="youtube_key_youtube" style="display: none;">
+      <label>
+        <?php echo elgg_echo('Youtube Developer Key'); ?></label>
+      <?php
+      $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+      echo elgg_view('input/text', array(
+        'name' => 'params[youtubeDeveloperKey]',
+        'value' => $saved_data ? $saved_data : ""
+      ));
+      ?>
+    </div>
+  <?php } elseif ($onserver_setting == 'youtube') { ?>
+    <div id="youtube_key_youtube">
+      <label>
+        <?php echo elgg_echo('Youtube Developer Key'); ?></label>
+      <?php
+      $saved_data = elgg_get_plugin_setting('youtubeDeveloperKey', 'izap-videos');
+      echo elgg_view('input/text', array(
+        'name' => 'params[youtubeDeveloperKey]',
+        'value' => $saved_data ? $saved_data : ""
+      ));
+      ?>
+    </div>
+  <?php } else { ?>
+    <div id="youtube_key" style="display: none;">
+      <label>
+        <?php echo elgg_echo('Offserver API Key'); ?></label>
+      <?php
+      $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
+      echo elgg_view('input/text', array(
+        'name' => 'params[izap_api_key]',
+        'value' => $saved_data ? $saved_data : ""
+      ));
+      ?>
+    </div>
+  <?php } ?>
 <!--Onserver and Youtube Settings End Here-->
 
 <!--Offserver Settings Start Here-->
@@ -139,13 +147,13 @@
       <input type="radio" name="params[Offserver_enabled_izap_videos]" value="yes" id="offserver_enable" checked> Yes <br />
       <input type="radio" name="params[Offserver_enabled_izap_videos]" value= 'no' id="offserver_disable"> No 
     <?php } ?>
-  </div>
-  <?php if ($offserver_setting == 'yes') { ?>
+</div>
+<?php if ($offserver_setting == 'yes') { ?>
     <div id="offserver_key_yes">
       <label>
         <?php echo elgg_echo('Offserver API Key'); ?></label>
       <?php
-      $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos'); 
+      $saved_data = elgg_get_plugin_setting('izap_api_key', 'izap-videos');
       echo elgg_view('input/text', array(
         'name' => 'params[izap_api_key]',
         'value' => $saved_data ? $saved_data : ""
@@ -164,7 +172,7 @@
       ));
       ?>
     </div>
-  <?php }else{ ?>
+  <?php } else { ?>
     <div id="offserver_key">
       <label>
         <?php echo elgg_echo('Offserver API Key'); ?></label>
@@ -178,35 +186,7 @@
     </div>
   <?php } ?>
 <!--Offserver Settings End Here-->
-
-<script type='text/javascript'>
-    $(document).ready(function() {
-      $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
-        var radio_input = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
-        if(radio_input == 'youtube'){ 
-          $("#youtube_key").show();
-          $("#youtube_key_youtube").show();
-        }else if(radio_input == 'yes'){
-          $("#youtube_key").hide();
-          $("#youtube_key_youtube").hide();
-        }else if(radio_input == 'no'){
-          $("#youtube_key").hide();
-          $("#youtube_key_youtube").hide();
-        }
-      });
-    
-      $("#offserver_disable").on("click", function() { 
-        $("#offserver_key_yes").hide();
-        $("#offserver_key_no").hide();
-        $("#offserver_key").hide();
-      });
-      $("#offserver_enable").on("click", function() {
-        $("#offserver_key_yes").show();
-        $("#offserver_key_no").show();
-      });
-    });
-</script>
-
+<script src="/mod/izap-videos/vendors/video_settings.js" ></script>
 <style type='text/css'>
   .izap_admin_fieldset {
     border: 2px solid #DEDEDE;

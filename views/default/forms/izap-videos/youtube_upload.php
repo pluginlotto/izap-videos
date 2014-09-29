@@ -27,9 +27,9 @@
 <div>
   <?php echo elgg_view('input/hidden', array('name' => 'token', 'value' => $vars['token'])); ?>
 </div>
-<?php 
+<?php
   // extendable view for other plugins
-  echo elgg_view('izap_upload/form_extension'); 
+  echo elgg_view('izap_upload/form_extension');
 ?>
 <?php echo elgg_view('input/submit', array('value' => 'upload', 'id' => 'submit_button')); ?>
 
@@ -37,12 +37,12 @@
   <?php echo elgg_echo('izap-videos:do-not-refresh'); ?><br /><img src="<?php echo $IZAPSETTINGS->graphics ?>ajax-loader_black.gif" />
 </div>
 <script type="text/javascript">
-   $(document).ready(function() {
-     $('#izap-video-form').submit(function() {
-       $('#submit_button').hide();
-       $('#progress_button').show();
-     });
-   });
- </script>
+    $(document).ready(function() {
+      $('#izap-video-form').submit(function() {
+        $('#submit_button').hide();
+        $('#progress_button').show();
+      });
+    });
+</script>
 
 

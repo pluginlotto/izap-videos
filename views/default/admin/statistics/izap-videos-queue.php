@@ -20,7 +20,7 @@
 ?>
 
 <div id="videoQueue" align="center">
-  <img src="<?php echo $IZAPSETTINGS->graphics  .'/queue.gif'; ?>" />
+  <img src="<?php echo $IZAPSETTINGS->graphics . '/queue.gif'; ?>" />
 </div>
 <p align="right">
   <?php

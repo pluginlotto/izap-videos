@@ -1,22 +1,21 @@
 <?php
+  /*
+   *    This file is part of izap-videos plugin for Elgg.
+   *
+   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+   *    it under the terms of the GNU General Public License as published by
+   *    the Free Software Foundation, either version 2 of the License, or
+   *    (at your option) any later version.
+   *
+   *    izap-videos for Elgg is distributed in the hope that it will be useful,
+   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   *    GNU General Public License for more details.
+   *
+   *    You should have received a copy of the GNU General Public License
+   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+   */
 
-/*
- *    This file is part of izap-videos plugin for Elgg.
- *
- *    izap-videos for Elgg is free software: you can redistribute it and/or modify
- *    it under the terms of the GNU General Public License as published by
- *    the Free Software Foundation, either version 2 of the License, or
- *    (at your option) any later version.
- *
- *    izap-videos for Elgg is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *    GNU General Public License for more details.
- *
- *    You should have received a copy of the GNU General Public License
- *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
- */
-  
   $total_fail = $vars['total'];
   $failStatus = $vars['status'];
   $failedVideos = $vars['queue_videos'];
@@ -40,7 +39,7 @@
               <tr class="odd <?php echo (!$i && izap_is_queue_running_izap_videos()) ? 'queue_selected' : '' ?>">
                 <td> <?php echo $count; ?></td>
                 <td> <?php echo end(explode('/', $failedVideo->videofile)); ?></td>
-                <td><?php echo 'Not Converted';?></td>
+                <td><?php echo 'Not Converted'; ?></td>
                 <td><?php echo $owner->username; ?></td>
                 <td>
                   <?php

@@ -1,4 +1,5 @@
 <?php
+
   /*
    *    This file is part of izap-videos plugin for Elgg.
    *
@@ -17,15 +18,15 @@
    */
   elgg_load_library('elgg:izap_video');
   $conversion_failed = getFailedVideos();
-  if(sizeof($conversion_failed)){
+  if (sizeof($conversion_failed)) {
     $status = elgg_echo('izap-videos:conversion_failed_no');
-  }else{
+  } else {
     $status = elgg_echo('izap-videos:conversion_failed_list');
   }
   echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/conversion_failed', array(
-      'queue_videos' => getFailedVideos(),
-      'status' => $status,
-      'total' => count($conversion_failed)
-      )
-    );
+    'queue_videos' => getFailedVideos(),
+    'status' => $status,
+    'total' => count($conversion_failed)
+    )
+  );
 ?>

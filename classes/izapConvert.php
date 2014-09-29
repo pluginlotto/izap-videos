@@ -76,5 +76,6 @@
       $this->values['imagecontent'] = file_get_contents($this->outimage);
       return $this->values;
     }
+
   }
   

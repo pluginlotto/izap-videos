@@ -125,7 +125,6 @@
     }
     // extendable view for other plugins
     echo elgg_view('izap_videos/form_extension');
-    
     ?>
     <div  style="clear: both">
       <label><?php echo elgg_echo('access'); ?></label><br />
@@ -142,7 +141,7 @@
       echo elgg_view('input/submit', array('value' => $submit_label, 'id' => 'upload_button'));
       ?>
     </div>
-  <?php
+    <?php
   } else {
     $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/all';
     register_error(elgg_echo('izap-videos:message:noAddFeature'));
@@ -150,5 +149,5 @@
   }
 ?>
 <script>
-  var preview_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>";
+    var preview_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>";
 </script>
