@@ -204,32 +204,7 @@
     </div>
 
     <?php
-  } else {
-    // brief view
-    $view_count = getViews($izap_video);
-    if ($izap_video->videothumbnail) {
-      $thumb_path = $izap_video->videothumbnail;
-      $path = $izap_video->getURL();
-      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
-    } else {
-      $file_icon = elgg_view_entity_icon($izap_video, 'medium');
-    }
-    $description_length = strlen($description);
-    if ($description_length > 163) {
-      $description = substr($description, 0, 160) . "...";
-    }
-
-    $description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
-    $params = array(
-      'entity' => $izap_video,
-      'metadata' => $metadata,
-      'subtitle' => $subtitle,
-      'content' => $description,
-    );
-    $params = $params + $vars;
-    $list_body = elgg_view('object/elements/summary', $params);
-    echo elgg_view_image_block($file_icon, $list_body);
-  }
+  } 
 ?>
 
 <script type="text/javascript">

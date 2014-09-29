@@ -102,7 +102,7 @@
     public function processfile($file) {
       $returnvalue = new stdClass();
 
-      $filename = $file['name'];
+      $filename = str_replace(' ', '_', $file['name']);
       $tmpname = $file['tmp_name'];
       $file_err = $file['error'];
       $file_type = $file['type'];
