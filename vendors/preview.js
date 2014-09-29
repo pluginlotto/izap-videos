@@ -1,7 +1,7 @@
- /*
-  * Form Valiadation
-  */
- $(document).ready(function() {
+  /*
+   * Form Valiadation
+   */
+  $(document).ready(function() {
     $('form[name = video_upload]').validate({
       rules: {
         title: {
@@ -29,11 +29,11 @@
       }
     });
   });
-  
-/*
- * Extention Validation
- */  
-$('input[name = upload_video]').change(function() {
+
+  /*
+   * Extention Validation
+   */
+  $('input[name = upload_video]').change(function() {
     var video_type = $('input[name = upload_video]').val();
     var get_ext = video_type.split('.');
     var izap = (get_ext[get_ext.length - 1] === 'avi' || get_ext[get_ext.length - 1] === 'flv' || get_ext[get_ext.length - 1] === 'mp4' || get_ext[get_ext.length - 1] === '3gp') ? "validate" : "invalidate";
@@ -48,10 +48,10 @@ $('input[name = upload_video]').change(function() {
   $('form[name = video_upload]').submit(function() {
     if ($('form[name = video_upload]').validate().form()) {
     }
-  }); 
-/*
- * Offserver Video Preview
- */
+  });
+  /*
+   * Offserver Video Preview
+   */
   $("#id_url").on('input', function() {
     $.ajax({
       type: 'POST',
@@ -60,11 +60,11 @@ $('input[name = upload_video]').change(function() {
       success: function(msg) {
 //        console.log(msg);
         var obj = $.parseJSON(msg);
-        if(obj.title == null && obj.description == null){ 
+        if (obj.title == null && obj.description == null) {
           $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
-        }else if(obj.title != null || obj.title  != null){ 
+        } else if (obj.title != null || obj.title != null) {
           $("#off_preview").show();
-        } 
+        }
         $("#off_title").val(obj.title);
         $("#off_desc").val(obj.description);
         $('#off_thumb').attr('src', obj.thumbnail);
@@ -72,7 +72,7 @@ $('input[name = upload_video]').change(function() {
       }
     });
   });
-  
+
   /*
    * All Video Player
    */
@@ -82,4 +82,11 @@ $('input[name = upload_video]').change(function() {
     return false;
   }
   $('.ajax_load_video').click(ajax_request);
+  /*
+   * Activity Video Player
+   */
+  $(".ajax_load_video").live('click', function() {
+    $("#load_video_" + this.rel + "").load('' + this.href + '');
+    return false;
+  });
   

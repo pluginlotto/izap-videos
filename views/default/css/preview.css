@@ -270,41 +270,42 @@ html[xmlns] .clearfix {
   color:#26455f;
 }
 .total{
-    padding-top: 3px;
-    padding-bottom: 3px;
-    padding-left: 4px;
-    padding-right: 4px;;
-  }
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 4px;
+  padding-right: 4px;;
+}
 // For Total Views - End
 
-  .error{
-    color:red;
-    font-weight: normal;
-  }
-  #error{
-    color:red;
-    font-weight: normal;
-    font-size: 110%;
-    display: inline;
-  }
-  .play_icon{
-    cursor: pointer;
-    height: 52px;
-    position: absolute;
-    margin: 176px -365px;
-  }
-  
-  .group_video img{
-    height: 77px;
-    width: 77px! important;
-  }
-  .group_video h3{
-    font-size: 12px; 
-  }
-  .group_video ul{
-    font-size: 90%; 
-    margin-left: 0px;
-  }
-  .group_video li{
-    margin-left: 3px;
-  }
+.error{
+  color:red;
+  font-weight: normal;
+}
+#error{
+  color:red;
+  font-weight: normal;
+  font-size: 110%;
+  display: inline;
+}
+
+.play_icon{
+  cursor: pointer;
+  height: 52px;
+  position: absolute;
+  margin: 176px -365px;
+}
+
+.group_video img{
+  height: 77px;
+  width: 77px! important;
+}
+.group_video h3{
+  font-size: 12px; 
+}
+.group_video ul{
+  font-size: 90%; 
+  margin-left: 0px;
+}
+.group_video li{
+  margin-left: 3px;
+}
