@@ -1,0 +1,27 @@
+<?php
+
+  /*
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+elgg_set_context('izap_mini_list');
+echo elgg_list_entities_from_metadata(izap_defalut_get_videos_options(array(
+  'limit' => 2,
+  'full_view' => FALSE,
+  'metadata_name' => 'converted',
+  'metadata_value' => 'yes',
+  'pagination' => FALSE,
+)));

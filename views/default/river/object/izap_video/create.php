@@ -57,11 +57,3 @@
 <script type="text/javascript">
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
 </script>
-<style type="text/css">
-/*  .activity_play_icon{
-    cursor: pointer;
-    height: 52px;
-    position: absolute;
-    margin: 128px -208px;
-  }*/
-</style>

@@ -94,10 +94,6 @@
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
     elgg_extend_view('page/elements/footer', 'forms/izap-videos/my_javascript');
 
-    elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
-    elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
-    elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin');
-
     elgg_register_js('elgg:video_js', "mod/izap-videos/views/default/js/jquery.js");
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
 
@@ -113,6 +109,15 @@
 
     // extend the owner block
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_owner_block_izap_videos');
+    
+    
+//    elgg_register_widget_type('izap-videos', elgg_echo('izap-videos'), elgg_echo('izap-videos:widget:description'));
+    elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin');
+    elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin');
+    elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
+    elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
+
+//      elgg_extend_view('index/righthandside', GLOBAL_IZAP_VIDEOS_PLUGIN . '/index_widget');
   }
 
   function izap_owner_block_izap_videos($hook, $type, $return, $params) {
