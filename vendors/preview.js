@@ -73,3 +73,13 @@ $('input[name = upload_video]').change(function() {
     });
   });
   
+  /*
+   * All Video Player
+   */
+  function ajax_request() {
+    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
+    $("#load_video_" + this.rel + "").load('' + this.href + '');
+    return false;
+  }
+  $('.ajax_load_video').click(ajax_request);
+  

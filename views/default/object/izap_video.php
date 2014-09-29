@@ -234,10 +234,4 @@
 
 <script type="text/javascript">
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
-  function ajax_request() {
-    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
-    $("#load_video_" + this.rel + "").load('' + this.href + '');
-    return false;
-  }
-  $('.ajax_load_video').click(ajax_request);
 </script>
