@@ -319,3 +319,11 @@ html[xmlns] .clearfix {
   margin: 21% -30%;
   margin-bottom: 123px;
 }
+/*Icon for add new video*/
+span.new_video_icon{
+  background: url(/mod/izap-videos/_graphics/add_new_video.png) no-repeat;
+  float: left;
+  width: 25px;
+  height: 20px;
+  background-size: 21px;
+}

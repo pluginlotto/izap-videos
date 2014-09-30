@@ -23,7 +23,6 @@
   define('GLOBAL_IZAP_VIDEOS_CLASS', 'IzapVideo');
 
   elgg_register_event_handler('init', 'system', 'izap_video_init');
-
   /**
    * main init function
    */
@@ -117,6 +116,7 @@
     elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin');
     elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
     elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
+    elgg_register_event_handler('pagesetup', 'system', 'add_new_video');
 
   }
 
@@ -379,3 +379,34 @@
   );
   set_include_path(implode(PATH_SEPARATOR, $paths));
   
+  /**
+ * Display notification of new messages in topbar
+ */
+function add_new_video() {
+	if (elgg_is_logged_in()) {
+//		$class = "elgg-icon elgg-icon-mail";
+		$class = "new_video_icon";
+		$text = "<span class='$class'></span>";
+		$tooltip = elgg_echo('izap_videos:add');
+
+    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+
+    if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/onserver';
+    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+    } else {
+      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+    }
+    
+		elgg_register_menu_item('topbar', array(
+			'name' => 'add_new_video',
+			'href' => $url,
+			'text' => $text,
+			'priority' => 600,
+			'title' => $tooltip,
+		));
+	}
+}
