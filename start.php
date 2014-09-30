@@ -405,7 +405,7 @@ function add_new_video() {
 			'name' => 'add_new_video',
 			'href' => $url,
 			'text' => $text,
-			'priority' => 600,
+			'priority' => 800,
 			'title' => $tooltip,
 		));
 	}
