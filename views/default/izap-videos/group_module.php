@@ -17,7 +17,6 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
-
   $group = elgg_get_page_owner_entity();
 
   if ($group->{GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '_enable'} == "no") {

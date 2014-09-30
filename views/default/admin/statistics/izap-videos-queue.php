@@ -32,13 +32,7 @@
   ?>
   <br /><em>Refresh after every 5 seconds.</em>
 </p>
-
+<script src="/mod/izap-videos/vendors/check_queue.js" ></script>
 <script type="text/javascript">
-    function checkQueue() {
-      $('#videoQueue').load('<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/queue' ?>');
-    }
-    $(document).ready(function() {
-      checkQueue();
-      setInterval(checkQueue, 1000);
-    });
+  var load_url = '<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/queue' ?>';
 </script>
