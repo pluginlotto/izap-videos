@@ -317,10 +317,14 @@
 
   function izap_read_video_file($guid = null) {
     $entity = get_entity($guid);
-
-    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
+    
+    if(!$entity){
+     forward(); 
+    }
+    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) { 
       exit;
     }
+    
     $return = array();
     $return['title'] = ucwords($entity->title);
     $return['content'] = elgg_view_entity($entity, array('full_view' => true));

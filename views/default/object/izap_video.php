@@ -134,7 +134,7 @@
       'entity' => $izap_video,
       'body' => $body
     ));
-  } elseif ($view_type == 'all') { 
+  } elseif ($view_type == 'all') {
     // brief view
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
@@ -204,7 +204,7 @@
     </div>
 
     <?php
-  } else{ 
+  } else {
     // brief view
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
@@ -229,9 +229,9 @@
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
     echo elgg_view_image_block($file_icon, $list_body);
- }
+  }
 ?>
 
 <script type="text/javascript">
-    var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
+  var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
 </script>
