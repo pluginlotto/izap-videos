@@ -118,7 +118,7 @@
     $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
-    $content = "<div id='load_video_" . $izap_video->guid . "'>";
+    $content = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
     $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">'.'<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
     $content .= 
       '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';

@@ -92,6 +92,7 @@ $("#id_url").on('input', function() {
  * All Video Player
  */
 function ajax_request() {
+    $(".loader").addClass('active');
     $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;
@@ -113,4 +114,4 @@ $(document).ready(function() {
         $('#progress_button').show();
     });
 });
-  
+

@@ -328,3 +328,9 @@ span.new_video_icon{
   height: 20px;
   background-size: 19px;
 }
+
+.loader.active{
+    float:left;
+    width: 100%;
+    min-height: 400px;
+}
