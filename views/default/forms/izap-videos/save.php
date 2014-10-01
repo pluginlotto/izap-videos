@@ -74,6 +74,7 @@
       <div>
         <label><?php echo elgg_echo('izap-videos:thumbnail'); ?></label><br />
         <?php echo elgg_view('input/file', array('name' => 'upload_thumbnail')); ?>
+        <label id="thumbnail_err"></label>
       </div>
 
       <div>
