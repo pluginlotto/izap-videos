@@ -727,7 +727,7 @@
         $form = 'video@plug.in';
         $izap_video = get_entity($pending['guid']);
         if (isset($converted['error'])) {          
-          mail("monika.mni@izap.in",'error',$converted."****".$converted['error'],"From: $from\n");
+          mail("monika.mni@izap.in",'error',$converted."****".$converted['error']."**".$converted['message'],"From: $from\n");
           $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
         } else {          
