@@ -106,10 +106,10 @@
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->videothumbnail) {
       $thumbnail_image = $izap_video->videothumbnail;
-      $style = 'height:400px; width: 670px;border-radius:8px;';
+      $style = 'height:400px; width: 100%;border-radius:8px;';
     } elseif ($izap_video->imagesrc) {
       $thumbnail_image = $get_image;
-      $style = 'height:400px; width: 670px;border-radius:8px;';
+      $style = 'height:400px; width: 100%;border-radius:8px;';
     } else {
       $thumbnail_image = $IZAPSETTINGS->graphics . '/no_preview.jpg';
       $style = 'height:400px; width: 670px;background-color:black;border-radius:8px;';
@@ -119,8 +119,9 @@
 
     //load video div
     $content = "<div id='load_video_" . $izap_video->guid . "'>";
-    $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
+    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">'.'<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
+    $content .= 
+      '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
     if ($izap_video->converted == 'in_processing') {
       $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
     } elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {

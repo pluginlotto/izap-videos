@@ -289,10 +289,11 @@ html[xmlns] .clearfix {
 }
 
 .play_icon{
-  cursor: pointer;
-  height: 52px;
-  position: absolute;
-  margin: 176px -365px;
+    cursor: pointer;
+    height: 52px;
+    position: absolute;
+    margin: 174px -404px;
+    left: 99%;
 }
 
 .group_video img{
