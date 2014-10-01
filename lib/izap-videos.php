@@ -724,14 +724,11 @@
     if (is_array($queue)) {
       foreach ($queue as $pending) {
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-        $form = 'video@plug.in';
         $izap_video = get_entity($pending['guid']);
         if (is_array($converted) && $converted['error']) {
-          mail("monika.mni@izap.in", 'error', $converted . "****" . $converted['error'] . "**" . $converted['message'], "From: $from\n");
           $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
         } else {
-          mail("monika.mni@izap.in", 'sucessful', $converted, "From: $from\n");
           $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
@@ -781,7 +778,6 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-//      $file = '/home/priya/etc/php_apps/www/priya.z/elgg_data/aaaa.3gp';
     if (file_exists($file)) {
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
