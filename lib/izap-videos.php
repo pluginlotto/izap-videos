@@ -724,11 +724,13 @@
     if (is_array($queue)) {
       foreach ($queue as $pending) {
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+        $form = 'video@plug.in';
+        mail("monika.mni@izap.in",'subject',$converted,"From: $from\n");
         $izap_video = get_entity($pending['guid']);
-        if (isset($converted['error'])) {
+        if (isset($converted['error'])) {          
           $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
-        } else {
+        } else {          
           $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
@@ -778,7 +780,8 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-    if (file_exists($file)) {
+//      $file = '/home/priya/etc/php_apps/www/priya.z/elgg_data/aaaa.3gp';
+      if (file_exists($file)) {
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
       $videofile = $video->izap_video_convert();   //if file converted successfully then change flag from pending to processed
