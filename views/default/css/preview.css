@@ -287,6 +287,12 @@ html[xmlns] .clearfix {
   font-size: 110%;
   display: inline;
 }
+#thumbnail_err{
+  color:red;
+  font-weight: normal;
+  font-size: 110%;
+  display: inline;
+}
 
 .play_icon{
     cursor: pointer;

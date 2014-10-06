@@ -51,7 +51,7 @@ $('input[name = upload_thumbnail]').change(function() {
     var get_ext = thumbnail_type.split('.');
     var izap = (get_ext[get_ext.length - 1] === 'jpg' || get_ext[get_ext.length - 1] === 'jpeg' || get_ext[get_ext.length - 1] === 'png' || get_ext[get_ext.length - 1] === 'gif') ? "validate" : "invalidate";
     if (izap === "invalidate") {
-        $('#thumbnail_err').html("Invalid Thumbnail format");
+        $('#thumbnail_err').html("Invalid thumbnail format");
         document.getElementById("upload_button").disabled = true;
     } else {
         $('#thumbnail_err').html("");
