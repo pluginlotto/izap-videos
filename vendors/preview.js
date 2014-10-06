@@ -75,10 +75,12 @@ $("#id_url").on('input', function() {
         success: function(msg) {
 //        console.log(msg);
             var obj = $.parseJSON(msg);
-            if (obj.title == null && obj.description == null) {
-                $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
-            } else if (obj.title != null || obj.title != null) {
-                $("#off_preview").show();
+            if (obj.title == null && obj.description == null) { console.log("++++");
+							document.getElementById("upload_button").disabled = true;
+              $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
+            } else if (obj.title != null || obj.title != null) {console.log("---");
+//							document.getElementById("upload_button").disabled = false;
+              $("#off_preview").show();
             }
             $("#off_title").val(obj.title);
             $("#off_desc").val(obj.description);
