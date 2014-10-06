@@ -21,12 +21,11 @@
    * @package izap-video 
    */
 
-  $full = elgg_extract('full_view', $vars, FALSE);
-  $izap_video = elgg_extract('entity', $vars, FALSE);
+  $full = elgg_extract('full_view', $vars, False);
+  $izap_video = elgg_extract('entity', $vars, False);
   $view_type = end(explode('/', current_page_url()));
-
   if (!$izap_video) {
-    return TRUE;
+    return True;
   }
 
   $owner = $izap_video->getOwnerEntity();
@@ -160,7 +159,7 @@
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
     echo elgg_view_image_block($file_icon, $list_body);
-  } elseif ($container->type == 'group' || $view_type == elgg_get_logged_in_user_entity()->username) {
+  } elseif ($container->type == 'group' || $view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
       $thumb_path = $izap_video->videothumbnail;

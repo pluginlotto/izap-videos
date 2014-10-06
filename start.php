@@ -117,7 +117,6 @@
     elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
     elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
     elgg_register_event_handler('pagesetup', 'system', 'add_new_video');
-
   }
 
   function izap_owner_block_izap_videos($hook, $type, $return, $params) {
