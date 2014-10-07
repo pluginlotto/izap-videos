@@ -149,6 +149,7 @@
    * Friends' izap-video:  izap-videos/friends/<username>
    * New post:             izap-videos/add/<guid>
    * Edit post:            izap-videos/edit/<guid>/<revision>
+   * Check Video Status:            izap-videos/check_video_status/<guid>
    * 
    * Title is ignored
    *
@@ -237,6 +238,10 @@
       case 'youtube_response':
         elgg_gatekeeper();
         youtube_response();
+        break;
+      case 'check_video_status':
+        elgg_gatekeeper();
+        checkVideoStatus($page[1]);
         break;
       default:
         return false;
