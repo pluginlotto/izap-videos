@@ -831,11 +831,11 @@
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = $IZAPSETTINGS->playerPath;
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
-    if (getFileExtension($entity->videofile) == 'flv') {
-      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '.flv') ? "true" : "false";
-    } else {
-      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
-    }
+//    if (getFileExtension($entity->videofile) == 'flv') {
+//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '.flv') ? "true" : "false";
+//    } else {
+//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
+//    }
     if ($entity->videourl) {
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
         $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
@@ -843,7 +843,7 @@
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
     } else {
-      if ($get_flv_file == 'true') {
+      if ($entity->converted == 'yes') {
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
@@ -853,9 +853,10 @@
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
       } else {
-        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
-             <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
-       </div>';
+        $content = addError($entity->guid);
+//        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
+//             <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
+//       </div>';
       }
     }
     echo $content;
@@ -1116,5 +1117,19 @@
     $video = get_entity($guid);
     echo $video->converted;
     exit;
+  }
+  function addError($guid){
+    $video = get_entity($guid);
+    if ($video->converted == 'in_processing') {
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+    }elseif($video->converted === 'no'){
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+    }else{
+      return False;
+    }
+//    elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
+//      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+//    }
+    return $error;
   }
   

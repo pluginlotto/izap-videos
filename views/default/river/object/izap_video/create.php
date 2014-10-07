@@ -18,8 +18,7 @@
 
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
-  $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $object->videofile) . '_c.flv') ? "true" : "false";
-  if ($get_flv_file == 'false' || $object->converted == 'no') {
+  if ($object->converted == 'no') {
     $object->access_id = ACCESS_PRIVATE;
     $object->save();
   }
@@ -44,7 +43,6 @@
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
-//  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" /></a>';
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video" id="activity_play_icon"></a>';
   $content .= '</div>';
   $content .= '<div style="float:left;">'.$description.'</div>';
