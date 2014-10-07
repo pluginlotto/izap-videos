@@ -8,8 +8,7 @@
 					required: true
 				},
 				video_url: {
-					required: true,
-					url: true
+					required: true
 				},
 				upload_video: {
 					required: true
@@ -21,7 +20,6 @@
 				},
 				video_url: {
 					required: "Please enter the video url",
-					url: "Enter the valid url"
 				},
 				upload_video: {
 					required: "Please select the video to upload"
@@ -34,6 +32,7 @@
 		 * @returns {undefined}
 		 */
 		setInterval(function() {
+			var status_url = status_url?status_url:'';
 			$.ajax({
 				type: 'POST',
 				url: status_url,
@@ -47,20 +46,20 @@
 		/*
 		 * On submit hide upload button
 		 */
-			$('#izap-video-form').submit(function() {
+		$('#izap-video-form').submit(function() {
 			$('#submit_button').hide();
-				$('#progress_button').show();
+			$('#progress_button').show();
 		});
 	});
 
 	/*
-		* Extention Validation
-	*/
+	 * Extention Validation
+	 */
 	$('input[name = upload_video]').change(function() {
 		var video_type = $('input[name = upload_video]').val();
 		var get_ext = video_type.split('.');
 		var izap = (get_ext[get_ext.length - 1] === 'avi' || get_ext[get_ext.length - 1] === 'flv' || get_ext[get_ext.length - 1] === 'mp4' || get_ext[get_ext.length - 1] === '3gp') ? "validate" : "invalidate";
- 	if (izap === "invalidate") {
+		if (izap === "invalidate") {
 			$('#error').html("Invalid video format");
 			document.getElementById("upload_button").disabled = true;
 		} else {
@@ -71,12 +70,13 @@
 
 	$('input[name = upload_thumbnail]').change(function() {
 		var thumbnail_type = $('input[name = upload_thumbnail]').val();
-		var get_ext = thumbnail_type.split('.'); 		var izap = (get_ext[get_ext.length - 1] === 'jpg' || get_ext[get_ext.length - 1] === 'jpeg' || get_ext[get_ext.length - 1] === 'png' || get_ext[get_ext.length - 1] === 'gif') ? "validate" : "invalidate";
- 	if (izap === "invalidate") {
+		var get_ext = thumbnail_type.split('.');
+		var izap = (get_ext[get_ext.length - 1] === 'jpg' || get_ext[get_ext.length - 1] === 'jpeg' || get_ext[get_ext.length - 1] === 'png' || get_ext[get_ext.length - 1] === 'gif') ? "validate" : "invalidate";
+		if (izap === "invalidate") {
 			$('#thumbnail_err').html("Invalid thumbnail format");
 			document.getElementById("upload_button").disabled = true;
 		} else {
-		$('#thumbnail_err').html("");
+			$('#thumbnail_err').html("");
 			document.getElementById("upload_button").disabled = false;
 		}
 	});
@@ -87,22 +87,23 @@
 		}
 	});
 	/*
-		* Offserver Video Preview
-	*/
+	 * Offserver Video Preview
+	 */
 	$("#id_url").on('input', function() {
 		$.ajax({
 			type: 'POST',
 			url: preview_url,
 			data: {url: $(this).val()},
 			success: function(msg) {
-			var obj = $.parseJSON(msg);
+				var obj = $.parseJSON(msg);
 				if (obj.title == null && obj.description == null) {
-	 			$("#off_preview").hide();
+					$("#off_preview").hide();
+					$(".error").empty();
 					$("#error").show();
 					document.getElementById("upload_button").disabled = true;
 					$("#error").html("We did not get expected response from YouTube. Please enter valid url.");
 				} else if (obj.title != null || obj.title != null) {
-				 $("#error").hide();
+					$("#error").hide();
 					document.getElementById("upload_button").disabled = false;
 					$("#off_preview").show();
 				}
@@ -111,14 +112,15 @@
 				$('#off_thumb').attr('src', obj.thumbnail);
 				$("#tag").val(obj.tags);
 			}
-				});
+		});
 	});
 
 	/*
-			* All Video Player
-		*/
-	 function ajax_request() {
-		$(".loader").addClass('active'); 		$("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
+	 * All Video Player
+	 */
+	function ajax_request() {
+		$(".loader").addClass('active');
+		$("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
 		$("#load_video_" + this.rel + "").load('' + this.href + '');
 		return false;
 	}
