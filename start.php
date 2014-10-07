@@ -223,7 +223,7 @@
       case 'play':
         elgg_load_css('elgg:video_css');
         elgg_load_js('elgg:video_js');
-        $params = izap_read_video_file($page[2]);
+        $params = izap_videos_read_content($page[2]);
         $params['filter'] = false;
         break;
 
