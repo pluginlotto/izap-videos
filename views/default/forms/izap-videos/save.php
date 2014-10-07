@@ -152,9 +152,3 @@
 <script>
     var preview_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/preview'; ?>";
 </script>
-<style>
-.error{
-  color:red;
-  font-weight: normal;
-}
-</style>
