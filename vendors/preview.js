@@ -73,13 +73,14 @@ $("#id_url").on('input', function() {
         url: preview_url,
         data: {url: $(this).val()},
         success: function(msg) {
-//        console.log(msg);
             var obj = $.parseJSON(msg);
             if (obj.title == null && obj.description == null) { 
 							$("#off_preview").hide();
+							$("#error").show();
 							document.getElementById("upload_button").disabled = true;
               $("#error").html("We did not get expected response from YouTube. Please enter valid url.");
             } else if (obj.title != null || obj.title != null) {
+							$("#error").hide();
 							document.getElementById("upload_button").disabled = false;
               $("#off_preview").show();
             }
