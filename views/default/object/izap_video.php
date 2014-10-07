@@ -234,4 +234,5 @@
 
 <script type="text/javascript">
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
+  var status_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/check_video_status/'.$izap_video->guid; ?>";
 </script>

@@ -140,14 +140,15 @@
    * Friends' izap-video:                             izap-videos/friends/<username>
    * New post:                                        izap-videos/add/<guid>
    * Edit post:                                       izap-videos/edit/<guid>/<revision>
-   * Play pull video                                  izap-videos/play/<username>/<video guid>/<video friendly title>
-   * Get video player                                 izap-videos/viewvideo/<video guid>/<height>/<width>
-   * Get queue                                        izap-videos/queue
-   * YouTube upload                                   izap-videos/upload/<guid>
-   * Set next url                                     izap-videos/next
-   * Get queue                                        izap-videos/queue
-   * Get preview data                                 izap-videos/preview
-   * Save video after getting respone from youtube    izap-videos/youtube_response
+   * Play pull video:                                 izap-videos/play/<username>/<video guid>/<video friendly title>
+   * Get video player:                                izap-videos/viewvideo/<video guid>/<height>/<width>
+   * Get queue:                                       izap-videos/queue
+   * YouTube upload:                                  izap-videos/upload/<guid>
+   * Set next url:                                    izap-videos/next
+   * Get queue:                                       izap-videos/queue
+   * Get preview data:                                izap-videos/preview
+   * Save video after getting respone from youtube:   izap-videos/youtube_response
+   * Check Video Status:                              izap-videos/check_video_status/<guid>
    * 
    * Title is ignored
    *
@@ -234,6 +235,10 @@
       case 'youtube_response':
         elgg_gatekeeper();
         youtube_response();
+        break;
+      case 'check_video_status':
+        elgg_gatekeeper();
+        checkVideoStatus($page[1]);
         break;
       default:
         return false;

@@ -89,7 +89,7 @@
 
     <?php } elseif ($upload_type == 'youtube') { ?>
       <div>
-        <label><?php echo elgg_echo('categories'); ?></label><br />
+        <label><?php echo elgg_echo('Category'); ?></label><br />
         <?php echo elgg_view('input/dropdown', array('name' => 'youtube_cats', 'options_values' => getYoutubeCategories())); ?>
       </div>
       <div>

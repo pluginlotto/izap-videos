@@ -1108,3 +1108,13 @@
     return $records;
   }
   
+  /**
+   * Check video converted succesfully or not
+   * @param type $guid
+   */
+  function checkVideoStatus($guid){
+    $video = get_entity($guid);
+    echo $video->converted;
+    exit;
+  }
+  
