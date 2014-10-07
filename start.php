@@ -23,15 +23,16 @@
   define('GLOBAL_IZAP_VIDEOS_CLASS', 'IzapVideo');
 
   elgg_register_event_handler('init', 'system', 'izap_video_init');
-  
+
   /**
-   * main init function
+   * main init function for elgg engine plugin boot 
    * 
-   * @global type $CONFIG
    * @global stdClass $IZAPSETTINGS
+   * 
+   * @version 5.0
    */
   function izap_video_init() {
-    global $CONFIG, $IZAPSETTINGS;
+    global $IZAPSETTINGS;
     $IZAPSETTINGS = new stdClass();
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
     $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($_SERVER['HTTP_HOST']));
@@ -74,7 +75,7 @@
     elgg_register_plugin_hook_handler('get_views', 'ecml', 'izap_videos_ecml_view');
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_videos_owner_block_menu');
     // extend the owner block
-    elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_owner_block_izap_videos'); 
+    elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_owner_block_izap_videos');
     //register video url handler
     elgg_register_entity_url_handler('object', 'izap_video', 'video_url');
     //extend old server stats with current stats
@@ -94,15 +95,18 @@
     elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
     elgg_register_event_handler('pagesetup', 'system', 'add_new_video');
   }
-  
+
   /**
    * get owner's videos
    * 
-   * @param type $hook
-   * @param type $type
-   * @param type $return
-   * @param type $params
+   * @param string  $hook
+   * @param string  $type
+   * @param array   $return
+   * @param array   $params
+   * 
    * @return \ElggMenuItem
+   * 
+   * @version 5.0
    */
   function izap_owner_block_izap_videos($hook, $type, $return, $params) {
     if ((elgg_instanceof($params['entity'], 'group'))) {
@@ -116,12 +120,15 @@
     }
     return $return;
   }
-  
+
   /**
-   * get videos
+   * builds default options for video entity fetch
    * 
-   * @param type $provided
-   * @return type
+   * @param array $provided
+   * 
+   * @return array 
+   * 
+   * @version 5.0
    */
   function izap_defalut_get_videos_options($provided = array()) {
     $default = array(
@@ -155,9 +162,12 @@
    * @todo no archives for all izap-videos or friends
    *
    * @param string $page
+   * 
    * @return boolean
+   * 
+   * @version 5.0
    */
-  function izap_video_page_handler($page) { 
+  function izap_video_page_handler($page) {
     // push all blogs breadcrumb
     elgg_push_breadcrumb(elgg_echo('izap_video:Video'), GLOBAL_IZAP_VIDEOS_PAGEHANDLER . "/all");
     //if no param pass then default is all.
@@ -173,6 +183,7 @@
         }
         $params = izap_video_get_page_content_list($user->guid);
         break;
+        
       case 'friends':
         $user = get_user_by_username($page[1]);
         if (!$user) {
@@ -180,66 +191,75 @@
         }
         $params = izap_video_get_page_content_friends($user->guid);
         break;
-      //add new video
-      case 'add': 
-        if($page[2] == 'onserver' && izap_is_onserver_enabled_izap_videos() != 'yes') {
+        
+      case 'add':
+        if ($page[2] == 'onserver' && izap_is_onserver_enabled_izap_videos() != 'yes') {
           register_error("Currently this service is not available, please try again later");
           forward();
-        }elseif($page[2] == 'youtube' && izap_is_onserver_enabled_izap_videos() != 'youtube') {
+        } elseif ($page[2] == 'youtube' && izap_is_onserver_enabled_izap_videos() != 'youtube') {
           register_error("Currently this service is not available, please try again later");
           forward();
-        }elseif($page[2] == 'offserver' && izap_is_offserver_enabled_izap_videos() != 'yes') {
+        } elseif ($page[2] == 'offserver' && izap_is_offserver_enabled_izap_videos() != 'yes') {
           register_error("Currently this service is not available, please try again later");
           forward();
-        }elgg_gatekeeper(); //if user is not logged in then redirect user to login page
+        }
+        elgg_gatekeeper();
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
-      //edit particular izap-videos 
+
       case 'edit':
-        elgg_gatekeeper();  //if user is not logged in then redirect usre to login page 
+        elgg_gatekeeper();
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
-      //view all iZAP izap-videos
+
       case 'all':
         $params = izap_video_get_page_content_list($page[1]);
         break;
+
       case 'icon':
         $params = izap_videos_read_content($page[1]);
         break;
-      case 'play': //full page video
+
+      case 'play':
         elgg_load_css('elgg:video_css');
         elgg_load_js('elgg:video_js');
-        //  elgg_load_js('elgg:player');
         $params = izap_read_video_file($page[2]);
         $params['filter'] = false;
         break;
-      case 'viewvideo':    //load video by ajax
+
+      case 'viewvideo':  
         $params = getVideoPlayer($page[1], $page[2], $page[3]);
         break;
-      case 'queue': //get queue status in admins
+
+      case 'queue':
         $params = getQueue();
         break;
-      //add new video
+
       case 'upload':
-        elgg_gatekeeper(); //if user is not logged in then redirect user to login page
+        elgg_gatekeeper();
         $params = izap_video_get_page_content_youtube_upload($page_type, $page[1], $page[2]);
         break;
+
       case 'next':
-        elgg_gatekeeper(); //if user is not logged in then redirect user to login page
+        elgg_gatekeeper();
         $params = izap_video_get_page_content_youtube_next();
         break;
+
       case 'preview':
         elgg_gatekeeper();
         preview();
         break;
+
       case 'youtube_response':
         elgg_gatekeeper();
         youtube_response();
         break;
+
       case 'check_video_status':
         elgg_gatekeeper();
         checkVideoStatus($page[1]);
         break;
+
       default:
         return false;
     }
@@ -255,12 +275,16 @@
   }
 
   /**
-   * run unit test for izap-videos 
-   * @param type $hook
-   * @param type $type
-   * @param type $value
-   * @param type $params
+   * return path for unit test
+   * 
+   * @param string  $hook
+   * @param string  $type
+   * @param string  $value
+   * @param array   $params
+   * 
    * @return string
+   * 
+   * @version 5.0
    */
   function izap_video_unit_tests($hook, $type, $value, $params) {
     $path[] = dirname(__FILE__) . '/tests/IzapVideoTest.php';
@@ -268,25 +292,33 @@
   }
 
   /**
-   * @param type $hook
-   * @param type $type
-   * @param type $value
-   * @param type $params
+   * return path for offserver unit test
+   * 
+   * @param string  $hook
+   * @param string  $type
+   * @param string  $value
+   * @param array   $params
+   * 
    * @return string
+   * 
+   * @version 5.0
    */
-  function izap_offserver_unit_tests($hook, $type, $value, $params) {
+  function izap_offserver_unit_tests($hook, $type, $value, $params) { 
     $path[] = dirname(__FILE__) . '/tests/VideoUnitTest.php';
     return $path;
   }
 
   /**
-   * set url for view video
+   * return video view url
    * 
-   * @param type $hook
-   * @param type $type
-   * @param type $url
-   * @param type $params
-   * @return type
+   * @param string  $hook
+   * @param string  $type
+   * @param string  $url
+   * @param array   $params
+   * 
+   * @return url
+   * 
+   * @version 5.0
    */
   function izap_videos_set_url($hook, $type, $url, $params) {
     $entity = $params['entity'];
@@ -297,12 +329,16 @@
   }
 
   /**
-   * set icon for thumbnail
-   * @param type $hook
-   * @param type $type
-   * @param type $url
-   * @param type $params
-   * @return type
+   * return icon url for thumbnail
+   * 
+   * @param string  $hook
+   * @param string  $type
+   * @param string  $url
+   * @param array   $params
+   * 
+   * @return string
+   * 
+   * @version 5.0
    */
   function izap_videos_set_icon_url($hook, $type, $url, $params) {
     $file = $params['entity'];
@@ -317,23 +353,16 @@
   }
 
   /**
-   * @param type $hook
-   * @param type $type
-   * @param type $url
-   * @param type $params
-   * @return type
-   */
-  function izap_videos_ecml_view($hook, $type, $return, $params) {
-    $return['object/izap_video'] = elgg_echo('item:object:izap-videos');
-    return $return;
-  }
-
-  /**
-   * @param type $hook
-   * @param type $type
-   * @param type $return
-   * @param type $params
+   * return video menu option for rightbar
+   * 
+   * @param string  $hook
+   * @param string  $type
+   * @param string  $return
+   * @param array   $params
+   * 
    * @return \ElggMenuItem
+   * 
+   * @version 5.0
    */
   function izap_videos_owner_block_menu($hook, $type, $return, $params) {
     if (elgg_instanceof($params['entity'], 'user')) {
@@ -341,12 +370,13 @@
       $item = new ElggMenuItem('izap_videos', elgg_echo('item:object:izap-videos'), $url);
       $return[] = $item;
     }
-
     return $return;
   }
 
   /**
-   * @param type $page
+   * @param array $page
+   * 
+   * @version 5.0
    */
   function pageHandler_izap_videos_files($page) {
     set_input('what', $page[0]);
@@ -358,7 +388,8 @@
 
   /**
    * print given array
-   * @param type $array
+   * 
+   * @param array $array
    */
   function c($array) {
     echo '<pre>';
@@ -367,42 +398,45 @@
     echo '</div>';
     echo '</pre>';
   }
+
   /**
    * Need for including ZEND
+   * 
+   * @version 5.0
    */
   $paths = array(
     elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/vendors/',
     '.',
   );
   set_include_path(implode(PATH_SEPARATOR, $paths));
-  
+
   /**
    * Add link for new video in navigation bar
+   * 
+   * @version 5.0
    */
-function add_new_video() {
-	if (elgg_is_logged_in()) {
-		$class = "new_video_icon";
-		$text = "<span class='$class'></span>";
-		$tooltip = elgg_echo('izap_videos:add');
-
-    $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
-
-    if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/onserver';
-    } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
-      $url .= elgg_get_logged_in_user_guid() . '/youtube';
-    } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
-    } else {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+  function add_new_video() {
+    if (elgg_is_logged_in()) {
+      $class = "new_video_icon";
+      $text = "<span class='$class'></span>";
+      $tooltip = elgg_echo('izap_videos:add');
+      $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+      if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+        $url .= elgg_get_logged_in_user_guid() . '/onserver';
+      } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+        $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+        $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      } else {
+        $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      }
+      elgg_register_menu_item('topbar', array(
+        'name' => 'add_new_video',
+        'href' => $url,
+        'text' => $text,
+        'priority' => 800,
+        'title' => $tooltip,
+      ));
     }
-    
-		elgg_register_menu_item('topbar', array(
-			'name' => 'add_new_video',
-			'href' => $url,
-			'text' => $text,
-			'priority' => 800,
-			'title' => $tooltip,
-		));
-	}
-}
+  }
+  
