@@ -19,7 +19,7 @@
 					required: "Please enter the title"
 				},
 				video_url: {
-					required: "Please enter the video url",
+					required: "Please enter the video url"
 				},
 				upload_video: {
 					required: "Please select the video to upload"
@@ -99,14 +99,13 @@
 				if (obj.title === null && obj.description === null) {
 					$("#off_preview").hide();
 					$("#error").show();
-					if($("#id_url").val() !== ''){ console.log("===");
+					if($("#id_url").val() !== ''){
 						$("#error").html("We did not get expected response from remote server. Please enter valid video url.");
-					}else if($("#id_url").val() === ''){ console.log("+++");
+					}else if($("#id_url").val() === ''){ 
 						$("#error").empty();
 					}
 					document.getElementById("upload_button").disabled = true;
-				} else if (obj.title != null || obj.title != null) {
-//					$(".error").empty();
+				} else if (obj.title !== null || obj.title !== null) {
 					$("#error").hide();
 					document.getElementById("upload_button").disabled = false;
 					$("#off_preview").show();
