@@ -117,18 +117,10 @@
     $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
-    $content = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
+    $content  = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
     $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">'.'<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-    $content .= 
-      '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
-    if ($izap_video->converted == 'in_processing') {
-      $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
-    }elseif($izap_video->converted === 'no'){
-      $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
-    }
-//    elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
-//      $content .= '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
-//    }
+    $content .= '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
+    $content .= addError($izap_video->guid);
     $content .= '</div>';
 
     $body = " $content $text $summary";

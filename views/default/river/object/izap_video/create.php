@@ -44,7 +44,6 @@
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
-//  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" /></a>';
   $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video" id="activity_play_icon"></a>';
   $content .= '</div>';
   $content .= '<div style="float:left;">'.$description.'</div>';

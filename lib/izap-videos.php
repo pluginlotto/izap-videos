@@ -1099,4 +1099,18 @@
     echo $video->converted;
     exit;
   }
+  function addError($guid){
+    $video = get_entity($guid);
+    if ($video->converted == 'in_processing') {
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+    }elseif($video->converted === 'no'){
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+    }else{
+      return False;
+    }
+//    elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
+//      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+//    }
+    return $error;
+  }
   
