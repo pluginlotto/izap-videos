@@ -96,13 +96,17 @@
 			data: {url: $(this).val()},
 			success: function(msg) {
 				var obj = $.parseJSON(msg);
-				if (obj.title == null && obj.description == null) {
+				if (obj.title === null && obj.description === null) {
 					$("#off_preview").hide();
-					$(".error").empty();
 					$("#error").show();
+					if($("#id_url").val() !== ''){ console.log("===");
+						$("#error").html("We did not get expected response from remote server. Please enter valid video url.");
+					}else if($("#id_url").val() === ''){ console.log("+++");
+						$("#error").empty();
+					}
 					document.getElementById("upload_button").disabled = true;
-					$("#error").html("We did not get expected response from YouTube. Please enter valid url.");
 				} else if (obj.title != null || obj.title != null) {
+//					$(".error").empty();
 					$("#error").hide();
 					document.getElementById("upload_button").disabled = false;
 					$("#off_preview").show();
