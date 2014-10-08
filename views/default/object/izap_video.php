@@ -117,8 +117,8 @@
     $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $izap_video->guid . '/400/670';
 
     //load video div
-    $content  = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
-    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">'.'<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
+    $content = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
+    $content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">' . '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
     $content .= '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
     $content .= addError($izap_video->guid);
     $content .= '</div>';
@@ -154,7 +154,7 @@
     $params = $params + $vars;
     $list_body = elgg_view('object/elements/summary', $params);
     echo elgg_view_image_block($file_icon, $list_body);
-  } elseif ($container->type == 'group' || $view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
+  } elseif ($container->type == 'group') {
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
       $thumb_path = $izap_video->videothumbnail;
@@ -194,6 +194,52 @@
           $description = substr($description, 0, 83);
           ?>  
           <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+        <?php } ?>
+      </div>
+    </div>
+
+    <?php
+  } elseif ($view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
+    
+    $view_count = getViews($izap_video);
+    if ($izap_video->videothumbnail) {
+      $thumb_path = $izap_video->videothumbnail;
+      $path = $izap_video->getURL();
+      $file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:282px;height:190px;"></a>';
+    } else {
+      $file_icon = elgg_view_entity_icon($izap_video, 'medium');
+    }
+    ?>
+    <div class="elgg-image-block clearfix group_video" >
+      <div class="widget-image">
+        <?php echo $file_icon; ?>
+      </div>
+      <div class="elgg-body">
+        <ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
+          <?php // echo $metadata; ?>
+        </ul>
+        <?php
+        $title_length = strlen($izap_video->title);
+        if ($title_length < 43) {
+          ?>
+          <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $izap_video->title ?></a></h3>
+          <?php
+        } else {
+          $title = substr($izap_video->title, 0, 40);
+          ?> 
+          <h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $title . "..." ?></a></h3>
+        <?php } ?>
+        <div class="elgg-subtext"><?php echo $subtitle; ?></div>
+        <?php
+        $description_length = strlen($description);
+        if ($description_length < 83) {
+          ?>
+          <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"></div></div>
+          <?php
+        } else {
+          $description = substr($description, 0, 80);
+          ?>  
+          <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"></div></div>
             <?php } ?>
       </div>
     </div>
@@ -228,6 +274,6 @@
 ?>
 
 <script type="text/javascript">
-  var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
-  var status_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/check_video_status/'.$izap_video->guid; ?>";
+    var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
+    var status_url = "<?php echo elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/check_video_status/' . $izap_video->guid; ?>";
 </script>

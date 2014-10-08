@@ -304,7 +304,7 @@ html[xmlns] .clearfix {
 
 .group_video img{
   height: 77px;
-  width: 130px! important;
+  width: 130px;
 }
 .group_video h3{
   font-size: 12px; 
@@ -339,4 +339,9 @@ span.new_video_icon{
     float:left;
     width: 100%;
     min-height: 400px;
+}
+
+.widget-image img{
+  width: 282px! important;
+  height: 190px! important;
 }
