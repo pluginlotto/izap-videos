@@ -24,6 +24,7 @@
   $full = elgg_extract('full_view', $vars, False);
   $izap_video = elgg_extract('entity', $vars, False);
   $view_type = end(explode('/', current_page_url()));
+  $widget_view = get_user_by_username($view_type);
   if (!$izap_video) {
     return True;
   }
@@ -199,7 +200,7 @@
     </div>
 
     <?php
-  } elseif ($view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
+  } elseif ($widget_view->type == 'user' || $view_type == 'add') {
     
     $view_count = getViews($izap_video);
     if ($izap_video->videothumbnail) {
@@ -216,7 +217,7 @@
       </div>
       <div class="elgg-body">
         <ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
-          <?php // echo $metadata; ?>
+          <?php   // echo $metadata; ?>
         </ul>
         <?php
         $title_length = strlen($izap_video->title);
