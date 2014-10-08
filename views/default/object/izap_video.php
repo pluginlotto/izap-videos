@@ -238,9 +238,9 @@
           <div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"></div></div>
           <?php
         } else {
-          $description = substr($description, 0, 80);
+          $description = substr($description, 0, 70);
           ?>  
-          <div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"></div></div>
+          <div class="elgg-content"><?php echo $description . "... <a href='{$izap_video->getURL()}'>view more</a>"; ?><div class="elgg-subtext"></div></div>
             <?php } ?>
       </div>
     </div>
