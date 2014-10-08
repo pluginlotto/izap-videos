@@ -94,7 +94,7 @@
     // widgets
     'izap_latest_videos:widget_name' => 'Latest videos',
     'izap_latest_videos:widget_description' => 'Lists the latest videos.',
-    'izap_my_videos:widget_name' => 'My videos',
+    'izap_my_videos:widget_name' => 'Videos, i shared',
     'izap_my_videos:widget_description' => 'Lists your latest videos.',
     'izap_queue_statistics-admin:widget_name' => 'Current video queue statistics',
     'izap_queue_statistics-admin:widget_description' => 'Displays current video queue statistics.',
