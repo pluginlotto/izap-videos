@@ -63,9 +63,6 @@
   } else {
     $comments_link = '';
   }
-
-//  $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
-  //show links in onserver video if video is converted
   $metadata = elgg_view_menu('entity', array(
     'entity' => $vars['entity'],
     'handler' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
@@ -95,14 +92,6 @@
     $params = $params + $vars;
     $summary = elgg_view('object/elements/summary', $params);
     $text = elgg_view('output/longtext', array('value' => $izap_video->description));
-//    if (getFileExtension($izap_video->videofile) == 'flv') {
-//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '.flv') ? "true" : "false";
-//    } elseif (!$izap_video->videofile) {
-//      $get_flv_file = "true";
-//    } else {
-//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $izap_video->videofile) . '_c.flv') ? "true" : "false";
-//    }
-
     $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
     if ($izap_video->videothumbnail) {
       $thumbnail_image = $izap_video->videothumbnail;

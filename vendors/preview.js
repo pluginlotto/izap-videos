@@ -26,23 +26,6 @@
 				}
 			}
 		});
-		/**
-		 * Check video converted succesfully or not
-		 * 
-		 * @returns {undefined}
-		 */
-		setInterval(function() {
-			var status_url = status_url?status_url:'';
-			$.ajax({
-				type: 'POST',
-				url: status_url,
-				success: function(msg) {
-					if (msg === 'yes') {
-						$(".notConvertedWrapper").hide();
-					}
-				}
-			});
-		}, 2000);
 		/*
 		 * On submit hide upload button
 		 */
