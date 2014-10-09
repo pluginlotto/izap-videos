@@ -556,7 +556,6 @@
    */
   function izap_is_queue_running_izap_videos() {
     $queue_object = new izapQueue();
-
     $numberof_process = $queue_object->check_process();
     if ($numberof_process > 0) {
       return true;
@@ -566,8 +565,10 @@
   }
 
   /**
-   * gives the file's extension if file found
-   * @param string $filename
+   * Return the file's extension if file found
+   * 
+   * @param string  $filename
+   * 
    * @return mixed file extension if found else false
    * 
    * @version 5.0
@@ -580,7 +581,7 @@
   }
 
   /**
-   * this function gives the path of PHP
+   * This function return the path of PHP Interpreter
    *
    * @return string path
    * 
@@ -595,9 +596,7 @@
   }
 
   /**
-   * grants the access
-   *
-   * @param <type> $functionName
+   * Grant access
    * 
    * @version 5.0
    */
@@ -606,10 +605,7 @@
   }
 
   /**
-   * remove access
-   *
-   * @global global $CONFIG
-   * @param string $functionName
+   * Remove access
    * 
    * @version 5.0
    */
@@ -618,9 +614,9 @@
   }
 
   /**
+   * Override access
    * 
-   * @global type $CONFIG
-   * @param type $params
+   * @param array  $params
    * 
    * @version 5.0
    */
@@ -652,14 +648,11 @@
   }
 
   /**
-   * Get videos which are inqueue
-   * 
-   * @global type $CONFIG
+   * Get videos which are in queue
    * 
    * @version 5.0
    */
   function getQueue() {
-    global $CONFIG;
     $queue_status = (izap_is_queue_running_izap_videos()) ?
       elgg_echo('izap_videos:running') :
       elgg_echo('izap_videos:notRunning');
@@ -674,11 +667,11 @@
   }
 
   /**
-   * a quick way to convert bytes to a more readable format
+   * A quick way to convert bytes to a more readable format
    * http://in3.php.net/manual/en/function.filesize.php#91477
    *
-   * @param integer $bytes size in bytes
-   * @param integer $precision
+   * @param integer  $bytes size in bytes
+   * @param integer  $precision
    * @return string
    * 
    * @version 5.0
@@ -688,9 +681,7 @@
     $bytes = max($bytes, 0);
     $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
     $pow = min($pow, count($units) - 1);
-
     $bytes /= pow(1024, $pow);
-
     return round($bytes, $precision) . ' ' . $units[$pow];
   }
 
@@ -714,7 +705,7 @@
     //set state processing for video
     $izapvideo->converted = 'in_processing';
     //run queue
-//    izap_trigger_video_queue();
+    izap_trigger_video_queue();
   }
 
   /**
