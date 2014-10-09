@@ -120,6 +120,7 @@
      *
      * @param string $url
      * @param array|string $vars 
+     * 
      * @return IzapCurlResponse object
      * 
      * @version 5.0
@@ -131,7 +132,7 @@
     /**
      * Returns the error string of the current request if one occurred
      *
-     * @return string
+     * @return string string of error
      * 
      * @version 5.0
      * */
@@ -144,8 +145,9 @@
      *
      * Returns a IzapCurlResponse object if the request was successful, false otherwise
      *
-     * @param string $url
-     * @param array|string $vars 
+     * @param string        $url
+     * @param array|string  $vars 
+     * 
      * @return IzapCurlResponse
      * 
      * @version 5.0
@@ -163,8 +165,9 @@
      *
      * Returns a IzapCurlResponse object if the request was successful, false otherwise
      *
-     * @param string $url
-     * @param array|string $vars
+     * @param string        $url
+     * @param array|string  $vars
+     * 
      * @return IzapCurlResponse
      * 
      * @version 5.0
@@ -176,8 +179,9 @@
     /**
      * Makes an HTTP POST request to the specified $url with an optional array or string of $vars
      *
-     * @param string $url
-     * @param array|string $vars 
+     * @param string        $url
+     * @param array|string  $vars 
+     * 
      * @return IzapCurlResponse|boolean
      * 
      * @version 5.0
@@ -191,8 +195,9 @@
      *
      * Returns a IzapCurlResponse object if the request was successful, false otherwise
      *
-     * @param string $url
-     * @param array|string $vars 
+     * @param string        $url
+     * @param array|string  $vars 
+     * 
      * @return IzapCurlResponse|boolean
      * 
      * @version 5.0
@@ -206,9 +211,10 @@
      *
      * Returns a IzapCurlResponse object if the request was successful, false otherwise
      *
-     * @param string $method
-     * @param string $url
-     * @param array|string $vars
+     * @param string        $method
+     * @param string        $url
+     * @param array|string  $vars
+     * 
      * @return IzapCurlResponse|boolean
      * 
      * @version 5.0
@@ -240,6 +246,7 @@
      * Formats and adds custom headers to the current request
      *
      * @return void
+     * 
      * @access protected
      * 
      * @version 5.0
@@ -255,8 +262,10 @@
     /**
      * Set the associated CURL options for a request method
      *
-     * @param string $method
+     * @param string  $method
+     * 
      * @return void
+     * 
      * @access protected
      * 
      * @version 5.0
@@ -280,10 +289,12 @@
     /**
      * Sets the CURLOPT options for the current request
      *
-     * @param string $url
-     * @param string $vars
-     * @param array|false $auth will contains username,password for basic auth
+     * @param string       $url
+     * @param string       $vars
+     * @param array|false  $auth will contains username,password for basic auth
+     * 
      * @return void
+     * 
      * @access protected
      * 
      * @version 5.0
