@@ -67,7 +67,7 @@
      * Put items in the queue
      */
 
-    public function put($video, $file, $defined_access_id,$url) { 
+    public function put($video, $file, $defined_access_id, $url) {
       return $this->execute("INSERT INTO video_queue (guid, main_file, title, url, access_id, owner_id, timestamp)
       VALUES('" . $video->guid . "',
                                                '" . $file . "',
@@ -97,7 +97,7 @@
     }
 
     public function change_conversion_flag($guid) {
-        $update_sql = "UPDATE video_queue SET conversion = " . IN_PROCESS . "
+      $update_sql = "UPDATE video_queue SET conversion = " . IN_PROCESS . "
                             WHERE conversion = " . PENDING . "
                                   AND guid = {$guid}";
       return $this->execute($update_sql);

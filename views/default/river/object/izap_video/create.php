@@ -18,25 +18,34 @@
 
   $object = $vars['item']->getObjectEntity();
   $get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $object->guid;
-
+  if ($object->converted == 'no') {
+    $object->access_id = ACCESS_PRIVATE;
+    $object->save();
+  }
   global $IZAPSETTINGS;
-  if ($object->imagesrc) {
-      $thumbnail_image = $get_image;
-      $style = 'max-height:90px; max-width: 90px;';
+  if ($object->videothumbnail) {
+    $thumbnail_image = $object->videothumbnail;
+    $style = 'width: 365px;height: 300px;float: left;';
+  } elseif ($object->imagesrc) {
+    $thumbnail_image = $get_image;
+    $style = 'width: 365px;height: 300px;float: left;';
   } else {
-    $thumbnail_image = $IZAPSETTINGS->graphics . '/trans_play.png';
-    $style = 'background-color:black;max-height:90px; max-width: 90px;';
+    $style = 'background-color:black;width: 365px;height: 300px;float: left;';
   }
 
   //load video by ajax
-  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/200/200';
-
+  $get_player_path = elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/viewvideo/' . $object->guid . '/370/658';
+  $description_length = strlen($object->description);
+  if ($description_length > 263) {
+    $path = $object->getURL();
+    $description = substr(strip_tags($object->description), 0, 260) . "... <a href='" . $path . "'>View More</a>";
+  }
   //load video div
   $content = "<div id='load_video_" . $object->guid . "'>";
-  $content .= '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
-  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon" /></a>';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
+  $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video" id="activity_play_icon"></a>';
   $content .= '</div>';
-  $content .= $object->description;
+  $content .= '<div style="float:left;">'.$description.'</div>';
   echo elgg_view('river/elements/layout', array(
     'item' => $vars['item'],
     'message' => $content,
@@ -45,17 +54,4 @@
 
 <script type="text/javascript">
   var video_loading_image = '<?php echo $IZAPSETTINGS->graphics . '/ajax-loader_black.gif' ?>';
-  $(".ajax_load_video").live('click', function() {
-    $("#load_video_" + this.rel + "").html('<img src="' + video_loading_image + '" />');
-    $("#load_video_" + this.rel + "").load('' + this.href + '');
-    return false;
-  });
 </script>
-
-<style type="text/css">
-  .play_icon{
-    margin: 4px -16px;
-    width: 14px;
-    pointer:cursor;
-  }
-</style>

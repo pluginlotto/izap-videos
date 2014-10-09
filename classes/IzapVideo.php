@@ -44,7 +44,7 @@
       foreach ($data as $key => $value) {
         $this->$key = $value;
       }
-// mark it as new vidoe if guid is not there yet
+      // mark it as new vidoe if guid is not there yet
       if ($this->guid == 0) {
         $new = true;
       }
@@ -56,10 +56,10 @@
             break;
           case 'youtube':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
+            forward(REFERRER);
             break;
           case 'onserver':
             include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/onserver.php');
-
             //before start converting
             $this->converted = 'no';
             if ($saved = $this->save()) {
@@ -69,9 +69,9 @@
                 $this->videosrc = elgg_get_site_url() . 'izap_videos_files/file/' . $get_entity->guid . '/' . elgg_get_friendly_title($get_entity->title) . '.flv';
                 if (getFileExtension($get_entity->videofile) != 'flv') {
                   izap_save_fileinfo_for_converting_izap_videos($get_entity->videofile, $get_entity, $get_entity->access_id, $this);
+                }elseif(getFileExtension($get_entity->videofile) == 'flv'){
+                  $this->converted = 'yes';
                 }
-                //after converting video 
-                $this->converted = 'yes';
                 //change access id to submit by user after converting video
                 $this->access_id = $data['access_id'];
                 $saved = $this->save();
@@ -104,7 +104,7 @@
     public function processfile($file) {
       $returnvalue = new stdClass();
 
-      $filename = $file['name'];
+      $filename = str_replace(' ', '_', $file['name']);
       $tmpname = $file['tmp_name'];
       $file_err = $file['error'];
       $file_type = $file['type'];
@@ -136,7 +136,7 @@
           if ($this->write($retValues['imagecontent'])) {
             $orignal_file_path = $this->getFilenameOnFilestore();
 
-            $thumb = get_resized_image_from_existing_file($orignal_file_path, 120, 90);
+            $thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
             $set_thumb = $this->get_tmp_path($retValues['imagename']);
             $this->setFilename($set_thumb);
             $this->open("write");
@@ -151,9 +151,19 @@
       return $returnvalue;
     }
 
-    public function getURL() { 
+    public function getURL() {
       $owner = $this->getOwnerEntity();
       return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
+    }
+
+    public function saveYouTubeVideoData($url) {
+      $videoValues = input($url, $this);
+      $this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
+      $this->imagesrc = $this->get_tmp_path($this->filename);
+      $this->videotype_site = $this->domain;
+      $this->converted = 'yes';
+      $this->setFilename($this->orignal_thumb);
+      $this->open("write");
     }
 
   }

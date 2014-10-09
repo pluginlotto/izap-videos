@@ -16,15 +16,17 @@
    *    You should have received a copy of the GNU General Public License
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
-
-  /**
-   * Add sidebar link in izap-video
-   */
-  echo elgg_view('page/elements/comments_block', array('subtypes' => 'izap_video',
-    'owner_guid' => elgg_get_page_owner_guid(),
-  ));
-
-  echo elgg_view('page/elements/tagcloud_block', array(
-    'subtypes' => 'izap_video',
-    'owner_guid' => elgg_get_page_owner_guid(),
-  )); 
+  elgg_load_library('elgg:izap_video');
+  $conversion_failed = getFailedVideos();
+  if (sizeof($conversion_failed)) {
+    $status = elgg_echo('izap-videos:conversion_failed_no');
+  } else {
+    $status = elgg_echo('izap-videos:conversion_failed_list');
+  }
+  echo elgg_view(GLOBAL_IZAP_VIDEOS_PLUGIN . '/conversion_failed', array(
+    'queue_videos' => getFailedVideos(),
+    'status' => $status,
+    'total' => count($conversion_failed)
+    )
+  );
+?>

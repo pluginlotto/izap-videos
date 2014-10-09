@@ -17,7 +17,6 @@
    *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
    */
 
-  
   $upload_video = $_FILES['upload_video'];
   $return_value = $this->processfile($upload_video);
 
@@ -33,19 +32,19 @@
   }
 
   if (empty($_FILES['upload_thumbnail']['name'])) {
-    if ($return_value->thumb) { 
+    if ($return_value->thumb) {
       $this->orignal_thumb = $return_value->orignal_thumb;
       $this->imagesrc = $return_value->thumb;
     }
   } else {
-    if($_FILES['upload_thumbnail']['error'] == 0) {
-      $set_original_thumbnail = $this->get_tmp_path('original_' .$_FILES['upload_thumbnail']['name']);
+    if ($_FILES['upload_thumbnail']['error'] == 0) {
+      $set_original_thumbnail = $this->get_tmp_path('original_' . $_FILES['upload_thumbnail']['name']);
       $this->setFilename($set_original_thumbnail);
       $this->open("write");
       $this->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
 
       //set thumbnail size
-      $thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 120, 90);
+      $thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 650, 500);
       $set_thumb = $this->get_tmp_path($_FILES['upload_thumbnail']['name']);
       $this->setFilename($set_thumb);
       $this->open("write");

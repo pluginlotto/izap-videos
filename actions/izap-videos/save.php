@@ -23,15 +23,16 @@
 
   elgg_load_library('elgg:izap_video');
 
-  $title = htmlspecialchars(get_input('title', '', false), ENT_QUOTES, 'UTF-8');
+  $title = strip_tags(get_input('title', '', false));
+  
   $description = get_input("description");
   $access_id = (int) get_input("access_id");
-  $container_guid = (int) get_input('container_guid', elgg_get_logged_in_user_guid());
+  $container_guid = (int) get_input('container_guid');
   $guid = (int) get_input('guid');
   $tags = get_input("tags");
   $video_url = get_input("video_url");
   $page_url = end(explode('/', get_input('page_url')));
-  $youtube_cat = get_input("youtube_cats");
+  $youtube_cats = get_input("youtube_cats");
 
   if ($guid == 0) {
     $izap_videos = new IzapVideo();
@@ -53,10 +54,11 @@
     'tags' => string_to_tag_array($tags),
     'videourl' => $video_url,
     'videoprocess' => $page_url,
-    'youtube_cat' => $youtube_cat,
+    'youtube_cats' => $youtube_cats,
   );
 
   if ($izap_videos->saveVideo($data)) {
+    elgg_clear_sticky_form('izap_videos');
     forward($izap_videos->getURL());
   }
   

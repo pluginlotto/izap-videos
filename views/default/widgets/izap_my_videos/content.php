@@ -1,5 +1,6 @@
 <?php
-/*
+
+  /*
  *    This file is part of izap-videos plugin for Elgg.
  *
  *    izap-videos for Elgg is free software: you can redistribute it and/or modify
@@ -15,35 +16,14 @@
  *    You should have received a copy of the GNU General Public License
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-/**
- * Elgg izap-video widget
- * @package izap-video
- */
-
-
-$max = (int) $vars['entity']->num_display;
-
-$options = array(
-	'type' => 'object',
-	'subtype' => 'izap_video',
-	'container_guid' => $vars['entity']->owner_guid,
-	'limit' => $max,
-	'full_view' => FALSE,
-	'pagination' => FALSE,
-);
-$content = elgg_list_entities($options);
-
-echo $content;
-
-if ($content) {
-	$url = "izap_video/owner/" . elgg_get_page_owner_entity()->username;
-	$more_link = elgg_view('output/url', array(
-		'href' => $url,
-		'text' => elgg_echo('more'),
-		'is_trusted' => true,
-	));
-	echo "<span class=\"elgg-widget-more\">$more_link</span>";
-} else {
-	echo elgg_echo('demo:none');
-}
+elgg_set_context('izap_mini_list');
+$username = end(explode('/', current_page_url()));
+$user = get_user_by_username($username);
+echo elgg_list_entities_from_metadata(izap_defalut_get_videos_options(array(
+  'limit' => 2,
+  'full_view' => FALSE,
+  'metadata_name' => 'converted',
+  'metadata_value' => 'yes',
+  'pagination' => FALSE,
+  'owner_guid' => $user->guid,
+)));  

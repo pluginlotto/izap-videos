@@ -31,10 +31,11 @@
       'full_view' => false,
       'no_results' => elgg_echo('izap-videos:none'),
     );
-
+    $url_id = elgg_get_logged_in_user_guid();
     $current_user = elgg_get_logged_in_user_entity();
     if ($container_guid) {
-// access check for closed groups
+      $url_id = $container_guid;
+      // access check for closed groups
       elgg_group_gatekeeper();
 
       $options['container_guid'] = $container_guid;
@@ -53,7 +54,7 @@
       } else if (elgg_instanceof($container, 'group')) {
         $return['filter'] = false;
       } else {
-// do not show button or select a tab when viewing someone else's posts
+        // do not show button or select a tab when viewing someone else's posts
         $return['filter_context'] = 'none';
       }
     } else {
@@ -67,7 +68,7 @@
     $url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
 
     if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/onserver';
+      $url .= $url_id . '/onserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -75,7 +76,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
-      $url .= elgg_get_logged_in_user_guid() . '/youtube';
+      $url .= $url_id . '/youtube';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -83,7 +84,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      $url .= $url_id . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -91,7 +92,7 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     } else {
-      $url .= elgg_get_logged_in_user_guid() . '/offserver';
+      $url .= $url_id . '/offserver';
       elgg_register_menu_item('title', array(
         'name' => elgg_get_friendly_title($title),
         'href' => $url,
@@ -99,12 +100,6 @@
         'link_class' => 'elgg-button elgg-button-action',
       ));
     }
-//    else {
-//      $url = 'izap-videos/all';
-//      register_error(elgg_echo('izap-videos:message:noAddFeature'));
-//      //forward($url);
-//    }
-
     $return['content'] = elgg_list_entities($options);
     return $return;
   }
@@ -193,7 +188,7 @@
     );
 
     $form_vars = array();
-    $sidebar = '';
+    $body_vars = array();
     if ($page == 'edit') {
       $izap_video = get_entity((int) $guid);
       $title = elgg_echo('izap_videos:edit') . ":";
@@ -201,7 +196,7 @@
         $form_vars['entity'] = $izap_video;
         $form_vars['name'] = "video_upload";
         $title .= ucwords($izap_video->title);
-
+        $izap_video->container_guid = $izap_video->container_guid;
         $body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
         elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
         elgg_push_breadcrumb(elgg_echo('edit'));
@@ -209,17 +204,14 @@
       }
     } else {
       elgg_push_breadcrumb(elgg_echo('izap_videos:add'));
-      $body_vars = izap_videos_prepare_form_vars(null);
-
+      $izap_video->container_guid = $guid;
+      $body_vars = izap_videos_prepare_form_vars($izap_video);
       $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
       $title = elgg_echo('izap-videos:add');
       $content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
     }
-
     $return['title'] = $title;
     $return['content'] = $content;
-    $return['sidebar'] = $sidebar;
-
     return $return;
   }
 
@@ -233,48 +225,76 @@
     $return = array(
       'filter' => '',
     );
-//      $form_vars = array();
-//      $sidebar = '';
-    $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
-    $yt = $video->YoutubeObject();
-    $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
-    $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
-    $myVideoEntry->setVideoDescription($_SESSION['youtube_attributes']['description']);
+    $form_vars = array();
+    $params = array();
+    if (get_input('token')) {
+      $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
+      $yt = $video->YoutubeObject();
+      $myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
+      $myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
+      $description = strip_tags($_SESSION['youtube_attributes']['description']);
+      $myVideoEntry->setVideoDescription($description);
 
-    // Note that category must be a valid YouTube category
-    $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']['youtube_cats']);
-    $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']['tags']);
-    $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
-    try {
-      $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
-    } catch (Exception $e) {
-      echo "catch";
-      exit;
-      if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
-        register_error('YouTube Error: ' . $matches[1]);
-      } else {
-        register_error('YouTube Error: ' . $e->getMessage());
+      // Note that category must be a valid YouTube category
+      $myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
+      $myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']->tags);
+      $tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
+      try {
+        $tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
+      } catch (Exception $e) {
+        if (preg_match("/<code>([a-z_]+)<\/code>/", $e->getMessage(), $matches)) {
+          register_error('YouTube Error: ' . $matches[1]);
+        } else {
+          register_error('YouTube Error: ' . $e->getMessage());
+        }
+        forward(setHref(array(
+          'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
+          'action' => 'add',
+          'page_owner' => elgg_get_logged_in_user_guid(),
+          'vars' => array('tab' => 'youtube'),
+        )));
       }
+      $params['token'] = $tokenArray['token'];
+      $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/next&scope=https://gdata.youtube.com&session=1&secure=0';
+      elgg_push_breadcrumb(elgg_echo('upload'));
+
+      $form_vars = array(
+        'enctype' => 'multipart/form-data',
+        'name' => 'video_upload',
+        'action' => $params['action'],
+        'id' => 'izap-video-form',
+      );
+      $title = elgg_echo('Upload video with title: "' . $_SESSION['youtube_attributes']['title'] . '"');
+      $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $params);
+      $return['title'] = $title;
+      $return['content'] = $content;
+
+      return $return;
+    } else {
+      register_error('You must have to grant access for youtube upload');
+      forward();
+    }
+  }
+
+  function izap_video_get_page_content_youtube_next() {
+    $is_status = (get_input('status') == 200) ? true : false;
+    if (!$is_status) {
+      // redirect the user from where he was trying to upload the video.
+      register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
       forward(setHref(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'action' => 'add',
-        'page_owner' => elgg_get_logged_in_user_guid(),
-        'vars' => array('tab' => 'youtube'),
+        'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
+        'vars' => array('tab' => ($onserver = izap_is_onserver_enabled_izap_videos()) ?
+            ($onserver == 'yes') ? 'onserver' : 'youtube' :
+            'offserver'),
       )));
+      exit;
     }
-    $params['token'] = $tokenArray['token'];
-    $params['action'] = $tokenArray['url'] . '?nexturl=' . elgg_get_site_url() . 'videos/next';
-    elgg_push_breadcrumb(elgg_echo('upload'));
-    $body_vars = izap_videos_prepare_form_vars($params);
-
-    $form_vars = array('enctype' => 'multipart/form-data', 'name' => 'video_upload');
-    $title = elgg_echo('Upload video with title: "' . $_SESSION['youtube_attributes']['title'] . '"');
-    $content = elgg_view_form('izap-videos/youtube_upload', $form_vars, $body_vars);
-//      $return['title'] = $title;
-    $return['content'] = $content;
-//      $return['sidebar'] = $sidebar;
-
-    return $return;
+    $id = get_input('id');
+    $pass = '%kdkdhSw*jdksl';
+    forward(elgg_add_action_tokens_to_url(elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/youtube_response?id=' . $id . '&p=' . $pass));
+    exit;
   }
 
   /**
@@ -297,10 +317,14 @@
 
   function izap_read_video_file($guid = null) {
     $entity = get_entity($guid);
-
-    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) {
+    
+    if(!$entity){
+     forward(); 
+    }
+    if (!elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE)) { 
       exit;
     }
+    
     $return = array();
     $return['title'] = ucwords($entity->title);
     $return['content'] = elgg_view_entity($entity, array('full_view' => true));
@@ -313,27 +337,25 @@
 
   /**
    * Pull together izap-video variables for the save form
-   * @param type $post
-   * @param type $revision
+   * @param type $video
    */
-  function izap_videos_prepare_form_vars($post = NULL, $revision = NULL) {
+  function izap_videos_prepare_form_vars($video = NULL) {
 
 // input names => defaults
     $values = array(
       'title' => NULL,
       'description' => NULL,
       'access_id' => ACCESS_DEFAULT,
-      'comments_on' => 'On',
       'tags' => NULL,
       'container_guid' => NULL,
       'guid' => NULL,
       'video_url' => NULL
     );
 
-    if ($post) {
+    if ($video) {
       foreach (array_keys($values) as $field) {
-        if (isset($post->$field)) {
-          $values[$field] = $post->$field;
+        if (isset($video->$field)) {
+          $values[$field] = $video->$field;
         }
       }
     }
@@ -419,10 +441,10 @@
     );
 
     $input = array_merge($default, (array) $supplied_array);
-// get old values
+    // get old values
     $old_value = elgg_get_plugin_setting($input['name'], $input['plugin']);
 
-//make new value
+    //make new value
     if (is_array($input['value'])) {
       $new_value = implode('|', $input['value']);
     } else {
@@ -699,16 +721,19 @@
    * @return boolean
    */
   function izap_run_queue_izap_videos() {
+    getAllAccess();
     $queue_object = new izapQueue();
     $queue = $queue_object->fetch_videos();
 
     if (is_array($queue)) {
       foreach ($queue as $pending) {
         $converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
-
-        if ($converted['error']) {
+        $izap_video = get_entity($pending['guid']);
+        if (is_array($converted) && $converted['error']) {
+          $izap_video->converted = 'no';
           $queue_object->move_to_trash($pending['guid']);
         } else {
+          $izap_video->converted = 'yes';
           $queue_object->delete($pending['guid']);
         }
       }
@@ -757,7 +782,6 @@
    * @return type
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
-
     if (file_exists($file)) {
       $queue_object = new izapQueue();
       $video = new izapConvert($file);
@@ -801,18 +825,13 @@
       } else {
         $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
       }
-//          $set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
-      // echo $set_video_name; exit;
       $elggfile_obj = new ElggFile;
       $elggfile_obj->owner_guid = $entity->owner_guid;
       $elggfile_obj->setFilename($set_video_name);
 
-//echo file_exists($elggfile_obj->getFilenameOnFilestore())?"true":"false"; exit;
-//echo mime_content_type($elggfile_obj->getFilenameOnFilestore()); exit;
       if (file_exists($elggfile_obj->getFilenameOnFilestore())) {
         $contents = $elggfile_obj->grabFile();
       }
-      //echo $contents; exit;
       $content_type = 'video/x-flv';
 
       header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
@@ -836,11 +855,11 @@
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = $IZAPSETTINGS->playerPath;
     $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
-    if (getFileExtension($entity->videofile) == 'flv') {
-      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '.flv') ? "true" : "false";
-    } else {
-      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
-    }
+//    if (getFileExtension($entity->videofile) == 'flv') {
+//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '.flv') ? "true" : "false";
+//    } else {
+//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
+//    }
     if ($entity->videourl) {
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
         $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
@@ -848,7 +867,7 @@
         echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
       }
     } else {
-      if ($get_flv_file == 'true') {
+      if ($entity->converted == 'yes') {
         $content = "
            <object width='" . $width . "' height= '" . $height . "' id='flvPlayer'>
             <param name='allowFullScreen' value='true'>
@@ -858,10 +877,10 @@
             <embed src='" . $player_path . "?movie=" . $video_src . "&volume=30&autoload=on&autoplay=on&vTitle=" . $entity->title . "&showTitle=yes' width='100' height='100' allowFullScreen='true' type='application/x-shockwave-flash' allowScriptAccess='always' wmode='transparent'>
            </object>";
       } else {
-        //echo '<p class="notConvertedWrapper" style="background-color:height:400px; black;radius:8px;">' . '</p>';
-        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
-             <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
-       </div>';
+        $content = addError($entity->guid);
+//        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
+//             <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
+//       </div>';
       }
     }
     echo $content;
@@ -876,7 +895,7 @@
     return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
   }
 
-  function input($video_data = array()) {
+  function input($video_data = array(), &$video_object) {
     global $IZAPSETTINGS;
     $url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
     $curl = new IzapCurl();
@@ -891,17 +910,13 @@
     if (!$returnObject || empty($returnObject->embed_code)) {
       return $returnObject;
     }
-    $obj = new stdClass;
-    $obj->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
-    $obj->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
-    $obj->videothumbnail = $returnObject->thumb_url;
-    $obj->videosrc = $returnObject->embed_code;
-    $obj->videotags = $returnObject->tags;
-    $obj->domain = $returnObject->url;
-    $obj->filename = time() . '_' . basename($obj->videothumbnail);
-    $obj->filecontent = $curl->get($obj->videothumbnail)->body;
-    $obj->type = $returnObject->type;
-    return $obj;
+    $video_object->title = $video_data['title'] ? $video_data['title'] : $returnObject->title;
+    $video_object->description = $video_data['description'] ? $video_data['description'] : $returnObject->description;
+    $video_object->videothumbnail = $returnObject->thumb_url;
+    $video_object->videosrc = $returnObject->embed_code;
+//    $video_object->tags = $tags;
+    $video_object->domain = $returnObject->url;
+    $video_object->video_type = $returnObject->type;
   }
 
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
@@ -963,86 +978,140 @@
       'Shows' => 'Shows',
       'Trailers' => 'Trailers');
 
-
     asort($cats);
     return $cats;
   }
 
   function preview() {
-//    echo json_encode(array('test'=>'name'));exit;
     $video_url = array(
       'url' => $_POST['url']
     );
-    $videoValues = input($video_url);
+    $izap_video = new IzapVideo();
+    $izap_video->saveYouTubeVideoData($video_url);
+    $tags = implode(',', $izap_video->tags);
     $video_data = array(
-      'title' => $videoValues->title,
-      'description' => $videoValues->description,
-      'thumbnail' => $videoValues->videothumbnail
+      'title' => $izap_video->title,
+      'description' => $izap_video->description,
+      'thumbnail' => $izap_video->videothumbnail,
+      'tags' => $tags
     );
     echo json_encode($video_data);
     exit;
   }
 
+  function youtube_response() {
+    $id = get_input('id');
+    $url = 'https://www.youtube.com/watch?v=' . $id;
+    $video_data = array(
+      'url' => $url
+    );
+    $izap_video = new IzapVideo();
+    if ($izap_video->guid == 0) {
+      $new = true;
+    }
+    $izap_video->videourl = $url;
+    $izap_video->saveYouTubeVideoData($video_data);
+    if ($izap_video->save()) {
+      if ($new == true) {
+        elgg_create_river_item(array(
+          'view' => 'river/object/izap_video/create',
+          'action_type' => 'create',
+          'subject_guid' => elgg_get_logged_in_user_guid(),
+          'object_guid' => $izap_video->getGUID(),
+        ));
+      }
+      elgg_clear_sticky_form('izap_videos');
+      system_messages(elgg_echo('izap-videos:Save:success'));
+      forward($izap_video->getURL());
+    }
+  }
+
   function setHref($input = array()) {
     global $CONFIG;
-
-    /**
-     * Default Params
-     */
+//      Default Params
     $default = array(
       'trailing_slash' => TRUE,
       'full_url' => TRUE,
     );
     $params = array_merge($default, $input);
-
     // start url array
     $url_array = array();
-    //$url_array[] = 'pg';
-
     if ($params['context']) {
       $url_array[] = $params['context'];
     } else {
       $url_array[] = elgg_get_context();
     }
-
     // set which page to call
     $url_array[] = $params['action'];
-
     // check to set the page owner
     if ($params['page_owner'] !== FALSE) {
       if (isset($params['page_owner'])) {
         $url_array[] = $params['page_owner'];
-      } elseif (elgg_get_logged_in_user_guid()) {
-        $url_array[] = elgg_get_logged_in_user_guid();
+      } elseif (elgg_get_page_owner_entity()) {
+        $url_array[] = elgg_get_page_owner_entity()->guid;
       } elseif (elgg_is_logged_in()) {
         $url_array[] = elgg_get_logged_in_user_guid();
       }
     }
-
     if (is_array($params['vars']) && sizeof($params['vars'])) {
       foreach ($params['vars'] as $var) {
         $url_array[] = filter_var($var);
       }
     }
-
     // short circuit for empty values
     foreach ($url_array as $value) {
       if (!empty($value)) {
         $final_array[] = $value;
       }
     }
-
     // create URL
     $final_url = implode('/', $final_array);
-
     if ($params['full_url']) {
       $final_url = $CONFIG->wwwroot . $final_url;
     }
-    // check for trailing_slash
-//      if ($params['trailing_slash']) {
-//          $final_url .= '/';
-//      }
-//c($final_url);exit;
     return $final_url;
+  }
+
+  function getAllAccess($func_name = 'izap_access_over_ride', $priority = 99999) {
+    elgg_set_ignore_access(true);
+    elgg_register_event_handler("enable", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("permissions_check", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("container_permissions_check", "all", $func_name, $priority);
+    elgg_register_plugin_hook_handler("permissions_check:metadata", "all", $func_name, $priority);
+  }
+
+  function getFailedVideos() {
+    $records = elgg_get_entities_from_metadata(array(
+      'types' => 'object',
+      'subtypes' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
+      'metadata_names' => 'converted',
+      'metadata_values' => 'no',
+      'limit' => 99999999
+    ));
+    return $records;
+  }
+  
+  /**
+   * Check video converted succesfully or not
+   * @param type $guid
+   */
+  function checkVideoStatus($guid){
+    $video = get_entity($guid);
+    echo $video->converted;
+    exit;
+  }
+  function addError($guid){
+    $video = get_entity($guid);
+    if ($video->converted == 'in_processing') {
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:not-converted") . '</p>';
+    }elseif($video->converted === 'no'){
+      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+    }else{
+      return False;
+    }
+//    elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
+//      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
+//    }
+    return $error;
   }
   

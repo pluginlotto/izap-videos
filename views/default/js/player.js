@@ -15,5 +15,5 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-    videojs.options.flash.swf = 'video-js.swf';
+videojs.options.flash.swf = 'video-js.swf';
 
