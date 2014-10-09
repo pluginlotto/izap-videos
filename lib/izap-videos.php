@@ -633,13 +633,14 @@
   }
 
   /**
-   * elgg hook to override permission check of entities (izap_videos, izapVideoQueue, izap_recycle_bin)
+   * Elgg hook to override permission check of entities (izap_videos, izapVideoQueue, izap_recycle_bin)
    *
-   * @param <type> $hook
-   * @param <type> $entity_type
-   * @param <type> $returnvalue
-   * @param <type> $params
-   * @return <type>
+   * @param string  $hook
+   * @param string  $entity_type
+   * @param array   $returnvalue
+   * @param array   $params
+   * 
+   * @return boolean
    * 
    * @version 5.0
    */
@@ -672,6 +673,7 @@
    *
    * @param integer  $bytes size in bytes
    * @param integer  $precision
+   * 
    * @return string
    * 
    * @version 5.0
@@ -686,11 +688,13 @@
   }
 
   /**
+   * Save file info for video conversion
    * 
-   * @param type $file
-   * @param type $video
-   * @param type $defined_access_id
-   * @param type $izapvideo
+   * @param string  $file
+   * @param array   $video
+   * @param integer $defined_access_id
+   * @param array   $izapvideo
+   * 
    * @return boolean
    * 
    * @version 5.0
@@ -709,8 +713,11 @@
   }
 
   /**
+   * Fetch videos from queue and send these videos for conversion
    * 
    * @return boolean
+   * 
+   * @version 5.0
    */
   function izap_run_queue_izap_videos() {
     getAllAccess();
@@ -736,7 +743,7 @@
   }
 
   /**
-   * this function gives the FFmpeg video converting command
+   * This function gives the FFmpeg video converting command
    *
    * @return string path
    * 
@@ -751,7 +758,8 @@
   }
 
   /**
-   * get thumbanil from uploaded video
+   * Get thumbanil from uploaded video
+   * 
    * @return string
    * 
    * @version 5.0
@@ -765,14 +773,16 @@
   }
 
   /**
+   * Check file existance and send for conversion
    * 
-   * @param type $file
-   * @param type $videoId
-   * @param type $videoTitle
-   * @param type $videoUrl
-   * @param type $ownerGuid
-   * @param type $accessId
-   * @return type
+   * @param string  $file
+   * @param integer $videoId
+   * @param string  $videoTitle
+   * @param string  $videoUrl
+   * @param integer $ownerGuid
+   * @param integer $accessId
+   * 
+   * @return string  if video converted successfully, array if video not converted successfully
    * 
    * @version 5.0
    */
@@ -797,7 +807,7 @@
   }
 
   /**
-   * read video file content
+   * Read video file content
    * 
    * @version 5.0
    */
@@ -835,8 +845,9 @@
   }
 
   /**
-   * load video via ajax
-   * @param type $guid
+   * Load video via ajax
+   * 
+   * @param integer  $guid
    * 
    * @version 5.0
    */
@@ -845,12 +856,6 @@
     $entity = get_entity($guid);
     $video_src = elgg_get_site_url() . 'izap_videos_files/file/' . $guid . '/' . elgg_get_friendly_title($entity->title) . '.flv';
     $player_path = $IZAPSETTINGS->playerPath;
-    $image_path = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $guid;
-//    if (getFileExtension($entity->videofile) == 'flv') {
-//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '.flv') ? "true" : "false";
-//    } else {
-//      $get_flv_file = file_exists(preg_replace('/\\.[^.\\s]{3,4}$/', '', $entity->videofile) . '_c.flv') ? "true" : "false";
-//    }
     if ($entity->videourl) {
       if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
         $content = izapGetReplacedHeightWidth_izap_videos($height, $width, $entity->videosrc);
@@ -869,9 +874,6 @@
            </object>";
       } else {
         $content = addError($entity->guid);
-//        $content = '<div align="center" class="contentWrapper video_background-top-round" style="height: "' . $height . 'px";">
-//             <div align="left" id="no_video" style="height:"' . $height . 'px";background-color: black;border-radius:8px;">Video is queued up for conversion.</div>
-//       </div>';
       }
     }
     echo $content;
@@ -891,10 +893,11 @@
   /**
    * Get detail for YouTube video 
    * 
-   * @global type $IZAPSETTINGS
-   * @param type $video_data
-   * @param type $video_object
-   * @return type
+   * @global array  $IZAPSETTINGS
+   * @param array   $video_data
+   * @param array   $video_object
+   * 
+   * @return array
    * 
    * @version 5.0
    */
@@ -925,10 +928,10 @@
   /**
    * Replace height and width for youtube videos
    * 
-   * @param type $newHeight
-   * @param type $newWidth
-   * @param type $object
-   * @return type
+   * @param integer  $newHeight
+   * @param integer  $newWidth
+   * @param array    $object
+   * @return array
    * 
    * @version 5.0
    */
@@ -942,6 +945,7 @@
 
   /**
    * Increment the views when user visits the page
+   * 
    * @param elggEntity $entity
    * 
    * @version 5.0
@@ -953,9 +957,11 @@
   }
 
   /**
-   * gives the total number of views of the entity
+   * Return the total number of views of the entity
+   * 
    * @param elggEntity $entity
-   * @return string
+   * 
+   * @return integer
    * 
    * @version 5.0
    */
@@ -1061,8 +1067,9 @@
   /**
    * Set Hyperlink
    * 
-   * @global type $CONFIG
-   * @param type $input
+   * @global array  $CONFIG
+   * @param array   $input
+   * 
    * @return string
    * 
    * @version 5.0
@@ -1116,8 +1123,8 @@
   /**
    * Get All Access
    * 
-   * @param type $func_name
-   * @param type $priority
+   * @param string  $func_name
+   * @param integer $priority
    * 
    * @version 5.0
    */
@@ -1130,9 +1137,9 @@
   }
 
   /**
-   * Get not converted videos
+   * Return not converted videos
    * 
-   * @return type
+   * @return array
    * 
    * @version 5.0
    */
@@ -1149,7 +1156,10 @@
 
   /**
    * Check video converted succesfully or not
-   * @param type $guid
+   * 
+   * @param integer $guid
+   * 
+   * @return string 
    * 
    * @version 5.0
    */
@@ -1168,9 +1178,6 @@
     } else {
       return False;
     }
-//    elseif ($get_flv_file == 'false' && !($izap_video->videourl)) {
-//      $error = '<p class="notConvertedWrapper" style="background-color: #FFC4C4;width:92%;margin-top: -3px;border-radius:3px;">' . elgg_echo("izap_videos:alert:fail-converted") . '</p>';
-//    }
     return $error;
   }
   
