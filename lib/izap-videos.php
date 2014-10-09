@@ -419,6 +419,8 @@
    * @param array   $makeArray
    * 
    * @return array
+   * 
+   * @version 5.0
    */
   function izapAdminSettings_izap_videos($settingName, $values = '', $override = false, $makeArray = false) {
     $send_array = array(
@@ -495,7 +497,7 @@
   }
 
   /**
-   * check whether offserver videos are enabled in admin settings
+   * Check whether offserver videos are enabled in admin settings
    * 
    * @return string
    * 
@@ -513,11 +515,15 @@
   }
 
   /**
+   * Return form action
    * 
-   * @global type $CONFIG
-   * @param type $file
-   * @param type $plugin
-   * @return type
+   * @global array  $CONFIG
+   * @param string  $file
+   * @param string  $plugin
+   * 
+   * @return string
+   * 
+   * @version 5.0
    */
   function getFormAction($file, $plugin) {
     global $CONFIG;
@@ -525,9 +531,9 @@
   }
 
   /**
-   * this function triggers the queue
+   * This function triggers the queue
    *
-   * @global <type> $CONFIG
+   * @version 5.0
    */
   function izap_trigger_video_queue() {
     $PHPpath = izapGetPhpPath_izap_videos();
@@ -542,9 +548,11 @@
   }
 
   /**
-   * this function checks if the queue is running or not
+   * This function checks if the queue is running or not
    *
    * @return boolean true if yes or false if no
+   * 
+   * @version 5.0
    */
   function izap_is_queue_running_izap_videos() {
     $queue_object = new izapQueue();
@@ -561,6 +569,8 @@
    * gives the file's extension if file found
    * @param string $filename
    * @return mixed file extension if found else false
+   * 
+   * @version 5.0
    */
   function getFileExtension($filename) {
     if (empty($filename)) {
@@ -573,6 +583,8 @@
    * this function gives the path of PHP
    *
    * @return string path
+   * 
+   * @version 5.0
    */
   function izapGetPhpPath_izap_videos() {
     $path = izapAdminSettings_izap_videos('izapPhpInterpreter');
@@ -586,6 +598,8 @@
    * grants the access
    *
    * @param <type> $functionName
+   * 
+   * @version 5.0
    */
   function izapGetAccess_izap_videos() {
     izap_access_override(array('status' => true));
@@ -596,6 +610,8 @@
    *
    * @global global $CONFIG
    * @param string $functionName
+   * 
+   * @version 5.0
    */
   function izapRemoveAccess_izap_videos() {
     izap_access_override(array('status' => false));
@@ -605,6 +621,8 @@
    * 
    * @global type $CONFIG
    * @param type $params
+   * 
+   * @version 5.0
    */
   function izap_access_override($params = array()) {
     if ($params['status']) {
@@ -626,6 +644,8 @@
    * @param <type> $returnvalue
    * @param <type> $params
    * @return <type>
+   * 
+   * @version 5.0
    */
   function izapGetAccessForAll_izap_videos($hook, $entity_type, $returnvalue, $params) {
     return true;
@@ -635,6 +655,8 @@
    * Get videos which are inqueue
    * 
    * @global type $CONFIG
+   * 
+   * @version 5.0
    */
   function getQueue() {
     global $CONFIG;
@@ -658,6 +680,8 @@
    * @param integer $bytes size in bytes
    * @param integer $precision
    * @return string
+   * 
+   * @version 5.0
    */
   function izapFormatBytes($bytes, $precision = 2) {
     $units = array('B', 'KB', 'MB', 'GB', 'TB');
@@ -677,6 +701,8 @@
    * @param type $defined_access_id
    * @param type $izapvideo
    * @return boolean
+   * 
+   * @version 5.0
    */
   function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_access_id = 2, $izapvideo) {
     // this will not let save any thing if there is no file to convert
@@ -722,6 +748,8 @@
    * this function gives the FFmpeg video converting command
    *
    * @return string path
+   * 
+   * @version 5.0
    */
   function izap_get_ffmpeg_videoConvertCommand_izap_videos() {
     $path = elgg_get_plugin_setting('izapVideoCommand', GLOBAL_IZAP_VIDEOS_PLUGIN);
@@ -734,6 +762,8 @@
   /**
    * get thumbanil from uploaded video
    * @return string
+   * 
+   * @version 5.0
    */
   function izap_get_ffmpeg_thumbnailCommand() {
     $path = elgg_get_plugin_setting('izapVideoThumb', GLOBAL_IZAP_VIDEOS_PLUGIN);
@@ -752,6 +782,8 @@
    * @param type $ownerGuid
    * @param type $accessId
    * @return type
+   * 
+   * @version 5.0
    */
   function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $ownerGuid, $accessId = 2) {
     if (file_exists($file)) {
@@ -775,6 +807,8 @@
 
   /**
    * read video file content
+   * 
+   * @version 5.0
    */
   function read_video_file() {
     $guid = (int) get_input('videoID');
@@ -812,6 +846,8 @@
   /**
    * load video via ajax
    * @param type $guid
+   * 
+   * @version 5.0
    */
   function getVideoPlayer($guid, $height, $width) {
     global $IZAPSETTINGS;
@@ -853,6 +889,8 @@
 
   /*
    * Get Offserver Api Key
+   * 
+   * @version 5.0
    */
 
   function getOffserverApiKey() {
@@ -866,6 +904,8 @@
    * @param type $video_data
    * @param type $video_object
    * @return type
+   * 
+   * @version 5.0
    */
   function input($video_data = array(), &$video_object) {
     global $IZAPSETTINGS;
@@ -898,6 +938,8 @@
    * @param type $newWidth
    * @param type $object
    * @return type
+   * 
+   * @version 5.0
    */
   function izapGetReplacedHeightWidth_izap_videos($newHeight, $newWidth, $object) {
     $videodiv = preg_replace('/width=["\']\d+["\']/', 'width="' . $newWidth . '"', $object);
@@ -910,6 +952,8 @@
   /**
    * Increment the views when user visits the page
    * @param elggEntity $entity
+   * 
+   * @version 5.0
    */
   function increaseViews($entity) {
     if (is_object($entity)) {
@@ -921,6 +965,8 @@
    * gives the total number of views of the entity
    * @param elggEntity $entity
    * @return string
+   * 
+   * @version 5.0
    */
   function getViews($entity) {
     return (int) $entity->total_views;
@@ -930,6 +976,8 @@
    * Get categories that are supported by YouTube
    * 
    * @return string
+   * 
+   * @version 5.0
    */
   function getYoutubeCategories() {
     $cats = array(
@@ -967,6 +1015,8 @@
 
   /**
    * Get YouTube video detail for offserver preview 
+   * 
+   * @version 5.0
    */
   function preview() {
     $video_url = array(
@@ -987,6 +1037,8 @@
 
   /**
    * Save offserver video after getting responese from YouTube
+   * 
+   * @version 5.0
    */
   function youtube_response() {
     $id = get_input('id');
@@ -1021,6 +1073,8 @@
    * @global type $CONFIG
    * @param type $input
    * @return string
+   * 
+   * @version 5.0
    */
   function setHref($input = array()) {
     global $CONFIG;
@@ -1073,6 +1127,8 @@
    * 
    * @param type $func_name
    * @param type $priority
+   * 
+   * @version 5.0
    */
   function getAllAccess($func_name = 'izap_access_over_ride', $priority = 99999) {
     elgg_set_ignore_access(true);
@@ -1086,6 +1142,8 @@
    * Get not converted videos
    * 
    * @return type
+   * 
+   * @version 5.0
    */
   function getFailedVideos() {
     $records = elgg_get_entities_from_metadata(array(
@@ -1101,6 +1159,8 @@
   /**
    * Check video converted succesfully or not
    * @param type $guid
+   * 
+   * @version 5.0
    */
   function checkVideoStatus($guid) {
     $video = get_entity($guid);
