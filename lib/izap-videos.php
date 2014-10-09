@@ -22,7 +22,7 @@
    * 
    * @param integer  $container_guid
    * 
-   * @return array
+   * @return array   array of content for rendering video list 
    * 
    * @version 5.0
    */
@@ -106,7 +106,7 @@
    *  
    * @param integer  $user_guid
    * 
-   * @return array
+   * @return array   array of content for rendering friend's video list 
    * 
    * @version 5.0
    */
@@ -176,7 +176,7 @@
    * @param integer $guid
    * @param string  $revision
    * 
-   * @return array
+   * @return array  array of content for rendering add/edit video form 
    * 
    * @version 5.0
    */
@@ -219,7 +219,7 @@
    * @param integer $guid
    * @param string  $revision
    * 
-   * @return array
+   * @return array  array of content for YouTube video uploading
    * 
    * @version 5.0
    */
@@ -304,11 +304,11 @@
   }
 
   /**
-   * show particular saved entity
+   * Show particular saved entity
    * 
    * @param integer  $guid
    * 
-   * @return array
+   * @return array   array of video content
    * 
    * @version 5.0
    */
@@ -334,7 +334,7 @@
    * 
    * @param  array  $video
    * 
-   * @return array
+   * @return array  array of variables for save form
    * 
    * @version 5.0
    */
@@ -368,7 +368,7 @@
   /**
    * Check whether operating sysytem is window 
    * 
-   * @return boolean
+   * @return boolean true if operating system is window, false if operating system is not window 
    * 
    * @version 5.0
    */
@@ -385,7 +385,7 @@
    * 
    * @param integer  $inputSize
    * 
-   * @return string
+   * @return string  string of readable size
    * 
    * @version 5.0
    */
@@ -418,7 +418,7 @@
    * @param boolean $override
    * @param array   $makeArray
    * 
-   * @return array
+   * @return array  array of admin settings
    * 
    * @version 5.0
    */
@@ -436,7 +436,7 @@
    * 
    * @param array $supplied_array
    * 
-   * @return string
+   * @return string string of plugin settings
    * 
    * @version 5.0
    */
@@ -479,7 +479,7 @@
   /**
    * Checks if onserver videos are enabled in admin settings
    * 
-   * @return string
+   * @return string   string of enable/disable onserver settings
    * 
    * @version 5.0
    */
@@ -499,7 +499,7 @@
   /**
    * Check whether offserver videos are enabled in admin settings
    * 
-   * @return string
+   * @return string   string of enable/disable offserver settings
    * 
    * @version 5.0
    */
@@ -521,7 +521,7 @@
    * @param string  $file
    * @param string  $plugin
    * 
-   * @return string
+   * @return string string of form's action
    * 
    * @version 5.0
    */
@@ -583,7 +583,7 @@
   /**
    * This function return the path of PHP Interpreter
    *
-   * @return string path
+   * @return string path for php interpreter
    * 
    * @version 5.0
    */
@@ -674,7 +674,7 @@
    * @param integer  $bytes size in bytes
    * @param integer  $precision
    * 
-   * @return string
+   * @return string  string of readable file size
    * 
    * @version 5.0
    */
@@ -760,7 +760,7 @@
   /**
    * Get thumbanil from uploaded video
    * 
-   * @return string
+   * @return string   path of ffmpeg command
    * 
    * @version 5.0
    */
@@ -782,7 +782,7 @@
    * @param integer $ownerGuid
    * @param integer $accessId
    * 
-   * @return string  if video converted successfully, array if video not converted successfully
+   * @return mixed  string if video converted successfully, array if video not converted successfully
    * 
    * @version 5.0
    */
@@ -897,7 +897,7 @@
    * @param array   $video_data
    * @param array   $video_object
    * 
-   * @return array
+   * @return array  array of video object
    * 
    * @version 5.0
    */
@@ -931,7 +931,8 @@
    * @param integer  $newHeight
    * @param integer  $newWidth
    * @param array    $object
-   * @return array
+   * 
+   * @return array   array of video div with proper height and width
    * 
    * @version 5.0
    */
@@ -961,7 +962,7 @@
    * 
    * @param elggEntity $entity
    * 
-   * @return integer
+   * @return integer  integer of total views for vedio
    * 
    * @version 5.0
    */
@@ -972,7 +973,7 @@
   /**
    * Get categories that are supported by YouTube
    * 
-   * @return string
+   * @return array  array of all categories
    * 
    * @version 5.0
    */
@@ -1070,7 +1071,7 @@
    * @global array  $CONFIG
    * @param array   $input
    * 
-   * @return string
+   * @return string string of hyper reference url
    * 
    * @version 5.0
    */
@@ -1139,7 +1140,7 @@
   /**
    * Return not converted videos
    * 
-   * @return array
+   * @return array  array of not converted videos
    * 
    * @version 5.0
    */
@@ -1159,7 +1160,7 @@
    * 
    * @param integer $guid
    * 
-   * @return string 
+   * @return string string of video converted status 
    * 
    * @version 5.0
    */
@@ -1168,7 +1169,15 @@
     echo $video->converted;
     exit;
   }
-
+  
+  /**
+   * Create error div for videos
+   * 
+   * @param integer  $guid
+   * 
+   * @return string|boolean  string of error div
+   * 
+   */
   function addError($guid) {
     $video = get_entity($guid);
     if ($video->converted == 'in_processing') {
