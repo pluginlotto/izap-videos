@@ -21,6 +21,7 @@
    * Parses the response from a Curl request into an object containing
    * the response body and an associative array of headers
    *
+   * @version 5.0
    * */
   class IzapCurlResponse {
 
@@ -28,6 +29,8 @@
      * The body of the response without the headers block
      *
      * @var string
+     * 
+     * @version 5.0
      * */
     public $body = '';
 
@@ -35,6 +38,8 @@
      * An associative array containing the response's headers
      *
      * @var array
+     * 
+     * @version 5.0
      * */
     public $headers = array();
 
@@ -48,6 +53,8 @@
      * </code>
      *
      * @param string $response
+     * 
+     * @version 5.0
      * */
     function __construct($response) {
       # Headers regex
@@ -85,6 +92,8 @@
      * </code>
      *
      * @return string
+     * 
+     * @version 5.0
      * */
     function __toString() {
       return $this->body;
