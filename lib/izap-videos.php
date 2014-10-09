@@ -1069,7 +1069,7 @@
    * Set Hyperlink
    * 
    * @global array  $CONFIG
-   * @param array   $input
+   * @param  array  $input
    * 
    * @return string string of hyper reference url
    * 

@@ -18,34 +18,45 @@
    */
 
   /**
-   * class for providing the api to fetch and convert video, that other plugins can
+   * Class for providing the api to fetch and convert video, that other plugins can
    * use to enable the feature of adding video from them.
+   * 
    * (CURRENTLY SUPPORTING URLs ONLY)
+   * 
    * just need to include the small code and you will get the video player
+   * 
    * eg.
-   *
    * if(is_plugin_enabled('izap_videos')){
    *    $video = new IZAPVideoApi($input); // input is URL or FILEPATH
    *    $return = $video->getFeed($width, $height);
    *  }
+   * 
+   * @todo API integration should be there
    *
-   *
+   * @version 5.0
    */
   class IZAPVideoApi {
 
     private $input;
     public $errors;
-
-    public function __construct($input = '') {
+    
+    /**
+     * @param string  $input
+     * 
+     * @version 5.0
+     */
+    public function __construct($input = '') { 
       if (!empty($input)) {
         $this->input = $input;
       }
     }
 
     /**
-     * converts the video
+     * Converts the video
      *
-     * @return <type>
+     * @return mixed string if video not supported, array if video converted and boolean if nothing is processed so for
+     * 
+     * @version 5.0
      */
     public function convertVideo() { // experimental
       if (!izapSupportedVideos_izap_videos($this->input)) {
@@ -63,12 +74,15 @@
     }
 
     /**
-     * returns the video player code, if the input is URL
+     * Returns the video player code, if the input is URL
      *
-     * @param int $width width of video player
-     * @param int $height height of video playe
-     * @param int $autoPlay autocomplete option
+     * @param int  $width width of video player
+     * @param int  $height height of video player
+     * @param int  $autoPlay autocomplete option
+     * 
      * @return HTML player code
+     * 
+     * @version 5.0
      */
     public function getVideoEntity($guid = null) {
       if (is_null($guid)) {
@@ -78,18 +92,37 @@
       }
     }
 
+    /**
+     * Return video entity from database
+     * 
+     * @param integer  $guid
+     * 
+     * @return elggentity elggentity of video
+     * 
+     * @version 5.0
+     */
     private function getVideoEntityFromDb($guid) {
       return new IzapVideos($guid);
     }
 
+    /**
+     * Return vedio entity from pluginlotto API
+     * 
+     * @return elggentity elggentity of video
+     * 
+     * @version 5.0
+     */
     private function getVideoFromPluginlotto() {
       $izap_videos = new IzapVideos();
       return $izap_videos->input($this->input, 'url');
     }
 
     /**
-     *
+     * Create new video entity
+     * 
      * @return ElggEntity VIDEOS
+     * 
+     * @version 5.0
      */
     public function createVideoEntity() {
       if (!filter_var($this->input, FILTER_VALIDATE_URL)) {
@@ -147,9 +180,15 @@
       return $izap_videos;
     }
 
+    /**
+     * Return errors
+     * 
+     * @return array array of errors
+     * 
+     * @version 5.0
+     */
     public function getErrors() {
       return $this->errors;
     }
-
   }
   
