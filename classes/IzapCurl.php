@@ -58,6 +58,8 @@
      * The user agent to send along with requests
      *
      * @var string
+     * 
+     * @version 5.0
      * */
     public $user_agent;
 
@@ -66,6 +68,8 @@
      *
      * @var string
      * @access protected
+     * 
+     * @version 5.0
      * */
     protected $error = '';
 
@@ -74,6 +78,8 @@
      *
      * @var resource
      * @access protected
+     * 
+     * @version 5.0
      * */
     protected $request;
 
@@ -82,6 +88,8 @@
      * 
      * @var array
      * @access private
+     * 
+     * @version 5.0
      */
     private $auth = false;
 
@@ -89,6 +97,8 @@
      * Initializes a Curl object
      *
      * Sets the $cookie_file to "curl_cookie.txt" in the current directory
+     * 
+     * @version 5.0
      * */
     function __construct($auth = false) {
       $this->cookie_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'curl_cookie.txt';
@@ -111,6 +121,8 @@
      * @param string $url
      * @param array|string $vars 
      * @return IzapCurlResponse object
+     * 
+     * @version 5.0
      * */
     function delete($url, $vars = array()) {
       return $this->request('DELETE', $url, $vars);
@@ -120,6 +132,8 @@
      * Returns the error string of the current request if one occurred
      *
      * @return string
+     * 
+     * @version 5.0
      * */
     function error() {
       return $this->error;
@@ -133,6 +147,8 @@
      * @param string $url
      * @param array|string $vars 
      * @return IzapCurlResponse
+     * 
+     * @version 5.0
      * */
     function get($url, $vars = array()) {
       if (!empty($vars)) {
@@ -150,6 +166,8 @@
      * @param string $url
      * @param array|string $vars
      * @return IzapCurlResponse
+     * 
+     * @version 5.0
      * */
     function head($url, $vars = array()) {
       return $this->request('HEAD', $url, $vars);
@@ -161,6 +179,8 @@
      * @param string $url
      * @param array|string $vars 
      * @return IzapCurlResponse|boolean
+     * 
+     * @version 5.0
      * */
     function post($url, $vars = array()) {
       return $this->request('POST', $url, $vars);
@@ -174,6 +194,8 @@
      * @param string $url
      * @param array|string $vars 
      * @return IzapCurlResponse|boolean
+     * 
+     * @version 5.0
      * */
     function put($url, $vars = array()) {
       return $this->request('PUT', $url, $vars);
@@ -188,6 +210,8 @@
      * @param string $url
      * @param array|string $vars
      * @return IzapCurlResponse|boolean
+     * 
+     * @version 5.0
      * */
     function request($method, $url, $vars = array(), $auth = false) {
       $this->error = '';
@@ -217,6 +241,8 @@
      *
      * @return void
      * @access protected
+     * 
+     * @version 5.0
      * */
     protected function set_request_headers() {
       $headers = array();
@@ -232,6 +258,8 @@
      * @param string $method
      * @return void
      * @access protected
+     * 
+     * @version 5.0
      * */
     protected function set_request_method($method) {
       switch (strtoupper($method)) {
@@ -257,6 +285,8 @@
      * @param array|false $auth will contains username,password for basic auth
      * @return void
      * @access protected
+     * 
+     * @version 5.0
      * */
     protected function set_request_options($url, $vars) {
       curl_setopt($this->request, CURLOPT_URL, $url);
