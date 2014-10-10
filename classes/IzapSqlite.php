@@ -61,7 +61,7 @@ class IzapSqlite {
 	 * @param string  $qry
 	 * @param array   $params
 	 * @param boolean $fetch_all
-	 * @param type    $fetch_style
+	 * @param const   $fetch_style
 	 * 
 	 * @return boolean
 	 * 

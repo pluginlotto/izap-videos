@@ -146,11 +146,9 @@ class IZAPVideoApi {
 			return FALSE;
 		}
 
-
 		$izap_videos->title = $return->title;
 		$izap_videos->description = $return->description;
 		$izap_videos->tags = string_to_tag_array($return->videotags);
-
 		$izap_videos->videosrc = $return->videosrc;
 		$izap_videos->videotype = $return->type;
 		$izap_videos->orignal_thumb = "izap_videos/" . $return->type . "/orignal_" . $return->filename;
@@ -159,6 +157,7 @@ class IZAPVideoApi {
 		$izap_videos->converted = 'yes';
 		$izap_videos->setFilename($izap_videos->orignal_thumb);
 		$izap_videos->open("write");
+		
 		if ($izap_videos->write($return->filecontent)) {
 			$thumb = get_resized_image_from_existing_file($izap_videos->getFilenameOnFilestore(), 120, 90, true);
 			$izap_videos->setFilename($izap_videos->imagesrc);
@@ -190,5 +189,4 @@ class IZAPVideoApi {
 	public function getErrors() {
 		return $this->errors;
 	}
-
 }

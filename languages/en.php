@@ -18,7 +18,7 @@
  */
 
 /**
- * add language translation
+ * Add language translation
  */
 $english = array(
 	'admin:statistics:izap-videos-conversion_queue' => 'Conversion Queue',

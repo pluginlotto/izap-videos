@@ -98,5 +98,4 @@ class IzapCurlResponse {
 	function __toString() {
 		return $this->body;
 	}
-
 }

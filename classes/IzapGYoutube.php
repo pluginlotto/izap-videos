@@ -124,5 +124,4 @@ class IzapGYoutube extends IzapGoogle {
 		}
 		return $this->youtube_object;
 	}
-
 }

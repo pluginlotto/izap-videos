@@ -79,16 +79,17 @@ if ($izap_video->converted == 'no') {
 	$izap_video->access_id = ACCESS_PRIVATE;
 	$izap_video->save();
 }
+
+$params = array(
+	'entity' => $izap_video,
+	'title' => false,
+	'metadata' => $metadata,
+	'subtitle' => $subtitle,
+);
+$params = $params + $vars;
 if ($full) {
-	$params = array(
-		'entity' => $izap_video,
-		'title' => false,
-		'metadata' => $metadata,
-		'subtitle' => $subtitle,
-	);
 	increaseViews($izap_video);
 	getViews($izap_video);
-	$params = $params + $vars;
 	$summary = elgg_view('object/elements/summary', $params);
 	$text = elgg_view('output/longtext', array('value' => $izap_video->description));
 	$get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
@@ -134,13 +135,6 @@ if ($full) {
 	}
 
 	$description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
-	$params = array(
-		'entity' => $izap_video,
-		'metadata' => $metadata,
-		'subtitle' => $subtitle,
-		'content' => $description,
-	);
-	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
 } elseif ($container->type == 'group' || $view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
@@ -204,13 +198,6 @@ if ($full) {
 	}
 
 	$description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
-	$params = array(
-		'entity' => $izap_video,
-		'metadata' => $metadata,
-		'subtitle' => $subtitle,
-		'content' => $description,
-	);
-	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
 }
