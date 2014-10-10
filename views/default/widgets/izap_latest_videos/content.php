@@ -1,6 +1,6 @@
 <?php
 
-  /*
+/*
  *    This file is part of izap-videos plugin for Elgg.
  *
  *    izap-videos for Elgg is free software: you can redistribute it and/or modify
@@ -19,9 +19,9 @@
 
 elgg_set_context('izap_mini_list');
 echo elgg_list_entities_from_metadata(izap_defalut_get_videos_options(array(
-  'limit' => 2,
-  'full_view' => FALSE,
-  'metadata_name' => 'converted',
-  'metadata_value' => 'yes',
-  'pagination' => FALSE,
+	'limit' => 2,
+	'full_view' => FALSE,
+	'metadata_name' => 'converted',
+	'metadata_value' => 'yes',
+	'pagination' => FALSE,
 )));
