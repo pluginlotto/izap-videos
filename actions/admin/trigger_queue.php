@@ -17,6 +17,11 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Trigger queue for conversion
+ * 
+ * @version 5.0
+ */
 elgg_load_library('elgg:izap_video');
 izap_trigger_video_queue();
 system_message(elgg_echo('izap_videos:adminSettings:reset_queue'));

@@ -26,83 +26,84 @@ elgg_load_library('elgg:izap_video');
 
 class izapConvert {
 
-    private $invideo;
-    private $outvideo;
-    private $outimage;
-    public $format = 'flv';
-    private $values = array();
+	private $invideo;
+	private $outvideo;
+	private $outimage;
+	public $format = 'flv';
+	private $values = array();
 
-    /**
-     * @param string  $in
-     * 
-     * @version 5.0
-     */
-    public function izapConvert($in = '') {
-        $this->invideo = $in;
-        $extension_length = strlen(getFileExtension($this->invideo));
-        $outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
-        $this->outvideo = $outputPath . '_c.' . $this->format;
-        $this->outimage = $outputPath . '_i.png';
-    }
+	/**
+	 * @param string  $in
+	 * 
+	 * @version 5.0
+	 */
+	public function izapConvert($in = '') {
+		$this->invideo = $in;
+		$extension_length = strlen(getFileExtension($this->invideo));
+		$outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
+		$this->outvideo = $outputPath . '_c.' . $this->format;
+		$this->outimage = $outputPath . '_i.png';
+	}
 
-    /**
-     * @return array array of converted video if there is no error, else array of errors
-     * 
-     * @version 5.0
-     */
-    public function izap_video_convert() {
+	/**
+	 * @return array array of converted video if there is no error, else array of errors
+	 * 
+	 * @version 5.0
+	 */
+	public function izap_video_convert() {
 
-        $videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
-        $videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
-        $videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);
-        $videoCommand = $videoCommand . ' 2>&1';
-        exec($videoCommand, $out, $err);
+		$videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
+		$videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
+		$videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);
+		$videoCommand = $videoCommand . ' 2>&1';
+		exec($videoCommand, $out, $err);
 
-        // if file not converted successfully return error message 
-        if ($err != 0) {
-            $return = array();
-            $return['error'] = 1;
-            $return['message'] = end($out);
-            $return['completeMessage'] = implode(' ', $out);
-            return $return;
-        }
+		// if file not converted successfully return error message 
+		if ($err != 0) {
+			$return = array();
+			$return['error'] = 1;
+			$return['message'] = end($out);
+			$return['completeMessage'] = implode(' ', $out);
+			return $return;
+		}
 
-        return end(explode('/', $this->outvideo));
-    }
+		return end(explode('/', $this->outvideo));
+	}
 
-    /**
-     * Create thumbnail from video
-     * 
-     * @return array array of thumbnail
-     * 
-     * @version 5.0
-     */
-    public function get_thumbnail_from_video() {
-        $thumbnail_cmd = izap_get_ffmpeg_thumbnailCommand();
-        $thumbnail_cmd = str_replace('[inputVideoPath]', $this->invideo, $thumbnail_cmd);
-        $thumbnail_cmd = str_replace('[outputImage]', $this->outimage, $thumbnail_cmd);
-        $thumbnail_cmd = $thumbnail_cmd . ' 2>&1';
-        exec($thumbnail_cmd, $out, $err);
+	/**
+	 * Create thumbnail from video
+	 * 
+	 * @return array array of thumbnail
+	 * 
+	 * @version 5.0
+	 */
+	public function get_thumbnail_from_video() {
+		$thumbnail_cmd = izap_get_ffmpeg_thumbnailCommand();
+		$thumbnail_cmd = str_replace('[inputVideoPath]', $this->invideo, $thumbnail_cmd);
+		$thumbnail_cmd = str_replace('[outputImage]', $this->outimage, $thumbnail_cmd);
+		$thumbnail_cmd = $thumbnail_cmd . ' 2>&1';
+		exec($thumbnail_cmd, $out, $err);
 
-        if ($err != 0) {
-            $return = array();
-            $return['error'] = 1;
-            $return['message'] = end($out);
-            return $return;
-        }
-        return $this->outimage;
-    }
+		if ($err != 0) {
+			$return = array();
+			$return['error'] = 1;
+			$return['message'] = end($out);
+			return $return;
+		}
+		return $this->outimage;
+	}
 
-    /**
-     * Return created thumbnail component
-     * 
-     * @return array array of thumbnail component
-     * 
-     * @version 5.0
-     */
-    public function getValues() {
-        $this->values['imagename'] = end(explode('/', $this->outimage));
-        $this->values['imagecontent'] = file_get_contents($this->outimage);
-        return $this->values;
-    }
+	/**
+	 * Return created thumbnail component
+	 * 
+	 * @return array array of thumbnail component
+	 * 
+	 * @version 5.0
+	 */
+	public function getValues() {
+		$this->values['imagename'] = end(explode('/', $this->outimage));
+		$this->values['imagecontent'] = file_get_contents($this->outimage);
+		return $this->values;
+	}
+
 }

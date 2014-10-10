@@ -19,12 +19,12 @@
 
   /**
    * delete izap-video entity
+	 * 
+	 * @version 5.0
    */
   $guid = get_input('guid');
   $izap_video = get_entity($guid);
 
-//echo '<pre>';
-//print_R($izap_video); exit;
   if (elgg_instanceof($izap_video, 'object', 'izap_video') && $izap_video->canEdit()) {
     $container = get_entity($izap_video->container_guid); //print_r($container); exit;
     if ($izap_video->delete()) {

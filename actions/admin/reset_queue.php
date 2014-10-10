@@ -17,6 +17,11 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Delete videos from queue
+ * 
+ * @version 5.0
+ */
 $queue_object = new izapQueue();
 foreach ($queue_object->get(get_input('guid')) as $key => $prods) {
     get_entity($prods['guid'])->delete();

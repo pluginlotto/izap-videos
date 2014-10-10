@@ -790,7 +790,7 @@ function izapConvertVideo_izap_videos($file, $videoId, $videoTitle, $videoUrl, $
 	if (file_exists($file)) {
 		$queue_object = new izapQueue();
 		$video = new izapConvert($file);
-		$videofile = $video->izap_video_convert();	 //if file converted successfully then change flag from pending to processed
+		$videofile = $video->izap_video_convert();	//if file converted successfully then change flag from pending to processed
 		if (!is_array($videofile)) {
 			$queue_object->change_conversion_flag($videoId);
 			return $videofile;
