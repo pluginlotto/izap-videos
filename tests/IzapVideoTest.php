@@ -97,7 +97,7 @@
     }
 
     public function testPhpInterpreterPath() {
-      $phppath = izapGetPhpPath_izap_videos();
+      $phppath = izap_get_php_path_izap_videos();
       $actual_path = elgg_get_plugin_setting('izapPhpInterpreter', GLOBAL_IZAP_VIDEOS_PLUGIN);
       $this->assertEquals($actual_path, $phppath);
     }

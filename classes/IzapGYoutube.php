@@ -108,7 +108,7 @@ class IzapGYoutube extends IzapGoogle {
 		} else if (!isset($_SESSION['YT_TOKEN']) && $token) {
 			$_SESSION['YT_TOKEN'] = Zend_Gdata_AuthSub::getAuthSubSessionToken($token);
 		}
-		return new self(Zend_Gdata_AuthSub::getHttpClient($_SESSION['YT_TOKEN']), izapAdminSettings_izap_videos('youtubeDeveloperKey'));
+		return new self(Zend_Gdata_AuthSub::getHttpClient($_SESSION['YT_TOKEN']), izap_admin_settings_izap_videos('youtubeDeveloperKey'));
 	}
 
 	/**

@@ -228,11 +228,11 @@
         break;
 
       case 'viewvideo':  
-        $params = getVideoPlayer($page[1], $page[2], $page[3]);
+        $params = get_video_player($page[1], $page[2], $page[3]);
         break;
 
       case 'queue':
-        $params = getQueue();
+        $params = get_queue();
         break;
 
       case 'upload':
@@ -257,7 +257,7 @@
 
       case 'check_video_status':
         elgg_gatekeeper();
-        checkVideoStatus($page[1]);
+        check_video_status($page[1]);
         break;
 
       default:

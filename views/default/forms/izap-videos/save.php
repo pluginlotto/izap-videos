@@ -90,7 +90,7 @@ if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enab
 	<?php } elseif ($upload_type == 'youtube') { ?>
 		<div>
 			<label><?php echo elgg_echo('Category'); ?></label><br />
-			<?php echo elgg_view('input/dropdown', array('name' => 'youtube_cats', 'options_values' => getYoutubeCategories())); ?>
+			<?php echo elgg_view('input/dropdown', array('name' => 'youtube_cats', 'options_values' => get_youtube_categories())); ?>
 		</div>
 		<div>
 			<label><?php echo elgg_echo('title'); ?></label><br />

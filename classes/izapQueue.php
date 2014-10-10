@@ -34,8 +34,8 @@ class izapQueue extends IzapSqlite {
 			$this->setup();
 		} catch (PDOException $e) {
 			register_error(elgg_echo("izap_videos:error:sqliteDrivers"));
-			izapAdminSettings_izap_videos('izapVideoOptions', array('OFFSERVER', 'EMBED'), TRUE);
-			izapAdminSettings_izap_videos('izap_cron_time', 'none', TRUE);
+			izap_admin_settings_izap_videos('izapVideoOptions', array('OFFSERVER', 'EMBED'), TRUE);
+			izap_admin_settings_izap_videos('izap_cron_time', 'none', TRUE);
 		}
 	}
 

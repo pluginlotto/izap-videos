@@ -26,9 +26,9 @@ global $IZAPSETTINGS;
 <p align="right">
 	<?php
 	echo '[ ';
-	echo elgg_view('output/confirmlink', array('href' => getFormAction('trigger_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:re_trigger_queue')));
+	echo elgg_view('output/confirmlink', array('href' => get_form_action('trigger_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:re_trigger_queue')));
 	echo ' | ';
-	echo elgg_view('output/confirmlink', array('href' => getFormAction('reset_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:reset_queue'), 'confirm' => 'Are you sure? It will empty queue and correspoinding videos.'));
+	echo elgg_view('output/confirmlink', array('href' => get_form_action('reset_queue', GLOBAL_IZAP_VIDEOS_PAGEHANDLER), 'text' => elgg_echo('izap-videos:reset_queue'), 'confirm' => 'Are you sure? It will empty queue and correspoinding videos.'));
 	echo ' ]';
 	?>
   <br /><em>Refresh after every 5 seconds.</em>

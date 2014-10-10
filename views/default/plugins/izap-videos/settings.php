@@ -23,7 +23,7 @@ elgg_load_library('elgg:izap_video');
   <label>
 		<?php echo elgg_echo('izap_videos:adminSettings:izapPhpInterpreter'); ?>
 		<?php
-		$default = (izapIsWin_izap_videos()) ? '' : '/usr/bin/php';
+		$default = (izap_is_win_izap_videos()) ? '' : '/usr/bin/php';
 		$saved_command = elgg_get_plugin_setting('izapPhpInterpreter', 'izap-videos');
 		echo elgg_view('input/text', array(
 			'name' => 'params[izapPhpInterpreter]',
@@ -38,7 +38,7 @@ elgg_load_library('elgg:izap_video');
 		<?php echo elgg_echo('izap_videos:adminSettings:izapVideoCommand'); ?>
     <br />
 		<?php
-		$default = (izapIsWin_izap_videos()) ?
+		$default = (izap_is_win_izap_videos()) ?
 			elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vcodec libx264 -vpre ' . elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/presets/libx264-hq.ffpreset' . ' -b 300k -bt 300k -ar 22050 -ab 48k -s 400x400 [outputVideoPath]' :
 			'/usr/bin/ffmpeg -y -i [inputVideoPath] [outputVideoPath]';
 		$saved_command = elgg_get_plugin_setting('izapVideoCommand', 'izap-videos');
@@ -56,7 +56,7 @@ elgg_load_library('elgg:izap_video');
 		<?php echo elgg_echo('izap_videos:adminSettings:izapVideoThumb'); ?>
     <br />
 		<?php
-		$default_setting = (izapIsWin_izap_videos()) ?
+		$default_setting = (izap_is_win_izap_videos()) ?
 			elgg_get_plugins_path() . '' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/ffmpeg/bin/ffmpeg.exe' . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]' :
 			'/usr/bin/ffmpeg -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]';
 		$thumbnail_cmd = elgg_get_plugin_setting('izapVideoThumb', 'izap-videos');
@@ -75,7 +75,7 @@ elgg_load_library('elgg:izap_video');
 	echo elgg_view('input/radio', array(
 		'name' => 'params[Onserver_enabled_izap_videos]',
 		'id' => 'onserver',
-		'value' => pluginSetting(
+		'value' => plugin_setting(
 			array(
 				'name' => 'Onserver_enabled_izap_videos',
 				'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,

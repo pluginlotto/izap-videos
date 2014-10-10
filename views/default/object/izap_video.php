@@ -87,8 +87,8 @@ if ($full) {
 		'metadata' => $metadata,
 		'subtitle' => $subtitle,
 	);
-	increaseViews($izap_video);
-	getViews($izap_video);
+	increase_views($izap_video);
+	get_views($izap_video);
 	$params = $params + $vars;
 	$summary = elgg_view('object/elements/summary', $params);
 	$text = elgg_view('output/longtext', array('value' => $izap_video->description));
@@ -110,7 +110,7 @@ if ($full) {
 	$content = "<div id='load_video_" . $izap_video->guid . "' class='loader'>";
 	$content .= '<a href="' . $get_player_path . '" rel="' . $izap_video->guid . '" class = "ajax_load_video">' . '<img src="' . $thumbnail_image . '"  style= "' . $style . '" />';
 	$content .= '<img src="' . $IZAPSETTINGS->graphics . 'c-play.png" class="play_icon"/></a>';
-	$content .= addError($izap_video->guid);
+	$content .= add_error($izap_video->guid);
 	$content .= '</div>';
 
 	$body = " $content $text $summary";
@@ -121,7 +121,7 @@ if ($full) {
 	));
 } elseif ($view_type == 'all') {
 	// brief view
-	$view_count = getViews($izap_video);
+	$view_count = get_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -145,7 +145,7 @@ if ($full) {
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
 } elseif ($container->type == 'group') {
-	$view_count = getViews($izap_video);
+	$view_count = get_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -191,7 +191,7 @@ if ($full) {
 	<?php
 } elseif ($widget_view->type == 'user' || $view_type == 'add') {
 
-	$view_count = getViews($izap_video);
+	$view_count = get_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -237,7 +237,7 @@ if ($full) {
 	<?php
 } else {
 	// brief view
-	$view_count = getViews($izap_video);
+	$view_count = get_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();

@@ -23,7 +23,7 @@ ini_set('memory_limit', ((int) get_plugin_setting('izapMaxFileSize', GLOBAL_IZAP
 elgg_load_library('elgg:izap_video');
 // only works if started from command line
 if ($argc > 1 && $argv[1] == 'izap' && $argv[2] == 'web') {
-	izapGetAccess_izap_videos(); // get the complete access to the system;
+	izap_get_access_izap_videos(); // get the complete access to the system;
 	izap_run_queue_izap_videos();
-	izapRemoveAccess_izap_videos(); // remove the access from the system
+	izap_remove_access_izap_videos(); // remove the access from the system
 }

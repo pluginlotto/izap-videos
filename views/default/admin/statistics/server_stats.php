@@ -31,14 +31,14 @@ if ($err == 0) {
 
 $pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
 
-$php_command = exec(izapAdminSettings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
+$php_command = exec(izap_admin_settings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
 if ($return_value === 0) {
 	$php = nl2br(implode('', $output_PHP));
 }
 
 $plugin = elgg_get_plugin_from_id('izap-videos');
-$max_file_upload = izapReadableSize_izap_videos(ini_get('upload_max_filesize'));
-$max_post_size = izapReadableSize_izap_videos(ini_get('post_max_size'));
+$max_file_upload = izap_readable_size_izap_videos(ini_get('upload_max_filesize'));
+$max_post_size = izap_readable_size_izap_videos(ini_get('post_max_size'));
 $max_input_time = ini_get('max_input_time');
 $max_execution_time = ini_get('max_execution_time');
 $memory_limit = ini_get('memory_limit');
