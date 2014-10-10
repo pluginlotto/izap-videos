@@ -25,7 +25,6 @@
   $curl = (extension_loaded('curl')) ? TRUE : FALSE;
   $_ffmpeg =  explode(' ',elgg_get_plugin_setting('izapVideoCommand', 'izap-videos'));
   $ffmpeg_path = exec($_ffmpeg[0] . ' -version', $out, $err);
-  $ffmpeg_path = exec('ffmpeg -version', $out, $err);
   if ($err == 0) {
     $ffmpeg = $ffmpeg_path;
   }
