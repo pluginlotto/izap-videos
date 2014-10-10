@@ -24,6 +24,7 @@
 $full = elgg_extract('full_view', $vars, False);
 $izap_video = elgg_extract('entity', $vars, False);
 $view_type = end(explode('/', current_page_url()));
+$widget_view = get_user_by_username($view_type);
 if (!$izap_video) {
 	return True;
 }
@@ -79,17 +80,16 @@ if ($izap_video->converted == 'no') {
 	$izap_video->access_id = ACCESS_PRIVATE;
 	$izap_video->save();
 }
-
-$params = array(
-	'entity' => $izap_video,
-	'title' => false,
-	'metadata' => $metadata,
-	'subtitle' => $subtitle,
-);
-$params = $params + $vars;
 if ($full) {
+	$params = array(
+		'entity' => $izap_video,
+		'title' => false,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+	);
 	increaseViews($izap_video);
 	getViews($izap_video);
+	$params = $params + $vars;
 	$summary = elgg_view('object/elements/summary', $params);
 	$text = elgg_view('output/longtext', array('value' => $izap_video->description));
 	$get_image = elgg_get_site_url() . 'mod/izap-videos/thumbnail.php?file_guid=' . $izap_video->guid;
@@ -135,9 +135,16 @@ if ($full) {
 	}
 
 	$description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
+	$params = array(
+		'entity' => $izap_video,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'content' => $description,
+	);
+	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
-} elseif ($container->type == 'group' || $view_type == elgg_get_logged_in_user_entity()->username || $view_type == 'add') {
+} elseif ($container->type == 'group') {
 	$view_count = getViews($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
@@ -177,7 +184,53 @@ if ($full) {
 				$description = substr($description, 0, 83);
 				?>  
 				<div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
-					<?php } ?>
+			<?php } ?>
+		</div>
+	</div>
+
+	<?php
+} elseif ($widget_view->type == 'user' || $view_type == 'add') {
+
+	$view_count = getViews($izap_video);
+	if ($izap_video->videothumbnail) {
+		$thumb_path = $izap_video->videothumbnail;
+		$path = $izap_video->getURL();
+		$file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:282px;height:190px;"></a>';
+	} else {
+		$file_icon = elgg_view_entity_icon($izap_video, 'medium');
+	}
+	?>
+	<div class="elgg-image-block clearfix group_video" >
+		<div class="widget-image">
+			<?php echo $file_icon; ?>
+		</div>
+		<div class="elgg-body">
+			<ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
+				<?php // echo $metadata; ?>
+			</ul>
+			<?php
+			$title_length = strlen($izap_video->title);
+			if ($title_length < 43) {
+				?>
+				<h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $izap_video->title ?></a></h3>
+				<?php
+			} else {
+				$title = substr($izap_video->title, 0, 40);
+				?> 
+				<h3><a href="<?php echo $izap_video->getURL(); ?>"><?php echo $title . "..." ?></a></h3>
+			<?php } ?>
+			<div class="elgg-subtext"><?php echo $subtitle; ?></div>
+			<?php
+			$description_length = strlen($description);
+			if ($description_length < 83) {
+				?>
+				<div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"></div></div>
+				<?php
+			} else {
+				$description = substr($description, 0, 70);
+				?>  
+				<div class="elgg-content"><?php echo $description . "... <a href='{$izap_video->getURL()}'>view more</a>"; ?><div class="elgg-subtext"></div></div>
+				<?php } ?>
 		</div>
 	</div>
 
@@ -198,6 +251,13 @@ if ($full) {
 	}
 
 	$description .= "<div class=\"elgg-subtext\"><div class=\"main_page_total_views\">$view_count</div></div>";
+	$params = array(
+		'entity' => $izap_video,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'content' => $description,
+	);
+	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
 }

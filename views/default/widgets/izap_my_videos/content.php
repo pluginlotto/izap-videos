@@ -17,11 +17,13 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 elgg_set_context('izap_mini_list');
+$username = end(explode('/', current_page_url()));
+$user = get_user_by_username($username);
 echo elgg_list_entities_from_metadata(izap_defalut_get_videos_options(array(
 	'limit' => 2,
 	'full_view' => FALSE,
 	'metadata_name' => 'converted',
 	'metadata_value' => 'yes',
 	'pagination' => FALSE,
-	'owner_guid' => elgg_get_logged_in_user_guid(),
+	'owner_guid' => $user->guid,
 )));
