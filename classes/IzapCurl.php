@@ -1,23 +1,28 @@
 <?php
 
-  /*
-   *    This file is part of izap-videos plugin for Elgg.
-   *
-   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
-   *    it under the terms of the GNU General Public License as published by
-   *    the Free Software Foundation, either version 2 of the License, or
-   *    (at your option) any later version.
-   *
-   *    izap-videos for Elgg is distributed in the hope that it will be useful,
-   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   *    GNU General Public License for more details.
-   *
-   *    You should have received a copy of the GNU General Public License
-   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
-   */
+/*
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  class IzapCurl {
+/**
+ * Setup CURL Request
+ * 
+ * @version 5.0
+ */
+class IzapCurl {
 
     /**
      * The file to read and write cookies to for requests
@@ -101,16 +106,16 @@
      * @version 5.0
      * */
     function __construct($auth = false) {
-      $this->cookie_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'curl_cookie.txt';
-      $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Curl/PHP ' . PHP_VERSION . ' (http://www.pluginlotto.com,http://github.com/pluginlotto/izap-videos)';
-      $auth = array('username' => '', 'password' => '');
-      if (!$auth) {
-        // auth array has username, password
-        if (!($auth['username'] && $auth['password'])) {
-          throw new Exception('Username and Password parameters are required for authentication.');
+        $this->cookie_file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'curl_cookie.txt';
+        $this->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Curl/PHP ' . PHP_VERSION . ' (http://www.pluginlotto.com,http://github.com/pluginlotto/izap-videos)';
+        $auth = array('username' => '', 'password' => '');
+        if (!$auth) {
+            // auth array has username, password
+            if (!($auth['username'] && $auth['password'])) {
+                throw new Exception('Username and Password parameters are required for authentication.');
+            }
+            $this->auth = array('username' => $auth['username'], 'password' => $auth['password']);
         }
-        $this->auth = array('username' => $auth['username'], 'password' => $auth['password']);
-      }
     }
 
     /**
@@ -126,7 +131,7 @@
      * @version 5.0
      * */
     function delete($url, $vars = array()) {
-      return $this->request('DELETE', $url, $vars);
+        return $this->request('DELETE', $url, $vars);
     }
 
     /**
@@ -137,7 +142,7 @@
      * @version 5.0
      * */
     function error() {
-      return $this->error;
+        return $this->error;
     }
 
     /**
@@ -153,11 +158,11 @@
      * @version 5.0
      * */
     function get($url, $vars = array()) {
-      if (!empty($vars)) {
-        $url .= (stripos($url, '?') !== false) ? '&' : '?';
-        $url .= (is_string($vars)) ? $vars : http_build_query($vars, '', '&');
-      }
-      return $this->request('GET', $url);
+        if (!empty($vars)) {
+            $url .= (stripos($url, '?') !== false) ? '&' : '?';
+            $url .= (is_string($vars)) ? $vars : http_build_query($vars, '', '&');
+        }
+        return $this->request('GET', $url);
     }
 
     /**
@@ -173,7 +178,7 @@
      * @version 5.0
      * */
     function head($url, $vars = array()) {
-      return $this->request('HEAD', $url, $vars);
+        return $this->request('HEAD', $url, $vars);
     }
 
     /**
@@ -187,7 +192,7 @@
      * @version 5.0
      * */
     function post($url, $vars = array()) {
-      return $this->request('POST', $url, $vars);
+        return $this->request('POST', $url, $vars);
     }
 
     /**
@@ -203,7 +208,7 @@
      * @version 5.0
      * */
     function put($url, $vars = array()) {
-      return $this->request('PUT', $url, $vars);
+        return $this->request('PUT', $url, $vars);
     }
 
     /**
@@ -220,26 +225,26 @@
      * @version 5.0
      * */
     function request($method, $url, $vars = array(), $auth = false) {
-      $this->error = '';
-      $this->request = curl_init();
-      if (is_array($vars))
-        $vars = http_build_query($vars, '', '&');
+        $this->error = '';
+        $this->request = curl_init();
+        if (is_array($vars))
+            $vars = http_build_query($vars, '', '&');
 
-      $this->set_request_method($method);
-      $this->set_request_options($url, $vars);
-      $this->set_request_headers();
+        $this->set_request_method($method);
+        $this->set_request_options($url, $vars);
+        $this->set_request_headers();
 
-      $response = curl_exec($this->request);
+        $response = curl_exec($this->request);
 
-      if ($response) {
-        $response = new IzapCurlResponse($response, isset($vars['json']) ? $vars['json'] : false);
-      } else {
-        $this->error = curl_errno($this->request) . ' - ' . curl_error($this->request);
-      }
+        if ($response) {
+            $response = new IzapCurlResponse($response, isset($vars['json']) ? $vars['json'] : false);
+        } else {
+            $this->error = curl_errno($this->request) . ' - ' . curl_error($this->request);
+        }
 
-      curl_close($this->request);
+        curl_close($this->request);
 
-      return $response;
+        return $response;
     }
 
     /**
@@ -252,11 +257,11 @@
      * @version 5.0
      * */
     protected function set_request_headers() {
-      $headers = array();
-      foreach ($this->headers as $key => $value) {
-        $headers[] = $key . ': ' . $value;
-      }
-      curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
+        $headers = array();
+        foreach ($this->headers as $key => $value) {
+            $headers[] = $key . ': ' . $value;
+        }
+        curl_setopt($this->request, CURLOPT_HTTPHEADER, $headers);
     }
 
     /**
@@ -271,19 +276,19 @@
      * @version 5.0
      * */
     protected function set_request_method($method) {
-      switch (strtoupper($method)) {
-        case 'HEAD':
-          curl_setopt($this->request, CURLOPT_NOBODY, true);
-          break;
-        case 'GET':
-          curl_setopt($this->request, CURLOPT_HTTPGET, true);
-          break;
-        case 'POST':
-          curl_setopt($this->request, CURLOPT_POST, true);
-          break;
-        default:
-          curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, $method);
-      }
+        switch (strtoupper($method)) {
+            case 'HEAD':
+                curl_setopt($this->request, CURLOPT_NOBODY, true);
+                break;
+            case 'GET':
+                curl_setopt($this->request, CURLOPT_HTTPGET, true);
+                break;
+            case 'POST':
+                curl_setopt($this->request, CURLOPT_POST, true);
+                break;
+            default:
+                curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, $method);
+        }
     }
 
     /**
@@ -300,34 +305,32 @@
      * @version 5.0
      * */
     protected function set_request_options($url, $vars) {
-      curl_setopt($this->request, CURLOPT_URL, $url);
-      if (!empty($vars))
-        curl_setopt($this->request, CURLOPT_POSTFIELDS, $vars);
+        curl_setopt($this->request, CURLOPT_URL, $url);
+        if (!empty($vars))
+            curl_setopt($this->request, CURLOPT_POSTFIELDS, $vars);
 
-      # Set some default CURL options
-      curl_setopt($this->request, CURLOPT_HEADER, true);
-      curl_setopt($this->request, CURLOPT_RETURNTRANSFER, true);
-      curl_setopt($this->request, CURLOPT_USERAGENT, $this->user_agent);
+        # Set some default CURL options
+        curl_setopt($this->request, CURLOPT_HEADER, true);
+        curl_setopt($this->request, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($this->request, CURLOPT_USERAGENT, $this->user_agent);
 
-      if ($this->auth['username'] && $this->auth['password']) {
-        curl_setopt($this->request, CURLOPT_USERPWD, "{$this->auth['username']}:{$this->auth['password']}");
-        curl_setopt($s, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-      }
+        if ($this->auth['username'] && $this->auth['password']) {
+            curl_setopt($this->request, CURLOPT_USERPWD, "{$this->auth['username']}:{$this->auth['password']}");
+            curl_setopt($s, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        }
 
-      if ($this->cookie_file) {
-        curl_setopt($this->request, CURLOPT_COOKIEFILE, $this->cookie_file);
-        curl_setopt($this->request, CURLOPT_COOKIEJAR, $this->cookie_file);
-      }
-      if ($this->follow_redirects)
-        curl_setopt($this->request, CURLOPT_FOLLOWLOCATION, true);
-      if ($this->referer)
-        curl_setopt($this->request, CURLOPT_REFERER, $this->referer);
+        if ($this->cookie_file) {
+            curl_setopt($this->request, CURLOPT_COOKIEFILE, $this->cookie_file);
+            curl_setopt($this->request, CURLOPT_COOKIEJAR, $this->cookie_file);
+        }
+        if ($this->follow_redirects)
+            curl_setopt($this->request, CURLOPT_FOLLOWLOCATION, true);
+        if ($this->referer)
+            curl_setopt($this->request, CURLOPT_REFERER, $this->referer);
 
-      # Set any custom CURL options
-      foreach ($this->options as $option => $value) {
-        curl_setopt($this->request, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $value);
-      }
+        # Set any custom CURL options
+        foreach ($this->options as $option => $value) {
+            curl_setopt($this->request, constant('CURLOPT_' . str_replace('CURLOPT_', '', strtoupper($option))), $value);
+        }
     }
-
-  }
-  
+}

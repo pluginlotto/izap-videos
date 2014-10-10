@@ -19,6 +19,8 @@
 
   /*
    * This class suppose to have all common information required for different google apps
+   * 
+   * @version 5.0
    */
   require_once 'Zend/Loader.php';
   Zend_Loader::loadClass('Zend_Gdata_AuthSub');
