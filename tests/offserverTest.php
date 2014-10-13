@@ -42,23 +42,23 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		);
 		$izap_videos = new IzapVideo();
 		$izap_videos->saveVideo($data);
-
+		
 		/*
 		 * Expected Result
 		 */
-		$output = new IzapVideo();
-		$output->videourl = array('https://www.youtube.com/watch?v=uDYarhCmvfM');
-		$output->videoprocess = array('offserver');
+		$output = new stdClass;
+		$output->videourl = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
+		$output->videoprocess = 'offserver';
 		$output->tags = array('offserver', 'video');
-		$output->videothumbnail = array('http://i.ytimg.com/vi/uDYarhCmvfM/1.jpg');
-		$output->videosrc = array('<iframe width="800" height="500" src="http://www.youtube.com/embed/uDYarhCmvfM?autoplay=1&amp;wmode=transparent" frameborder="0"></iframe>');
-		$output->domain = array('https://www.youtube.com/watch?v=uDYarhCmvfM');
-		$output->video_type = array('youtube');
-		$output->orignal_thumb = array('izap_videos/tmp/original_');
-		$output->imagesrc = array('izap_videos/tmp/');
-		$output->videotype_site = array('https://www.youtube.com/watch?v=uDYarhCmvfM');
-		$output->converted = array('yes');
-		$output->filename = array('izap_videos/tmp/original_');
+		$output->videothumbnail = 'http://i.ytimg.com/vi/uDYarhCmvfM/1.jpg';
+		$output->videosrc = '<iframe width="800" height="500" src="http://www.youtube.com/embed/uDYarhCmvfM?autoplay=1&amp;wmode=transparent" frameborder="0"></iframe>';
+		$output->domain = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
+		$output->video_type = 'youtube';
+		$output->orignal_thumb = 'izap_videos/tmp/original_';
+		$output->imagesrc = 'izap_videos/tmp/';
+		$output->videotype_site = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
+		$output->converted = 'yes';
+		$output->filename = 'izap_videos/tmp/original_';
 
 		$output->type = 'object';
 		$output->subtype = 'izap_video';
@@ -68,8 +68,27 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->enabled = 'yes';
 		$output->title = 'Barack Obama and Narendra Modi - Joint Briefing from White House';
 		$output->description = 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.';
-
-		$this->assertEquals($output, $izap_videos);
+		
+		$this->assertEquals($output->videourl, $izap_videos->videourl);
+		$this->assertEquals($output->videoprocess, $izap_videos->videoprocess);
+		$this->assertEquals($output->tags, $izap_videos->tags);
+		$this->assertEquals($output->videothumbnail, $izap_videos->videothumbnail);
+		$this->assertEquals($output->videosrc, $izap_videos->videosrc);
+		$this->assertEquals($output->domain, $izap_videos->domain);
+		$this->assertEquals($output->video_type, $izap_videos->video_type);
+		$this->assertEquals($output->orignal_thumb, $izap_videos->orignal_thumb);
+		$this->assertEquals($output->imagesrc, $izap_videos->imagesrc);
+		$this->assertEquals($output->videotype_site, $izap_videos->videotype_site);
+		$this->assertEquals($output->converted, $izap_videos->converted);
+		$this->assertEquals($output->filename, $izap_videos->filename);
+		$this->assertEquals($output->type, $izap_videos->type);
+		$this->assertEquals($output->subtype, $izap_videos->subtype);
+		$this->assertEquals($output->owner_guid, $izap_videos->owner_guid);
+		$this->assertEquals($output->container_guid, $izap_videos->container_guid);
+		$this->assertEquals($output->enabled, $izap_videos->enabled);
+		$this->assertEquals($output->title, $izap_videos->title);
+		$this->assertEquals($output->description, $izap_videos->description);
+		
 	}
 
 }
