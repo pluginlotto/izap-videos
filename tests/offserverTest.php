@@ -33,7 +33,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
 			'title' => 'Apple Music Special Event 2005-The iPod Nano Introduction',
 			'description' => 'Here we see Steve Jobs introducing the first ever iPod Nano.',
-			'access_id' => '2',
+			'access_id' => 2,
 			'container_guid' => 77,
 			'owner_guid' => 77,
 			'videourl' => 'https://www.youtube.com/watch?v=7GRv-kv5XEg',
@@ -62,9 +62,9 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 
 		$output->type = 'object';
 		$output->subtype = 'izap_video';
-		$output->owner_guid = '77';
-		$output->container_guid = '77';
-		$output->access_id = '2';
+		$output->owner_guid = 77;
+		$output->container_guid = 77;
+		$output->access_id = 2;
 		$output->enabled = 'yes';
 		$output->title = 'Apple Music Special Event 2005-The iPod Nano Introduction';
 		$output->description = 'Here we see Steve Jobs introducing the first ever iPod Nano.';
