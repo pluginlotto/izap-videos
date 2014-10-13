@@ -1,13 +1,25 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-//require dirname(dirname(dirname(__FILE__))) . "/izap-videos/classes/IzapVideo.php";
-
+/**
+ * Unit test for offserver video saving process
+ */
 class offserverTest extends PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
@@ -31,6 +43,9 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$izap_videos = new IzapVideo();
 		$izap_videos->saveVideo($data);
 
+		/*
+		 * Expected Result
+		 */
 		$output = new IzapVideo();
 		$output->videourl = array('https://www.youtube.com/watch?v=7GRv-kv5XEg');
 		$output->videoprocess = array('offserver');
@@ -43,8 +58,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->imagesrc = array('izap_videos/tmp/');
 		$output->videotype_site = array('https://www.youtube.com/watch?v=7GRv-kv5XEg');
 		$output->converted = array('yes');
-		$output->filename = array('izap_videos/tmp/original_');	
-		
+		$output->filename = array('izap_videos/tmp/original_');
+
 		$output->type = 'object';
 		$output->subtype = 'izap_video';
 		$output->owner_guid = '77';
