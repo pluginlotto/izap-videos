@@ -40,8 +40,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			'videoprocess' => 'offserver',
 			'tags' => string_to_tag_array($tags)
 		);
-		$izap_videos = new IzapVideo();
-		$izap_videos->saveVideo($data);
+		$izap_video = new IzapVideo();
+		$izap_video->saveVideo($data);
 		
 		/*
 		 * Expected Result
@@ -69,25 +69,25 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->title = 'Barack Obama and Narendra Modi - Joint Briefing from White House';
 		$output->description = 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.';
 		
-		$this->assertEquals($output->videourl, $izap_videos->videourl);
-		$this->assertEquals($output->videoprocess, $izap_videos->videoprocess);
-		$this->assertEquals($output->tags, $izap_videos->tags);
-		$this->assertEquals($output->videothumbnail, $izap_videos->videothumbnail);
-		$this->assertEquals($output->videosrc, $izap_videos->videosrc);
-		$this->assertEquals($output->domain, $izap_videos->domain);
-		$this->assertEquals($output->video_type, $izap_videos->video_type);
-		$this->assertEquals($output->orignal_thumb, $izap_videos->orignal_thumb);
-		$this->assertEquals($output->imagesrc, $izap_videos->imagesrc);
-		$this->assertEquals($output->videotype_site, $izap_videos->videotype_site);
-		$this->assertEquals($output->converted, $izap_videos->converted);
-		$this->assertEquals($output->filename, $izap_videos->filename);
-		$this->assertEquals($output->type, $izap_videos->type);
-		$this->assertEquals($output->subtype, $izap_videos->subtype);
-		$this->assertEquals($output->owner_guid, $izap_videos->owner_guid);
-		$this->assertEquals($output->container_guid, $izap_videos->container_guid);
-		$this->assertEquals($output->enabled, $izap_videos->enabled);
-		$this->assertEquals($output->title, $izap_videos->title);
-		$this->assertEquals($output->description, $izap_videos->description);
+		$this->assertEquals($output->videourl, $izap_video->videourl);
+		$this->assertEquals($output->videoprocess, $izap_video->videoprocess);
+		$this->assertEquals($output->tags, $izap_video->tags);
+		$this->assertEquals($output->videothumbnail, $izap_video->videothumbnail);
+		$this->assertEquals($output->videosrc, $izap_video->videosrc);
+		$this->assertEquals($output->domain, $izap_video->domain);
+		$this->assertEquals($output->video_type, $izap_video->video_type);
+		$this->assertEquals($output->orignal_thumb, $izap_video->orignal_thumb);
+		$this->assertEquals($output->imagesrc, $izap_video->imagesrc);
+		$this->assertEquals($output->videotype_site, $izap_video->videotype_site);
+		$this->assertEquals($output->converted, $izap_video->converted);
+		$this->assertEquals($output->filename, $izap_video->filename);
+		$this->assertEquals($output->type, $izap_video->type);
+		$this->assertEquals($output->subtype, $izap_video->subtype);
+		$this->assertEquals($output->owner_guid, $izap_video->owner_guid);
+		$this->assertEquals($output->container_guid, $izap_video->container_guid);
+		$this->assertEquals($output->enabled, $izap_video->enabled);
+		$this->assertEquals($output->title, $izap_video->title);
+		$this->assertEquals($output->description, $izap_video->description);
 		
 	}
 
