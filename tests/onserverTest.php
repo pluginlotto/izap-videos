@@ -41,6 +41,8 @@ class onserverTest extends PHPUnit_Framework_TestCase {
 		if ($processed_data->orignal_thumb) {
 			$izap_video->orignal_thumb = $processed_data->orignal_thumb;
 		}
+		$izap_video->guid = 11111;
+		izap_save_fileinfo_for_converting_izap_videos($izap_video->videofile, $izap_video);
 		
 		/*
 		 * Convert video

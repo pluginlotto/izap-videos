@@ -713,7 +713,7 @@
     //set state processing for video
     $izapvideo->converted = 'in_processing';
     //run queue
-    izap_trigger_video_queue();
+//    izap_trigger_video_queue();
   }
 
   /**
