@@ -62,8 +62,10 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 		elgg_pop_breadcrumb();
 		elgg_push_breadcrumb(elgg_echo('izap-videos'));
 	}
+
 	$title = 'Add New Video';
 	$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+
 	if (izap_is_onserver_enabled_izap_videos() == 'yes') {
 		$url .= $url_id . '/onserver';
 		elgg_register_menu_item('title', array(
@@ -165,7 +167,9 @@ function izap_video_get_page_content_friends($user_guid = NULL) {
 		'relationship_join_on' => 'container_guid',
 		'no_results' => elgg_echo('izap-videos:none'),
 	);
+
 	$return['content'] = elgg_list_entities_from_relationship($options);
+
 	return $return;
 }
 
@@ -361,7 +365,9 @@ function izap_videos_prepare_form_vars($video = NULL) {
 			$values[$key] = $value;
 		}
 	}
+
 	elgg_clear_sticky_form('izap_videos');
+
 	return $values;
 }
 
