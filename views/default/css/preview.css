@@ -336,9 +336,9 @@ span.new_video_icon{
 }
 
 .loader.active{
-    float:left;
-    width: 100%;
-    min-height: 400px;
+  float:left;
+  width: 100%;
+  min-height: 400px;
 }
 
 .widget-image img{

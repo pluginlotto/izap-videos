@@ -1,48 +1,48 @@
 <?php
-  /*
-   *    This file is part of izap-videos plugin for Elgg.
-   *
-   *    izap-videos for Elgg is free software: you can redistribute it and/or modify
-   *    it under the terms of the GNU General Public License as published by
-   *    the Free Software Foundation, either version 2 of the License, or
-   *    (at your option) any later version.
-   *
-   *    izap-videos for Elgg is distributed in the hope that it will be useful,
-   *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-   *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   *    GNU General Public License for more details.
-   *
-   *    You should have received a copy of the GNU General Public License
-   *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
-   */
+/*
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-  elgg_load_library('elgg:izap_video');
+elgg_load_library('elgg:izap_video');
 
-  $Fail_functions = ini_get('disable_functions');
-  $php_version = phpversion();
+$Fail_functions = ini_get('disable_functions');
+$php_version = phpversion();
 
-  $exec = function_exists('exec') ? TRUE : FALSE;
-  $curl = (extension_loaded('curl')) ? TRUE : FALSE;
-  $_ffmpeg =  explode(' ',elgg_get_plugin_setting('izapVideoCommand', 'izap-videos'));
-  $ffmpeg_path = exec($_ffmpeg[0] . ' -version', $out, $err);
-  if ($err == 0) {
-    $ffmpeg = $ffmpeg_path;
-  }
+$exec = function_exists('exec') ? TRUE : FALSE;
+$curl = (extension_loaded('curl')) ? TRUE : FALSE;
+$_ffmpeg = explode(' ', elgg_get_plugin_setting('izapVideoCommand', 'izap-videos'));
+$ffmpeg_path = exec($_ffmpeg[0] . ' -version', $out, $err);
+if ($err == 0) {
+	$ffmpeg = $ffmpeg_path;
+}
 
-  $pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
+$pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
 
-  $php_command = exec(izapAdminSettings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
-  if ($return_value === 0) {
-    $php = nl2br(implode('', $output_PHP));
-  }
+$php_command = exec(izap_admin_settings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
+if ($return_value === 0) {
+	$php = nl2br(implode('', $output_PHP));
+}
 
-  $plugin = elgg_get_plugin_from_id('izap-videos');
-  $max_file_upload = izapReadableSize_izap_videos(ini_get('upload_max_filesize'));
-  $max_post_size = izapReadableSize_izap_videos(ini_get('post_max_size'));
-  $max_input_time = ini_get('max_input_time');
-  $max_execution_time = ini_get('max_execution_time');
-  $memory_limit = ini_get('memory_limit');
-  $plugin = elgg_get_plugin_from_id('izap-videos');
+$plugin = elgg_get_plugin_from_id('izap-videos');
+$max_file_upload = izap_readable_size_izap_videos(ini_get('upload_max_filesize'));
+$max_post_size = izap_readable_size_izap_videos(ini_get('post_max_size'));
+$max_input_time = ini_get('max_input_time');
+$max_execution_time = ini_get('max_execution_time');
+$memory_limit = ini_get('memory_limit');
+$plugin = elgg_get_plugin_from_id('izap-videos');
 ?>
 
 <div class="elgg-module elgg-module-inline ">
@@ -85,14 +85,14 @@
         <td class="column_one"><b>PHP interpreter test :</b></td>
         <td><?php echo ($php) ? 'Success' : 'Fail'; ?></td>
         <td>
-          <?php if (!$php) { ?>
-              PHP interpreter not found. <br />
-              <em><b>Action</b>: Be sure the provided path is correct in admin settings.</em>
-              <?php
-            } else {
-              echo $php;
-            }
-          ?>
+					<?php if (!$php) { ?>
+						PHP interpreter not found. <br />
+						<em><b>Action</b>: Be sure the provided path is correct in admin settings.</em>
+						<?php
+					} else {
+						echo $php;
+					}
+					?>
         </td>
         <td><?php echo ($php) ? '<input type="button" value="Success" style="background-color:#97FD79">' : '<input type="button" value ="Fail" style="background-color:#FD7979;color:white;">'; ?></td>
       </tr>
