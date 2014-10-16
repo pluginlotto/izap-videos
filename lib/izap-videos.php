@@ -911,7 +911,7 @@ function izap_get_offserver_api_key() {
  */
 function input($video_data = array(), &$video_object) {
 	global $IZAPSETTINGS;
-	$url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);c($url);exit;
+	$url = $IZAPSETTINGS->apiUrl . '&url=' . urlencode($video_data['url']);
 	$curl = new IzapCurl();
 	$raw_contents = $curl->get($url)->body;
 	$returnObject = json_decode($raw_contents);
