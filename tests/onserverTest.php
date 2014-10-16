@@ -1,15 +1,25 @@
 <?php
 
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *    This file is part of izap-videos plugin for Elgg.
+ *
+ *    izap-videos for Elgg is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 2 of the License, or
+ *    (at your option) any later version.
+ *
+ *    izap-videos for Elgg is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
- * Description of onserverTest
+ * Unit test for offserver video saving process
  *
- * @author monika
  */
 class onserverTest extends PHPUnit_Framework_TestCase {
 
@@ -23,6 +33,17 @@ class onserverTest extends PHPUnit_Framework_TestCase {
 			'error' => '0',
 			'type' => 'video/x-msvideo'
 		);
+
+		/*
+		 * Delete flv video and thumbnail is exists
+		 */
+		if (file_exists(elgg_get_data_path() . 'test_video_c.flv')) {
+			unlink(elgg_get_data_path() . 'test_video_c.flv');
+		}
+		if (file_exists(elgg_get_data_path() . 'test_video_i.png')) {
+			unlink(elgg_get_data_path() . 'test_video_i.png');
+		}
+
 		$izap_video = new IzapVideo();
 		$tags = "offserver,video";
 		$izap_video->subtype = GLOBAL_IZAP_VIDEOS_SUBTYPE;
@@ -41,19 +62,15 @@ class onserverTest extends PHPUnit_Framework_TestCase {
 		if ($processed_data->orignal_thumb) {
 			$izap_video->orignal_thumb = $processed_data->orignal_thumb;
 		}
-		$izap_video->guid = 11111;
-		izap_save_fileinfo_for_converting_izap_videos($izap_video->videofile, $izap_video);
-		
+
 		/*
 		 * Convert video
 		 */
-		$converted = izapConvertVideo_izap_videos($izap_video->videofile, '', $izap_video->title, '', $izap_video->owner_guid);
-		if (file_exists(elgg_get_data_path() . $converted) && filesize(elgg_get_data_path() . $converted) > 0) {
-			if (is_array($converted) && $converted['error']) {
-				$izap_video->converted = 'no';
-			} else {
-				$izap_video->converted = 'yes';
-			}
+		require elgg_get_plugins_path() . GLOBAL_IZAP_VIDEOS_PLUGIN . '/izap_convert_video.php';
+		if (file_exists(elgg_get_data_path() . 'test_video_c.flv') && filesize(elgg_get_data_path() . 'test_video_c.flv') > 0) {
+			$izap_video->converted = 'yes';
+		} else {
+			$izap_video->converted = 'no';
 		}
 
 		/*
@@ -90,5 +107,8 @@ class onserverTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($output->enabled, $izap_video->enabled);
 		$this->assertEquals($output->title, $izap_video->title);
 		$this->assertEquals($output->description, $izap_video->description);
+		$this->assertFileExists(elgg_get_data_path() . 'test_video_c.flv');
+		$this->assertFileExists(elgg_get_data_path() . 'test_video_i.png');
 	}
+
 }

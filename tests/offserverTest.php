@@ -42,7 +42,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		);
 		$izap_video = new IzapVideo();
 		$izap_video->saveVideo($data);
-		
+
 		/*
 		 * Expected Result
 		 */
@@ -68,7 +68,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->enabled = 'yes';
 		$output->title = 'Barack Obama and Narendra Modi - Joint Briefing from White House';
 		$output->description = 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.';
-		
+
 		$this->assertEquals($output->videourl, $izap_video->videourl);
 		$this->assertEquals($output->videoprocess, $izap_video->videoprocess);
 		$this->assertEquals($output->tags, $izap_video->tags);
@@ -88,7 +88,6 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($output->enabled, $izap_video->enabled);
 		$this->assertEquals($output->title, $izap_video->title);
 		$this->assertEquals($output->description, $izap_video->description);
-		
 	}
 
 }
