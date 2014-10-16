@@ -35,7 +35,8 @@
     global $IZAPSETTINGS;
     $IZAPSETTINGS = new stdClass();
     $IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
-    $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower(elgg_get_site_url()));
+    $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . strtolower(elgg_get_site_url());
+//    $IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower(elgg_get_site_url()));
     $IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
     $IZAPSETTINGS->graphics = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
 
