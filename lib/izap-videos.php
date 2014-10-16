@@ -729,9 +729,11 @@ function izap_run_queue_izap_videos() {
 	get_all_access();
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
-	if (is_array($queue)) {
+	if (IZAP_VIDEO_UNIT_TEST === True) {
+		$converted = izapConvertVideo_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
+	} elseif (is_array($queue)) {
 		foreach ($queue as $pending) {
-			$converted = izap_convert_video_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+			$converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
 			$izap_video = get_entity($pending['guid']);
 			if (is_array($converted) && $converted['error']) {
 				$izap_video->converted = 'no';
@@ -796,7 +798,7 @@ function izap_convert_video_izap_videos($file, $videoId, $videoTitle, $videoUrl,
 	if (file_exists($file)) {
 		$queue_object = new izapQueue();
 		$video = new izapConvert($file);
-		$videofile = $video->izap_video_convert();	//if file converted successfully then change flag from pending to processed
+		$videofile = $video->izap_video_convert(); //if file converted successfully then change flag from pending to processed
 		if (!is_array($videofile)) {
 			$queue_object->change_conversion_flag($videoId);
 			return $videofile;
