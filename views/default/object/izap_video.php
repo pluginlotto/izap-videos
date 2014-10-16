@@ -88,7 +88,7 @@ if ($full) {
 		'subtitle' => $subtitle,
 	);
 	increase_views($izap_video);
-	get_views($izap_video);
+	get_total_views($izap_video);
 	$params = $params + $vars;
 	$summary = elgg_view('object/elements/summary', $params);
 	$text = elgg_view('output/longtext', array('value' => $izap_video->description));
@@ -121,7 +121,7 @@ if ($full) {
 	));
 } elseif ($view_type == 'all') {
 	// brief view
-	$view_count = get_views($izap_video);
+	$view_count = get_total_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -145,7 +145,7 @@ if ($full) {
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
 } elseif ($container->type == 'group') {
-	$view_count = get_views($izap_video);
+	$view_count = get_total_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -191,7 +191,7 @@ if ($full) {
 	<?php
 } elseif ($widget_view->type == 'user' || $view_type == 'add') {
 
-	$view_count = get_views($izap_video);
+	$view_count = get_total_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();
@@ -237,7 +237,7 @@ if ($full) {
 	<?php
 } else {
 	// brief view
-	$view_count = get_views($izap_video);
+	$view_count = get_total_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
 		$path = $izap_video->getURL();

@@ -966,7 +966,7 @@ function increase_views($entity) {
  * 
  * @version 5.0
  */
-function get_views($entity) {
+function get_total_views($entity) {
 	return (int) $entity->total_views;
 }
 
