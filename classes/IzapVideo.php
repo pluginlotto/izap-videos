@@ -156,14 +156,21 @@ class IzapVideo extends ElggFile {
 		$returnvalue->videofile = $this->getFilenameOnFilestore();
 
 		// take snapshot from video
-		$image = new izapConvert($returnvalue->videofile);
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			$returnvalue->videofile = elgg_get_data_path() . 'test_video.avi';
+			$image = new izapConvert($returnvalue->videofile);
+		} else {
+			$image = new izapConvert($returnvalue->videofile);
+		}
 		if ($image->get_thumbnail_from_video()) {
 			$retValues = $image->getValues(TRUE);
 			if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
 				$set_original_thumbnail = $this->get_tmp_path('original_' . $retValues['imagename']);
 				$this->setFilename($set_original_thumbnail);
 				$this->open("write");
-				if ($this->write($retValues['imagecontent'])) {
+				if (IZAP_VIDEO_UNIT_TEST === True) {
+					$returnvalue->orignal_thumb = elgg_get_data_path() . $retValues['imagename'];
+				} elseif ($this->write($retValues['imagecontent'])) {
 					$orignal_file_path = $this->getFilenameOnFilestore();
 
 					$thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);

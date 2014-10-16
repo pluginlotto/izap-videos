@@ -62,8 +62,10 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 		elgg_pop_breadcrumb();
 		elgg_push_breadcrumb(elgg_echo('izap-videos'));
 	}
+
 	$title = 'Add New Video';
 	$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+
 	if (izap_is_onserver_enabled_izap_videos() == 'yes') {
 		$url .= $url_id . '/onserver';
 		elgg_register_menu_item('title', array(
@@ -165,7 +167,9 @@ function izap_video_get_page_content_friends($user_guid = NULL) {
 		'relationship_join_on' => 'container_guid',
 		'no_results' => elgg_echo('izap-videos:none'),
 	);
+
 	$return['content'] = elgg_list_entities_from_relationship($options);
+
 	return $return;
 }
 
@@ -361,7 +365,9 @@ function izap_videos_prepare_form_vars($video = NULL) {
 			$values[$key] = $value;
 		}
 	}
+
 	elgg_clear_sticky_form('izap_videos');
+
 	return $values;
 }
 
@@ -723,7 +729,9 @@ function izap_run_queue_izap_videos() {
 	get_all_access();
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
-	if (is_array($queue)) {
+	if (IZAP_VIDEO_UNIT_TEST === True) {
+		$converted = izap_convert_video_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
+	} elseif (is_array($queue)) {
 		foreach ($queue as $pending) {
 			$converted = izap_convert_video_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
 			$izap_video = get_entity($pending['guid']);
@@ -790,7 +798,7 @@ function izap_convert_video_izap_videos($file, $videoId, $videoTitle, $videoUrl,
 	if (file_exists($file)) {
 		$queue_object = new izapQueue();
 		$video = new izapConvert($file);
-		$videofile = $video->izap_video_convert();	//if file converted successfully then change flag from pending to processed
+		$videofile = $video->izap_video_convert(); //if file converted successfully then change flag from pending to processed
 		if (!is_array($videofile)) {
 			$queue_object->change_conversion_flag($videoId);
 			return $videofile;
