@@ -378,7 +378,7 @@
    * 
    * @version 5.0
    */
-  function pageHandler_izap_videos_files($page) {
+  function izap_page_handler_videos_files($page) {
     set_input('what', $page[0]);
     set_input('videoID', $page[1]);
     set_input('size', $page[2]);
@@ -415,7 +415,7 @@
    * 
    * @version 5.0
    */
-  function add_new_video() {
+  function izap_add_new_video() {
     if (elgg_is_logged_in()) {
       $class = "new_video_icon";
       $text = "<span class='$class'></span>";
