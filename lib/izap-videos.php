@@ -730,10 +730,10 @@ function izap_run_queue_izap_videos() {
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
 	if (IZAP_VIDEO_UNIT_TEST === True) {
-		$converted = izapConvertVideo_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
+		$converted = izap_convert_video_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
 	} elseif (is_array($queue)) {
 		foreach ($queue as $pending) {
-			$converted = izapConvertVideo_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
+			$converted = izap_convert_video_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
 			$izap_video = get_entity($pending['guid']);
 			if (is_array($converted) && $converted['error']) {
 				$izap_video->converted = 'no';
