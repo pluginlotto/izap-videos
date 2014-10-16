@@ -78,25 +78,26 @@ $("#id_url").on('input', function() {
         url: preview_url,
         data: {url: $(this).val()},
         success: function(msg) {
-            var obj = $.parseJSON(msg);
-            if (obj.title === null && obj.description === null) {
-                $("#off_preview").hide();
-                $("#error").show();
-                if ($("#id_url").val() !== '') {
-                    $("#error").html("We did not get expected response from remote server. Please enter valid video url.");
-                } else if ($("#id_url").val() === '') {
-                    $("#error").empty();
-                }
-                document.getElementById("upload_button").disabled = true;
-            } else if (obj.title !== null || obj.title !== null) {
-                $("#error").hide();
-                document.getElementById("upload_button").disabled = false;
-                $("#off_preview").show();
-            }
-            $("#off_title").val(obj.title);
-            $("#off_desc").val(obj.description);
-            $('#off_thumb').attr('src', obj.thumbnail);
-            $("#tag").val(obj.tags);
+            console.log(msg);
+//            var obj = $.parseJSON(msg);
+//            if (obj.title === null && obj.description === null) {
+//                $("#off_preview").hide();
+//                $("#error").show();
+//                if ($("#id_url").val() !== '') {
+//                    $("#error").html("We did not get expected response from remote server. Please enter valid video url.");
+//                } else if ($("#id_url").val() === '') {
+//                    $("#error").empty();
+//                }
+//                document.getElementById("upload_button").disabled = true;
+//            } else if (obj.title !== null || obj.title !== null) {
+//                $("#error").hide();
+//                document.getElementById("upload_button").disabled = false;
+//                $("#off_preview").show();
+//            }
+//            $("#off_title").val(obj.title);
+//            $("#off_desc").val(obj.description);
+//            $('#off_thumb').attr('src', obj.thumbnail);
+//            $("#tag").val(obj.tags);
         }
     });
 });
