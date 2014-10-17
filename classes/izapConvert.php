@@ -39,7 +39,7 @@ class izapConvert {
 	 */
 	public function izapConvert($in = '') {
 		$this->invideo = $in;
-		$extension_length = strlen(get_file_extension($this->invideo));
+		$extension_length = strlen(izap_get_file_extension($this->invideo));
 		$outputPath = substr($this->invideo, 0, '-' . ($extension_length + 1));
 		$this->outvideo = $outputPath . '_c.' . $this->format;
 		$this->outimage = $outputPath . '_i.png';

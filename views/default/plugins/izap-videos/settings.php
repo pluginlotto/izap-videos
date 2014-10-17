@@ -75,7 +75,7 @@ elgg_load_library('elgg:izap_video');
 	echo elgg_view('input/radio', array(
 		'name' => 'params[Onserver_enabled_izap_videos]',
 		'id' => 'onserver',
-		'value' => plugin_setting(
+		'value' => izap_plugin_setting(
 			array(
 				'name' => 'Onserver_enabled_izap_videos',
 				'plugin' => GLOBAL_IZAP_VIDEOS_PLUGIN,

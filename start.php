@@ -110,7 +110,7 @@
    */
   function izap_owner_block_izap_videos($hook, $type, $return, $params) {
     if ((elgg_instanceof($params['entity'], 'group'))) {
-      $url = setHref(array(
+      $url = izap_set_href(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'action' => 'all',
         'full_url' => FALSE
@@ -228,11 +228,11 @@
         break;
 
       case 'viewvideo':  
-        $params = get_video_player($page[1], $page[2], $page[3]);
+        $params = izap_get_video_player($page[1], $page[2], $page[3]);
         break;
 
       case 'queue':
-        $params = get_queue();
+        $params = izap_get_queue();
         break;
 
       case 'upload':
@@ -247,17 +247,17 @@
 
       case 'preview':
         elgg_gatekeeper();
-        preview();
+        izap_preview();
         break;
 
       case 'youtube_response':
         elgg_gatekeeper();
-        youtube_response();
+        izap_youtube_response();
         break;
 
       case 'check_video_status':
         elgg_gatekeeper();
-        check_video_status($page[1]);
+        izap_check_video_status($page[1]);
         break;
 
       default:
@@ -383,7 +383,7 @@
     set_input('videoID', $page[1]);
     set_input('size', $page[2]);
     elgg_load_library('elgg:izap_video');
-    read_video_file();
+    izap_read_video_file();
   }
 
   /**

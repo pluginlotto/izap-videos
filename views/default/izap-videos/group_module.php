@@ -24,7 +24,7 @@ if ($group->{GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '_enable'} == "no") {
 }
 
 $all_link = elgg_view('output/url', array(
-	'href' => setHref(array(
+	'href' => izap_set_href(array(
 		'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 		'action' => 'all',
 	)),
@@ -46,7 +46,7 @@ if (!$content) {
 }
 
 $new_link = elgg_view('output/url', array(
-	'href' => setHref(array(
+	'href' => izap_set_href(array(
 		'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 		'action' => 'add',
 		'vars' => array('tab' => (izap_is_onserver_enabled_izap_videos()) ? 'onserver' : 'offserver'),
