@@ -47,7 +47,7 @@
     //register page handler for particular identifier
     elgg_register_page_handler(GLOBAL_IZAP_VIDEOS_PAGEHANDLER, 'izap_video_page_handler');
     //register page handler for video page
-    elgg_register_page_handler('izap_videos_files', 'pageHandler_izap_videos_files');
+    elgg_register_page_handler('izap_videos_files', 'izap_page_handler_videos_files');
     //register page handler for view videos
     elgg_register_page_handler('izap_view_video', 'izap_view_video_handler');
     elgg_register_entity_type('object', GLOBAL_IZAP_VIDEOS_SUBTYPE);
