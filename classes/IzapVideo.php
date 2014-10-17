@@ -134,7 +134,7 @@ class IzapVideo extends ElggFile {
 	public function processfile($file) {
 		$returnvalue = new stdClass();
 
-		$filename = str_replace(' ', '_', $file['name']);
+		$filename = strtolower(str_replace(' ', '_', $file['name']));
 		$tmpname = $file['tmp_name'];
 		$file_err = $file['error'];
 		$file_type = $file['type'];

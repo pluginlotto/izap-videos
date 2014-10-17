@@ -17,8 +17,8 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-$powered_url = elgg_get_site_url() . "_graphics/powered-by-izap.png";
-
+global $IZAPSETTINGS;
+$powered_url = $IZAPSETTINGS->graphics . "powered-by-izap.png";
 echo '<div class="mts clearfloat float-alt">';
 echo elgg_view('output/url', array(
 	'href' => 'http://izap.in',
