@@ -31,7 +31,7 @@ if (!($video instanceof IzapGYoutube)) {
 } else {
 	// if we already have access token for youtube. than redirect user directly
 	// on upload page.
-	forward(izap_setHref(array(
+	forward(izap_set_href(array(
 		'action' => 'upload',
 		'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 	)));

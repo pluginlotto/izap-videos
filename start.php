@@ -93,7 +93,7 @@
     elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin');
     elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard');
     elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard');
-    elgg_register_event_handler('pagesetup', 'system', 'add_new_video');
+    elgg_register_event_handler('pagesetup', 'system', 'izap_add_new_video');
   }
 
   /**
@@ -110,7 +110,7 @@
    */
   function izap_owner_block_izap_videos($hook, $type, $return, $params) {
     if ((elgg_instanceof($params['entity'], 'group'))) {
-      $url = izap_setHref(array(
+      $url = izap_set_href(array(
         'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
         'action' => 'all',
         'full_url' => FALSE
@@ -378,7 +378,7 @@
    * 
    * @version 5.0
    */
-  function pageHandler_izap_videos_files($page) {
+  function izap_page_handler_videos_files($page) {
     set_input('what', $page[0]);
     set_input('videoID', $page[1]);
     set_input('size', $page[2]);
@@ -415,7 +415,7 @@
    * 
    * @version 5.0
    */
-  function add_new_video() {
+  function izap_add_new_video() {
     if (elgg_is_logged_in()) {
       $class = "new_video_icon";
       $text = "<span class='$class'></span>";

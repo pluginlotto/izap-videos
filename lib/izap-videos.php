@@ -253,7 +253,7 @@ function izap_video_get_page_content_youtube_upload($page, $guid = 0, $revision 
 			} else {
 				register_error('YouTube Error: ' . $e->getMessage());
 			}
-			forward(izap_setHref(array(
+			forward(izap_set_href(array(
 				'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 				'action' => 'add',
 				'page_owner' => elgg_get_logged_in_user_guid(),
@@ -291,7 +291,7 @@ function izap_video_get_page_content_youtube_next() {
 	if (!$is_status) {
 		// redirect the user from where he was trying to upload the video.
 		register_error("We did not get expected response from YouTube. You might need to provide appropriate youtube category.");
-		forward(izap_setHref(array(
+		forward(izap_set_href(array(
 			'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 			'action' => 'add',
 			'page_owner' => elgg_instanceof(elgg_get_page_owner_entity(), 'group') ? elgg_get_page_owner_entity()->username : elgg_get_logged_in_user_entity()->username,
@@ -894,9 +894,9 @@ function izap_get_video_player($guid, $height, $width) {
  * @version 5.0
  */
 
-function izap_get_offserver_api_key() {
-	return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
-}
+//function get_offserver_api_key() {
+//	return elgg_get_plugin_setting('izap_api_key', 'izap-videos');
+//}
 
 /**
  * Get detail for YouTube video 
@@ -1083,7 +1083,7 @@ function izap_youtube_response() {
  * 
  * @version 5.0
  */
-function izap_setHref($input = array()) {
+function izap_set_href($input = array()) {
 	global $CONFIG;
 	// Default Params
 	$default = array(
