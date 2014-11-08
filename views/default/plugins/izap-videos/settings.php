@@ -186,16 +186,17 @@ elgg_load_library('elgg:izap_video');
 	</div>
 <?php } ?>
 
+<!--Enble/Disable Add new video's icon-->
 <div>
   <label>
 		<?php echo elgg_echo('Show Add Video Link'); ?></label><br />
 	<?php
-	$offserver_setting = elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos');
-	if ($offserver_setting == 'on') {
+	$icon_setting = elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos');
+	if ($icon_setting == 'on') {
 		?>
 		<input type="radio" name="params[izap_add_new_video_icon]" value="on" id="offserver_enable" checked> On <br />
 		<input type="radio" name="params[izap_add_new_video_icon]" value= 'off' id="offserver_disable"> Off 
-	<?php } elseif ($offserver_setting == 'off') { ?>
+	<?php } elseif ($icon_setting == 'off') { ?>
 		<input type="radio" name="params[izap_add_new_video_icon]" value="on" id="offserver_enable" > On <br />
 		<input type="radio" name="params[izap_add_new_video_icon]" value= 'pff'  id="offserver_disable" checked> Off 
 	<?php } else { ?>
@@ -203,5 +204,4 @@ elgg_load_library('elgg:izap_video');
 		<input type="radio" name="params[izap_add_new_video_icon]" value= 'off' id="offserver_disable"> Off 
 	<?php } ?>
 </div>
-<!--Offserver Settings End Here-->
 <script src="/mod/izap-videos/vendors/video_settings.js" ></script>
