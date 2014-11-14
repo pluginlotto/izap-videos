@@ -46,7 +46,7 @@ $upload_type = end(explode('/', $current_url));
 if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enabled_izap_videos() == 'yes' || izap_is_offserver_enabled_izap_videos() == 'yes') {
 	if ($upload_type == 'offserver') {
 		?>
-		<div class="row collapse">
+		<div>
 			<label><?php echo elgg_echo('video_url'); ?></label>
 			<?php echo elgg_view('input/text', array('name' => 'video_url', 'class' => 'xlarge', 'id' => 'id_url', 'placeholder' => 'Enter a URL')); ?>
 			<label id="error" style="color:red;"></label>
