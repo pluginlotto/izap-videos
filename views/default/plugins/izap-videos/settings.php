@@ -144,8 +144,8 @@ elgg_load_library('elgg:izap_video');
 		<input type="radio" name="params[Offserver_enabled_izap_videos]" value="yes" id="offserver_enable" > Yes <br />
 		<input type="radio" name="params[Offserver_enabled_izap_videos]" value= 'no'  id="offserver_disable" checked> No 
 	<?php } else { ?>
-		<input type="radio" name="params[Offserver_enabled_izap_videos]" value="yes" id="offserver_enable" checked> Yes <br />
-		<input type="radio" name="params[Offserver_enabled_izap_videos]" value= 'no' id="offserver_disable"> No 
+		<input type="radio" name="params[Offserver_enabled_izap_videos]" value="yes" id="offserver_enable" > Yes <br />
+		<input type="radio" name="params[Offserver_enabled_izap_videos]" value= 'no' id="offserver_disable" checked> No 
 	<?php } ?>
 </div>
 <?php if ($offserver_setting == 'yes') { ?>
