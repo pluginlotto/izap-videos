@@ -39,6 +39,7 @@ $(document).ready(function() {
      */
 
     $("#id_url").on('input', function() {
+        if($("#id_url").val() != ''){
         $.ajax({
             type: 'POST',
             url: preview_url,
@@ -65,6 +66,7 @@ $(document).ready(function() {
                 $("#tag").val(obj.tags);
             }
         });
+    }
     });
 
 
