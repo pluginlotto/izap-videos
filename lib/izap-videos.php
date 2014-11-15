@@ -866,7 +866,12 @@ function izap_get_video_player($guid, $height, $width) {
 	$player_path = $IZAPSETTINGS->playerPath;
 	if ($entity->videourl) {
 		if (elgg_instanceof($entity, 'object', GLOBAL_IZAP_VIDEOS_SUBTYPE, GLOBAL_IZAP_VIDEOS_CLASS)) {
-			$content = izap_get_replaced_height_width_izap_videos($height, $width, $entity->videosrc);
+			preg_match("/((http)s?)/", elgg_get_site_url(), $scheme);
+			$current_scheme = $scheme[1];
+			$pattern = '/(.* src\s?=\s?\")(http[s]?)(:\/\/.*)/';
+			$replacement = '${1}' . $current_scheme . '$3';
+			$source = preg_replace($pattern, $replacement, $entity->videosrc);
+			$content = izap_get_replaced_height_width_izap_videos($height, $width, $source);
 		} else {
 			echo elgg_echo('izap_videos:ajaxed_videos:error_loading_video');
 		}
