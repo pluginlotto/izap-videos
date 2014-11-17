@@ -204,4 +204,4 @@ elgg_load_library('elgg:izap_video');
 		<input type="radio" name="params[izap_add_new_video_icon]" value= 'off' id="offserver_disable"> Off 
 	<?php } ?>
 </div>
-<script src="/mod/izap-videos/vendors/video_settings.js" ></script>
+<?php elgg_load_js('elgg:video_settings_js'); ?>

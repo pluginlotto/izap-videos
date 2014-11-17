@@ -88,6 +88,7 @@
     }
     elgg_register_js('elgg:validate_js', "mod/izap-videos/vendors/validate.js");
     elgg_register_js('elgg:preview_js', "mod/izap-videos/vendors/preview.js");
+    elgg_register_js('elgg:video_settings_js', "mod/izap-videos/vendors/video_settings.js");
     elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
     elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
     elgg_register_css('elgg:preview_css', 'mod/izap-videos/views/default/css/preview.css');
