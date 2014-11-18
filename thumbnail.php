@@ -42,8 +42,6 @@ if ($thumbfile && !empty($thumbfile)) {
     if(file_exists($readfile->getFilenameOnFilestore())){
         $contents = $readfile->grabFile();
     }
-   // $contents = $readfile->getFilenameOnFilestore($thumbfile);
- //   $contents = file_get_contents($contents);
     $content_type = 'image/jpeg';
     
     header('Expires: ' . gmdate('D, d M Y H:i:s \G\M\T', strtotime("+10 days")), true);
