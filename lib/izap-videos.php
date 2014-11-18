@@ -62,8 +62,10 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 		elgg_pop_breadcrumb();
 		elgg_push_breadcrumb(elgg_echo('izap-videos'));
 	}
-
-	$title = 'Add New Video';
+	if(elgg_is_logged_in()){
+		$title = 'Add New Video';
+	}
+	
 	$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
 
 	if (izap_is_onserver_enabled_izap_videos() == 'yes') {
