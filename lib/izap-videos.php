@@ -244,8 +244,8 @@ function izap_video_get_page_content_youtube_upload($page, $guid = 0, $revision 
 		$myVideoEntry->setVideoDescription($description);
 
 		// Note that category must be a valid YouTube category
-		$myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']->youtube_cats);
-		$myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']->tags);
+		$myVideoEntry->setVideoCategory($_SESSION['youtube_attributes']['youtube_cats']);
+		$myVideoEntry->SetVideoTags($_SESSION['youtube_attributes']['tags']);
 		$tokenHandlerUrl = 'http://gdata.youtube.com/action/GetUploadToken';
 		try {
 			$tokenArray = $yt->getFormUploadToken($myVideoEntry, $tokenHandlerUrl);
