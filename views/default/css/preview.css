@@ -328,7 +328,7 @@
 }
 /*Icon for add new video*/
 span.new_video_icon{
-  background: url(/mod/izap-videos/_graphics/add_new_video.png) no-repeat;
+  background: url(/base/mod/izap-videos/_graphics/add_new_video.png) no-repeat;
   float: left;
   width: 25px;
   height: 20px;

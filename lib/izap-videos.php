@@ -62,10 +62,10 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 		elgg_pop_breadcrumb();
 		elgg_push_breadcrumb(elgg_echo('izap-videos'));
 	}
-	if(elgg_is_logged_in()){
+	if (elgg_is_logged_in()) {
 		$title = 'Add New Video';
 	}
-	
+
 	$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
 
 	if (izap_is_onserver_enabled_izap_videos() == 'yes') {
@@ -235,8 +235,14 @@ function izap_video_get_page_content_youtube_upload($page, $guid = 0, $revision 
 	);
 	$form_vars = array();
 	$params = array();
-	if (get_input('token')) {
-		$video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
+
+	$video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
+
+//get youtube api authorization via users application access.
+//	if (get_input('token')) {
+	$video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
+
+	if ($video instanceof IzapGYoutube) {
 		$yt = $video->YoutubeObject();
 		$myVideoEntry = new Zend_Gdata_YouTube_VideoEntry();
 		$myVideoEntry->setVideoTitle($_SESSION['youtube_attributes']['title']);
