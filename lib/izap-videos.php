@@ -1073,12 +1073,16 @@ function izap_youtube_response() {
 	$izap_video->saveYouTubeVideoData($video_data);
 	if ($izap_video->save()) {
 		if ($new == true) {
-			elgg_create_river_item(array(
-				'view' => 'river/object/izap_video/create',
-				'action_type' => 'create',
-				'subject_guid' => elgg_get_logged_in_user_guid(),
-				'object_guid' => $izap_video->getGUID(),
-			));
+			if (is_callable('elgg_create_river_item')) {
+				elgg_create_river_item(array(
+					'view' => 'river/object/izap_video/create',
+					'action_type' => 'create',
+					'subject_guid' => elgg_get_logged_in_user_guid(),
+					'object_guid' => $izap_video->getGUID(),
+				));
+			} else {
+				add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $izap_video->getGUID());
+			}
 		}
 		elgg_clear_sticky_form('izap_videos');
 		system_messages(elgg_echo('izap-videos:Save:success'));
@@ -1212,17 +1216,17 @@ function izap_add_error($guid) {
 }
 
 function izap_gatekeeper() {
-	if(is_callable('elgg_gatekeeper')){
+	if (is_callable('elgg_gatekeeper')) {
 		return elgg_gatekeeper();
-	}else{
+	} else {
 		return gatekeeper();
 	}
 }
 
-function izap_group_gatekeeper(){
-	if(is_callable('elgg_group_gatekeeper')){
+function izap_group_gatekeeper() {
+	if (is_callable('elgg_group_gatekeeper')) {
 		return elgg_group_gatekeeper();
-	}else{
+	} else {
 		return group_gatekeeper();
 	}
 }
