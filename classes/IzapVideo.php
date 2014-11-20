@@ -105,14 +105,19 @@ class IzapVideo extends ElggFile {
 					}
 					break;
 			}
+
 			//create river if new entity
 			if ($new == true) {
-				elgg_create_river_item(array(
-					'view' => 'river/object/izap_video/create',
-					'action_type' => 'create',
-					'subject_guid' => elgg_get_logged_in_user_guid(),
-					'object_guid' => $this->getGUID(),
-				));
+				if (is_callable('elgg_create_river_item')) {
+					elgg_create_river_item(array(
+						'view' => 'river/object/izap_video/create',
+						'action_type' => 'create',
+						'subject_guid' => elgg_get_logged_in_user_guid(),
+						'object_guid' => $this->getGUID(),
+					));
+				} else {
+					add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $this->getGUID());
+				}
 			}
 			elgg_clear_sticky_form('izap_videos');
 			system_messages(elgg_echo('izap-videos:Save:success'));
