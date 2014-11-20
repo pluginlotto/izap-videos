@@ -121,13 +121,17 @@ function preview_request(video_url) {
                         $("#error").empty();
                     }
                     document.getElementById("upload_button").disabled = true;
-                } else if (obj.title !== null || obj.title !== null) {
+                } else if (obj.title !== null) {
                     $("#error").hide();
                     document.getElementById("upload_button").disabled = false;
                     $("#off_preview").show();
                 }
                 $("#off_title").val(obj.title);
-                $("#off_desc").val(obj.description);
+                if (tinyMCE.activeEditor) {
+                    tinyMCE.activeEditor.setContent(obj.description);
+                } else {
+                    $("#off_desc").val(obj.description);
+                }
                 $('#off_thumb').attr('src', obj.thumbnail);
                 $("#tag").val(obj.tags);
             }
