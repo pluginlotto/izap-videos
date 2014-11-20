@@ -41,7 +41,7 @@ function izap_video_get_page_content_list($container_guid = NULL) {
 	if ($container_guid) {
 		$url_id = $container_guid;
 		// access check for closed groups
-		elgg_group_gatekeeper();
+		izap__group_gatekeeper();
 		$options['container_guid'] = $container_guid;
 		$container = get_entity($container_guid);
 		$return['title'] = elgg_echo('izap-videos:title:user_videos', array($container->name));
@@ -1213,8 +1213,16 @@ function izap_add_error($guid) {
 
 function izap_gatekeeper() {
 	if(is_callable('elgg_gatekeeper')){
-		elgg_gatekeeper();
+		return elgg_gatekeeper();
 	}else{
-		gatekeeper();
+		return gatekeeper();
+	}
+}
+
+function izap__group_gatekeeper(){
+	if(is_callable('elgg_group_gatekeeper')){
+		return elgg_group_gatekeeper();
+	}else{
+		return group_gatekeeper();
 	}
 }
