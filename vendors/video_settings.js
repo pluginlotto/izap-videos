@@ -15,7 +15,29 @@
  *    along with izap-videos for Elgg.  If not, see <http://www.gnu.org/licenses/>.
  */
 $(document).ready(function() {
-    $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
+    if ($(this).on) {
+        $("input:radio[name='params[Onserver_enabled_izap_videos]']").on("click", function() {
+            youtube_on_event();
+        });
+        $("#offserver_disable").on("click", function() {
+            offserver_disable();
+        });
+        $("#offserver_enable").on("click", function() {
+            offserver_enable();
+        });
+    } else {
+        $("input:radio[name='params[Onserver_enabled_izap_videos]']").bind("click", function() {
+            youtube_on_event();
+        });
+        $("#offserver_disable").bind("click", function() {
+            offserver_disable();
+        });
+        $("#offserver_enable").bind("click", function() {
+            offserver_enable();
+        });
+    }
+
+    function youtube_on_event() {
         var radio_input = $("input:radio[name='params[Onserver_enabled_izap_videos]']:checked").val();
         if (radio_input === 'youtube') {
             $("#youtube_key").show();
@@ -27,15 +49,16 @@ $(document).ready(function() {
             $("#youtube_key").hide();
             $("#youtube_key_youtube").hide();
         }
-    });
-
-    $("#offserver_disable").on("click", function() {
+    }
+    
+    function offserver_disable() {
         $("#offserver_key_yes").hide();
         $("#offserver_key_no").hide();
         $("#offserver_key").hide();
-    });
-    $("#offserver_enable").on("click", function() {
+    }
+    
+    function offserver_enable() {
         $("#offserver_key_yes").show();
         $("#offserver_key_no").show();
-    });
+    }
 });

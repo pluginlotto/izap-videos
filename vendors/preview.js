@@ -47,8 +47,6 @@ $(document).ready(function() {
         });
     }
 
-
-
     /*
      * Extention Validation
      */
