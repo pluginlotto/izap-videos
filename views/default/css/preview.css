@@ -240,13 +240,13 @@
   height: 0; 
 }
 
-.clearfix {
+/*.clearfix {
   display: inline-block; 
 }
 
 .clearfix {
   display: block; 
-}
+}*/
 
 * html .clearfix {
   height: 1%;
