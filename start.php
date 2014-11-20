@@ -208,12 +208,12 @@
           register_error("Currently this service is not available, please try again later");
           forward();
         }
-        elgg_gatekeeper();
+        izap_gatekeeper();
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
 
       case 'edit':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         $params = izap_video_get_page_content_edit($page_type, $page[1], $page[2]);
         break;
 
@@ -241,27 +241,27 @@
         break;
 
       case 'upload':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         $params = izap_video_get_page_content_youtube_upload($page_type, $page[1], $page[2]);
         break;
 
       case 'next':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         $params = izap_video_get_page_content_youtube_next();
         break;
 
       case 'preview':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         izap_preview();
         break;
 
       case 'youtube_response':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         izap_youtube_response();
         break;
 
       case 'check_video_status':
-        elgg_gatekeeper();
+        izap_gatekeeper();
         izap_check_video_status($page[1]);
         break;
 

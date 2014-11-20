@@ -1210,3 +1210,11 @@ function izap_add_error($guid) {
 	}
 	return $error;
 }
+
+function izap_gatekeeper() {
+	if(is_callable('elgg_gatekeeper')){
+		elgg_gatekeeper();
+	}else{
+		gatekeeper();
+	}
+}
