@@ -37,37 +37,16 @@ $(document).ready(function() {
     /*
      * Offserver Video Preview
      */
-
-    $("#id_url").on('input', function() {
-        if($("#id_url").val() != ''){
-        $.ajax({
-            type: 'POST',
-            url: preview_url,
-            data: {url: $(this).val()},
-            success: function(msg) {
-                var obj = $.parseJSON(msg);
-                if (obj.title === null && obj.description === null) {
-                    $("#off_preview").hide();
-                    $("#error").show();
-                    if ($("#id_url").val() !== '') {
-                        $("#error").html("We did not get expected response from remote server. Please enter valid video url.");
-                    } else if ($("#id_url").val() === '') {
-                        $("#error").empty();
-                    }
-                    document.getElementById("upload_button").disabled = true;
-                } else if (obj.title !== null || obj.title !== null) {
-                    $("#error").hide();
-                    document.getElementById("upload_button").disabled = false;
-                    $("#off_preview").show();
-                }
-                $("#off_title").val(obj.title);
-                $("#off_desc").val(obj.description);
-                $('#off_thumb').attr('src', obj.thumbnail);
-                $("#tag").val(obj.tags);
-            }
+    if ($(this).on) {
+        $("#id_url").on('input', function() {
+            preview_request($(this).val());
+        });
+    } else {
+        $("#id_url").bind('input', function() {
+            preview_request($(this).val());
         });
     }
-    });
+
 
 
     /*
@@ -124,3 +103,34 @@ $(".ajax_load_video").live('click', function() {
     $("#load_video_" + this.rel + "").load('' + this.href + '');
     return false;
 });
+
+function preview_request(video_url) {
+    if ($("#id_url").val() != '') {
+        $.ajax({
+            type: 'POST',
+            url: preview_url,
+            data: {url: video_url},
+            success: function(msg) {
+                var obj = $.parseJSON(msg);
+                if (obj.title === null && obj.description === null) {
+                    $("#off_preview").hide();
+                    $("#error").show();
+                    if ($("#id_url").val() !== '') {
+                        $("#error").html("We did not get expected response from remote server. Please enter valid video url.");
+                    } else if ($("#id_url").val() === '') {
+                        $("#error").empty();
+                    }
+                    document.getElementById("upload_button").disabled = true;
+                } else if (obj.title !== null || obj.title !== null) {
+                    $("#error").hide();
+                    document.getElementById("upload_button").disabled = false;
+                    $("#off_preview").show();
+                }
+                $("#off_title").val(obj.title);
+                $("#off_desc").val(obj.description);
+                $('#off_thumb').attr('src', obj.thumbnail);
+                $("#tag").val(obj.tags);
+            }
+        });
+    }
+}
