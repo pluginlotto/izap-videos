@@ -24,7 +24,13 @@ $php_version = phpversion();
 $exec = function_exists('exec') ? TRUE : FALSE;
 $curl = (extension_loaded('curl')) ? TRUE : FALSE;
 $_ffmpeg = explode(' ', elgg_get_plugin_setting('izapVideoCommand', 'izap-videos'));
-$ffmpeg_path = exec($_ffmpeg[0] . ' -version', $out, $err);
+if($_ffmpeg[0]){
+	$ffmpeg_path = exec($_ffmpeg[0] . ' -version', $out, $err);
+}else{
+	$_ffmpeg = exec("which ffmpeg");
+	$ffmpeg_path = exec($_ffmpeg . ' -version', $out, $err);
+}
+
 if ($err == 0) {
 	$ffmpeg = $ffmpeg_path;
 }
@@ -32,6 +38,10 @@ if ($err == 0) {
 $pdo_sqlite = (extension_loaded('pdo_sqlite')) ? TRUE : FALSE;
 
 $php_command = exec(izap_admin_settings_izap_videos('izapPhpInterpreter') . ' --version', $output_PHP, $return_value);
+if(!$php_command){
+	$which_php = exec("which php");
+	$php_command = exec($which_php . ' --version', $output_PHP, $return_value);
+}
 if ($return_value === 0) {
 	$php = nl2br(implode('', $output_PHP));
 }
