@@ -127,11 +127,11 @@ function preview_request(video_url) {
                 $("#off_title").val(obj.title);
                 $('#off_thumb').attr('src', obj.thumbnail);
                 $("#tag").val(obj.tags);
-                if (tinyMCE.activeEditor) {
-                    tinyMCE.activeEditor.setContent(obj.description);
-                } else {
+//                if (tinyMCE.activeEditor) {
+//                    tinyMCE.activeEditor.setContent(obj.description);
+//                } else {
                     $("#off_desc").val(obj.description);
-                }
+//                }
             }
         });
     }
