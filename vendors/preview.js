@@ -19,7 +19,7 @@ $(document).ready(function() {
                 required: "Please enter the title"
             },
             video_url: {
-                required: "Please enter the video urlll"
+                required: "Please enter the video url"
             },
             upload_video: {
                 required: "Please select the video to upload"
@@ -125,13 +125,13 @@ function preview_request(video_url) {
                     $("#off_preview").show();
                 }
                 $("#off_title").val(obj.title);
+                $('#off_thumb').attr('src', obj.thumbnail);
+                $("#tag").val(obj.tags);
                 if (tinyMCE.activeEditor) {
                     tinyMCE.activeEditor.setContent(obj.description);
                 } else {
                     $("#off_desc").val(obj.description);
                 }
-                $('#off_thumb').attr('src', obj.thumbnail);
-                $("#tag").val(obj.tags);
             }
         });
     }
