@@ -77,7 +77,7 @@
     // extend the owner block
     elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'izap_owner_block_izap_videos');
     //register video url handler
-    elgg_register_entity_url_handler('entity:url', 'object', 'izap_video', 'video_url');
+    elgg_register_plugin_hook_handler('entity:url', 'object', 'izap_video', 'video_url');
     //extend old server stats with current stats
     elgg_extend_view('admin/statistics/server', 'admin/statistics/server_stats');
     elgg_extend_view('page/elements/footer', 'forms/izap-videos/my_javascript');
