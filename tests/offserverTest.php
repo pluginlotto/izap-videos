@@ -28,7 +28,6 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testOffserverTest() { 
-		echo "herees";exit;
 		$tags = "offserver,video";
 		$data = array(
 			'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
