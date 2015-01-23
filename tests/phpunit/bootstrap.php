@@ -1,4 +1,5 @@
 <?php 
+global $DEFAULT_FILE_STORE;
 $engine = dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/engine';
 include_once $engine . '/start.php';
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);

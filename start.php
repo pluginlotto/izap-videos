@@ -37,7 +37,7 @@ function izap_video_init() {
 	$IZAPSETTINGS = new stdClass();
 	$IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
 	$baseUrl = $CONFIG->url;
-	$baseUrl = parse_url($baseUrl); 
+	$baseUrl = parse_url($baseUrl);
 	$IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=' . elgg_get_plugin_setting('izap_api_key', 'izap-videos') . '&domain=' . base64_encode(strtolower($baseUrl['host']));
 	$IZAPSETTINGS->playerPath = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/player/izap_player.swf';
 	$IZAPSETTINGS->graphics = elgg_get_site_url() . 'mod/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/_graphics/';
@@ -95,10 +95,10 @@ function izap_video_init() {
 	elgg_register_js('elgg:player', "mod/izap-videos/views/default/js/mediaelement.js");
 	elgg_register_css('elgg:video_css', 'mod/izap-videos/views/default/css/video-js.css');
 	elgg_register_css('elgg:preview_css', 'mod/izap-videos/views/default/css/preview.css');
-	elgg_register_widget_type(array('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), 'admin'));
-	elgg_register_widget_type(array('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), 'admin'));
-	elgg_register_widget_type(array('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), 'profile, dashboard'));
-	elgg_register_widget_type(array('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), 'profile, dashboard'));
+	elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), array('admin'));
+	elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), array('admin'));
+	elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), array('profile, dashboard'));
+	elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), array('profile, dashboard'));
 	if ((elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos') == 'on') || (!elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos'))) {
 		elgg_register_event_handler('pagesetup', 'system', 'izap_add_new_video');
 	}
