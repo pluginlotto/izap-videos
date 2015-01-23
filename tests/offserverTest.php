@@ -56,7 +56,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->converted = 'yes';
 
 		$output->type = 'object';
-		$output->subtype = 8;
+		$output->subtype = 'izap_video';
 		$output->owner_guid = 77;
 		$output->container_guid = 77;
 		$output->access_id = 2;
