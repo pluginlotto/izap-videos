@@ -27,7 +27,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		_elgg_services()->setValue('session', new ElggSession(new Elgg_Http_MockSessionStorage()));
 	}
 
-	public function testOffserverTest() {
+	public function testOffserverTest() { 
+		echo "herees";exit;
 		$tags = "offserver,video";
 		$data = array(
 			'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
