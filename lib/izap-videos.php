@@ -942,7 +942,7 @@ function input($video_data = array(), &$video_object) {
 	$video_object->videothumbnail = $returnObject->thumb_url;
 	$video_object->videosrc = $returnObject->embed_code;
 //    $video_object->tags = $tags;
-	$video_object->domain = $returnObject->url;
+//	$video_object->domain = $returnObject->url;
 	$video_object->video_type = $returnObject->type;
 }
 
