@@ -214,12 +214,12 @@ class IzapVideo extends ElggFile {
 	 */
 	public function saveYouTubeVideoData($url) {
 		$videoValues = input($url, $this);
-		$this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
-		$this->imagesrc = $this->get_tmp_path($this->filename);
-		$this->videotype_site = $this->domain;
+//		$this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
+//		$this->imagesrc = $this->get_tmp_path($this->filename);
+//		$this->videotype_site = $this->domain;
 		$this->converted = 'yes';
-		$this->setFilename($this->orignal_thumb);
-		$this->open("write");
+//		$this->setFilename($this->orignal_thumb);
+//		$this->open("write");
 	}
 
 }

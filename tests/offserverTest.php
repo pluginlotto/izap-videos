@@ -52,13 +52,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->tags = array('offserver', 'video');
 		$output->videothumbnail = 'http://i.ytimg.com/vi/uDYarhCmvfM/1.jpg';
 		$output->videosrc = '<iframe width="800" height="500" src="http://www.youtube.com/embed/uDYarhCmvfM?autoplay=1&amp;wmode=transparent" frameborder="0"></iframe>';
-		$output->domain = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
 		$output->video_type = 'youtube';
-		$output->orignal_thumb = 'izap_videos/tmp/original_';
-		$output->imagesrc = 'izap_videos/tmp/';
-		$output->videotype_site = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
 		$output->converted = 'yes';
-		$output->filename = 'izap_videos/tmp/original_';
 
 		$output->type = 'object';
 		$output->subtype = 8;
@@ -74,13 +69,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($output->tags, $izap_video->tags);
 		$this->assertEquals($output->videothumbnail, $izap_video->videothumbnail);
 		$this->assertEquals($output->videosrc, $izap_video->videosrc);
-		$this->assertEquals($output->domain, $izap_video->domain);
 		$this->assertEquals($output->video_type, $izap_video->video_type);
-		$this->assertEquals($output->orignal_thumb, $izap_video->orignal_thumb);
-		$this->assertEquals($output->imagesrc, $izap_video->imagesrc);
-		$this->assertEquals($output->videotype_site, $izap_video->videotype_site);
 		$this->assertEquals($output->converted, $izap_video->converted);
-		$this->assertEquals($output->filename, $izap_video->filename);
 		$this->assertEquals($output->type, $izap_video->type);
 		$this->assertEquals($output->subtype, $izap_video->subtype);
 		$this->assertEquals($output->owner_guid, $izap_video->owner_guid);
