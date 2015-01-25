@@ -97,8 +97,8 @@ function izap_video_init() {
 	elgg_register_css('elgg:preview_css', 'mod/izap-videos/views/default/css/preview.css');
 	elgg_register_widget_type('izap_queue_statistics-admin', elgg_echo('izap_queue_statistics-admin:widget_name'), elgg_echo('izap_queue_statistics-admin:widget_description'), array('admin'));
 	elgg_register_widget_type('izap_fail_conversion_statistics-admin', elgg_echo('izap_fail_conversion_statistics-admin:widget_name'), elgg_echo('izap_fail_conversion_statistics-admin:widget_description'), array('admin'));
-	elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'), array('profile, dashboard'));
-	elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'), array('profile, dashboard'));
+	elgg_register_widget_type('izap_latest_videos', elgg_echo('izap_latest_videos:widget_name'), elgg_echo('izap_latest_videos:widget_description'));
+	elgg_register_widget_type('izap_my_videos', elgg_echo('izap_my_videos:widget_name'), elgg_echo('izap_my_videos:widget_description'));
 	if ((elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos') == 'on') || (!elgg_get_plugin_setting('izap_add_new_video_icon', 'izap-videos'))) {
 		elgg_register_event_handler('pagesetup', 'system', 'izap_add_new_video');
 	}
