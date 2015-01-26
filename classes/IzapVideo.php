@@ -70,16 +70,12 @@ class IzapVideo extends ElggFile {
 		foreach ($data as $key => $value) {
 			$this->$key = $value;
 		}
-		$new = false;
-		// mark it as new vidoe if guid is not there yet or entity is actually new.
-		if (!$this->guid) {
-			$new = true;
-		}
+		
 		if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {
 			switch ($this->videoprocess) {
 				case 'offserver':
 					include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
-					$saved = $this->save();
+					$saved = $this;
 					break;
 				case 'youtube':
 					include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/youtube.php');
@@ -101,29 +97,13 @@ class IzapVideo extends ElggFile {
 							}
 							//change access id to submit by user after converting video
 							$this->access_id = $data['access_id'];
-							$saved = $this->save();
+							$saved = $this;
 						}
 					}
 					break;
 			}
-
-			//create river if new entity
-			if ($new) {
-				if (is_callable('elgg_create_river_item')) {
-					elgg_create_river_item(array(
-						'view' => 'river/object/izap_video/create',
-						'action_type' => 'create',
-						'subject_guid' => elgg_get_logged_in_user_guid(),
-						'object_guid' => $this->getGUID(),
-					));
-				} else {
-					add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $this->getGUID());
-				}
-			}
-			elgg_clear_sticky_form('izap_videos');
-			system_messages(elgg_echo('izap-videos:Save:success'));
 		} else {
-			$saved = $this->save();
+			$saved = $this;
 		}
 		return $saved;
 	}

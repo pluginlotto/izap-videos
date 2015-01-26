@@ -37,7 +37,10 @@ $video_url = get_input("video_url");
 $page_url = end(explode('/', get_input('page_url')));
 $youtube_cats = get_input("youtube_cats");
 
+$new = false;
+// mark it as new vidoe if guid is not there yet or entity is actually new.
 if ($guid == 0) {
+	$new = true;
 	$izap_videos = new IzapVideo();
 } else {
 	$entity = get_entity($guid);
@@ -60,8 +63,22 @@ $data = array(
 	'youtube_cats' => $youtube_cats,
 );
 
-if ($izap_videos->saveVideo($data)) {
-	
+if ($saved = $izap_videos->saveVideo($data)) {
+	//create river if new entity
+	if ($new) {
+		if (is_callable('elgg_create_river_item')) {
+			elgg_create_river_item(array(
+				'view' => 'river/object/izap_video/create',
+				'action_type' => 'create',
+				'subject_guid' => elgg_get_logged_in_user_guid(),
+				'object_guid' => $izap_videos->getGUID(),
+			));
+		} else {
+			add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $this->getGUID());
+		}
+	}
+	$saved->save();
+	system_messages(elgg_echo('izap-videos:Save:success'));
 	elgg_clear_sticky_form('izap_videos');
 	forward($izap_videos->getURL($izap_videos->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
 }

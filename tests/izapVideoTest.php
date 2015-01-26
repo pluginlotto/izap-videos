@@ -22,8 +22,8 @@
  */
 class offserverTest extends PHPUnit_Framework_TestCase {
 
-		protected $obj;
-		protected $owner_object;
+	protected $obj;
+	protected $owner_object;
 
 	protected function setUp() {
 		_elgg_services()->setValue('session', new ElggSession(new Elgg_Http_MockSessionStorage()));
@@ -34,7 +34,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			$method->setAccessible(true);
 			$method->invokeArgs($this->obj, array());
 		}
-		
+
 		$this->owner_object = $this->getMockForAbstractClass('ElggUser');
 		$ownerRefelection = new ReflectionClass('ElggUser');
 		$ownerMethod = $ownerRefelection->getMethod('initializeAttributes');
@@ -42,10 +42,8 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			$ownerMethod->setAccessible(true);
 			$ownerMethod->invokeArgs($this->owner_object, array());
 		}
-		
-		
 	}
-	
+
 	public function testDefaultAttributes() {
 		$this->assertEquals(null, $this->obj->guid);
 		$this->assertEquals('object', $this->obj->type);
@@ -60,7 +58,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('yes', $this->obj->enabled);
 		$this->assertEquals(null, $this->obj->videourl);
 	}
-	
+
 	public function testSettingAndGettingAttribute() {
 		$this->obj->subtype = 'izap_videos';
 		$this->assertEquals('izap_videos', $this->obj->subtype);
@@ -72,19 +70,19 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			$this->assertSame(7, $this->obj->$name);
 		}
 	}
-	
+
 	public function testSettingUnsettableAttributes() {
 		foreach (array('guid', 'time_updated', 'last_action') as $name) {
 			$this->obj->$name = 'bar';
 			$this->assertNotEquals('bar', $this->obj->$name);
 		}
 	}
-	
+
 	public function testSimpleGetters() {
-			global $IZAPSETTINGS;
+		global $IZAPSETTINGS;
 		$IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
 		$IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=3a97ba34ce2e15257a9d935e527e290b' . '&domain=' . base64_encode(strtolower('monika.mmela.z'));
-		
+
 		$data = array(
 			'title' => 'Barack Obama and Narendra Modi - Joint Briefing from White House',
 			'description' => 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.',
@@ -95,84 +93,67 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			'access_id' => 2,
 			'time_created' => 233342234
 		);
-		
-		foreach($data as $attribute => $attribute_value) {
+
+		foreach ($data as $attribute => $attribute_value) {
 			$this->obj->$attribute = $attribute_value;
 		}
-		
+
 		$this->owner_object->username = 'izap';
-		
 
-		$this->assertEquals($this->obj->getGUID(), $this->obj->guid );
-		$this->assertEquals($this->obj->getType(), $this->obj->type );
-		$this->assertEquals($this->obj->getSubtype(), $this->obj->subtype );
-		$this->assertEquals($this->obj->getOwnerGUID(), $this->obj->owner_guid );
-		$this->assertEquals($this->obj->getAccessID(), $this->obj->access_id );
-		$this->assertEquals($this->obj->getTimeCreated(), $this->obj->time_created );
-		$this->assertEquals($this->obj->getTimeUpdated(), $this->obj->time_updated );
-		$this->assertEquals('izap_videos/tmp/temporary_name',$this->obj->getTmpPath('temporary_name'));
-		$this->assertEquals('http://localhost/izap_videos/play/izap//barack-obama-and-narendra-modi-joint-briefing-from-white-house',$this->obj->getURL($this->owner_object, 'izap_videos'));
-
+		$this->assertEquals($this->obj->getGUID(), $this->obj->guid);
+		$this->assertEquals($this->obj->getType(), $this->obj->type);
+		$this->assertEquals($this->obj->getSubtype(), $this->obj->subtype);
+		$this->assertEquals($this->obj->getOwnerGUID(), $this->obj->owner_guid);
+		$this->assertEquals($this->obj->getAccessID(), $this->obj->access_id);
+		$this->assertEquals($this->obj->getTimeCreated(), $this->obj->time_created);
+		$this->assertEquals($this->obj->getTimeUpdated(), $this->obj->time_updated);
+		$this->assertEquals('izap_videos/tmp/temporary_name', $this->obj->getTmpPath('temporary_name'));
+		$this->assertEquals('http://localhost/izap_videos/play/izap//barack-obama-and-narendra-modi-joint-briefing-from-white-house', $this->obj->getURL($this->owner_object, 'izap_videos'));
 	}
 
-	/*
-	public function testOffserverTest() {
+	public function testPluginlottoApiResponse() {
 		global $IZAPSETTINGS;
 		$IZAPSETTINGS->api_server = 'http://api.pluginlotto.com';
 		$IZAPSETTINGS->apiUrl = $IZAPSETTINGS->api_server . '?api_key=3a97ba34ce2e15257a9d935e527e290b' . '&domain=' . base64_encode(strtolower('monika.mmela.z'));
-		
+
 		$data = array(
 			'title' => 'Barack Obama and Narendra Modi - Joint Briefing from White House',
 			'description' => 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.',
 			'access_id' => 2,
 			'videourl' => 'https://www.youtube.com/watch?v=uDYarhCmvfM',
-			'videoprocess' => 'offserver'
+			'videoprocess' => 'offserver',
+			'access_id' => 2,
+			'time_created' => 233342234
 		);
+		$result = $this->obj->saveVideo($data);
 		
-		
-		$this->obj->title = $data['title'];
-		$this->obj->description = $data['description'];
-		$this->obj->videourl = $data['videourl'];
-		$this->obj->videoprocess = 'offserver';
-
-		print_r($this->obj); exit;
-
-
+		/*
+		 * Expected Output
+		 */
 		$output = new stdClass;
 		$output->videourl = 'https://www.youtube.com/watch?v=uDYarhCmvfM';
 		$output->videoprocess = 'offserver';
-//		$output->tags = array('offserver', 'video');
 		$output->videothumbnail = 'http://i.ytimg.com/vi/uDYarhCmvfM/1.jpg';
 		$output->videosrc = '<iframe width="800" height="500" src="http://www.youtube.com/embed/uDYarhCmvfM?autoplay=1&amp;wmode=transparent" frameborder="0"></iframe>';
 		$output->video_type = 'youtube';
 		$output->converted = 'yes';
-
 		$output->type = 'object';
-//		$output->subtype = 'izap_video';
-		$output->owner_guid = 77;
-		$output->container_guid = 77;
 		$output->access_id = 2;
 		$output->enabled = 'yes';
 		$output->title = 'Barack Obama and Narendra Modi - Joint Briefing from White House';
 		$output->description = 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.';
 
-		$this->assertEquals($output->videourl, $izap_video->videourl);
-		$this->assertEquals($output->videoprocess, $izap_video->videoprocess);
-//		$this->assertEquals($output->tags, $izap_video->tags);
-		$this->assertEquals($output->videothumbnail, $izap_video->videothumbnail);
-		$this->assertEquals($output->videosrc, $izap_video->videosrc);
-		$this->assertEquals($output->video_type, $izap_video->video_type);
-		$this->assertEquals($output->converted, $izap_video->converted);
-		$this->assertEquals($output->type, $izap_video->type);
-//		$this->assertEquals($output->subtype, $izap_video->subtype);
-		$this->assertEquals($output->owner_guid, $izap_video->owner_guid);
-		$this->assertEquals($output->container_guid, $izap_video->container_guid);
-		$this->assertEquals($output->enabled, $izap_video->enabled);
-		$this->assertEquals($output->title, $izap_video->title);
-		$this->assertEquals($output->description, $izap_video->description);
+		$this->assertEquals($output->videourl, $result->videourl);
+	  $this->assertEquals($output->videoprocess, $result->videoprocess);
+	  $this->assertEquals($output->videothumbnail, $result->videothumbnail);
+	  $this->assertEquals($output->videosrc, $result->videosrc);
+	  $this->assertEquals($output->video_type, $result->video_type);
+	  $this->assertEquals($output->converted, $result->converted);
+	  $this->assertEquals($output->type, $result->type);
+	  $this->assertEquals($output->owner_guid, $result->owner_guid);
+	  $this->assertEquals($output->container_guid, $result->container_guid);
+	  $this->assertEquals($output->enabled, $result->enabled);
+	  $this->assertEquals($output->title, $result->title);
+	  $this->assertEquals($output->description, $result->description);
 	}
-	 
-	 */
-	
-
 }
