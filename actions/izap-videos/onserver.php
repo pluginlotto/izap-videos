@@ -23,7 +23,7 @@
  * @version 5.0
  */
 $upload_video = $_FILES['upload_video'];
-$return_value = $this->processfile($upload_video);
+$return_value = $this->processFile($upload_video);
 
 if (!file_exists($return_value->videofile)) {
 	register_error(elgg_echo('izap_videos:error:notUploaded'));
@@ -43,14 +43,14 @@ if (empty($_FILES['upload_thumbnail']['name'])) {
 	}
 } else {
 	if ($_FILES['upload_thumbnail']['error'] == 0) {
-		$set_original_thumbnail = $this->get_tmp_path('original_' . $_FILES['upload_thumbnail']['name']);
+		$set_original_thumbnail = $this->getTmpPath('original_' . $_FILES['upload_thumbnail']['name']);
 		$this->setFilename($set_original_thumbnail);
 		$this->open("write");
 		$this->write(file_get_contents($_FILES['upload_thumbnail']['tmp_name']));
 
 		//set thumbnail size
 		$thumbnail = get_resized_image_from_existing_file($this->getFilenameOnFilestore(), 650, 500);
-		$set_thumb = $this->get_tmp_path($_FILES['upload_thumbnail']['name']);
+		$set_thumb = $this->getTmpPath($_FILES['upload_thumbnail']['name']);
 		$this->setFilename($set_thumb);
 		$this->open("write");
 		$this->write($thumbnail);

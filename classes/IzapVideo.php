@@ -29,7 +29,7 @@ class IzapVideo extends ElggFile {
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 
-		$this->attributes['subtype'] = GLOBAL_IZAP_VIDEOS_SUBTYPE;
+		$this->attributes['subtype'] = 'izap_video';
 	}
 
 	/**
@@ -52,7 +52,7 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @version 5.0
 	 */
-	public function get_tmp_path($name) {
+	public function getTmpPath($name) {
 		$setFileName = 'izap_videos/tmp/' . $name;
 		return $setFileName;
 	}
@@ -70,8 +70,9 @@ class IzapVideo extends ElggFile {
 		foreach ($data as $key => $value) {
 			$this->$key = $value;
 		}
-		// mark it as new vidoe if guid is not there yet
-		if ($this->guid == 0) {
+		$new = false;
+		// mark it as new vidoe if guid is not there yet or entity is actually new.
+		if (!$this->guid) {
 			$new = true;
 		}
 		if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {
@@ -107,7 +108,7 @@ class IzapVideo extends ElggFile {
 			}
 
 			//create river if new entity
-			if ($new == true) {
+			if ($new) {
 				if (is_callable('elgg_create_river_item')) {
 					elgg_create_river_item(array(
 						'view' => 'river/object/izap_video/create',
@@ -136,7 +137,7 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @version 5.0
 	 */
-	public function processfile($file) {
+	public function processFile($file) {
 		$returnvalue = new stdClass();
 
 		$filename = strtolower(str_replace(' ', '_', $file['name']));
@@ -154,32 +155,24 @@ class IzapVideo extends ElggFile {
 			return 105;
 		}
 		$returnvalue->videotype = $file_type;
-		$set_video_name = $this->get_tmp_path(time() . $filename);
+		$set_video_name = $this->getTmpPath(time() . $filename);
 		$this->setFilename($set_video_name);
 		$this->open("write");
 		$this->write(file_get_contents($tmpname));
 		$returnvalue->videofile = $this->getFilenameOnFilestore();
 
-		// take snapshot from video
-		if (IZAP_VIDEO_UNIT_TEST === True) {
-			$returnvalue->videofile = elgg_get_data_path() . 'test_video.avi';
-			$image = new izapConvert($returnvalue->videofile);
-		} else {
-			$image = new izapConvert($returnvalue->videofile);
-		}
+		$image = new izapConvert($returnvalue->videofile);
 		if ($image->get_thumbnail_from_video()) {
 			$retValues = $image->getValues(TRUE);
 			if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
-				$set_original_thumbnail = $this->get_tmp_path('original_' . $retValues['imagename']);
+				$set_original_thumbnail = $this->getTmpPath('original_' . $retValues['imagename']);
 				$this->setFilename($set_original_thumbnail);
 				$this->open("write");
-				if (IZAP_VIDEO_UNIT_TEST === True) {
-					$returnvalue->orignal_thumb = elgg_get_data_path() . $retValues['imagename'];
-				} elseif ($this->write($retValues['imagecontent'])) {
+				if ($this->write($retValues['imagecontent'])) {
 					$orignal_file_path = $this->getFilenameOnFilestore();
 
 					$thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
-					$set_thumb = $this->get_tmp_path($retValues['imagename']);
+					$set_thumb = $this->getTmpPath($retValues['imagename']);
 					$this->setFilename($set_thumb);
 					$this->open("write");
 					$this->write($thumb);
@@ -200,9 +193,8 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @version 5.0
 	 */
-	public function getURL() {
-		$owner = $this->getOwnerEntity();
-		return elgg_get_site_url() . GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/play/' . $owner['username'] . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
+	public function getURL($owner = null, $handler = 'videos') {
+		return elgg_get_site_url() . $handler . '/play/' . $owner->username . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
 	}
 
 	/**
@@ -214,12 +206,7 @@ class IzapVideo extends ElggFile {
 	 */
 	public function saveYouTubeVideoData($url) {
 		$videoValues = input($url, $this);
-//		$this->orignal_thumb = $this->get_tmp_path('original_' . $this->filename);
-//		$this->imagesrc = $this->get_tmp_path($this->filename);
-//		$this->videotype_site = $this->domain;
 		$this->converted = 'yes';
-//		$this->setFilename($this->orignal_thumb);
-//		$this->open("write");
 	}
 
 }

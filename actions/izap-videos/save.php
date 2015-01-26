@@ -61,7 +61,8 @@ $data = array(
 );
 
 if ($izap_videos->saveVideo($data)) {
+	
 	elgg_clear_sticky_form('izap_videos');
-	forward($izap_videos->getURL());
+	forward($izap_videos->getURL($izap_videos->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
 }
   

@@ -28,7 +28,7 @@ if (!in_array($vars['size'], $sizes)) {
 $title = $entity->title;
 $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8', false);
 
-$url = $entity->getURL();
+$url = $entity->getURL($entity->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
 if (isset($vars['href'])) {
 	$url = $vars['href'];
 }
