@@ -591,7 +591,8 @@ function izap_get_file_extension($filename) {
 	if (empty($filename)) {
 		return false;
 	}
-	return strtolower(end(explode('.', $filename)));
+	$filename1 = explode('.', $filename);
+	return strtolower(end($filename1));
 }
 
 /**
@@ -734,12 +735,13 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  * @version 5.0
  */
 function izap_run_queue_izap_videos() {
-	izap_get_all_access();
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
 	if (IZAP_VIDEO_UNIT_TEST === True) {
-		$converted = izap_convert_video_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
+		global $CONFIG;
+		$converted = izap_convert_video_izap_videos($CONFIG->unittest_dataroot . '/test_video.avi', '', '', '', 77);
 	} elseif (is_array($queue)) {
+		izap_get_all_access();
 		foreach ($queue as $pending) {
 			$converted = izap_convert_video_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
 			$izap_video = get_entity($pending['guid']);

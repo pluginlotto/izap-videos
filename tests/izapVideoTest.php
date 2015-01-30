@@ -122,8 +122,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			'access_id' => 2,
 			'videourl' => 'https://www.youtube.com/watch?v=uDYarhCmvfM',
 			'videoprocess' => 'offserver',
-			'access_id' => 2,
-			'time_created' => 233342234
+			'access_id' => 2
 		);
 		$result = $this->obj->saveVideo($data);
 		
@@ -155,5 +154,60 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 	  $this->assertEquals($output->enabled, $result->enabled);
 	  $this->assertEquals($output->title, $result->title);
 	  $this->assertEquals($output->description, $result->description);
+	}
+	
+	public function testProcessFile(){
+		global $CONFIG;
+		define('IZAP_VIDEO_UNIT_TEST', True);		
+		$source_path = __DIR__ . '/data/test_video.avi';
+		$file = array(
+			'name' => 'test_video.avi',
+			'tmp_name' => $source_path,
+			'size' => '309042',
+			'error' => '0',
+			'type' => 'video/x-msvideo'
+		);
+		/*
+		 * Delete flv video and thumbnail is exists
+		 */
+		if (file_exists($CONFIG->unittest_dataroot . '/test_video_c.flv')) {
+			unlink($CONFIG->unittest_dataroot . '/test_video_c.flv');
+		}
+		if (file_exists($CONFIG->unittest_dataroot . '/test_video_i.png')) {
+			unlink($CONFIG->unittest_dataroot . '/test_video_i.png');
+		}
+		$this->obj->owner_guid = 7;
+		$processed_data = $this->obj->processFile($file);
+		$this->obj->videotype = $processed_data->videotype;
+		if ($processed_data->videofile) {
+			$this->obj->videofile = $processed_data->videofile;
+		}
+		if ($processed_data->orignal_thumb) {
+			$this->obj->orignal_thumb = $processed_data->orignal_thumb;
+		}
+		require_once __DIR__.'/../izap_convert_video.php';
+		if (file_exists($CONFIG->unittest_dataroot . '/test_video_c.flv') && filesize($CONFIG->unittest_dataroot . '/test_video_c.flv') > 0) {
+			$this->obj->converted = 'yes';
+		} else {
+			$this->obj->converted = 'no';
+		}
+		
+		/*
+		 * Expected Result
+		 */
+		$output = new stdClass;
+		$output->videotype = 'video/x-msvideo';
+		$output->videofile = $CONFIG->unittest_dataroot . '/test_video.avi';
+		$output->orignal_thumb = $CONFIG->unittest_dataroot . '/test_video_i.png';
+		$output->converted = 'yes';
+		
+		/*
+		 * Compare with expected result
+		 */
+		$this->assertEquals($output->videotype, $this->obj->videotype);
+		$this->assertEquals($output->orignal_thumb, $this->obj->orignal_thumb);
+		$this->assertEquals($output->converted, $this->obj->converted);
+		$this->assertFileExists($CONFIG->unittest_dataroot . '/test_video_c.flv');
+		$this->assertFileExists($CONFIG->unittest_dataroot . '/test_video_i.png');
 	}
 }

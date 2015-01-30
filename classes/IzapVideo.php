@@ -70,7 +70,7 @@ class IzapVideo extends ElggFile {
 		foreach ($data as $key => $value) {
 			$this->$key = $value;
 		}
-		
+
 		if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {
 			switch ($this->videoprocess) {
 				case 'offserver':
@@ -141,25 +141,36 @@ class IzapVideo extends ElggFile {
 		$this->write(file_get_contents($tmpname));
 		$returnvalue->videofile = $this->getFilenameOnFilestore();
 
-		$image = new izapConvert($returnvalue->videofile);
-		if ($image->get_thumbnail_from_video()) {
+		// take snapshot from video
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			global $CONFIG;
+			$returnvalue->videofile = $CONFIG->unittest_dataroot . '/test_video.avi';
+			$image = new izapConvert($returnvalue->videofile);
+		} else {
+			$image = new izapConvert($returnvalue->videofile);
+		}
+
+		if ($image->get_thumbnail_from_video()) { 
 			$retValues = $image->getValues(TRUE);
 			if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
 				$set_original_thumbnail = $this->getTmpPath('original_' . $retValues['imagename']);
 				$this->setFilename($set_original_thumbnail);
 				$this->open("write");
 				if ($this->write($retValues['imagecontent'])) {
-					$orignal_file_path = $this->getFilenameOnFilestore();
+					if (IZAP_VIDEO_UNIT_TEST === True) {
+						$returnvalue->orignal_thumb = $CONFIG->unittest_dataroot . '/' . $retValues['imagename'];
+					} elseif ($this->write($retValues['imagecontent'])) {
+						$orignal_file_path = $this->getFilenameOnFilestore();
+						$thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
+						$set_thumb = $this->getTmpPath($retValues['imagename']);
+						$this->setFilename($set_thumb);
+						$this->open("write");
+						$this->write($thumb);
 
-					$thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);
-					$set_thumb = $this->getTmpPath($retValues['imagename']);
-					$this->setFilename($set_thumb);
-					$this->open("write");
-					$this->write($thumb);
-
-					// $this->close();
-					$returnvalue->orignal_thumb = $set_original_thumbnail;
-					$returnvalue->thumb = $set_thumb;
+						// $this->close();
+						$returnvalue->orignal_thumb = $set_original_thumbnail;
+						$returnvalue->thumb = $set_thumb;
+					}
 				}
 			}
 		}
