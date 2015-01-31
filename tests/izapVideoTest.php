@@ -125,7 +125,7 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 			'access_id' => 2
 		);
 		$result = $this->obj->saveVideo($data);
-		
+
 		/*
 		 * Expected Output
 		 */
@@ -143,23 +143,23 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		$output->description = 'Prime Minister Narendra Modi on Tuesday (September 30) arrived at the White House to hold talks with US President Barack Obama. The two are expected to issue a joint statement at the end of the meeting. Both leaders will be discussing issues ranging from manufacturing to sanitation to deepen ties.';
 
 		$this->assertEquals($output->videourl, $result->videourl);
-	  $this->assertEquals($output->videoprocess, $result->videoprocess);
-	  $this->assertEquals($output->videothumbnail, $result->videothumbnail);
-	  $this->assertEquals($output->videosrc, $result->videosrc);
-	  $this->assertEquals($output->video_type, $result->video_type);
-	  $this->assertEquals($output->converted, $result->converted);
-	  $this->assertEquals($output->type, $result->type);
-	  $this->assertEquals($output->owner_guid, $result->owner_guid);
-	  $this->assertEquals($output->container_guid, $result->container_guid);
-	  $this->assertEquals($output->enabled, $result->enabled);
-	  $this->assertEquals($output->title, $result->title);
-	  $this->assertEquals($output->description, $result->description);
+		$this->assertEquals($output->videoprocess, $result->videoprocess);
+		$this->assertEquals($output->videothumbnail, $result->videothumbnail);
+		$this->assertEquals($output->videosrc, $result->videosrc);
+		$this->assertEquals($output->video_type, $result->video_type);
+		$this->assertEquals($output->converted, $result->converted);
+		$this->assertEquals($output->type, $result->type);
+		$this->assertEquals($output->owner_guid, $result->owner_guid);
+		$this->assertEquals($output->container_guid, $result->container_guid);
+		$this->assertEquals($output->enabled, $result->enabled);
+		$this->assertEquals($output->title, $result->title);
+		$this->assertEquals($output->description, $result->description);
 	}
-	
-	public function testProcessFile(){
+
+	public function testProcessFile() {
 		global $CONFIG;
-		define('IZAP_VIDEO_UNIT_TEST', True);		
-		$source_path = __DIR__ . '/data/test_video.avi';
+		define('IZAP_VIDEO_UNIT_TEST', True);
+		$source_path = $CONFIG->dataroot . 'test_video.avi';
 		$file = array(
 			'name' => 'test_video.avi',
 			'tmp_name' => $source_path,
@@ -170,11 +170,11 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		/*
 		 * Delete flv video and thumbnail is exists
 		 */
-		if (file_exists($CONFIG->unittest_dataroot . '/test_video_c.flv')) {
-			unlink($CONFIG->unittest_dataroot . '/test_video_c.flv');
+		if (file_exists($CONFIG->dataroot . 'test_video_c.flv')) {
+			unlink($CONFIG->dataroot . 'test_video_c.flv');
 		}
-		if (file_exists($CONFIG->unittest_dataroot . '/test_video_i.png')) {
-			unlink($CONFIG->unittest_dataroot . '/test_video_i.png');
+		if (file_exists($CONFIG->dataroot . 'test_video_i.png')) {
+			unlink($CONFIG->dataroot . 'test_video_i.png');
 		}
 		$this->obj->owner_guid = 7;
 		$processed_data = $this->obj->processFile($file);
@@ -185,29 +185,44 @@ class offserverTest extends PHPUnit_Framework_TestCase {
 		if ($processed_data->orignal_thumb) {
 			$this->obj->orignal_thumb = $processed_data->orignal_thumb;
 		}
-		require_once __DIR__.'/../izap_convert_video.php';
-		if (file_exists($CONFIG->unittest_dataroot . '/test_video_c.flv') && filesize($CONFIG->unittest_dataroot . '/test_video_c.flv') > 0) {
+		require_once __DIR__ . '/../izap_convert_video.php';
+		if (file_exists($CONFIG->dataroot . 'test_video_c.flv') && filesize($CONFIG->dataroot . 'test_video_c.flv') > 0) {
 			$this->obj->converted = 'yes';
 		} else {
 			$this->obj->converted = 'no';
 		}
-		
+
 		/*
 		 * Expected Result
 		 */
 		$output = new stdClass;
 		$output->videotype = 'video/x-msvideo';
-		$output->videofile = $CONFIG->unittest_dataroot . '/test_video.avi';
-		$output->orignal_thumb = $CONFIG->unittest_dataroot . '/test_video_i.png';
+		$output->videofile = $CONFIG->dataroot . 'test_video.avi';
+		$output->orignal_thumb = $CONFIG->dataroot . 'test_video_i.png';
 		$output->converted = 'yes';
-		
+
 		/*
 		 * Compare with expected result
 		 */
 		$this->assertEquals($output->videotype, $this->obj->videotype);
 		$this->assertEquals($output->orignal_thumb, $this->obj->orignal_thumb);
 		$this->assertEquals($output->converted, $this->obj->converted);
-		$this->assertFileExists($CONFIG->unittest_dataroot . '/test_video_c.flv');
-		$this->assertFileExists($CONFIG->unittest_dataroot . '/test_video_i.png');
+		$this->assertFileExists($CONFIG->dataroot . 'test_video_c.flv');
+		$this->assertFileExists($CONFIG->dataroot . 'test_video_i.png');
+
+		unlink($CONFIG->dataroot . 'test_video_c.flv');
+		unlink($CONFIG->dataroot . 'test_video_i.png');
+		unlink($CONFIG->dataroot . 'izap_queue.db');
+		$path = $CONFIG->dataroot . '1';
+		$this->delTree($path);
 	}
+	
+	public function delTree($dir) {
+   $files = array_diff(scandir($dir), array('.','..')); 
+    foreach ($files as $file) { 
+      (is_dir("$dir/$file") && !is_link($dir)) ? $this->delTree("$dir/$file") : unlink("$dir/$file"); 
+    } 
+    return rmdir($dir); 
+  } 
+
 }

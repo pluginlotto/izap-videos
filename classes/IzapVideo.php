@@ -65,6 +65,8 @@ class IzapVideo extends ElggFile {
 	 * @return boolean
 	 * 
 	 * @version 5.0
+	 * 
+	 * @todo saveVideo function should be more flaxible for unit tests
 	 */
 	public function saveVideo($data = array()) {
 		foreach ($data as $key => $value) {
@@ -144,7 +146,7 @@ class IzapVideo extends ElggFile {
 		// take snapshot from video
 		if (IZAP_VIDEO_UNIT_TEST === True) {
 			global $CONFIG;
-			$returnvalue->videofile = $CONFIG->unittest_dataroot . '/test_video.avi';
+			$returnvalue->videofile = $CONFIG->dataroot . 'test_video.avi';
 			$image = new izapConvert($returnvalue->videofile);
 		} else {
 			$image = new izapConvert($returnvalue->videofile);
@@ -158,7 +160,7 @@ class IzapVideo extends ElggFile {
 				$this->open("write");
 				if ($this->write($retValues['imagecontent'])) {
 					if (IZAP_VIDEO_UNIT_TEST === True) {
-						$returnvalue->orignal_thumb = $CONFIG->unittest_dataroot . '/' . $retValues['imagename'];
+						$returnvalue->orignal_thumb = $CONFIG->dataroot . $retValues['imagename'];
 					} elseif ($this->write($retValues['imagecontent'])) {
 						$orignal_file_path = $this->getFilenameOnFilestore();
 						$thumb = get_resized_image_from_existing_file($orignal_file_path, 650, 500);

@@ -739,7 +739,7 @@ function izap_run_queue_izap_videos() {
 	$queue = $queue_object->fetch_videos();
 	if (IZAP_VIDEO_UNIT_TEST === True) {
 		global $CONFIG;
-		$converted = izap_convert_video_izap_videos($CONFIG->unittest_dataroot . '/test_video.avi', '', '', '', 77);
+		$converted = izap_convert_video_izap_videos($CONFIG->dataroot . '/test_video.avi', '', '', '', 77);
 	} elseif (is_array($queue)) {
 		izap_get_all_access();
 		foreach ($queue as $pending) {

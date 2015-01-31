@@ -7,8 +7,7 @@ global $CONFIG;
 $CONFIG = (object) array(
 	'dbprefix' => 'elgg_',
 	'boot_complete' => false,
-	'unittest_dataroot' => __DIR__.'/../data',
-	'dataroot' => __DIR__.'/../../../../../../'.'/data'
+	'dataroot' => __DIR__.'/../data/'
 );
 require_once "$engine/lib/autoloader.php";
 
