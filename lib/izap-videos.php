@@ -737,9 +737,11 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
 function izap_run_queue_izap_videos() {
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
-	if (IZAP_VIDEO_UNIT_TEST === True) {
-		global $CONFIG;
-		$converted = izap_convert_video_izap_videos($CONFIG->dataroot . '/test_video.avi', '', '', '', 77);
+	if (defined('IZAP_VIDEO_UNIT_TEST')) {
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			global $CONFIG;
+			$converted = izap_convert_video_izap_videos($CONFIG->dataroot . '/test_video.avi', '', '', '', 77);
+		}
 	} elseif (is_array($queue)) {
 		izap_get_all_access();
 		foreach ($queue as $pending) {
