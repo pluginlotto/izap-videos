@@ -201,7 +201,7 @@ function izap_video_get_page_content_edit($page, $guid = 0, $revision = NULL) {
 			$title .= ucwords($izap_video->title);
 			$izap_video->container_guid = $izap_video->container_guid;
 			$body_vars = izap_videos_prepare_form_vars($izap_video, $revision);
-			elgg_push_breadcrumb($izap_video->title, $izap_video->getURL());
+			elgg_push_breadcrumb($izap_video->title, $izap_video->getURL($izap_video->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
 			elgg_push_breadcrumb(elgg_echo('edit'));
 			$content = elgg_view_form('izap-videos/save', $form_vars, $body_vars);
 		}
@@ -591,7 +591,8 @@ function izap_get_file_extension($filename) {
 	if (empty($filename)) {
 		return false;
 	}
-	return strtolower(end(explode('.', $filename)));
+	$filename1 = explode('.', $filename);
+	return strtolower(end($filename1));
 }
 
 /**
@@ -719,7 +720,7 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
 		return false;
 	}
 	$queue = new izapQueue();
-	$queue->put($video, $file, $defined_access_id, $izapvideo->getURL());
+	$queue->put($video, $file, $defined_access_id, $izapvideo->getURL($izapvideo->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
 	//set state processing for video
 	$izapvideo->converted = 'in_processing';
 	//run queue
@@ -734,12 +735,15 @@ function izap_save_fileinfo_for_converting_izap_videos($file, $video, $defined_a
  * @version 5.0
  */
 function izap_run_queue_izap_videos() {
-	izap_get_all_access();
 	$queue_object = new izapQueue();
 	$queue = $queue_object->fetch_videos();
-	if (IZAP_VIDEO_UNIT_TEST === True) {
-		$converted = izap_convert_video_izap_videos(elgg_get_data_path() . 'test_video.avi', '', '', '', 77);
+	if (defined('IZAP_VIDEO_UNIT_TEST')) {
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			global $CONFIG;
+			$converted = izap_convert_video_izap_videos($CONFIG->dataroot . '/test_video.avi', '', '', '', 77);
+		}
 	} elseif (is_array($queue)) {
+		izap_get_all_access();
 		foreach ($queue as $pending) {
 			$converted = izap_convert_video_izap_videos($pending['main_file'], $pending['guid'], $pending['title'], $pending['url'], $pending['owner_id']);
 			$izap_video = get_entity($pending['guid']);
@@ -836,7 +840,7 @@ function izap_read_video_file() {
 	if ($entity->videofile) {
 		$get_video_name = end(explode('/', $entity->videofile));
 		$izapvideo_obj = new IzapVideo;
-		$set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
+		$set_video_name = $izapvideo_obj->getTmpPath($get_video_name);
 		if (izap_get_file_extension($set_video_name) == 'flv') {
 			$set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '.flv';
 		} else {
@@ -1086,7 +1090,7 @@ function izap_youtube_response() {
 		}
 		elgg_clear_sticky_form('izap_videos');
 		system_messages(elgg_echo('izap-videos:Save:success'));
-		forward($izap_video->getURL());
+		forward($izap_video->getURL($izap_video->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
 	}
 }
 

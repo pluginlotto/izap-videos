@@ -32,7 +32,7 @@ $filename = end(explode('/', $file->imagesrc));
 $filename = '' . $filename;
 
 $izap_video_obj = new IzapVideo;
-$thumbfile = $izap_video_obj->get_tmp_path($filename);
+$thumbfile = $izap_video_obj->getTmpPath($filename);
 
 // Grab the file
 if ($thumbfile && !empty($thumbfile)) {

@@ -51,8 +51,11 @@ class izapConvert {
 	 * @version 5.0
 	 */
 	public function izap_video_convert() {
-
-		$videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			$videoCommand = exec("which ffmpeg") . ' -y -i [inputVideoPath] [outputVideoPath]';
+		} else {
+			$videoCommand = izap_get_ffmpeg_videoConvertCommand_izap_videos();
+		}
 		$videoCommand = str_replace('[inputVideoPath]', $this->invideo, $videoCommand);
 		$videoCommand = str_replace('[outputVideoPath]', $this->outvideo, $videoCommand);
 		$videoCommand = $videoCommand . ' 2>&1';
@@ -66,8 +69,8 @@ class izapConvert {
 			$return['completeMessage'] = implode(' ', $out);
 			return $return;
 		}
-
-		return end(explode('/', $this->outvideo));
+		$out_video = explode('/', $this->outvideo);
+		return end($out_video);
 	}
 
 	/**
@@ -78,7 +81,12 @@ class izapConvert {
 	 * @version 5.0
 	 */
 	public function get_thumbnail_from_video() {
-		$thumbnail_cmd = izap_get_ffmpeg_thumbnailCommand();
+		if (IZAP_VIDEO_UNIT_TEST === True) {
+			$thumbnail_cmd = exec("which ffmpeg") . ' -y -i [inputVideoPath] -vframes 1 -ss 00:00:10 -an -vcodec png -f rawvideo -s 320x240 [outputImage]';
+		} else {
+			$thumbnail_cmd = izap_get_ffmpeg_thumbnailCommand();
+		}
+
 		$thumbnail_cmd = str_replace('[inputVideoPath]', $this->invideo, $thumbnail_cmd);
 		$thumbnail_cmd = str_replace('[outputImage]', $this->outimage, $thumbnail_cmd);
 		$thumbnail_cmd = $thumbnail_cmd . ' 2>&1';
@@ -101,7 +109,8 @@ class izapConvert {
 	 * @version 5.0
 	 */
 	public function getValues() {
-		$this->values['imagename'] = end(explode('/', $this->outimage));
+		$outimg = explode('/', $this->outimage);
+		$this->values['imagename'] = end($outimg);
 		$this->values['imagecontent'] = file_get_contents($this->outimage);
 		return $this->values;
 	}

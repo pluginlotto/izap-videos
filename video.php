@@ -30,7 +30,7 @@ if (!elgg_instanceof($entity, 'object', 'izap_video')) {
 if ($get_converted_video) {
 	$get_video_name = end(explode('/', $get_converted_video[0]['main_file']));
 	$izapvideo_obj = new IzapVideo;
-	$set_video_name = $izapvideo_obj->get_tmp_path($get_video_name);
+	$set_video_name = $izapvideo_obj->getTmpPath($get_video_name);
 	$set_video_name = preg_replace('/\\.[^.\\s]{3,4}$/', '', $set_video_name) . '_c.flv';
 
 
