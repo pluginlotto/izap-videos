@@ -31,6 +31,7 @@ require_once __DIR__.'/../../classes/IzapVideo.php';
 require_once __DIR__.'/../../classes/izapConvert.php';
 require_once __DIR__.'/../../classes/IzapSqlite.php';
 require_once __DIR__.'/../../classes/izapQueue.php';
+require_once __DIR__.'/../../classes/IzapVideoException.php';
 require_once "$engine/classes/Elgg/Translit.php";
 
 

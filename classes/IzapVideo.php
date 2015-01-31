@@ -152,7 +152,7 @@ class IzapVideo extends ElggFile {
 			$image = new izapConvert($returnvalue->videofile);
 		}
 
-		if ($image->get_thumbnail_from_video()) { 
+		if ($image->get_thumbnail_from_video()) {
 			$retValues = $image->getValues(TRUE);
 			if ($retValues['imagename'] != '' && $retValues['imagecontent'] != '') {
 				$set_original_thumbnail = $this->getTmpPath('original_' . $retValues['imagename']);
@@ -201,21 +201,7 @@ class IzapVideo extends ElggFile {
 		$videoValues = input($url, $this);
 		$this->converted = 'yes';
 	}
-	
-	/**
-	 * Validate uploaded file
-	 * 
-	 * @param file $file
-	 * 
-	 * @version 5.0
-	 */
-	public function checkFile($file){
-		if($file['size'] == 0){
-			register_error('Please select the video to upload');
-			forward(REFERRER);
-		}
-	}
-	
+
 	/**
 	 * Validate title
 	 * 
@@ -223,13 +209,12 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @version 5.0
 	 */
-	public function checkTitle($title){
-		if(empty($title)){
-			register_error('Please enter the title');
-			forward(REFERRER);
+	public function checkTitle($title) {
+		if (empty($title)) {
+			throw new IzapVideoException('Please enter the title');
 		}
 	}
-	
+
 	/**
 	 * Validate url
 	 * 
@@ -237,10 +222,22 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @version 5.0
 	 */
-	public function checkUrl($url){
-		if(empty($url)){
-			register_error('Please enter the video url ');
-			forward(REFERRER);
+	public function checkUrl($url) {
+		if (empty($url)) {
+			throw new IzapVideoException('Please enter the video url');
+		}
+	}
+
+	/**
+	 * Validate uploaded file
+	 * 
+	 * @param file $file
+	 * 
+	 * @version 5.0
+	 */
+	public function checkFile($file) {
+		if ($file['size'] == 0) {
+			throw new IzapVideoException('Please select the video to upload');
 		}
 	}
 

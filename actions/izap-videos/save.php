@@ -53,13 +53,28 @@ if ($guid == 0) {
 }
 
 if (isset($_FILES['upload_video'])) {
-	$izap_videos->checkFile($_FILES['upload_video']);
+	try {
+		$izap_videos->checkFile($_FILES['upload_video']);
+	} catch (Exception $ex) {
+		register_error($e->getMessage());
+		forward(REFERRER);
+	}
 }
 if (isset($title)) {
-	$izap_videos->checkTitle($title);
+	try {
+		$izap_videos->checkTitle($title);
+	} catch (Exception $e) {
+		register_error($e->getMessage());
+		forward(REFERRER);
+	}
 }
 if (isset($video_url)) {
-	$izap_videos->checkUrl($video_url);
+	try {
+		$izap_videos->checkUrl($video_url);
+	} catch (Exception $ex) {
+		register_error($e->getMessage());
+		forward(REFERRER);
+	}
 }
 
 $data = array(
