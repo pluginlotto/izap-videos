@@ -51,6 +51,17 @@ if ($guid == 0) {
 		forward(get_input('forward', REFERER));
 	}
 }
+
+if (isset($_FILES['upload_video'])) {
+	$izap_videos->checkFile($_FILES['upload_video']);
+}
+if (isset($title)) {
+	$izap_videos->checkTitle($title);
+}
+if (isset($video_url)) {
+	$izap_videos->checkUrl($video_url);
+}
+
 $data = array(
 	'subtype' => GLOBAL_IZAP_VIDEOS_SUBTYPE,
 	'title' => $title,

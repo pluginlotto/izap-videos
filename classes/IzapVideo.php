@@ -201,5 +201,47 @@ class IzapVideo extends ElggFile {
 		$videoValues = input($url, $this);
 		$this->converted = 'yes';
 	}
+	
+	/**
+	 * Validate uploaded file
+	 * 
+	 * @param file $file
+	 * 
+	 * @version 5.0
+	 */
+	public function checkFile($file){
+		if($file['size'] == 0){
+			register_error('Please select the video to upload');
+			forward(REFERRER);
+		}
+	}
+	
+	/**
+	 * Validate title
+	 * 
+	 * @param string $title
+	 * 
+	 * @version 5.0
+	 */
+	public function checkTitle($title){
+		if(empty($title)){
+			register_error('Please enter the title');
+			forward(REFERRER);
+		}
+	}
+	
+	/**
+	 * Validate url
+	 * 
+	 * @param string $url
+	 * 
+	 * @version 5.0
+	 */
+	public function checkUrl($url){
+		if(empty($url)){
+			register_error('Please enter the video url ');
+			forward(REFERRER);
+		}
+	}
 
 }
