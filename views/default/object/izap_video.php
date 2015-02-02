@@ -166,7 +166,7 @@ if ($full) {
 				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $izap_video->title ?></a></h3>
 				<?php
 			} else {
-				$title = substr($izap_video->title, 0, 25);
+				$title = substr($izap_video->title, 0, 35);
 				?> 
 				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $title . "..." ?></a></h3>
 			<?php } ?>
