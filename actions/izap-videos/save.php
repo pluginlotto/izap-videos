@@ -88,22 +88,21 @@ $data = array(
 	'videoprocess' => $page_url,
 	'youtube_cats' => $youtube_cats,
 );
-
-if ($saved = $izap_videos->saveVideo($data)) {
+if ($izap_videos->saveVideo($data)) {
+	$izap_videos->save();
 	//create river if new entity
 	if ($new) {
 		if (is_callable('elgg_create_river_item')) {
 			elgg_create_river_item(array(
-				'view' => 'river/object/izap_video/create',
-				'action_type' => 'create',
-				'subject_guid' => elgg_get_logged_in_user_guid(),
-				'object_guid' => $izap_videos->getGUID(),
+					'view' => 'river/object/izap_video/create',
+					'action_type' => 'create',
+					'subject_guid' => elgg_get_logged_in_user_guid(),
+					'object_guid' => $izap_videos->getGUID(),
 			));
 		} else {
 			add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $this->getGUID());
 		}
 	}
-	$saved->save();
 	system_messages(elgg_echo('izap-videos:Save:success'));
 	elgg_clear_sticky_form('izap_videos');
 	forward($izap_videos->getURL($izap_videos->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER));
