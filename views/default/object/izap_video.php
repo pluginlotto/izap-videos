@@ -159,9 +159,6 @@ if ($full) {
 			<?php echo $file_icon; ?>
 		</div>
 		<div class="elgg-body">
-			<ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
-				<?php echo $metadata; ?>
-			</ul>
 			<?php
 			$title_length = strlen($izap_video->title);
 			if ($title_length < 28) {
@@ -173,18 +170,22 @@ if ($full) {
 				?> 
 				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $title . "..." ?></a></h3>
 			<?php } ?>
-			<div class="elgg-subtext"><?php echo $subtitle; ?></div>
+			<?php echo $metadata; ?>
 			<?php
 			$description_length = strlen($description);
 			if ($description_length < 87) {
 				?>
-				<div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+				<div class="elgg-content"><?php echo $description; ?></div>
 				<?php
 			} else {
-				$description = substr($description, 0, 83);
+				$description = substr($description, 0, 80);
 				?>  
-				<div class="elgg-content"><?php echo $description . "..."; ?><div class="elgg-subtext"><div class="main_page_total_views total"><?php echo $view_count; ?></div></div></div>
+				<div class="elgg-content"><?php echo $description . "..."; ?></div>
 			<?php } ?>
+				<div class="group-elgg-subtext"><?php echo $subtitle; ?>
+				<div class="main_page_total_views total"><?php echo $view_count; ?></div>
+				</div>
+				<div class="elgg-subtext"></div>
 		</div>
 	</div>
 

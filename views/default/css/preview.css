@@ -252,7 +252,7 @@
   height: 1%;
 }
 
- /*For Total Views - Start*/
+/*For Total Views - Start*/
 .elgg-subtext {
   color: #666666;
   font-size: 85%;
@@ -275,7 +275,7 @@
   padding-left: 4px;
   padding-right: 4px;;
 }
- /*For Total Views - End*/
+/*For Total Views - End*/
 
 .error{
   color:red;
@@ -295,11 +295,11 @@
 }
 
 .play_icon{
-    cursor: pointer;
-    height: 52px;
-    position: absolute;
-    margin: 174px -404px;
-    left: 99%;
+  cursor: pointer;
+  height: 52px;
+  position: absolute;
+  margin: 174px -404px;
+  left: 99%;
 }
 
 .group_video img{
@@ -307,14 +307,29 @@
   width: 130px;
 }
 .group_video h3{
-  font-size: 12px; 
+  font-size: 12px;
+  border-bottom: 1px dotted #A6A6A6;
+  margin-bottom: 3px;
+  padding-bottom: 3px;
 }
 .group_video ul{
-  font-size: 90%; 
+  font-size: 90%;
   margin-left: 0px;
+  float: left;
+  width: 100%;
 }
 .group_video li{
   margin-left: 3px;
+}
+.group-elgg-subtext {
+  color: #666666;
+  font-size: 85%;
+  line-height: 1.2em;
+  font-style: italic;
+}
+.elgg-item .elgg-content {
+  margin: 5px 5px;
+  float: left;
 }
 #activity_play_icon{
   background: url(/mod/izap-videos/_graphics/c-play.png) no-repeat;
