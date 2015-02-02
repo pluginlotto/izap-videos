@@ -173,7 +173,7 @@ elgg_load_library('elgg:izap_video');
 		?>
 	</div>
 <?php } else { ?>
-	<div id="offserver_key">
+	<div id="offserver_key" style="display: none;">
 		<label>
 			<?php echo elgg_echo('Offserver API Key'); ?></label>
 		<?php

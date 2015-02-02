@@ -60,5 +60,6 @@ $(document).ready(function() {
     function offserver_enable() {
         $("#offserver_key_yes").show();
         $("#offserver_key_no").show();
+        $("#offserver_key").show();
     }
 });
