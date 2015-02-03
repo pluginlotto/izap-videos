@@ -45,13 +45,23 @@ if (!$content) {
 	$content = '<p>' . elgg_echo('izap-videos:none') . '</p>';
 }
 
+$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
+if (izap_is_onserver_enabled_izap_videos() == 'yes') {
+	$_tab = 'onserver';
+} elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
+	$_tab = 'youtube';
+} elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
+	$_tab = 'offserver';
+} else {
+	$_tab = 'onserver';
+}
 $new_link = elgg_view('output/url', array(
 	'href' => izap_set_href(array(
 		'context' => GLOBAL_IZAP_VIDEOS_PAGEHANDLER,
 		'action' => 'add',
-		'vars' => array('tab' => (izap_is_onserver_enabled_izap_videos()) ? 'onserver' : 'offserver'),
+		'vars' => array('tab' => $_tab),
 	)),
-	'text' => elgg_echo('izap-videos:add_new'),
+	'text' => elgg_echo('izap_videos:add'),
 	));
 
 echo elgg_view('groups/profile/module', array(

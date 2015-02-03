@@ -185,26 +185,6 @@ if ($full) {
 			<div class="group-elgg-subtext"><?php echo $subtitle; ?>
 				<div class="main_page_total_views total"><?php echo $view_count; ?></div>
 			</div>
-			<?php
-			$url = GLOBAL_IZAP_VIDEOS_PAGEHANDLER . '/add/';
-			if (izap_is_onserver_enabled_izap_videos() == 'yes') {
-				$url .= $izap_video->container_guid . '/onserver';
-			} elseif (izap_is_onserver_enabled_izap_videos() == 'youtube') {
-				$url .= $izap_video->container_guid . '/youtube';
-			} elseif (izap_is_offserver_enabled_izap_videos() == 'yes') {
-				$url .= $izap_video->container_guid . '/offserver';
-			} else {
-				$url .= $izap_video->container_guid . '/offserver';
-			}
-			$new_link = elgg_view('output/url', array(
-				'href' => $url,
-				'text' => elgg_echo('izap_videos:add'),
-				'is_trusted' => true,
-			));
-			echo elgg_view('groups/profile/module', array(
-				'add_link' => $new_link,
-			));
-			?>
 		</div>
 	</div>
 
