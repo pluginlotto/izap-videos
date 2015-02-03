@@ -81,7 +81,6 @@ $(document).ready(function() {
         if ($('form[name = video_upload]').validate().form()) {
         }
     });
-    $( ".elgg-head" ).remove();
 });
 
 /*
