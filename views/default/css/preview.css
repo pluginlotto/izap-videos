@@ -330,6 +330,7 @@
 .elgg-item .elgg-content {
   margin: 5px 5px;
   float: left;
+  width: 100%;
 }
 #activity_play_icon{
   background: url(/mod/izap-videos/_graphics/c-play.png) no-repeat;
