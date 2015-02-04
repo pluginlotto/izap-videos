@@ -357,6 +357,11 @@ span.new_video_icon{
 }
 
 .widget-image img{
-  width: 282px! important;
-  height: 190px! important;
+  width: 282px !important;
+  height: 190px !important;
+}
+
+.latest-video-widget-image{
+  float: left;
+  margin-right: 5px;
 }

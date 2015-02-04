@@ -144,7 +144,7 @@ if ($full) {
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
 	echo elgg_view_image_block($file_icon, $list_body);
-} elseif ($container->type == 'group') {
+} elseif ($container->type == 'group' || $widget_view->type == 'user' || $view_type == 'add') {
 	$view_count = izap_get_total_views($izap_video);
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
@@ -161,79 +161,60 @@ if ($full) {
 		<div class="elgg-body">
 			<?php
 			$title_length = strlen($izap_video->title);
-			if ($title_length < 28) {
+			if ($container->type == 'group') {
+				if ($title_length < 30) {
 				?>
 				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $izap_video->title ?></a></h3>
 				<?php
 			} else {
-				$title = substr($izap_video->title, 0, 35);
+				$title = substr($izap_video->title, 0, 33);
 				?> 
 				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $title . "..." ?></a></h3>
-			<?php } ?>
+			<?php } 
+			}else{
+				if ($title_length < 17) {
+				?>
+				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $izap_video->title ?></a></h3>
+				<?php
+			} else {
+				$title = substr($izap_video->title, 0, 20);
+				?> 
+				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $title . "..." ?></a></h3>
+			<?php } 
+			}
+			
+			?>
 			<?php echo $metadata; ?>
 			<?php
 			$description_length = strlen($description);
-			if ($description_length < 87) {
+			if ($container->type == 'group') {
+				if ($description_length < 87) {
+					?>
+					<div class="elgg-content"><?php echo $description; ?></div>
+					<?php
+				} else {
+					$description = substr($description, 0, 80);
+					?>  
+					<div class="elgg-content"><?php echo $description . "..."; ?></div>
+				<?php
+				}
+			} else {
+				if ($description_length < 55) {
 				?>
 				<div class="elgg-content"><?php echo $description; ?></div>
 				<?php
 			} else {
-				$description = substr($description, 0, 80);
+				$description = substr($description, 0, 57);
 				?>  
 				<div class="elgg-content"><?php echo $description . "..."; ?></div>
-			<?php } ?>
+			<?php } 
+			}
+			?>
 			<div class="group-elgg-subtext"><?php echo $subtitle; ?>
 				<div class="main_page_total_views total"><?php echo $view_count; ?></div>
 			</div>
 		</div>
 	</div>
-
-	<?php
-} elseif ($widget_view->type == 'user' || $view_type == 'add') {
-
-	$view_count = izap_get_total_views($izap_video);
-	if ($izap_video->videothumbnail) {
-		$thumb_path = $izap_video->videothumbnail;
-		$path = $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
-		$file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:282px;height:190px;"></a>';
-	} else {
-		$file_icon = elgg_view_entity_icon($izap_video, 'medium');
-	}
-	?>
-	<div class="elgg-image-block clearfix group_video" >
-		<div class="widget-image">
-			<?php echo $file_icon; ?>
-		</div>
-		<div class="elgg-body">
-			<ul class="elgg-menu elgg-menu-entity elgg-menu-hz elgg-menu-entity-default">
-				<?php // echo $metadata;  ?>
-			</ul>
-			<?php
-			$title_length = strlen($izap_video->title);
-			if ($title_length < 43) {
-				?>
-				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $izap_video->title ?></a></h3>
-				<?php
-			} else {
-				$title = substr($izap_video->title, 0, 40);
-				?> 
-				<h3><a href="<?php echo $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER); ?>"><?php echo $title . "..." ?></a></h3>
-			<?php } ?>
-			<div class="elgg-subtext"><?php echo $subtitle; ?></div>
-			<?php
-			$description_length = strlen($description);
-			if ($description_length < 83) {
-				?>
-				<div class="elgg-content"><?php echo $description; ?><div class="elgg-subtext"></div></div>
-				<?php
-			} else {
-				$description = substr($description, 0, 70);
-				?>  
-				<div class="elgg-content"><?php echo $description . "... <a href='{$izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER)}'>view more</a>"; ?><div class="elgg-subtext"></div></div>
-				<?php } ?>
-		</div>
-	</div>
-
 	<?php
 } else {
 	// brief view
