@@ -100,7 +100,7 @@ if ($izap_videos->saveVideo($data)) {
 					'object_guid' => $izap_videos->getGUID(),
 			));
 		} else {
-			add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $this->getGUID());
+			add_to_river('river/object/izap_video/create', 'create', elgg_get_logged_in_user_guid(), $izap_videos->getGUID());
 		}
 	}
 	system_messages(elgg_echo('izap-videos:Save:success'));
