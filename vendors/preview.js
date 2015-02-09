@@ -59,6 +59,9 @@ $(document).ready(function() {
             document.getElementById("upload_button").disabled = true;
         } else {
             $('#error').html("");
+//            document.getElementById("upload_button").disabled = false;
+        }
+        if($('#error').html() == '' && $('#thumbnail_err').html() == '') {
             document.getElementById("upload_button").disabled = false;
         }
     });
@@ -72,6 +75,9 @@ $(document).ready(function() {
             document.getElementById("upload_button").disabled = true;
         } else {
             $('#thumbnail_err').html("");
+//            document.getElementById("upload_button").disabled = false;
+        }
+        if($('#error').html() == '' && $('#thumbnail_err').html() == '') {
             document.getElementById("upload_button").disabled = false;
         }
     });
