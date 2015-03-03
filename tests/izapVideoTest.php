@@ -18,7 +18,7 @@
  */
 
 /**
- * Unit test for offserver video saving process
+ * Unit test for IzapVideo class
  */
 class offserverTest extends PHPUnit_Framework_TestCase {
 

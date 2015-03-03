@@ -20,7 +20,3 @@ elgg_load_js('elgg:validate_js');
 elgg_load_js('elgg:preview_js');
 elgg_load_css('elgg:preview_css');
 ?>
-
-<!--<script src="/base/mod/izap-videos/vendors/validate.js" ></script>
-<script src="/base/mod/izap-videos/vendors/preview.js" ></script>
-<link rel="stylesheet" href="/base/mod/izap-videos/views/default/css/preview.css">-->
