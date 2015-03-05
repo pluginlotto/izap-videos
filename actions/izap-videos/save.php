@@ -89,7 +89,7 @@ $data = array(
 	'videoprocess' => $page_url,
 	'youtube_cats' => $youtube_cats,
 );
-if ($izap_videos->saveVideo($data)) {
+if ($izap_videos->saveVideo($data, $new)) {
 	$izap_videos->save();
 	//create river if new entity
 	if ($new) {

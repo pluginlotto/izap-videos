@@ -68,14 +68,13 @@ class IzapVideo extends ElggFile {
 	 * 
 	 * @todo saveVideo function should be more flaxible for unit tests
 	 */
-	public function saveVideo($data = array()) {
+	public function saveVideo($data = array(), $new) {
 		foreach ($data as $key => $value) {
 			if(!empty($value)){
 				$this->$key = $value;
 			}		
 		}
-
-		if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {
+		if (($new) && ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube')) {
 			switch ($this->videoprocess) {
 				case 'offserver':
 					include_once (dirname(dirname(__FILE__)) . '/actions/izap-videos/offserver.php');
