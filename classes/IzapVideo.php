@@ -239,7 +239,7 @@ class IzapVideo extends ElggFile {
 	 */
 	public function checkFile($file) {
 		if ($file['size'] == 0) {
-			throw new IzapVideoException('Please select the video to upload');
+			throw new IzapVideoException('Please select a valid video to upload');
 		}
 	}
 

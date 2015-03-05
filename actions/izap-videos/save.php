@@ -56,7 +56,7 @@ if($new){
 if (isset($_FILES['upload_video'])) {
 	try {
 		$izap_videos->checkFile($_FILES['upload_video']);
-	} catch (Exception $ex) {
+	} catch (Exception $e) {
 		register_error($e->getMessage());
 		forward(REFERRER);
 	}
