@@ -72,7 +72,7 @@ if (isset($title)) {
 if (isset($video_url)) {
 	try {
 		$izap_videos->checkUrl($video_url);
-	} catch (Exception $ex) {
+	} catch (Exception $e) {
 		register_error($e->getMessage());
 		forward(REFERRER);
 	}
