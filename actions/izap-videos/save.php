@@ -34,7 +34,6 @@ $container_guid = (int) get_input('container_guid');
 $guid = (int) get_input('guid');
 $tags = get_input("tags");
 $video_url = get_input("video_url");
-$page_url = end(explode('/', get_input('page_url')));
 $youtube_cats = get_input("youtube_cats");
 
 $new = false;
@@ -51,7 +50,9 @@ if ($guid == 0) {
 		forward(get_input('forward', REFERER));
 	}
 }
-
+if($new){
+	$page_url = end(explode('/', get_input('page_url')));
+}
 if (isset($_FILES['upload_video'])) {
 	try {
 		$izap_videos->checkFile($_FILES['upload_video']);

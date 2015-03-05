@@ -122,9 +122,16 @@ if ($full) {
 } elseif ($view_type == 'all') {
 	// brief view
 	$view_count = izap_get_total_views($izap_video);
+	$path = $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
+	
+	$title_length = strlen($izap_video->title);
+	if ($title_length > 52) {
+		$title = '<a href="' . $path . '">' . substr($izap_video->title, 0, 55) . '...</a>';
+	}else{
+		$title = '<a href="' . $path . '">' .$izap_video->title . '</a>';
+	}
 	if ($izap_video->videothumbnail) {
 		$thumb_path = $izap_video->videothumbnail;
-		$path = $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
 		$file_icon = '<a href="' . $path . '"><img class="elgg-photo " src="' . $thumb_path . '" alt="check it out" style="width:130px;"></a>';
 	} else {
 		$file_icon = elgg_view_entity_icon($izap_video, 'medium');
@@ -139,6 +146,7 @@ if ($full) {
 		'entity' => $izap_video,
 		'metadata' => $metadata,
 		'subtitle' => $subtitle,
+		'title' => $title,
 		'content' => $description,
 	);
 	$params = $params + $vars;

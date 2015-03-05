@@ -109,12 +109,16 @@ $(".ajax_load_video").live('click', function() {
 
 function preview_request(video_url) {
     if ($("#id_url").val() != '') {
+        document.getElementById('upload_button').style.visibility = 'hidden';
+        $('#progress_button').show();
         $.ajax({
             type: 'POST',
             url: preview_url,
             data: {url: video_url},
             success: function(msg) {
                 var obj = $.parseJSON(msg);
+                $('#progress_button').hide();
+                document.getElementById('upload_button').style.visibility = 'visible';
                 if (obj.title === null && obj.description === null) {
                     $("#off_preview").hide();
                     $("#error").show();

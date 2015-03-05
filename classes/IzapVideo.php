@@ -70,7 +70,9 @@ class IzapVideo extends ElggFile {
 	 */
 	public function saveVideo($data = array()) {
 		foreach ($data as $key => $value) {
-			$this->$key = $value;
+			if(!empty($value)){
+				$this->$key = $value;
+			}		
 		}
 
 		if ($this->videoprocess == 'offserver' || $this->videoprocess == 'onserver' || $this->videoprocess == 'youtube') {

@@ -19,6 +19,7 @@
 /*
  * izap-video add new video form
  */
+	global $IZAPSETTINGS;
 $guid = elgg_extract('guid', $vars, null);
 if (!$guid) {
 	echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
@@ -141,6 +142,9 @@ if (izap_is_onserver_enabled_izap_videos() == 'youtube' || izap_is_onserver_enab
 		echo elgg_view('input/hidden', array('name' => 'page_url', 'value' => $current_url));
 		echo elgg_view('input/submit', array('value' => $submit_label, 'id' => 'upload_button'));
 		?>
+		<div id="progress_button" style="display: none;">
+			<?php echo elgg_echo('izap-videos:do-not-refresh'); ?><br /><img src="<?php echo $IZAPSETTINGS->graphics ?>ajax-loader_black.gif" />
+		</div>
 	</div>
 	<?php
 } else {
