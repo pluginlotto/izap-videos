@@ -39,13 +39,15 @@ $description_length = strlen($object->description);
 if ($description_length > 263) {
 	$path = $object->getURL($object->getOwnerEntity(), GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
 	$description = substr(strip_tags($object->description), 0, 260) . "... <a href='" . $path . "'>View More</a>";
+}else{
+	$description = strip_tags($object->description);
 }
 //load video div
 $content = "<div id='load_video_" . $object->guid . "'>";
 $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video"><img src="' . $thumbnail_image . '"  style= "' . $style . '" /></a>';
 $content .= '<a href="' . $get_player_path . '" rel="' . $object->guid . '" class = "ajax_load_video" id="activity_play_icon"></a>';
 $content .= '</div>';
-$content .= '<div style="float:left;">' . $description . '</div>';
+$content .= '<div style="float:left;width: 100%;">' . $description . '</div>';
 echo elgg_view('river/elements/layout', array(
 	'item' => $vars['item'],
 	'message' => $content,
