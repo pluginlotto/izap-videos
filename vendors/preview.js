@@ -110,7 +110,7 @@ $(".ajax_load_video").live('click', function() {
 });
 
 function preview_request(video_url) {
-    if ($("#id_url").val() != '') {
+    if (video_url != '') {
         document.getElementById('upload_button').style.visibility = 'hidden';
         $('#progress_button').show();
         $.ajax({
@@ -145,5 +145,7 @@ function preview_request(video_url) {
                 }
             }
         });
+    } else if(video_url === ''){
+      $("#error").empty();
     }
 }
