@@ -35,7 +35,8 @@ $guid = (int) get_input('guid');
 $tags = get_input("tags");
 $video_url = get_input("video_url");
 $youtube_cats = get_input("youtube_cats");
-
+unset($_SESSION['container_guid']);
+$_SESSION['container_guid'] = $container_guid;
 $new = false;
 // mark it as new vidoe if guid is not there yet or entity is actually new.
 if ($guid == 0) {
