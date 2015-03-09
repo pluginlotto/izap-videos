@@ -70,7 +70,7 @@ class IzapVideo extends ElggFile {
 	 */
 	public function saveVideo($data = array(), $new) {
 		foreach ($data as $key => $value) {
-			if(!empty($value)){
+			if($value != ''){
 				$this->$key = $value;
 			}		
 		}
