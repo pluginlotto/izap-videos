@@ -19,7 +19,7 @@
 /*
  * izap-video add new video form
  */
-	global $IZAPSETTINGS;
+global $IZAPSETTINGS;
 $guid = elgg_extract('guid', $vars, null);
 if (!$guid) {
 	echo elgg_view('forms/' . GLOBAL_IZAP_VIDEOS_PLUGIN . '/tabs', $vars);
