@@ -192,7 +192,7 @@ if ($full) {
 			}
 			
 			?>
-			<?php // echo $m'content' => $description,etadata; ?>
+			<?php // echo $metadata; ?>
 			<?php
 			$description_length = strlen($description);
 			if ($container->type == 'group') {
