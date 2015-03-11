@@ -201,8 +201,10 @@ class IzapVideo extends ElggFile {
 	public function saveYouTubeVideoData($url) {
 		$videoValues = input($url, $this);
 		$this->converted = 'yes';
-		$this->container_guid = $_SESSION['container_guid'];
-		unset($_SESSION['container_guid']);
+		$this->container_guid = $_SESSION['youtube_attributes']['container_guid'];
+		$this->access_id = $_SESSION['youtube_attributes']['access_id'];
+		$this->tags = $_SESSION['youtube_attributes']['tags'];
+		unset($_SESSION['youtube_attributes']);
 	}
 
 	/**

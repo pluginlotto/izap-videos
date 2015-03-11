@@ -26,7 +26,10 @@ $youtube_data = array(
 	'title' => $this->title,
 	'description' => $this->description,
 	'youtube_cats' => $this->youtube_cats,
-	'tags' => $this->tags
+	'tags' => $this->tags,
+  'container_guid' => $this->container_guid,
+  'access_id' => $this->access_id,
+  'tags' => $this->tags,
 );
 $_SESSION['youtube_attributes'] = $youtube_data;
 $video = IzapGYoutube::getAuthSubHttpClient(get_input('token', false));
