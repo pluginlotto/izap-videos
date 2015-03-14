@@ -25,6 +25,8 @@ $full = elgg_extract('full_view', $vars, False);
 $izap_video = elgg_extract('entity', $vars, False);
 $view_type = end(explode('/', current_page_url()));
 $widget_view = get_user_by_username($view_type);
+$exploded_url = explode('/', current_page_url());//print_r($exploded_url);exit;
+$page_type = current( array_slice($exploded_url, -2, 1, TRUE ) );
 if (!$izap_video) {
 	return True;
 }
@@ -119,7 +121,7 @@ if ($full) {
 		'entity' => $izap_video,
 		'body' => $body
 	));
-} elseif ($view_type == 'all') {
+} elseif ($view_type == 'all' || $page_type == 'owner') {
 	// brief view
 	$view_count = izap_get_total_views($izap_video);
 	$path = $izap_video->getURL($owner, GLOBAL_IZAP_VIDEOS_PAGEHANDLER);
