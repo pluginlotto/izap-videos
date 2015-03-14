@@ -188,6 +188,9 @@ class IzapVideo extends ElggFile {
    * @version 5.0
    */
   public function getURL($owner = null, $handler = 'videos') {
+    if(!$owner){
+      $owner = $this->getOwnerEntity();
+    }
     return elgg_get_site_url() . $handler . '/play/' . $owner->username . '/' . $this->guid . '/' . elgg_get_friendly_title($this->title);
   }
 
